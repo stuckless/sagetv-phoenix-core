@@ -1,9 +1,8 @@
-sagetv-phoenix-core
-===================
+# sagetv-phoenix-core
 
 Phoenix Core Services for SageTV
 
-== Building Phoenix From Source
+## Building Phoenix From Source
 * Checkout the code
 * Run ant configure
 * Run ant generate-phoenix-api
