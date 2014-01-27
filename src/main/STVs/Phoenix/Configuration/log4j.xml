@@ -1,0 +1,7 @@
+<configuration id="log4j" label="Log4j Logging">
+	<description>Log4j Logging Configuration</description>
+
+	<group label="Logging" hints="log4jEditor">
+		<description>Configure Log4j Specific Settings</description>
+	</group>
+</configuration>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+   TV Filename Scraper.  Used to Scrape Show Name and Aired Date from a filename
+   $$1 is always the complete file uri
+-->
+<scraper name="title-airedDate" content="filename" thumb="thumb.png">
+	<!-- 	input: 		$1=complete file uri -->
+	<!-- 	returns: 	series name -->
+	<GetShowName dest="3">
+		<RegExp input="$$1" output="\1" dest="3">
+			<expression>.*[/\\](.*)[\s\.]*([0-9]{4}[-\.][0-9]{1,2}[-\.][0-9]{1,2})</expression>
+		</RegExp>
+	</GetShowName>
+
+	<!-- 	input: 		$1=complete file uri -->
+	<!-- 	returns: 	AiredDate YYYY-MM-DD -->
+	<GetAiredDate dest="3">
+		<RegExp input="$$1" output="\2" dest="3">
+			<expression>.*[/\\](.*)[\s\.]*([0-9]{4}[-\.][0-9]{1,2}[-\.][0-9]{1,2})</expression>
+		</RegExp>
+	</GetAiredDate>
+</scraper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+   TV Filename Scraper.  Used to scrape shows with the format Show dash dash Episode
+   NOTE: Show and Episode MUST be separated by 2 dashes 
+   
+   contributed by evilpenguin
+-->
+<scraper name="title-show-episode" content="filename" thumb="thumb.png">
+	<!-- 	input: 		$1=complete file uri -->
+	<!-- 	returns: 	series name -->
+	<GetShowName dest="3">
+		<RegExp input="$$1" output="\1" dest="3">
+			<expression>.*[/\\]([^/\\-]+)--([^/\\]+)\.[a-zA-Z0-9]+$</expression>
+		</RegExp>
+	</GetShowName>
+
+	<!-- 	input: 		$1=complete file uri -->
+	<!-- 	returns: 	Episode Title -->
+	<GetEpisodeTitle dest="3">
+		<RegExp input="$$1" output="\2" dest="3">
+			<expression>.*[/\\]([^/\\-]+)--([^/\\]+)\.[a-zA-Z0-9]+$</expression>
+		</RegExp>
+	</GetEpisodeTitle>
+</scraper>

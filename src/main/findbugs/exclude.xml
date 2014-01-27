@@ -1,0 +1,27 @@
+<FindBugsFilter>
+     <Match>
+       <Package name="~test" />
+     </Match>
+     
+     <Match>
+       <Package name="~test\..*" />
+     </Match>
+     
+     <Match>
+       <Package name="~phoenix.*" />
+       <Bug pattern="NM_CLASS_NAMING_CONVENTION" />
+     </Match>
+
+     <Match>
+       <Package name="~phoenix.*" />
+       <Bug pattern="NM_METHOD_NAMING_CONVENTION" />
+     </Match>
+
+     
+     <Match>
+       <Package name="~sagex\.phoenix\.tools.*" />
+     </Match>
+     
+     
+     
+</FindBugsFilter>

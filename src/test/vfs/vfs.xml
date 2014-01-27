@@ -1,0 +1,199 @@
+<vfs>
+	<sources>
+		<source id="tv" label="Sage Recordings">
+			<tag value="tv"/>
+			<sageMediaFiles mediaMask="T" />
+		</source>
+
+		<source id="archivedtv" label="Archived Recordings">
+			<tag value="tv"/>
+			<sageMediaFiles mediaMask="TL" />
+		</source>
+
+		<source id="dvd" label="DVDs">
+			<tag value="dvd"/>
+			<tag value="videos"/>
+			<tag value="videodisc"/>
+			<sageMediaFiles mediaMask="DL" />
+		</source>
+
+		<source id="bluray" label="BluRay">
+			<tag value="bluray"/>
+			<tag value="videos"/>
+			<tag value="videodisc"/>
+			<sageMediaFiles mediaMask="BL" />
+		</source>
+
+		<source id="music" label="Music">
+			<tag value="music"/>
+			<sageMediaFiles mediaMask="ML" />
+		</source>
+
+		<source id="video" label="Vidoes">
+			<tag value="video"/>
+			<tag value="videos"/>
+			<sageMediaFiles mediaMask="VL" />
+		</source>
+
+		<source id="pictures" label="Pictures">
+			<tag value="pictures"/>
+			<sageMediaFiles mediaMask="PL" />
+		</source>
+
+		<source id="all" label="All Files" visible="false">
+			<tag value="bluray"/>
+			<tag value="video"/>
+			<tag value="tv"/>
+			<tag value="dvd"/>
+			<tag value="bluray"/>
+			<tag value="pictures"/>
+			<tag value="music"/>
+			<tag value="videos"/>
+			<tag value="videodisc"/>
+			<expression>GetMediaFiles()</expression>
+		</source>
+
+		<source id="sageimports" label="Sage Import Folders">
+			<tag value="bluray"/>
+			<tag value="video"/>
+			<tag value="tv"/>
+			<tag value="dvd"/>
+			<tag value="bluray"/>
+			<tag value="pictures"/>
+			<tag value="music"/>
+			<tag value="videos"/>
+			<tag value="videodisc"/>
+			<factory class="sagex.phoenix.vfs.sources.SageSourcesFactory" />
+		</source>
+
+		<source id="filesystem" label="File System" visible="false">
+			<factory class="sagex.phoenix.vfs.sources.FileSystemSourceFactory" />
+		</source>
+	</sources>
+
+	<filters>
+		<filter id="genre" label="Genre" class="sagex.phoenix.vfs.filters.GenresFilter" />
+		<filter id="rating" label="Rating" class="sagex.phoenix.vfs.filters.RatingsFilter" />
+		<filter id="watched" label="Watched" class="sagex.phoenix.vfs.filters.WatchedFilter" />
+		<filter id="mediatype" label="Media Type" class="sagex.phoenix.vfs.filters.MediaTypeFilter" visible="false"/>
+		<filter id="fileext" label="File Extension" class="sagex.phoenix.vfs.filters.FileExtFilter" visible="false"/>
+		<filter id="filename" label="Filename" class="sagex.phoenix.vfs.filters.FileNameFilter" visible="false"/>
+
+		<filter id="kids" label="Kids Filter" mode="or">
+			<filter by="genre" value="children" />
+			<filter by="genre" value="child" />
+			<filter by="rating" value="PG" />
+		</filter>
+	</filters>
+
+	<sorts>
+		<sort id="starttime" label="Start Time"
+			class="sagex.phoenix.vfs.sorters.StartTimeSorter" />
+		<sort id="title" label="title" class="sagex.phoenix.vfs.sorters.TitleSorter" />
+	</sorts>
+
+	<groups>
+		<group id="title" label="Title" class="sagex.phoenix.vfs.groups.TitleGrouper" />
+		<group id="year" label="Year" class="sagex.phoenix.vfs.groups.YearGrouper" />
+		<group id="cd" label="CD" class="sagex.phoenix.vfs.groups.CDGrouper" />
+		<group id="season" label="Season" class="sagex.phoenix.vfs.groups.SeasonGrouper">
+			<tag value="tv"/>
+		</group>
+		<group id="genre" label="Genre" class="sagex.phoenix.vfs.groups.GenreGrouper" />
+	</groups>
+
+
+	<views>
+		<view id="kidsstuff" label="Kids Stuff">
+			<description />
+			<source name="tv">
+				<children>
+					<filter by="kids" />
+					<group by="title" />
+				</children>
+			</source>
+
+			<source name="archivedtv">
+				<children>
+					<filter by="kids" />
+					<group by="title" />
+				</children>
+			</source>
+
+			<source name="video">
+				<children>
+					<filter by="kids" />
+					<group by="cd" />
+				</children>
+			</source>
+
+			<source name="bluray">
+				<children>
+					<filter by="kids" />
+				</children>
+			</source>
+
+			<source name="dvd">
+				<children>
+					<filter by="kids" />
+				</children>
+			</source>
+
+			<source name="music">
+				<children>
+					<filter by="kids" />
+				</children>
+			</source>
+
+			<children>
+				<sort by="title" ascending="true" foldersFirst="true" multilevel="true"/>
+			</children>
+		</view>
+
+		<view id="tvseason" label="TV by Season" flat="true">
+			<description />
+			<source name="tv" />
+
+			<children>
+				<sort by="title" />
+				<group by="title" />
+				<children>
+					<group by="season" />
+					<sort by="starttime" />
+				</children>
+			</children>
+		</view>
+
+		<view id="sageimports" label="Sage Imports View" flat="true">
+			<description>View of All Sage Sources</description>
+			<source name="sageimports"/>
+
+			<children>
+				<sort by="title" foldersFirst="true" multilevel="true" />
+			</children>
+		</view>
+
+		<view id="moviegenres" label="Movies Genre View" flat="true">
+			<description>View all files by genre</description>
+			<source name="dvd" />
+			<source name="video" />
+			<source name="bluray" />
+
+			<children>
+				<group by="genre"/>
+				<sort by="title" multilevel="true" foldersFirst="true" />
+			</children>
+		</view>
+
+		<view id="dramashows" label="Drama Genre View">
+			<description>Simple view to show only Drama shows.
+			</description>
+			<source name="all" />
+
+			<children>
+				<filter by="genre" value="drama" />
+				<sort by="title" />
+			</children>
+		</view>
+	</views>
+</vfs>

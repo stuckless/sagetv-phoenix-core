@@ -1,0 +1,9 @@
+<!ELEMENT metadata ( class | name | description | mediatype | icon | fanart )+ >
+<!ATTLIST metadata id NMTOKEN #REQUIRED >
+
+<!ELEMENT class ( #PCDATA ) >
+<!ELEMENT name ( #PCDATA ) >
+<!ELEMENT description ( #PCDATA ) >
+<!ELEMENT mediatype ( #PCDATA ) >
+<!ELEMENT icon ( #PCDATA ) >
+<!ELEMENT fanart ( #PCDATA ) >

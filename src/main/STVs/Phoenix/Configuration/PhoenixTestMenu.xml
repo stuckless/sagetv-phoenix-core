@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration id="phoenix">
+	<group path="phoenix/testmenu" label="TestMenu Properties">
+		<field key="title" label="Test Menu Title"
+			defaultValue="Test Menu Title" type="string">
+		</field>
+
+		<field key="moretext" label="More Text"
+			defaultValue="Just More Text" type="String">
+		</field>
+
+		<field key="hiddenTest" label="This is a Hidden value" visible="false"
+			defaultValue="Just More Text" type="String">
+		</field>
+	</group>
+</configuration>

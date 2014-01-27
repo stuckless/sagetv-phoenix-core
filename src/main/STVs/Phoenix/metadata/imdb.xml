@@ -1,0 +1,9 @@
+<!DOCTYPE metadata SYSTEM "metadata.dtd">
+<metadata id="imdb">
+	<class>sagex.phoenix.metadata.provider.nielm.NielmIMDBMetaDataProvider</class>
+	<name>IMDb</name>
+	<description>Alias for Nielm's IMDB</description>
+	<mediatype>Movie</mediatype>
+	<icon>http://i.media-imdb.com/images/nb15/logo2.gif</icon>
+	<fanart>tmdb</fanart>
+</metadata>

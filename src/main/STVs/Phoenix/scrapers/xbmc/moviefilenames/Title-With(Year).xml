@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+   Movie Filename Scraper.  Used to Scrape Movie Title and Date from a file path
+   $$1 is always the complete file path
+-->
+<scraper name="title-withyear1" content="filename" thumb="thumb.png">
+	<!-- 	input: 		$1=complete file path -->
+	<!-- 	returns: 	title -->
+	<GetTitle dest="3">
+		<RegExp input="$$1" output="\1" dest="3">
+			<expression>.*[/\\]([^\(]+)[^0-9a-z]\(([12][0-9]{3})\)</expression>
+		</RegExp>
+	</GetTitle>
+
+	<!-- 	input: 		$1=complete file path -->
+	<!-- 	returns: 	title -->
+	<GetYear dest="3">
+		<RegExp input="$$1" output="\2" dest="3">
+			<expression>.*[/\\]([^\(]+)[^0-9a-z]\(([12][0-9]{3})\)</expression>
+		</RegExp>
+	</GetYear>
+</scraper>

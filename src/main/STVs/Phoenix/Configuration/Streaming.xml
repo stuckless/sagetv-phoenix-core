@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration id="phoenix/streaming" label="Phoenix Streaming Services">
+	<description>Phoenix Streaming Services</description>
+
+	<group class="sagex.phoenix.remote.streaming.config.ServerConfig"/>
+	<group class="sagex.phoenix.remote.streaming.config.VLCConfig"/>
+	<group class="sagex.phoenix.remote.streaming.config.ScriptConfig"/>
+	
+</configuration>

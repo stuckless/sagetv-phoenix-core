@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE menus SYSTEM "menus.dtd">
+<menus>
+	<!--
+		<menuItems> can have 5 different actions (mix and match) <screen
+		name="Browser - Videos"/>
+		<eval>phoenix_api_SetProperty("phoenix/debug/enableLogging",
+		true)</eval> <exec os="Windows" outputVariable="CmdOutput"
+		cmd="cmd.exe" args="/c dir"/> <sageCommand name="Back"/>
+	-->
+	<menu name="TestMenu" label="Test Menu" background="TestMenuBackground.jpg"
+		type="TV">
+		<description>This is a description about the menu</description>
+
+		<field name="field1">Field1Value</field>
+		<field name="field2">Field2Value</field>
+
+		<menuItem name="item1" label="My Videos" visible="true"
+			background="Videos.jpg" icon="icon1.jpg" secondaryIcon="icon2.jpg">
+			<description>This is a description/help text about the item</description>
+			<field name="field3">Field3Value</field>
+			<field name="field4">Field4Value</field>
+			<screen name="Browser - Videos" />
+		</menuItem>
+		
+		<menuItem label="Launch Firefox">
+			<exec os="Windows" cmd="C:\Program Files\Mozilla Firefox\firefox.exe" />
+		</menuItem>
+
+		<menuItem name="testStaticHidden" label="TestHidden" visible="false">
+			<exec os="Windows" cmd="C:\Program Files\Mozilla Firefox\firefox.exe" />
+		</menuItem>
+
+		<menuItem name="testexpression" label="${If(IsDoingLibraryImportScan(),&quot;Scanning Libraries...&quot;,&quot;Start Library Scan&quot;)}" visible="true">
+       		<eval>RunLibraryImportScan( false )</eval>
+       		<eval>Refresh()</eval>
+   		</menuItem>
+
+		<menuItem name="testScript" label="Test Script" visible="false">
+			<script><![CDATA[
+			// before you can use java classes, you have to import them
+			importClass(java.lang.System);
+			
+			// you can define functions
+			function square(x) {
+				return x * x; 
+			}
+			
+			// you can call functions
+			var squared = square(2);
+			
+			// you can log information
+			log.debug("The Square was: " + squared);
+			
+			// you can call java functions (System was imported above)
+			System.out.println("The Square was: " + squared);
+			
+			// you can call SageAPIs using the sagex apis
+			var os = Global.GetOS();
+			System.out.println("Current OS: " + os);
+			
+			// you can call the SageAPIs using the UI context
+			var ctx = SageAPI.getUIContext();
+			var stv = WidgetAPI.GetCurrentSTVFile(ctx);
+			System.out.println("STV File: " + stv);  
+			
+			// phoenix api is already exported as 'phoenix'
+			var fanartDir = phoenix.GetProperty('phoenix/mediametadata/fanartCentralFolder');
+			System.out.println("FanartDIR: " + fanartDir);
+			
+			// you can call sage apis, using the traditional apis
+			// note that you need to pass the args as an object array ["arg1","arg2"]
+			var mediaFiles = SageAPI.call("GetMediaFiles", ["T"]);
+			
+			// when using the standard method of calling sage apis that
+			// requires a ui context, you can use
+			var uictx = SageAPI.call("GetUIContextName",null);
+			var menu = SageAPI.call("GetCurrentMenu", [uictx]);
+			System.out.println("Menu: " + menu);
+			]]></script>
+		</menuItem>
+
+		<menuItem name="testPropertyHidden" label="TestHidden"
+			visible="prop::phoenix/debug/enableLogging">
+			<exec os="Windows" cmd="C:\Program Files\Mozilla Firefox\firefox.exe" />
+		</menuItem>
+
+		<menuItem name="testRoleHidden" label="TestHidden"
+			visible="role::admin">
+			<exec os="Windows" cmd="C:\Program Files\Mozilla Firefox\firefox.exe" />
+		</menuItem>
+		<menu name="submenu" label="Sub Menu">
+			<menu name="AnotherSubMenu" label="Another Sub Menu" background="back.jpg"
+				icon="icon.jpg" secondaryIcon="second.jpg">
+				<menuItem label="Hulu Browser" visible="true">
+					<screen name="Hulu" />
+				</menuItem>
+			</menu>
+
+			<menuItem label="Enable Debug Screen Menu Item"
+				visible="${phoenix_config_GetProperty(&quot;phoenix/debug/enableLogging&quot;)==false}">
+				<eval>phoenix_config_SetProperty("phoenix/debug/enableLogging", true)</eval>
+			</menuItem>
+
+			<menuItem label="Detailed Sage Setup" visible="true">
+				<screen name="Detailed Setup" />
+			</menuItem>
+
+			<menuItem name="LinkedItem" label="Online Videos" visible="true" linkedMenu="LinkedMenu">
+				<screen name="Online Video Menu" />
+			</menuItem>
+						
+		</menu>
+
+		<menuItem name="back" label="Back">
+			<sageCommand name="Back" />
+		</menuItem>
+	</menu>
+
+	<menu name="HiddenMenu" label="Another Menu" type="Video" visible="false">
+		<menuItem label="Online Videos" visible="true">
+			<screen name="Online Video Menu" />
+		</menuItem>
+	</menu>
+
+	<menu name="LinkedMenu" label="Linked Menu" type="Video" visible="true">
+		<menuItem label="Online Videos 2" visible="true">
+			<screen name="Online Video Menu 2" />
+		</menuItem>
+	</menu>
+
+</menus>

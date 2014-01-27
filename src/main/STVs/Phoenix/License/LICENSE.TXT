@@ -1,0 +1,6 @@
+Phoenix is licensed under the Apache 2 license
+http://www.apache.org/licenses/LICENSE-2.0
+
+In addition to the Apache 2 license, the phoenix namespaces, sagex.phoenix, pheonix.api, and phoenix_api can
+only be used by this Phoenix project.  You are free the copy the apis included in this api but in doing so,
+you must rename the package spaces so that your new apis do not infringe on the phoenix namespaces.

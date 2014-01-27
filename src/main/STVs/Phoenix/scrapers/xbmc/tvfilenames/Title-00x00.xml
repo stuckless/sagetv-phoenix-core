@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+   TV Filename Scraper.  Used to Scrape Show Name, Season and Episode from a given file URI
+   $$1 is always the complete file uri
+   
+   Scrapes Titles in the format "Title #x#.avi", ie, "House 3x1.avi"
+-->
+<scraper name="title-00x00" content="filename" thumb="thumb.png">
+	<!-- 	input: 		$1=complete file uri -->
+	<!-- 	returns: 	show name -->
+	<GetShowName dest="3">
+		<RegExp input="$$1" output="\1" dest="3">
+			<expression>.*[/\\](.*)[ .\[]([0-9]{1,2})x([[0-9]]+)</expression>
+		</RegExp>
+	</GetShowName>
+
+	<!-- 	input: 		$1=complete file uri -->
+	<!-- 	returns: 	Season #-->
+	<GetSeason dest="3">
+		<RegExp input="$$1" output="\2" dest="3">
+			<expression>.*[/\\](.*)[ .\[]([0-9]{1,2})x([[0-9]]+)</expression>
+		</RegExp>
+	</GetSeason>
+
+	<!-- 	input: 		$1=complete file uri -->
+	<!-- 	returns: 	Episode #-->
+	<GetEpisode dest="3">
+		<RegExp input="$$1" output="\3" dest="3">
+			<expression>.*[/\\](.*)[ .\[]([0-9]{1,2})x([[0-9]]+)</expression>
+		</RegExp>
+	</GetEpisode>
+</scraper>

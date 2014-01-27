@@ -1,0 +1,15 @@
+
+<!-- UPNP TV Item looks like this -->
+<item id="netflix-7e0a478a-3aef-4470-a4ca-27f23d062bbc" restricted="1" parentID="netflix-64c99a62-d395-4143-8a05-556d8562f0cd">
+    <dc:title>02: Family Goy</dc:title>
+    <dc:description>When Lois goes to the doctor to test for cancer, the doctor looks at her family medical history and surprises her with the news that she's Jewish.</dc:description>
+    <upnp:longDescription>When Lois goes to the doctor to test for cancer, the doctor looks at her family medical history and surprises her with the news that she's Jewish.</upnp:longDescription>
+    <upnp:episodeNumber>2</upnp:episodeNumber>
+    <res duration="0:21:00.000" bitrate="524000" size="974640000" sampleFrequency="44100" nrAudioChannels="2" bitsPerSample="16" protocolInfo="http-get:*:video/mpeg:DLNA.ORG_PN=MPEG_PS_NTSC;DLNA.ORG_OP=01;DLNA.ORG_CI=1;DLNA.ORG_FLAGS=25700000000000000000000000000000">http://192.168.1.112:63478/netflix-7e0a478a-3aef-4470-a4ca-27f23d062bbc/1-netflix-7e0a478a-3aef-4470-a4ca-27f23d062bbc.mpg</res>
+    <upnp:albumArtURI dlna:profileID="JPEG_TN" xmlns:dlna="urn:schemas-dlna-org:metadata-1-0">http://192.168.1.112:63478/netflix-7e0a478a-3aef-4470-a4ca-27f23d062bbc/1-netflix-7e0a478a-3aef-4470-a4ca-27f23d062bbc.mpg?albumArt=true</upnp:albumArtURI>
+    <upnp:class>object.item.videoItem</upnp:class>
+    <upnp:actor />
+    <upnp:genre />
+  </item>
+  
+  

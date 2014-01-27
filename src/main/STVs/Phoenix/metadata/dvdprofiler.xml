@@ -1,0 +1,9 @@
+<!DOCTYPE metadata SYSTEM "metadata.dtd">
+<metadata id="dvdprofiler">
+	<class>sagex.phoenix.metadata.provider.dvdprofiler.DVDProfilerMetadataProvider</class>
+	<name>DVD Profiler</name>
+	<description>DVD Profiler metadata provider using local exported collection xml and images</description>
+	<mediatype>Movie</mediatype>
+	<icon>http://www.invelos.com/images/Logo.png</icon>
+	<fanart>tmdb3</fanart>
+</metadata>

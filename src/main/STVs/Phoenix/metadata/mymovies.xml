@@ -1,0 +1,9 @@
+<!DOCTYPE metadata SYSTEM "metadata.dtd">
+<metadata id="mymovies">
+	<class>sagex.phoenix.metadata.provider.mymovies.MyMoviesMetadataProvider</class>
+	<name>MyMovies</name>
+	<description>MyMovies uses a single local xml file for locating metadata.</description>
+	<mediatype>Movie</mediatype>
+	<icon>http://www.mymovies.dk/logo.png</icon>
+	<fanart>tmdb3</fanart>
+</metadata>

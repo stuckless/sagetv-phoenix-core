@@ -1,0 +1,13 @@
+<snippet label="Reload Dynamic Menus">
+	<script>
+		try {
+		    // reload configuration
+			api.widgetAPI.EvaluateExpression("phoenix_api_ReloadMenus()");
+			
+			// show info box that configuration was reloaded
+			plugin.info("Menus are Reloaded."); 
+		} catch (ex) {
+			plugin.alert("Failed to reload menus!"); 
+		}
+	</script>
+</snippet>

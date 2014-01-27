@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module xmlns="urn:tv.sage/stv" Name="default" PersistentPrimaryRefs="true">
+ <Menu Name="Main Menu" Sym="QPOZT-369979">
+  <Theme Name="MenuTheme" Sym="QPOZT-369962">
+   <TileBackgroundImage>false</TileBackgroundImage>
+   <StretchBackgroundImage>false</StretchBackgroundImage>
+   <BackgroundColor>0x003399</BackgroundColor>
+   <BackgroundAlpha>255</BackgroundAlpha>
+  </Theme>
+  <Panel Name="Menu Title" Sym="QPOZT-369959">
+   <AnchorX>0.0</AnchorX>
+   <AnchorY>0.0</AnchorY>
+   <FixedWidth>1.0</FixedWidth>
+   <FixedHeight>0.1</FixedHeight>
+   <WrapHNav>false</WrapHNav>
+   <WrapVNav>false</WrapVNav>
+   <IgnoreThemeProps>false</IgnoreThemeProps>
+   <BackgroundComponent>false</BackgroundComponent>
+   <MouseTransparency>false</MouseTransparency>
+   <Action Name="&quot;Configuration Menu&quot;" Sym="QPOZT-369960">
+    <Text Name="" Sym="QPOZT-369961"/>
+   </Action>
+  </Panel>
+  <Panel Name="Configuration Tabs" Sym="IUVOX-557242">
+   <AnchorY>0.1</AnchorY>
+   <AnchorPointX>0.0</AnchorPointX>
+   <AnchorPointY>0.0</AnchorPointY>
+   <FixedWidth>0.12</FixedWidth>
+   <FixedHeight>0.9</FixedHeight>
+   <WrapHNav>false</WrapHNav>
+   <WrapVNav>false</WrapVNav>
+   <IgnoreThemeProps>false</IgnoreThemeProps>
+   <BackgroundComponent>false</BackgroundComponent>
+   <MouseTransparency>false</MouseTransparency>
+   <Action Name="phoenix_api_GetConfigurationGroups()" Sym="IUVOX-557243">
+    <Table Name="RootGroup Table" Sym="IUVOX-557244">
+     <FixedWidth>1.0</FixedWidth>
+     <FixedHeight>1.0</FixedHeight>
+     <WrapHNav>false</WrapHNav>
+     <WrapVNav>false</WrapVNav>
+     <IgnoreThemeProps>false</IgnoreThemeProps>
+     <NumRows>10</NumRows>
+     <NumCols>1</NumCols>
+     <Dimensions>1</Dimensions>
+     <BackgroundComponent>false</BackgroundComponent>
+     <TableComponent Name="RootGroup" Sym="IUVOX-557245">
+      <FixedWidth>1.0</FixedWidth>
+      <FixedHeight>1.0</FixedHeight>
+      <TableSubcomp>Cell</TableSubcomp>
+      <WrapHNav>false</WrapHNav>
+      <WrapVNav>false</WrapVNav>
+      <IgnoreThemeProps>false</IgnoreThemeProps>
+      <BackgroundComponent>false</BackgroundComponent>
+      <Item Name="" Sym="IUVOX-557251">
+       <Conditional Name="RootGroup == CurrRootGroup" Sym="IUVOX-557256">
+        <Branch Name="true" Sym="IUVOX-557269">
+         <Conditional Name="!Focused" Sym="IUVOX-557271">
+          <Shape Ref="69" Name="Tab Background"/>
+         </Conditional>
+        </Branch>
+        <Branch Name="false" Sym="IUVOX-557270">
+         <Shape Name="Unselected Tab Background" Sym="IUVOX-557272">
+          <ForegroundColor>0x003366</ForegroundColor>
+          <ForegroundAlpha>150</ForegroundAlpha>
+          <FixedWidth>1.0</FixedWidth>
+          <FixedHeight>1.0</FixedHeight>
+          <ShapeType>Rectangle</ShapeType>
+          <ShapeFill>true</ShapeFill>
+         </Shape>
+        </Branch>
+       </Conditional>
+       <Conditional Ref="18" Name="Focused"/>
+       <Action Name="phoenix_api_GetConfigurationLabel( RootGroup )" Sym="IUVOX-557247">
+        <Text Name="" Sym="IUVOX-557248">
+         <AnchorX>0.5</AnchorX>
+         <AnchorY>0.5</AnchorY>
+         <AutosizeText>false</AutosizeText>
+         <WrapText>false</WrapText>
+         <TextShadow>false</TextShadow>
+         <DisableFontScaling>false</DisableFontScaling>
+         <IgnoreThemeProps>false</IgnoreThemeProps>
+         <BackgroundComponent>false</BackgroundComponent>
+         <MouseTransparency>false</MouseTransparency>
+         <Theme Name="" Sym="IUVOX-557249">
+          <TileBackgroundImage>false</TileBackgroundImage>
+          <StretchBackgroundImage>false</StretchBackgroundImage>
+          <ForegroundColor>0xFF0000</ForegroundColor>
+          <ForegroundAlpha>=If( RootGroup == CurrRootGroup, 255, 150 )</ForegroundAlpha>
+         </Theme>
+        </Text>
+       </Action>
+       <Hook Name="FocusGained" Sym="IUVOX-557253">
+        <Action Name="CurrRootGroup = RootGroup" Sym="IUVOX-557254">
+         <Action Name="RefreshArea( &quot;Tab Contents&quot; )" Sym="IUVOX-557255"/>
+        </Action>
+       </Hook>
+      </Item>
+     </TableComponent>
+    </Table>
+   </Action>
+  </Panel>
+  <Panel Name="Tab Contents" Sym="IUVOX-557252">
+   <AnchorX>0.12</AnchorX>
+   <AnchorY>0.1</AnchorY>
+   <AnchorPointX>0.0</AnchorPointX>
+   <AnchorPointY>0.0</AnchorPointY>
+   <FixedWidth>0.88</FixedWidth>
+   <FixedHeight>0.9</FixedHeight>
+   <WrapHNav>false</WrapHNav>
+   <WrapVNav>false</WrapVNav>
+   <IgnoreThemeProps>false</IgnoreThemeProps>
+   <BackgroundComponent>false</BackgroundComponent>
+   <MouseTransparency>false</MouseTransparency>
+   <Shape ID="69" Name="Tab Background" Sym="IUVOX-557266">
+    <ForegroundColor>0x003366</ForegroundColor>
+    <ForegroundAlpha>255</ForegroundAlpha>
+    <FixedWidth>1.0</FixedWidth>
+    <FixedHeight>1.0</FixedHeight>
+    <ShapeType>Rectangle</ShapeType>
+    <ShapeFill>true</ShapeFill>
+   </Shape>
+   <Panel Name="Configuration Groups" Sym="QPOZT-369963">
+    <AnchorX>0.01</AnchorX>
+    <AnchorY>0</AnchorY>
+    <AnchorPointX>0.0</AnchorPointX>
+    <AnchorPointY>0.0</AnchorPointY>
+    <FixedWidth>0.32</FixedWidth>
+    <FixedHeight>0.99</FixedHeight>
+    <WrapHNav>false</WrapHNav>
+    <WrapVNav>false</WrapVNav>
+    <IgnoreThemeProps>false</IgnoreThemeProps>
+    <BackgroundComponent>false</BackgroundComponent>
+    <MouseTransparency>false</MouseTransparency>
+    <Shape Ref="6" Name="Outline"/>
+    <Action Name="phoenix_api_GetConfigurationChildren( CurrRootGroup )" Sym="QPOZT-370004">
+     <Table Name="Group Table" Sym="QPOZT-370005">
+      <FixedWidth>1.0</FixedWidth>
+      <FixedHeight>1.0</FixedHeight>
+      <WrapHNav>false</WrapHNav>
+      <WrapVNav>false</WrapVNav>
+      <IgnoreThemeProps>false</IgnoreThemeProps>
+      <NumRows>10</NumRows>
+      <NumCols>1</NumCols>
+      <Dimensions>1</Dimensions>
+      <BackgroundComponent>false</BackgroundComponent>
+      <TableComponent Name="Group" Sym="QPOZT-370006">
+       <FixedWidth>1.0</FixedWidth>
+       <FixedHeight>1.0</FixedHeight>
+       <TableSubcomp>Cell</TableSubcomp>
+       <WrapHNav>false</WrapHNav>
+       <WrapVNav>false</WrapVNav>
+       <IgnoreThemeProps>false</IgnoreThemeProps>
+       <BackgroundComponent>false</BackgroundComponent>
+       <Item Name="" Sym="QPOZT-370007">
+        <Insets>5</Insets>
+        <IgnoreThemeProps>false</IgnoreThemeProps>
+        <BackgroundComponent>false</BackgroundComponent>
+        <MouseTransparency>false</MouseTransparency>
+        <Conditional Name="Group == CurrGroup &amp;&amp; !Focused" Sym="IUVOX-557258">
+         <Shape Name="NonFocus Highlight" Sym="IUVOX-557259">
+          <ForegroundColor>0x99FFFF</ForegroundColor>
+          <ForegroundAlpha>60</ForegroundAlpha>
+          <FixedWidth>1.0</FixedWidth>
+          <FixedHeight>1.0</FixedHeight>
+          <ShapeType>Rectangle</ShapeType>
+          <ShapeFill>true</ShapeFill>
+         </Shape>
+        </Conditional>
+        <Conditional ID="18" Name="Focused" Sym="QPOZT-370013">
+         <Shape Name="Focus Highlight" Sym="QPOZT-370014">
+          <ForegroundColor>0x99FFFF</ForegroundColor>
+          <ForegroundAlpha>128</ForegroundAlpha>
+          <FixedWidth>1.0</FixedWidth>
+          <FixedHeight>1.0</FixedHeight>
+          <ShapeType>Rectangle</ShapeType>
+          <ShapeFill>true</ShapeFill>
+         </Shape>
+        </Conditional>
+        <Action Name="phoenix_api_GetConfigurationLabel( Group )" Sym="QPOZT-370008">
+         <Text Name="" Sym="QPOZT-370009">
+          <AnchorY>0.5</AnchorY>
+          <AutosizeText>false</AutosizeText>
+          <WrapText>false</WrapText>
+          <TextShadow>false</TextShadow>
+          <DisableFontScaling>false</DisableFontScaling>
+          <IgnoreThemeProps>false</IgnoreThemeProps>
+          <BackgroundComponent>false</BackgroundComponent>
+          <MouseTransparency>false</MouseTransparency>
+         </Text>
+        </Action>
+        <Hook Name="FocusGained" Sym="QPOZT-369988">
+         <Action Name="CurrGroup = Group" Sym="QPOZT-369990">
+          <Action Name="RefreshArea( &quot;Configuration Elements&quot; )" Sym="QPOZT-369997"/>
+         </Action>
+        </Hook>
+       </Item>
+      </TableComponent>
+     </Table>
+    </Action>
+   </Panel>
+   <Panel Name="Configuration Elements" Sym="QPOZT-369964">
+    <AnchorX>0.34</AnchorX>
+    <AnchorY>0</AnchorY>
+    <AnchorPointX>0.0</AnchorPointX>
+    <AnchorPointY>0.0</AnchorPointY>
+    <FixedWidth>0.65</FixedWidth>
+    <FixedHeight>0.78</FixedHeight>
+    <WrapHNav>false</WrapHNav>
+    <WrapVNav>false</WrapVNav>
+    <IgnoreThemeProps>false</IgnoreThemeProps>
+    <BackgroundComponent>false</BackgroundComponent>
+    <MouseTransparency>false</MouseTransparency>
+    <Shape Ref="6" Name="Outline"/>
+    <Action Name="phoenix_api_GetConfigurationChildren( CurrGroup )" Sym="QPOZT-369991">
+     <Table Name="Element Table" Sym="QPOZT-369992">
+      <FixedWidth>1.0</FixedWidth>
+      <FixedHeight>1.0</FixedHeight>
+      <WrapHNav>false</WrapHNav>
+      <WrapVNav>false</WrapVNav>
+      <IgnoreThemeProps>false</IgnoreThemeProps>
+      <NumRows>8</NumRows>
+      <NumCols>1</NumCols>
+      <Dimensions>1</Dimensions>
+      <BackgroundComponent>false</BackgroundComponent>
+      <TableComponent Name="Element" Sym="QPOZT-369993">
+       <FixedWidth>1.0</FixedWidth>
+       <FixedHeight>1.0</FixedHeight>
+       <TableSubcomp>Cell</TableSubcomp>
+       <WrapHNav>false</WrapHNav>
+       <WrapVNav>false</WrapVNav>
+       <IgnoreThemeProps>false</IgnoreThemeProps>
+       <BackgroundComponent>false</BackgroundComponent>
+       <Item Name="" Sym="QPOZT-369994">
+        <Insets>5</Insets>
+        <IgnoreThemeProps>false</IgnoreThemeProps>
+        <BackgroundComponent>false</BackgroundComponent>
+        <MouseTransparency>false</MouseTransparency>
+        <Conditional Ref="18" Name="Focused"/>
+        <Action Name="phoenix_api_GetConfigurationLabel( Element ) + &quot; (&quot; + phoenix_api_GetConfigurationFieldType( Element ) + &quot;):&quot;" Sym="QPOZT-369995">
+         <Text Name="" Sym="QPOZT-369996">
+          <AnchorY>0.5</AnchorY>
+          <AutosizeText>false</AutosizeText>
+          <WrapText>false</WrapText>
+          <TextShadow>false</TextShadow>
+          <DisableFontScaling>false</DisableFontScaling>
+          <IgnoreThemeProps>false</IgnoreThemeProps>
+          <BackgroundComponent>false</BackgroundComponent>
+          <MouseTransparency>false</MouseTransparency>
+         </Text>
+        </Action>
+        <Action Name="phoenix_api_GetConfigurationDefaultValue( Element )" Sym="IUVOX-557261">
+         <Text Name="" Sym="IUVOX-557262">
+          <AnchorX>1.0</AnchorX>
+          <AnchorY>0.5</AnchorY>
+          <AnchorPointX>1.0</AnchorPointX>
+          <AutosizeText>false</AutosizeText>
+          <WrapText>false</WrapText>
+          <TextShadow>false</TextShadow>
+          <DisableFontScaling>false</DisableFontScaling>
+          <IgnoreThemeProps>false</IgnoreThemeProps>
+          <BackgroundComponent>false</BackgroundComponent>
+          <MouseTransparency>false</MouseTransparency>
+         </Text>
+        </Action>
+        <Hook Name="FocusGained" Sym="QPOZT-369999">
+         <Action Name="CurrElement = Element" Sym="QPOZT-370000">
+          <Action Name="RefreshArea( &quot;Description&quot; )" Sym="QPOZT-370001"/>
+         </Action>
+        </Hook>
+        <Hook Name="FocusLost" Sym="QPOZT-370017">
+         <Action Name="CurrElement = null" Sym="QPOZT-370018">
+          <Action Name="RefreshArea( &quot;Description&quot; )" Sym="QPOZT-370019"/>
+         </Action>
+        </Hook>
+       </Item>
+      </TableComponent>
+     </Table>
+    </Action>
+   </Panel>
+   <Panel Name="Description" Sym="QPOZT-369967">
+    <AnchorX>0.34</AnchorX>
+    <AnchorY>0.8</AnchorY>
+    <AnchorPointX>0.0</AnchorPointX>
+    <AnchorPointY>0.0</AnchorPointY>
+    <FixedWidth>0.65</FixedWidth>
+    <FixedHeight>0.19</FixedHeight>
+    <Insets>5</Insets>
+    <WrapHNav>false</WrapHNav>
+    <WrapVNav>false</WrapVNav>
+    <IgnoreThemeProps>false</IgnoreThemeProps>
+    <BackgroundComponent>false</BackgroundComponent>
+    <MouseTransparency>false</MouseTransparency>
+    <Shape ID="6" Name="Outline" Sym="QPOZT-369969">
+     <ForegroundColor>0xFFFFFF</ForegroundColor>
+     <ForegroundAlpha>255</ForegroundAlpha>
+     <ShapeType>Rectangle</ShapeType>
+     <ShapeFill>false</ShapeFill>
+    </Shape>
+    <Conditional Name="CurrElement != null" Sym="QPOZT-370020">
+     <Action Name="phoenix_api_GetConfigurationDescription( CurrElement )" Sym="QPOZT-370002">
+      <Text Name="" Sym="QPOZT-370003"/>
+     </Action>
+    </Conditional>
+   </Panel>
+  </Panel>
+  <Attribute Name="CurrRootGroup" Sym="IUVOX-557250">
+   <Value>null</Value>
+  </Attribute>
+  <Attribute Name="CurrGroup" Sym="QPOZT-369989">
+   <Value>null</Value>
+  </Attribute>
+  <Attribute Name="CurrElement" Sym="QPOZT-369998">
+   <Value>null</Value>
+  </Attribute>
+ </Menu>
+</Module>

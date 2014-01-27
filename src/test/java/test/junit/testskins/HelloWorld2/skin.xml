@@ -1,0 +1,5 @@
+<plugin id="phoenix.helloworld2" name="Hello World 2" version="1.0">
+   <description>Hello World 2 Plugin - Does Nothing, but depends on HelloWorld 1</description>
+   <depend id="phoenix.helloworld1"/>
+</plugin>
+

@@ -1,0 +1,46 @@
+<configuration id="sage" label="SageTV">
+	<description>Sage TV Configuration</description>
+
+	<group label="Debug Settings">
+		<description>SageTV Core Debugging Settings</description>
+
+		<field key="debug" label="Enable Debug Logging"
+			defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+		<field key="debug_capture_progress"
+			label="Debug Capture Progress" defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+		<field key="debug_exif_parser" label="Debug Exif Parser"
+			defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+		<field key="debug_msgs" label="Debug Messages"
+			defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+	</group>
+
+	<group label="Metadata Settings">
+		<description>Core System Settings -- For expert users</description>
+		
+		<field key="mediafile_metadata_parser_plugins" label="Metadata Parsers" listSeparator=";">
+			<description>Class Files for SageTV Metadata Parser Plugins</description>
+		</field>
+
+		<field key="custom_metadata_properties" label="Custom Metadata Fields" listSeparator=";">
+			<description>Extra Metadata Fields that SageTV will store in its Wiz.bin database</description>
+		</field>
+
+		<field key="update_external_properties_files_on_metadata_changes" label="Update .properties when changed" type="boolean" defaultValue="true">
+			<description>When SetMediaFileMetadata() apis are used, and this is set to true, then SageTV will store the metadata value directly to the .properties file for the media item as well</description>
+		</field>
+	</group>
+	
+	<!-- transcoder/dont_add_converted_duplicate_files_to_db -->
+	
+</configuration>

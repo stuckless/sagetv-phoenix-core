@@ -1,0 +1,7 @@
+<!DOCTYPE metadata SYSTEM "metadata.dtd">
+<metadata id="tvdb">
+	<class>sagex.phoenix.metadata.provider.tvdb.TVDBMetadataProvider</class>
+	<name>thetvdb.com</name>
+	<description>Provides Fanart and Metadata from thetvdb.com</description>
+	<mediatype>TV</mediatype>
+</metadata>

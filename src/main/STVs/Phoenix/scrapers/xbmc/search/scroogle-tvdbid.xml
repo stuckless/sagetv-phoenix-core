@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+   Parses a single TVDB id from a scroogle search
+   $$1 is always the url
+-->
+<scraper name="scroogle-tvdbid" content="id" thumb="thumb.png">
+	<!-- 	input: 		$1=url -->
+	<!-- 	returns: 	 -->
+	<GetTVDBID dest="3">
+		<RegExp input="$$1" output="\2" dest="3">
+			<expression>thetvdb.com.*(id|seriesid)=([0-9]+)</expression>
+		</RegExp>
+	</GetTVDBID>
+</scraper>

@@ -1,0 +1,17 @@
+<ivysettings>
+	<settings defaultResolver="chained" />
+	<resolvers>
+		<chain name="chained" returnFirst="true">
+			<!-- 
+				<filesystem name="libraries">
+				<artifact pattern="${ivy.conf.dir}/repository/[artifact]-[revision].[type]" />
+				</filesystem>
+			-->
+			<ibiblio name="public" m2compatible="true"/>
+			
+			<url name="ibiblio-mirror">
+				<artifact pattern="http://repo1.maven.org/maven2/[organisation]/[module]/[branch]/[revision]/[branch]-[revision].[ext]" />
+			</url>
+		</chain>
+	</resolvers>
+</ivysettings>

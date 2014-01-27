@@ -1,0 +1,338 @@
+<!DOCTYPE vfs SYSTEM "vfs.dtd">
+<vfs>
+	<sources>
+		<source id="expression" label="Sage Expression" class="sagex.phoenix.vfs.sources.SageExpressionFactory">
+			<source-option name="expression" label="Expression"/>
+		</source>
+
+		<source id="mediafiles" label="Sage Media Files" class="sagex.phoenix.vfs.sources.SageMediaFilesFactory">
+			<source-option name="mediamask" label="Sage Media Mask" list="true" listvalues="T:TV,D:DVD,B:BluRay,V:Video,M:Music,P:Pictures" multi-select="true"/>
+		</source>
+
+		<source id="sageimports" label="Sage Import Folders" class="sagex.phoenix.vfs.sources.SageSourcesFactory">
+			<source-option name="combine" label="Combine Sources" datatype="boolean"/>
+			<source-option name="mediamask" label="Sage Media Mask" list="true" listvalues="T:TV,D:DVD,B:BluRay,V:Video,M:Music,P:Pictures" multi-select="true"/>
+		</source>
+
+		<source id="filesystem" label="File System" visible="false" class="sagex.phoenix.vfs.sources.FileSystemSourceFactory">
+			<source-option name="dir" label="Directory" datatype="directory"/>
+		</source>
+
+		<source id="sagefilesystem" label="Sage File System" visible="false" class="sagex.phoenix.vfs.sources.SageMediaNodeFactory">
+			<source-option name="context" label="Content" list="true"/>
+		</source>
+
+		<source id="onlinevideos" label="Online Videos" visible="true" class="sagex.phoenix.vfs.sources.SageOnlineVideosFactory"/>
+	</sources>
+
+	<filters>
+		<filter id="genre" label="Genre" class="sagex.phoenix.vfs.filters.GenresFilter">
+			<filter-option name="value" list="true"/>
+			<tag value="*"/>
+		</filter>
+		
+		<filter id="rating" label="Rating" class="sagex.phoenix.vfs.filters.RatingsFilter">
+			<filter-option name="value" list="true"/>
+			<tag value="*"/>
+		</filter>
+		
+		<filter id="watched" label="Watched" class="sagex.phoenix.vfs.filters.WatchedFilter" include-label="Watched" exclude-label="Unwatched">
+			<filter-option name="value"/>
+			<tag value="video"/>
+		</filter>
+		
+		<filter id="mediatype" label="Media Type" class="sagex.phoenix.vfs.filters.MediaTypeFilter">
+			<filter-option name="value" list="true"/> 
+			<tag value="*"/>
+		</filter>
+		
+		<filter id="fileext" label="File Extension" class="sagex.phoenix.vfs.filters.FileExtFilter" visible="false">
+			<filter-option name="value"/> 
+			<tag value="*"/>
+		</filter>
+		
+		<filter id="filename" label="Filename" class="sagex.phoenix.vfs.filters.FileNameFilter" visible="false">
+			<filter-option name="value"/> 
+			<tag value="*"/>
+		</filter>
+			
+		<filter id="title" label="Title" class="sagex.phoenix.vfs.filters.TitleFilter">
+			<filter-option name="value"/> 
+			<tag value="*"/>
+		</filter>
+			
+
+		<filter id="missingmetadata" label="Missing Metadata" class="sagex.phoenix.vfs.filters.MissingMetadataFilter">
+			<tag value="*"/>
+		</filter>
+			
+		<filter-group id="kids" label="Kids Filter" mode="or">
+			<filter by="genre" value="children" />
+			<filter by="genre" value="child" />
+			<filter by="rating" value="PG" />
+		</filter-group>
+	</filters>
+
+	<sorts>
+		<!-- sorts have 2 implicit sort-options, folders-first, and sort-order -->
+		<sort id="starttime" label="Start Time" class="sagex.phoenix.vfs.sorters.StartTimeSorter">
+			<tag value="video"/>
+		</sort>
+		
+		<sort id="title" label="title" class="sagex.phoenix.vfs.sorters.TitleSorter">
+			<tag value="*"/>
+		</sort>
+		
+		<sort id="artist" label="Artist">
+			<tag value="music"/>
+			<script language="JavaScript"><![CDATA[
+				function compare(res1, res2) {
+					var art1=phoenix.GetAlbumArtist(res1);
+					var art2=phoenix.GetAlbumArtist(res2);
+					if (art1==null || art2==null) return -1;
+					return art1.compareTo(art2);
+				}
+			]]></script>
+		</sort>
+	</sorts>
+
+	<groups>
+		<!-- 
+			groups have 2 implicit group options, 
+			empty-foldername -- used to dump items where the returned group name is null.
+			prune-single-folders -- used to promote items if they are the only item in a sub-folder  
+		 -->
+		<group id="show" label="Show" class="sagex.phoenix.vfs.groups.ShowGrouper">
+			<tag value="tv"/>
+		</group>
+		
+		<group id="title" label="Title" class="sagex.phoenix.vfs.groups.TitleGrouper">
+			<tag value="tv"/>
+		</group>
+		
+		<group id="season" label="Season"
+			class="sagex.phoenix.vfs.groups.SeasonGrouper">
+			<tag value="tv" />
+		</group>
+
+		<group id="year" label="Year" class="sagex.phoenix.vfs.groups.YearGrouper">
+			<tag value="*"/>
+		</group>
+		
+		<group id="cd" label="CD" class="sagex.phoenix.vfs.groups.CDGrouper">
+			<tag value="video"/>
+		</group>
+		
+		<group id="genre" label="Genre" class="sagex.phoenix.vfs.groups.GenreGrouper">
+			<tag value="*"/>
+		</group>
+		
+		<group id="album" label="Album">
+			<tag value="music"/>
+			
+			<script language="javascript"><![CDATA[
+			function getGroupName(res) {
+			    // phoenix.Log(2, "GetGroupName() called for resource");
+				return phoenix.GetAlbumName(res);
+			}
+			]]></script>
+		</group>
+		
+		<group id="artist" label="Artist">
+			<tag value="music"/>
+			
+			<script language="javascript"><![CDATA[
+			function getGroupName(res) {
+				return phoenix.GetAlbumArtist(res);
+			}
+			]]></script>
+		</group>
+	</groups>
+
+
+	<views>
+		<view id="tv" label="Recordings">
+			<description>
+				Sage Recordings
+			</description>
+			<tag value="tv" />
+			<tag value="video" />
+			<source name="expression">
+				<source-option name="expression">
+					phoenix_util_ToArray(phoenix_util_RemoveAll(GetMediaFiles("T"), GetMediaFiles("TL")))
+				</source-option>
+			</source>
+		</view>
+
+		<view id="archivedtv" label="Archived Recordings">
+			<description>
+				Sage Archived Recordings
+			</description>
+			<tag value="tv" />
+			<tag value="video" />
+			<source name="mediafiles">
+				<source-option name="mediamask" value="TL"/>
+			</source>
+		</source>
+
+		<view id="dvd" label="DVDs">
+			<tag value="dvd" />
+			<tag value="video" />
+			<tag value="videodisc" />
+			<source name="mediafiles">
+				<source-option name="mediamask" value="DL"/>
+			</source>
+		</view>
+
+		<view id="bluray" label="BluRay">
+			<tag value="bluray" />
+			<tag value="video" />
+			<tag value="videodisc" />
+			<source name="mediafiles">
+				<source-option name="mediamask" value="BL"/>
+			</source>
+		</view>
+
+		<view id="music" label="Music">
+			<tag value="music" />
+			<source name="mediafiles">
+				<source-option name="mediamask" value="ML"/>
+			</source>
+		</view>
+
+		<view id="video" label="Vidoes">
+			<tag value="video" />
+			
+			<source name="expression">
+				<!-- remove all the recording from this source -->
+				<source-option name="expression">
+					phoenix_util_ToArray(phoenix_util_RemoveAll(GetMediaFiles("VL"), GetMediaFiles("T")))
+				</source-option>
+			</source>
+		</view>
+
+		<view id="pictures" label="Pictures">
+			<tag value="pictures" />
+			<source name="mediafiles">
+				<source-option name="mediamask" value="PL"/>
+			</source>
+		</view>
+
+		<view id="allsage" label="All Sage Media Files" visible="false">
+			<description>
+				Includes all Sage media files, but does include things like online
+				videos, trailers, etc.
+			</description>
+		
+		
+			<tag value="*" />
+			<source name="expression">
+				<source-option name="expression">
+					GetMediaFiles()
+				</source-option>
+			</source>
+		</view>
+
+		<view id="sageimports" label="Sage Video Imports" flat="true">
+			<description>View of All Sage Import folders</description>
+			<tag value="video"/>
+			<source name="sageimports">
+				<source-option name="combine" value="false"/>
+				<source-option name="mediamask" value="BDV"/>
+			</source>
+
+			<!-- set the default sort for the sage import view -->			
+			<presentation>
+				<sort by="title" foldersFirst="true" default="true"/>
+			</presentation>
+		</view>
+
+		<view id="sagevideoimportsv7" label="Sage Video Imports (Combined)" flat="true">
+			<description>View of All Sage Video Sources</description>
+
+			<source name="sagefilesystem">
+				<sage-option name="content" value="VideosByFolder"/>
+			</source>
+
+			<presentation>
+				<sort by="title" foldersFirst="true" multilevel="true" />
+			</presentation>
+		</view>
+
+		<!--
+			There isn't a need to have a specific TV Grouped view, but it's
+			here just show how it would done.  Any of the other views can
+			be grouped, but they are not grouped by default. 
+		 -->
+		<view id="tvgrouped" label="TV (Grouped)" flat="true">
+			<description />
+			<view-source name="tv"/>
+			<view-source tag="video" >
+				<filter by="mediatype" value="tv" />
+			</view-source>
+
+			<presentation level="1">
+				<group by="show"/>
+				<sort by="title"/>
+			</presentation>
+			
+			<presentation level="2">
+				<group by="season" />
+				<sort by="title"/>
+			</presentation>
+			
+			<presentation level="3">
+				<sort by="episode" />
+			</presentation>
+		</view>
+
+		<view id="onlinevideos" label="Online Videos" flat="true" visible="${phoenix_api_GetProperty(&quot;phoenix/vfs/advancedViews&quot;)==true}">
+			<description>SageTV Online Videos</description>
+			<source name="onlinevideos"/>
+		</view>
+
+		<view id="missingmetadataview" label="Missing Metadata" flat="true">
+			<description>Shows videos that are missing Metadata and/or Fanart information</description>
+			<view-source name="video"/>
+			<view-source name="tv"/>
+			<view-source name="dvd"/>
+			<view-source name="bluray"/>
+			<view-source name="archivedtv"/>
+
+			<filter by="missingmetadata"/>
+
+			<presentation>
+				<sort by="title"/>
+			</presentation>
+		</view>
+	
+		<view id="videogrouped" label="All Videos (Grouped)" flat="true">
+			<description>Show Videos grouped by Year/Genre/etc</description>
+			<view-source name="video"/>
+			<view-source name="tv"/>
+			<view-source name="dvd"/>
+			<view-source name="bluray"/>
+			<view-source name="archivedtv"/>
+
+			<presentation>
+				<group by="year"/>
+				<sort by="title" order="ascending"/>
+			</presentation>
+		</view>
+
+		<view id="movies" label="Movies" flat="true">
+			<description>Movies</description>
+			<view-source name="video"/>
+			<view-source name="tv"/>
+			<view-source name="dvd"/>
+			<view-source name="bluray"/>
+			<view-source name="archivedtv"/>
+
+			<filter by="genre" value="movie*"/>
+
+			<presentation>
+				<sort by="title"/>
+			</presentation>
+		</view>
+	</views>
+</vfs>

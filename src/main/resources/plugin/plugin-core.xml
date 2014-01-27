@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SageTVPlugin>
+  <Name>Phoenix Core Services</Name>
+  <Identifier>phoenix-core</Identifier>
+  <Description>
+Phoenix Core Services provides the following services
+* automatic metadata and fanart fetching from external sources such as IMDb, TMDb, and TVDb.
+* dynamic menus
+* custom views
+* user profiles
+</Description>
+  <Author>stuckless,meinmaui,bialio</Author>
+  <CreationDate>2010.06.05</CreationDate>
+  <ModificationDate>@@last-modified@@</ModificationDate>
+  <ResourcePath>phoenix-core</ResourcePath>
+  <Version>@@version@@</Version>
+
+  <Webpage><![CDATA[http://forums.sagetv.com/forums/showthread.php?t=36044]]></Webpage>
+
+  <Dependency>
+    <Plugin>phoenix-api</Plugin>
+    <MinVersion>@@version@@</MinVersion>
+  </Dependency>
+
+  <Dependency>
+    <Plugin>commons-net</Plugin>
+    <MinVersion>1.4.1</MinVersion>
+  </Dependency>
+
+  <Dependency>
+    <Plugin>htmlparser</Plugin>
+    <MinVersion>1.6</MinVersion>
+  </Dependency>
+
+  <Dependency>
+    <Plugin>lucene-core</Plugin>
+    <MinVersion>3.0.1</MinVersion>
+  </Dependency>
+  
+  <PluginType>Standard</PluginType>
+
+  <Package>
+    <PackageType>System</PackageType>
+    <Location>http://sagephoenix.googlecode.com/files/phoenix-core-@@version@@.zip</Location>
+    <MD5>@@system-checksum@@</MD5>
+  </Package>
+  
+  <ImplementationClass>sagex.phoenix.plugin.PhoenixPlugin</ImplementationClass>
+  <ReleaseNotes>
+2.5.5
+* Weather updates by Jusjoken
+
+2.5.4
+* P2 Updates
+* Added Nest themostat APIs
+
+2.5.3
+* Reverted to TMDB for Movie Metadata
+
+2.5.1
+* Fixes a minor issue preventing P2 from loading on Full Clients
+
+2.5.0
+* Restored IMDB support using Nielm's IMDB library
+* Added Quotes and Trivia
+* Replaced TheMovieDB with V3 Api (Should reduce the chances of getting Russian Fanart)
+* Code changes to support Phoenix UI V2
+* Adjusted Sage Recording metadata save/update so that if Preserve metadata is enabled, then blank fields are still updated
+
+2.3.62
+* Removed IMDB support (metadata provider is broken, and requires too much time to keep fixing it)
+* Misc Phoenix Remote API updates required for the Phoenix Android App
+
+2.3.61
+* VFS: Fixed error whereby options were not be picked up the filters in a filter group
+* VFS: Added better VFS organization and caching which allows for updating system level filters and sources
+* Streaming: Added Phoenix Media Streamer for use with Phoenix Android App
+
+2.3.60
+* Fixed IMDb detail scraper
+
+2.3.58
+* fixed broken imdb searches
+* misc tweaks from jusjoken for Gemstone
+  
+2.3.55
+* More Weather fixes from Jusjoken 
+ 
+2.3.54
+* WeatherUnderground fixes
+
+2.3.53
+* UFT-8 fixes (ie, ensuring UTF-8 support)
+* Fixed bugs in Set/Get default fanart -- imported jusjokens' fix for Season fanart
+* Weather Underground support added by jusjoken 
+ 
+2.3.52
+* Added new Filters from jusjoken
+* Updated phoenix rest apis
+
+2.3.51
+* Updated phoenix rest apis
+
+2.3.50
+* Added updated weather apis (with help from jusjoken)
+* Updated phoenix rest apis
+* Added upnp client/server support (just libraries and basic vfs browsing)
+
+2.3.46
+* Fixed Export Thumbnail issue (was creating 16x16 black images)
+* Prevent the loading of invalid Skins
+* Added Weather API
+* Added IsType(HOME_VIDEO) 
+* Added Gzip decompression for TVDB xml files 
+
+2.3.44
+* Fixed NullPointerExceptions that were showing up in the sagetv_0.txt
+* Removed System.out messages that were showing up in the sagetv_0.txt
+* Will automatically download x-vfs.xml if it is missing (ie, Phoenix UI is not installed)
+* Fixed GetFanartEpisode (was always returning first image)
+* Added option to disable local fanart
+* Fixed GetFanartAlbum (was always returning first image)
+* Added better recovery code for failed TVDB searches (ie, should retry)
+* Fixed menu sort issue
+* Moved BMT views to BMT plugin
+
+2.3.43
+* Minor change adding support for album.jpg
+
+2.3.42
+* Minor changes to support Phoenix UI build 405
+* Removed vfs.xml. x-vfs.xml is provided in PhoenixUI or users can manually download x-vfs.xml
+
+2.3.41
+* Changed the default xml parsing to not abort on xml errors.  This should allow the Phoenix system to start up even where there are invalid xml elements, etc. 
+* Fixed bug in music fanart download that results in excessive downloads from the HTBackdrops server
+* Added REST apis for Phoenix
+
+2.3.40
+* Music Fanart download support (for Artist only)
+* Music Fanart support (Album and Artist)
+* Fixed bug in IMDB provider
+* Group by Substring of Title
+* Added Partially Watched and Recently Watched filters
+* Fixed Fanart bug when MediaTitle is null
+* Misc Fanart tweaks to try and make better decisions when some items are missing MediaTitle/MediaType
+  </ReleaseNotes>
+</SageTVPlugin>

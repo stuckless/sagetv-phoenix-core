@@ -1,0 +1,50 @@
+<titles>
+    <match>
+        <regex>[\\/]Castle-.*</regex>
+        <title>Castle</title>
+        <year>2009</year>
+        <metadata type="tv" name="tvdb">83462</metadata>
+    </match>
+    <match>
+        <regex>[\\/]Parenthood-.*</regex>
+        <title>Parenthood</title>
+        <year>2010</year>
+        <metadata type="tv" name="tvdb">94551</metadata>
+    </match>
+    <match>
+        <regex>[\\/]TheGoodGuys-.*</regex>
+        <title>The Good Guys</title>
+        <year>2010</year>
+        <metadata type="tv" name="tvdb">140101</metadata>
+    </match>
+    <match>
+        <regex>[\\/]TheDefenders-.*</regex>
+        <title>The Defenders</title>
+        <year>2010</year>
+        <metadata type="tv" name="tvdb">140101</metadata>
+    </match>
+    <match>
+        <regex>[\\/]HawaiiFive0-.*</regex>
+        <title>Hawaii Five-0</title>
+        <year>2010</year>
+        <metadata type="tv" name="tvdb">164541</metadata>
+    </match>
+    <match>
+        <regex>[\\/]Shameless-.*</regex>
+        <title>Shameless</title>
+        <year>2011</year>
+        <metadata type="tv" name="tvdb">161511</metadata>
+    </match>    
+    <match>
+        <regex>[\\/]TheCape-.*</regex>
+        <title>The Cape</title>
+        <year>2011</year>
+        <metadata type="tv" name="tvdb">160671</metadata>
+    </match>
+    <match>
+        <regex>[\\/]MrSunshine-.*</regex>
+        <title>Mr. Sunshine</title>
+        <year>2011</year>
+        <metadata type="tv" name="tvdb">164481</metadata>
+    </match>	
+</titles>

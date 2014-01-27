@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration id="phoenix" label="Phoenix">
+	<description>Phoenix Configuration</description>
+
+	<group path="phoenix/core" label="Core Phoenix Settings">
+		<description>Core Phoenix Settings</description>
+		<field key="enableAdvancedOptions" label="Enable Advanced Options" defaultValue="false" type="boolean">
+			<description>Show advanced configuration options.  Advanced options may be confusing to some users.</description>
+		</field>
+		
+		<field key="enableAdvancedViews" label="Enable Advanced VFS Views" defaultValue="false" type="boolean" visibleOnProperty="phoenix/core/enableAdvancedOptions">
+			<description>Show Advanced VFS views.  VFS is the 'Virtual FileSystem' of phoenix.  It contains many views, some of which are not useful to all people.</description>
+		</field>
+	</group>
+
+	<group class="sagex.phoenix.metadata.MetadataConfiguration"/>
+	<group class="sagex.phoenix.metadata.provider.dvdprofiler.DVDProfilerConfiguration"/>
+	<group class="sagex.phoenix.metadata.provider.mymovies.MyMoviesConfiguration"/>
+	<group class="sagex.phoenix.metadata.provider.imdb.IMDBConfiguration"/>
+	<group class="sagex.phoenix.metadata.provider.tvdb.TVDBConfiguration"/>
+	<group class="sagex.phoenix.util.url.UrlConfiguration"/>
+	<group class="sagex.phoenix.vfs.MediaConfiguration"/>
+	<group class="sagex.phoenix.download.DownloadConfiguration"/>
+	<group class="sagex.phoenix.util.ToolsConfiguration"/>
+	<group class="sagex.phoenix.vfs.filters.HomeVideosConfiguration"/>
+	<group class="sagex.phoenix.upnp.UPnPConfiguration"/>
+	
+	<!-- Configuration for xbmc configuration
+	<group label="XBMC imdb.xml Configuration">
+		<description>Configuration Items for XBMC Scraper for IMDb</description>
+		
+		<field key="bmt/xbmc/imdb.xml/fullcredits" label="Enable Full Cast Credits" defaultValue="true" type="boolean" visible="false">
+			<description>Enable Full Cast Credits</description>
+		</field>
+		<field key="bmt/xbmc/imdb.xml/impawards" label="Enable IMPAwards" defaultValue="true" type="boolean" visible="false">
+			<description>Enable IMPAwards</description>
+		</field>
+		<field key="bmt/xbmc/imdb.xml/movieposterdb" label="Enable MoviePosterDB" defaultValue="true" type="boolean" visible="false">
+			<description>Enable MoviePosterDB</description>
+		</field>
+		<field key="bmt/xbmc/imdb.xml/trailer" label="Enable Trailer" defaultValue="true" type="boolean" visible="false">
+			<description>Enable Trailers</description>
+		</field>
+		<field key="bmt/xbmc/imdb.xml/fanart" label="Enable Fanart" defaultValue="true" type="boolean" visible="false">
+			<description>Enable Fanart</description>
+		</field>
+		<field key="bmt/xbmc/imdb.xml/imdbscale" label="IMDB Poster &amp; Actor Thumb(s) Size" defaultValue="512" type="int" visible="false">
+			<description>Poster Size (width)</description>
+		</field>
+		<field key="bmt/xbmc/imdb.xml/url" label="Input Alternative IMDb Source" defaultValue="akas.imdb.com" visible="false">
+			<description>IMDd Domain</description>
+		</field>
+	</group>
+ 	-->
+ 	
+	<!-- Some Phoenix Configuration Items, but we duplicate them here because they are related metadata/fanart -->
+	<group label="Advanced Fanart">
+		<description>Advanced Fanart Display Settings</description>
+		
+		<field key="phoenix/mediametadata/parseMediaFileForTVSeries" label="Parse Display Title for TV Series Name for Fanart Lookup" defaultValue="false" type="boolean" visibleOnProperty="phoenix/core/enableAdvancedOptions">
+			<description>This should never need to be enabled.  But if it is, then it parse the Display Title for the TV Series Name</description>
+		</field>
+
+		<field key="phoenix/mediametadata/tvSeriesRegex" label="TV Series Regexp" defaultValue=".*[\\/](.*)s([0-9]{1,2})\s*[exd]([[0-9]]{1,2})" editor="regex" visibleOnProperty="phoenix/mediametadata/parseMediaFileForTVSeries">
+			<description>Regex to use when parsing the Series Name from the Display Title</description>
+		</field>
+		
+		<field key="phoenix/mediametadata/tvSeasonRegex" label="TV Season Regexp" defaultValue=".*[\\/].*s([0-9]{1,2})\s*[exd]([[0-9]]{1,2})" editor="regex" visibleOnProperty="phoenix/mediametadata/parseMediaFileForTVSeries">
+			<description>Regex to use when parsing the Season Number from the Display Title</description>
+		</field>
+
+		<field key="phoenix/fanart/rescanFanart" label="Update Metadata and Fanart" defaultValue="" type="button">
+			<description>Update metadata and fanart for items that do not have existing fanart and metadata</description>
+		</field>
+	</group>
+	
+	<group class="sagex.phoenix.weather.WeatherConfiguration"/>
+	<group class="sagex.phoenix.homecontrol.themostat.nest.NestConfiguration"/>
+	
+</configuration>
