@@ -10,3 +10,4 @@ userdata/
 logs/
 cache/
 target/
+/lib
