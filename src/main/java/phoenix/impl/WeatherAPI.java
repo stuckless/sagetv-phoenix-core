@@ -13,9 +13,9 @@ import sagex.phoenix.weather.IWeatherSupport.Units;
 import sagex.phoenix.weather.yahoo.YahooWeatherSupport;
 
 /**
- * WeatherAPI provides access to weather information, including current forecast and 
- * long range forecasts.
- *  
+ * WeatherAPI provides access to weather information, including current forecast
+ * and long range forecasts.
+ * 
  * @author seans
  */
 @API(group = "weather")
@@ -25,37 +25,39 @@ public class WeatherAPI {
 
 	public WeatherAPI() {
 		try {
-			String prop = (String) Configuration.GetProperty(
-					"phoenix/weather/weatherSupportClass",	YahooWeatherSupport.class.getName());
+			String prop = (String) Configuration.GetProperty("phoenix/weather/weatherSupportClass",
+					YahooWeatherSupport.class.getName());
 
 			api = (IWeatherSupport) Class.forName(prop).newInstance();
 		} catch (Throwable e) {
-			log.warn("Failed to load weather support class; defaulting to: "
-					+ YahooWeatherSupport.class.getName(), e);
+			log.warn("Failed to load weather support class; defaulting to: " + YahooWeatherSupport.class.getName(), e);
 			api = new YahooWeatherSupport();
 		}
 	}
-	
+
 	/**
-	 * Forces the current and forecasted weather to update.  It is up to the implementation to 
-	 * ensure that weather updates are cached.  If the weather is updated since the last call
-	 * then it will return true.  If an Error happens, then IsError will return true and GetError
-	 * will contain the failure message.
+	 * Forces the current and forecasted weather to update. It is up to the
+	 * implementation to ensure that weather updates are cached. If the weather
+	 * is updated since the last call then it will return true. If an Error
+	 * happens, then IsError will return true and GetError will contain the
+	 * failure message.
 	 * 
 	 * @return true if the weather was updated
 	 */
 	public boolean Update() {
 		return api.update();
 	}
-	
+
 	/**
-	 * Sets the user's location as a Postal Code or Zip Code.  If an implementation doesn't
-	 * natively use this information, it should try to convert the location into something
-	 * can be consumed by the implementation.  For example, the Yahoo Weather Service doesn't use
-	 * zip code so it will convert it into the Yahoo WOEID.  If the implemenation can't convert
-	 * the postal or zip code, then this method will return false.
+	 * Sets the user's location as a Postal Code or Zip Code. If an
+	 * implementation doesn't natively use this information, it should try to
+	 * convert the location into something can be consumed by the
+	 * implementation. For example, the Yahoo Weather Service doesn't use zip
+	 * code so it will convert it into the Yahoo WOEID. If the implemenation
+	 * can't convert the postal or zip code, then this method will return false.
 	 * 
-	 * @param postalOrZip ZIP or Postal Code
+	 * @param postalOrZip
+	 *            ZIP or Postal Code
 	 * @return true if the implementation accepted the zip code.
 	 */
 	public boolean SetLocation(String postalOrZip) {
@@ -63,31 +65,33 @@ public class WeatherAPI {
 	}
 
 	/**
-	 * Get the current weather location's ZIP or Postal Code.  It may return null, if the weather hasn't
-	 * been configured.
+	 * Get the current weather location's ZIP or Postal Code. It may return
+	 * null, if the weather hasn't been configured.
 	 * 
 	 * @return
 	 */
 	public String GetLocation() {
 		return api.getLocation();
 	}
-	
+
 	/**
-	 * Set the Unit for the weather service.  Valid values are 'm' for Metric, and 's' for Standard (imperial) units.
+	 * Set the Unit for the weather service. Valid values are 'm' for Metric,
+	 * and 's' for Standard (imperial) units.
 	 * 
 	 * @param units
 	 */
 	public void SetUnits(String units) {
 		IWeatherSupport.Units u = null;
-		if (units==null) u = Units.Metric;
-		if (units.toLowerCase().startsWith("m")) { 
+		if (units == null)
+			u = Units.Metric;
+		if (units.toLowerCase().startsWith("m")) {
 			u = Units.Metric;
 		} else {
 			u = Units.Standard;
 		}
 		api.setUnits(u);
 	}
-	
+
 	/**
 	 * Return the configured units for the Weather Service
 	 * 
@@ -95,13 +99,14 @@ public class WeatherAPI {
 	 */
 	public String GetUnits() {
 		IWeatherSupport.Units u = api.getUnits();
-		if (u==null) u=Units.Metric;
+		if (u == null)
+			u = Units.Metric;
 		return u.name();
 	}
-	
+
 	/**
-	 * Returns the current weather information.  You should call update() before calling this method
-	 * since this will not force an update automatically.
+	 * Returns the current weather information. You should call update() before
+	 * calling this method since this will not force an update automatically.
 	 * 
 	 * @return {@link IWeatherData} instance for the current weather conditions
 	 */
@@ -110,14 +115,16 @@ public class WeatherAPI {
 	}
 
 	/**
-	 * Returns the long range forecast.  Depending on the implementation is may include today's weather.
-	 *  
-	 * @return {@link List} of {@link IWeatherData} instances for each day, ordered by day.
+	 * Returns the long range forecast. Depending on the implementation is may
+	 * include today's weather.
+	 * 
+	 * @return {@link List} of {@link IWeatherData} instances for each day,
+	 *         ordered by day.
 	 */
 	public List<IWeatherData> GetForecast() {
 		return api.getForecast();
 	}
-	
+
 	/**
 	 * Return true if the Weather Service is configured.
 	 * 
@@ -134,10 +141,11 @@ public class WeatherAPI {
 	 */
 	public int GetForecastDays() {
 		List<IWeatherData> days = GetForecast();
-		if (days==null) return 0;
+		if (days == null)
+			return 0;
 		return days.size();
 	}
-	
+
 	/**
 	 * Returns the {@link Date} the weather was last updated.
 	 * 
@@ -146,17 +154,17 @@ public class WeatherAPI {
 	public Date GetLastUpdated() {
 		return api.getLastUpdated();
 	}
-	
+
 	/**
-	 * Returns the location name (usually the City) if known.  This may be null until an
-	 * update happens.
+	 * Returns the location name (usually the City) if known. This may be null
+	 * until an update happens.
 	 * 
 	 * @return location name, usually the city
 	 */
 	public String GetLocationName() {
 		return api.getLocationName();
 	}
-	
+
 	/**
 	 * Return true if there was a Weather Service error
 	 * 
@@ -165,7 +173,7 @@ public class WeatherAPI {
 	public boolean HasError() {
 		return api.hasError();
 	}
-	
+
 	/**
 	 * Returns the error if HasError return true, otherwise it will return null.
 	 * 

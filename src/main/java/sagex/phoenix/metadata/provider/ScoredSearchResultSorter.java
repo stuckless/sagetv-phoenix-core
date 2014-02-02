@@ -6,7 +6,7 @@ import sagex.phoenix.metadata.IMetadataSearchResult;
 
 public class ScoredSearchResultSorter implements Comparator<IMetadataSearchResult> {
 	public static final ScoredSearchResultSorter INSTANCE = new ScoredSearchResultSorter();
-	
+
 	public ScoredSearchResultSorter() {
 	}
 

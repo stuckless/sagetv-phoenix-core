@@ -8,10 +8,10 @@ import sagex.phoenix.scrapers.xbmc.XbmcScraper;
 import sagex.phoenix.scrapers.xbmc.XbmcScraperParser;
 
 public abstract class XbmcFilenameScraper implements IFilenameScraper {
-    protected Logger log = Logger.getLogger(this.getClass());
-    
+	protected Logger log = Logger.getLogger(this.getClass());
+
 	protected XbmcScraper scraper;
-	
+
 	public XbmcFilenameScraper(File scraperFile) throws Exception {
 		XbmcScraperParser p = new XbmcScraperParser();
 		scraper = p.parseScraper(scraperFile);
@@ -24,7 +24,8 @@ public abstract class XbmcFilenameScraper implements IFilenameScraper {
 
 	@Override
 	public int getPriority() {
-		// basically prioritizes based on first char of name. (need a better way, but this will do for now)
+		// basically prioritizes based on first char of name. (need a better
+		// way, but this will do for now)
 		return scraper.getName().charAt(0);
 	}
 }

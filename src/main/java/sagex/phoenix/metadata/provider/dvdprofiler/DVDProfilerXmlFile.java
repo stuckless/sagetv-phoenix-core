@@ -15,20 +15,20 @@ import sagex.phoenix.metadata.MetadataException;
 
 public class DVDProfilerXmlFile {
 	private Logger log = Logger.getLogger(DVDProfilerXmlFile.class);
-	
-    private File                   file       = null;
 
-    public DVDProfilerXmlFile(File xmlFile) {
-        this.file = xmlFile;
-    }
+	private File file = null;
 
-    public void visitMovies(final IDVDProfilerMovieNodeVisitor visitor) {
-    	SAXReader reader = new SAXReader();
-    	reader.addHandler("/Collection/DVD", new ElementHandler() {
+	public DVDProfilerXmlFile(File xmlFile) {
+		this.file = xmlFile;
+	}
+
+	public void visitMovies(final IDVDProfilerMovieNodeVisitor visitor) {
+		SAXReader reader = new SAXReader();
+		reader.addHandler("/Collection/DVD", new ElementHandler() {
 			@Override
 			public void onStart(ElementPath path) {
 			}
-			
+
 			@Override
 			public void onEnd(ElementPath path) {
 				Element e = path.getCurrent();
@@ -36,48 +36,50 @@ public class DVDProfilerXmlFile {
 				e.detach();
 			}
 		});
-    	try {
+		try {
 			reader.read(file);
 		} catch (DocumentException e) {
 			log.error("Failed to parse dvdprofiler file: " + file, e);
 			throw new RuntimeException(e);
 		}
-    }
+	}
 
-    public static String getElementValue(Element el, String tag) {
-    	String s = el.elementText(tag);
-    	if (s!=null) s=s.trim();
-    	return s;
-    }
+	public static String getElementValue(Element el, String tag) {
+		String s = el.elementText(tag);
+		if (s != null)
+			s = s.trim();
+		return s;
+	}
 
-    public Element findMovieById(final String id) throws MetadataException {
-        if (id == null) throw new MetadataException("Movie id was null!");
-        final List<Element> ids=new ArrayList<Element>();
-        
-    	SAXReader reader = new SAXReader();
-    	reader.addHandler("/Collection/DVD", new ElementHandler() {
+	public Element findMovieById(final String id) throws MetadataException {
+		if (id == null)
+			throw new MetadataException("Movie id was null!");
+		final List<Element> ids = new ArrayList<Element>();
+
+		SAXReader reader = new SAXReader();
+		reader.addHandler("/Collection/DVD", new ElementHandler() {
 			@Override
 			public void onStart(ElementPath path) {
 			}
-			
+
 			@Override
 			public void onEnd(ElementPath path) {
 				Element e = path.getCurrent();
-                if (id.equals(getElementValue(e, "ID"))) {
-                	ids.add(e);
-                }
+				if (id.equals(getElementValue(e, "ID"))) {
+					ids.add(e);
+				}
 				e.detach();
 			}
 		});
-    	try {
+		try {
 			reader.read(file);
 		} catch (DocumentException e) {
 			throw new MetadataException("Failed to parse dvd profiler xml: " + file, e);
 		}
 
-        if (ids.size()==0) {
-            throw new MetadataException("DVD Profiler: Failed to find movie for id: " + id);
-        }
-        return ids.get(0);
-    }
+		if (ids.size() == 0) {
+			throw new MetadataException("DVD Profiler: Failed to find movie for id: " + id);
+		}
+		return ids.get(0);
+	}
 }

@@ -9,16 +9,16 @@ import sagex.phoenix.util.Loggers;
 import sagex.phoenix.vfs.IMediaResource;
 
 public class RatingsFilter extends Filter {
-    public RatingsFilter() {
-    	super();
-    	addOption(new ConfigurableOption(OPT_VALUE, "Rated", null, DataType.string, true, ListSelection.single, (String)null));
-    }
-    
-    public boolean canAccept(IMediaResource res) {
-    	// TODO: Implement Rating Filter
-    	Loggers.LOG.warn("RatingsFilter: Not Implemented.");
-        return true;
-    }
+	public RatingsFilter() {
+		super();
+		addOption(new ConfigurableOption(OPT_VALUE, "Rated", null, DataType.string, true, ListSelection.single, (String) null));
+	}
+
+	public boolean canAccept(IMediaResource res) {
+		// TODO: Implement Rating Filter
+		Loggers.LOG.warn("RatingsFilter: Not Implemented.");
+		return true;
+	}
 
 	@Override
 	public Map<String, String> getOptionList(String id) {

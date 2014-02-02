@@ -8,16 +8,15 @@ import sagex.phoenix.tools.annotation.API;
  * 
  * @author seans
  */
-@API(group="metadata", proxy=true, prefix="Metadata", resolver="phoenix.media.GetMetadata")
+@API(group = "metadata", proxy = true, prefix = "Metadata", resolver = "phoenix.media.GetMetadata")
 public interface IMetadata extends ISageMetadataALL {
 	/**
-	 * Reserved Property Key to identify that an item is watched
-	 * {@value}
+	 * Reserved Property Key to identify that an item is watched * {@value}
 	 */
 	public static final String XWatched = "X-Watched";
-	
+
 	/**
-	 * Reserved Property Key to identify that an item is a LibraryFile
+	 * Reserved Property Key to identify that an item is a LibraryFile *
 	 * {@value}
 	 */
 	public static final String XLibraryFile = "X-LibraryFile";

@@ -23,7 +23,8 @@ public class MediaResourceTypeFilter extends Filter {
 
 	public MediaResourceTypeFilter() {
 		super();
-		addOption(new ConfigurableOption(OPT_VALUE, "Resource Type", null, DataType.string, true, ListSelection.multi, (String)null));
+		addOption(new ConfigurableOption(OPT_VALUE, "Resource Type", null, DataType.string, true, ListSelection.multi,
+				(String) null));
 	}
 
 	public MediaResourceTypeFilter(String types) {

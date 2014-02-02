@@ -35,7 +35,7 @@ public class LogUtil {
 
 	public static void logMetadataUpdatedError(IMediaFile file, Throwable e) {
 		Loggers.METADATA.warn("ERROR; " + getFileString(file) + "; " + e.getMessage());
-		
+
 		// log the exception in the main log
 		Loggers.LOG.warn("ERROR; " + getFileString(file) + "; " + e.getMessage(), e);
 	}
@@ -50,7 +50,8 @@ public class LogUtil {
 
 	private static String getFileString(IMediaFile file) {
 		if (Loggers.METADATA.isDebugEnabled()) {
-			return String.valueOf(file) + "; Class: " + file.getClass().getName() + "; >>> Sage Object["+String.valueOf(file.getMediaObject())+", Class: "+ file.getMediaObject().getClass().getName()+"]";
+			return String.valueOf(file) + "; Class: " + file.getClass().getName() + "; >>> Sage Object["
+					+ String.valueOf(file.getMediaObject()) + ", Class: " + file.getMediaObject().getClass().getName() + "]";
 		} else {
 			StringBuilder sb = new StringBuilder();
 			String loc = PathUtils.getLocation(file);
@@ -65,7 +66,7 @@ public class LogUtil {
 	}
 
 	public static void logNewTVSeriesInfoAdded(ISeriesInfo info) {
-		if (info!=null) {
+		if (info != null) {
 			Loggers.METADATA.info("ADDED: TV Series Info: " + info.getTitle());
 		}
 	}

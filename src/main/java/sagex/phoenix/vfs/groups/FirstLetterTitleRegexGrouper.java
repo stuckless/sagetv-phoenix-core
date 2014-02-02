@@ -13,59 +13,62 @@ import sagex.phoenix.vfs.util.HasOptions;
 
 /**
  * Groups based on a regular expression against the first letter of the title
- *  
+ * 
  * @author jusjoken
  */
 public class FirstLetterTitleRegexGrouper extends TitleGrouper implements HasOptions {
 	/**
 	 * {@value}
 	 */
-	
-        private List<ConfigurableOption> options = new ArrayList<ConfigurableOption>();
+
+	private List<ConfigurableOption> options = new ArrayList<ConfigurableOption>();
 	private Pattern pattern = null;
-        boolean ignoreThe = false;
-        boolean ignoreAll = false;
+	boolean ignoreThe = false;
+	boolean ignoreAll = false;
 
-	private IGrouper grouper; 
-	
-    public FirstLetterTitleRegexGrouper(IGrouper grouper) {
-        options.add(new ConfigurableOption("ignore-the", "Disregard 'the' when grouping", "false", ConfigurableOption.DataType.bool, true, ConfigurableOption.ListSelection.single, "true:Yes,no:No"));
-        options.add(new ConfigurableOption("ignore-all", "Disregard 'a', 'an', and 'the' when grouping", "false", ConfigurableOption.DataType.bool, true, ConfigurableOption.ListSelection.single, "true:Yes,no:No"));
-        this.grouper = grouper;  
-    }
-    @Override
-    public List<ConfigurableOption> getOptions() {
-            return options;
-    }
+	private IGrouper grouper;
 
-    @Override
-    public void onUpdate(BaseConfigurable parent) {
-        ignoreThe = parent.getOption("ignore-the").getBoolean(false);
-        ignoreAll = parent.getOption("ignore-all").getBoolean(false);   
-        String pat = ".";
-        if (ignoreThe) {        
-            pat = "^(?:(?:the)\\s+)?(\\S)";
-        }else if( ignoreAll){
-            pat = "^(?:(?:the|a|an)\\s+)?(\\S)";
-        }
-        pattern = Pattern.compile(pat, Pattern.CASE_INSENSITIVE);
-    }
+	public FirstLetterTitleRegexGrouper(IGrouper grouper) {
+		options.add(new ConfigurableOption("ignore-the", "Disregard 'the' when grouping", "false",
+				ConfigurableOption.DataType.bool, true, ConfigurableOption.ListSelection.single, "true:Yes,no:No"));
+		options.add(new ConfigurableOption("ignore-all", "Disregard 'a', 'an', and 'the' when grouping", "false",
+				ConfigurableOption.DataType.bool, true, ConfigurableOption.ListSelection.single, "true:Yes,no:No"));
+		this.grouper = grouper;
+	}
 
-    @Override
-    public String getGroupName(IMediaResource res) {
-        String grp = grouper.getGroupName(res);
-        if (pattern !=null && res instanceof IMediaFile) {
-                if (grp!=null) {
-                        Matcher m = pattern.matcher(grp);
-                        if (m.find()) {
-                            if (m.groupCount()>0){
-                                grp = m.group(1);
-                            }else{
-                                grp = grp.substring(m.start(), m.end());
-                            }
-                        }
-                }
-        }
-        return grp;
-    }    
+	@Override
+	public List<ConfigurableOption> getOptions() {
+		return options;
+	}
+
+	@Override
+	public void onUpdate(BaseConfigurable parent) {
+		ignoreThe = parent.getOption("ignore-the").getBoolean(false);
+		ignoreAll = parent.getOption("ignore-all").getBoolean(false);
+		String pat = ".";
+		if (ignoreThe) {
+			pat = "^(?:(?:the)\\s+)?(\\S)";
+		} else if (ignoreAll) {
+			pat = "^(?:(?:the|a|an)\\s+)?(\\S)";
+		}
+		pattern = Pattern.compile(pat, Pattern.CASE_INSENSITIVE);
+	}
+
+	@Override
+	public String getGroupName(IMediaResource res) {
+		String grp = grouper.getGroupName(res);
+		if (pattern != null && res instanceof IMediaFile) {
+			if (grp != null) {
+				Matcher m = pattern.matcher(grp);
+				if (m.find()) {
+					if (m.groupCount() > 0) {
+						grp = m.group(1);
+					} else {
+						grp = grp.substring(m.start(), m.end());
+					}
+				}
+			}
+		}
+		return grp;
+	}
 }

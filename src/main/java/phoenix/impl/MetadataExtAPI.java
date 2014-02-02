@@ -9,7 +9,7 @@ import sagex.phoenix.metadata.proxy.SageProperty;
 import sagex.phoenix.tools.annotation.API;
 import sagex.phoenix.vfs.IMediaFile;
 
-@API(group="metadata")
+@API(group = "metadata")
 public class MetadataExtAPI {
 	/**
 	 * returns the first genre
@@ -22,12 +22,14 @@ public class MetadataExtAPI {
 	}
 
 	/**
-	 * can accept 
+	 * can accept
+	 * 
 	 * @param mediaFile
 	 * @return
 	 */
 	public String getCategory(IMediaFile mediaFile) {
-		if (mediaFile==null) return null;
+		if (mediaFile == null)
+			return null;
 		return getGenre(mediaFile.getMetadata(), 0);
 	}
 
@@ -42,10 +44,11 @@ public class MetadataExtAPI {
 	}
 
 	public String getSubCategory(IMediaFile mediaFile) {
-		if (mediaFile==null) return null;
+		if (mediaFile == null)
+			return null;
 		return getGenre(mediaFile.getMetadata(), 1);
 	}
-	
+
 	/**
 	 * returns a genre at a given position or null
 	 * 
@@ -54,24 +57,27 @@ public class MetadataExtAPI {
 	 * @return
 	 */
 	public String getGenre(IMetadata md, int pos) {
-		if (md==null) return null;
+		if (md == null)
+			return null;
 		List<String> genres = md.getGenres();
-		if (genres.size()>=pos) return genres.get(pos);
+		if (genres.size() >= pos)
+			return genres.get(pos);
 		return null;
 	}
-	
+
 	/**
-	 * returns true if the named sage metadata field has been set to a non empty value
+	 * returns true if the named sage metadata field has been set to a non empty
+	 * value
 	 * 
 	 * @param isagemetadata
 	 * @param key
 	 * @return
 	 */
-   public static boolean IsSet(ISageMetadata isagemetadata, String key) {
-	   SageProperty skey = MetadataUtil.getSageProperty(key);
-	   if (skey!=null) {
-		   return isagemetadata.isSet(skey);
-	   }
-	   return false;
-   }
+	public static boolean IsSet(ISageMetadata isagemetadata, String key) {
+		SageProperty skey = MetadataUtil.getSageProperty(key);
+		if (skey != null) {
+			return isagemetadata.isSet(skey);
+		}
+		return false;
+	}
 }

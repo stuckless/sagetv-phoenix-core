@@ -1,6 +1,5 @@
 package sagex.phoenix.upnp;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,46 +37,43 @@ import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.image.ImageUtil;
 
 public class PhoenixUPNPServer {
-    public static final DeviceType SUPPORTED_MEDIA_SERVER_TYPE = new UDADeviceType("MediaServer", 1);
+	public static final DeviceType SUPPORTED_MEDIA_SERVER_TYPE = new UDADeviceType("MediaServer", 1);
 
 	private Logger log = Logger.getLogger(this.getClass());
 	private UPnPConfiguration config = GroupProxy.get(UPnPConfiguration.class);
 	private UpnpService service;
-	
+
 	public PhoenixUPNPServer() {
 	}
-	
+
 	public void init() {
 		if (!config.getClientEnabled()) {
 			log.info("UPnP Services are not online");
 			return;
 		}
-		
+
 		try {
 			if (config.getClientEnabled()) {
 				RegistryListener rl = new DefaultRegistryListener() {
-	
+
 					@Override
-					public void remoteDeviceAdded(Registry registry,
-							RemoteDevice device) {
+					public void remoteDeviceAdded(Registry registry, RemoteDevice device) {
 						// TODO Auto-generated method stub
 						super.remoteDeviceAdded(registry, device);
 					}
-	
+
 					@Override
-					public void remoteDeviceRemoved(Registry registry,
-							RemoteDevice device) {
+					public void remoteDeviceRemoved(Registry registry, RemoteDevice device) {
 						// TODO Auto-generated method stub
 						super.remoteDeviceRemoved(registry, device);
 					}
-	
+
 					@Override
-					public void remoteDeviceUpdated(Registry registry,
-							RemoteDevice device) {
+					public void remoteDeviceUpdated(Registry registry, RemoteDevice device) {
 						// TODO Auto-generated method stub
 						super.remoteDeviceUpdated(registry, device);
 					}
-					
+
 				};
 				service = new UpnpServiceImpl(rl);
 				log.info("Phoenix is listening to UPnP MediaServer devices");
@@ -87,11 +83,11 @@ public class PhoenixUPNPServer {
 			}
 
 			// find all media servers on the network
-	        UpnpHeader devType = new DeviceTypeHeader(SUPPORTED_MEDIA_SERVER_TYPE);
-	        service.getControlPoint().search(devType);
-			
-	        // add shutdown hook to shutdown the server
-	        Thread t = new Thread() {
+			UpnpHeader devType = new DeviceTypeHeader(SUPPORTED_MEDIA_SERVER_TYPE);
+			service.getControlPoint().search(devType);
+
+			// add shutdown hook to shutdown the server
+			Thread t = new Thread() {
 				@Override
 				public void run() {
 					shutdown();
@@ -105,7 +101,7 @@ public class PhoenixUPNPServer {
 				// Add the bound local device to the registry
 				service.getRegistry().addDevice(createDevice());
 			}
-			
+
 			log.info("Phoenix UPnP Services are online");
 		} catch (Exception ex) {
 			log.warn("Phoenix UPnP startup Error", ex);
@@ -113,8 +109,8 @@ public class PhoenixUPNPServer {
 	}
 
 	public void shutdown() {
-		if (service!=null) {
-			service.shutdown();	
+		if (service != null) {
+			service.shutdown();
 		}
 	}
 
@@ -126,26 +122,22 @@ public class PhoenixUPNPServer {
 	 * @throws LocalServiceBindingException
 	 * @throws IOException
 	 */
-	private LocalDevice createDevice() throws ValidationException,
-			LocalServiceBindingException, IOException {
+	private LocalDevice createDevice() throws ValidationException, LocalServiceBindingException, IOException {
 
-		DeviceIdentity identity = new DeviceIdentity(
-				UDN.uniqueSystemIdentifier("Phoenix Media Server 1.0"));
+		DeviceIdentity identity = new DeviceIdentity(UDN.uniqueSystemIdentifier("Phoenix Media Server 1.0"));
 
 		DeviceType type = new UDADeviceType("MediaServer", 1);
 
-		DeviceDetails details = new DeviceDetails("Phoenix Media Server",
-				new ManufacturerDetails("Phoenix"), new ModelDetails(
-						"PhoenixMediaServer", "Phoenix Media Server", "v1"));
+		DeviceDetails details = new DeviceDetails("Phoenix Media Server", new ManufacturerDetails("Phoenix"), new ModelDetails(
+				"PhoenixMediaServer", "Phoenix Media Server", "v1"));
 
 		Icon icon = new Icon(ImageUtil.DEFAULT_IMAGE_MIME_TYPE, 48, 48, 8, getClass().getResource(
-				"icon."+ImageUtil.DEFAULT_IMAGE_FORMAT));
+				"icon." + ImageUtil.DEFAULT_IMAGE_FORMAT));
 
 		LocalService<VFSContentDirectoryService> vfsService = new AnnotationLocalServiceBinder()
 				.read(VFSContentDirectoryService.class);
 
-		vfsService.setManager(new DefaultServiceManager(vfsService,
-				VFSContentDirectoryService.class));
+		vfsService.setManager(new DefaultServiceManager(vfsService, VFSContentDirectoryService.class));
 
 		return new LocalDevice(identity, type, details, icon, vfsService);
 
@@ -157,7 +149,7 @@ public class PhoenixUPNPServer {
 	}
 
 	public Collection<Device> getMediaServers() {
-		if (service==null) {
+		if (service == null) {
 			log.warn("getMediaServers(): UPnP Service is not active.");
 			return null;
 		}
@@ -165,17 +157,17 @@ public class PhoenixUPNPServer {
 	}
 
 	public Collection<Device> getMediaServers(String regex) {
-		if (service==null) {
+		if (service == null) {
 			log.warn("getMediaServers(): UPnP Service is not active.");
 			return null;
 		}
-		
+
 		Pattern p = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-		
+
 		List<Device> reply = new ArrayList<Device>();
 		Collection<Device> devs = service.getRegistry().getDevices(SUPPORTED_MEDIA_SERVER_TYPE);
-		if (devs!=null) {
-			for (Device d: devs) {
+		if (devs != null) {
+			for (Device d : devs) {
 				Matcher m = p.matcher(d.getDetails().getFriendlyName());
 				if (m.find()) {
 					reply.add(d);
@@ -188,17 +180,17 @@ public class PhoenixUPNPServer {
 	public UpnpService getService() {
 		return service;
 	}
-	
+
 	public void executeAsync(ActionCallback action) {
-		if (service==null) {
+		if (service == null) {
 			log.warn("executeAsync(): UPnP Service is not active.");
 			return;
 		}
 		service.getControlPoint().execute(action);
 	}
-	
+
 	public void executeAndWait(ActionCallback action) {
-		if (service==null) {
+		if (service == null) {
 			log.warn("executeAndWait(): UPnP Service is not active.");
 			return;
 		}

@@ -68,29 +68,20 @@ public class TVDBItemParser {
 				md.setMediaProviderDataID(result.getId());
 
 				// update with the query args, and then overwrite if needed
-				md.setSeasonNumber(NumberUtils.toInt(result.getExtra().get(
-						SearchQuery.Field.SEASON.name())));
-				md.setEpisodeNumber(NumberUtils.toInt(result.getExtra().get(
-						SearchQuery.Field.EPISODE.name())));
-				md.setDiscNumber(NumberUtils.toInt(result.getExtra().get(
-						SearchQuery.Field.DISC.name())));
-				md.setOriginalAirDate(DateUtils.parseDate(result.getExtra()
-						.get(SearchQuery.Field.EPISODE_DATE.name())));
+				md.setSeasonNumber(NumberUtils.toInt(result.getExtra().get(SearchQuery.Field.SEASON.name())));
+				md.setEpisodeNumber(NumberUtils.toInt(result.getExtra().get(SearchQuery.Field.EPISODE.name())));
+				md.setDiscNumber(NumberUtils.toInt(result.getExtra().get(SearchQuery.Field.DISC.name())));
+				md.setOriginalAirDate(DateUtils.parseDate(result.getExtra().get(SearchQuery.Field.EPISODE_DATE.name())));
 				md.setMediaType(result.getMediaType().sageValue());
 
 				addSeriesInfo(md);
 
-				String season = result.getExtra().get(
-						SearchQuery.Field.SEASON.name());
-				String episode = result.getExtra().get(
-						SearchQuery.Field.EPISODE.name());
-				String date = result.getExtra().get(
-						SearchQuery.Field.EPISODE_DATE.name());
-				String title = result.getExtra().get(
-						SearchQuery.Field.EPISODE_TITLE.name());
+				String season = result.getExtra().get(SearchQuery.Field.SEASON.name());
+				String episode = result.getExtra().get(SearchQuery.Field.EPISODE.name());
+				String date = result.getExtra().get(SearchQuery.Field.EPISODE_DATE.name());
+				String title = result.getExtra().get(SearchQuery.Field.EPISODE_TITLE.name());
 
-				if (!StringUtils.isEmpty(season)
-						&& !StringUtils.isEmpty(episode)) {
+				if (!StringUtils.isEmpty(season) && !StringUtils.isEmpty(episode)) {
 					addSeasonEpisodeInfo(md, season, episode);
 				}
 
@@ -131,8 +122,7 @@ public class TVDBItemParser {
 			} catch (MetadataException me) {
 				throw me;
 			} catch (Throwable e) {
-				throw new MetadataException("Failed while parsing series: "
-						+ result, e);
+				throw new MetadataException("Failed while parsing series: " + result, e);
 			}
 		}
 
@@ -140,8 +130,7 @@ public class TVDBItemParser {
 	}
 
 	private void addSeriesInfo(IMetadata md) throws Exception {
-		ISeriesInfo info = ((ITVMetadataProvider) provider).getSeriesInfo(md
-				.getMediaProviderDataID());
+		ISeriesInfo info = ((ITVMetadataProvider) provider).getSeriesInfo(md.getMediaProviderDataID());
 		// copy some of the series info to the IMetadata object
 		md.getActors().addAll(info.getCast());
 		md.setParentalRating(MetadataUtil.fixContentRating(MediaType.TV, info.getContentRating()));
@@ -154,55 +143,43 @@ public class TVDBItemParser {
 		md.setRunningTime(info.getRuntime());
 	}
 
-	private void updateMetadataFromUrl(IMetadata md, String episodeUrl)
-			throws Exception {
+	private void updateMetadataFromUrl(IMetadata md, String episodeUrl) throws Exception {
 		log.info("TVDB Episode: " + episodeUrl);
 		IUrl url = UrlFactory.newUrl(episodeUrl);
 		Document doc = DOMUtils.parseDocument(url);
-		Element el = DOMUtils.getElementByTagName(doc.getDocumentElement(),	"Episode");
+		Element el = DOMUtils.getElementByTagName(doc.getDocumentElement(), "Episode");
 		updateMetadataFromElement(md, el);
 	}
 
 	private void updateMetadataFromElement(IMetadata md, Element el) {
-		md.setSeasonNumber(NumberUtils.toInt(DOMUtils.getElementValue(el,
-				"SeasonNumber")));
-		md.setEpisodeNumber(NumberUtils.toInt(DOMUtils.getElementValue(el,
-				"EpisodeNumber")));
-		md.setEpisodeName(sagex.phoenix.util.StringUtils.unquote(DOMUtils
-				.getElementValue(el, "EpisodeName")));
+		md.setSeasonNumber(NumberUtils.toInt(DOMUtils.getElementValue(el, "SeasonNumber")));
+		md.setEpisodeNumber(NumberUtils.toInt(DOMUtils.getElementValue(el, "EpisodeNumber")));
+		md.setEpisodeName(sagex.phoenix.util.StringUtils.unquote(DOMUtils.getElementValue(el, "EpisodeName")));
 
 		// actually this is redundant because the tvdb is already YYYY-MM-DD,
 		// but this will
 		// ensure that we are safe if out internal mask changes
-		md.setOriginalAirDate(DateUtils.parseDate(DOMUtils.getElementValue(el,
-				"FirstAired")));
+		md.setOriginalAirDate(DateUtils.parseDate(DOMUtils.getElementValue(el, "FirstAired")));
 		// YEAR is not set for TV Metadata, we get that from the Series Info
-		//md.setYear(DateUtils.parseYear(DOMUtils.getElementValue(el,
-		//		"FirstAired")));
+		// md.setYear(DateUtils.parseYear(DOMUtils.getElementValue(el,
+		// "FirstAired")));
 		md.setDescription(DOMUtils.getElementValue(el, "Overview"));
-		md.setUserRating(MetadataSearchUtil.parseUserRating(DOMUtils
-				.getElementValue(el, "Rating")));
+		md.setUserRating(MetadataSearchUtil.parseUserRating(DOMUtils.getElementValue(el, "Rating")));
 		md.setIMDBID(DOMUtils.getElementValue(el, "IMDB_ID"));
 
 		String epImage = DOMUtils.getElementValue(el, "filename");
 		if (!StringUtils.isEmpty(epImage)) {
 			// Added for EvilPenguin
 			md.getFanart().add(
-					new MediaArt(MediaArtifactType.EPISODE,
-							TVDBMetadataProvider.getFanartURL(epImage), md
-									.getSeasonNumber()));
+					new MediaArt(MediaArtifactType.EPISODE, TVDBMetadataProvider.getFanartURL(epImage), md.getSeasonNumber()));
 		}
 
-		addCastMember(md, DOMUtils.getElementValue(el, "GuestStars"), "Guest",
-				md.getGuests());
-		addCastMember(md, DOMUtils.getElementValue(el, "Writer"), "Writer",
-				md.getWriters());
-		addCastMember(md, DOMUtils.getElementValue(el, "Director"), "Director",
-				md.getDirectors());
+		addCastMember(md, DOMUtils.getElementValue(el, "GuestStars"), "Guest", md.getGuests());
+		addCastMember(md, DOMUtils.getElementValue(el, "Writer"), "Writer", md.getWriters());
+		addCastMember(md, DOMUtils.getElementValue(el, "Director"), "Director", md.getDirectors());
 	}
 
-	private void addCastMember(IMetadata md, String strSplit, String part,
-			List<ICastMember> cast) {
+	private void addCastMember(IMetadata md, String strSplit, String part, List<ICastMember> cast) {
 		if (!StringUtils.isEmpty(strSplit)) {
 			String directorsArr[] = strSplit.split("[,\\|]");
 			for (String d : directorsArr) {
@@ -218,10 +195,10 @@ public class TVDBItemParser {
 
 	private void addSeasonEpisodeInfoByDate(IMetadata md, String date) {
 		try {
-			//tvdb requires dashes not dots
-			if (date!=null) date=date.replace('.', '-');
-			String allurl = MessageFormat.format(EPISODE_BY_DATE_URL,
-					TVDBMetadataProvider.getApiKey(), result.getId(), date);
+			// tvdb requires dashes not dots
+			if (date != null)
+				date = date.replace('.', '-');
+			String allurl = MessageFormat.format(EPISODE_BY_DATE_URL, TVDBMetadataProvider.getApiKey(), result.getId(), date);
 			log.info("TVDB date: " + allurl);
 
 			IUrl url = UrlFactory.newUrl(allurl);
@@ -238,16 +215,14 @@ public class TVDBItemParser {
 				addSeasonEpisodeInfo(md, season, episode);
 			}
 		} catch (Exception e) {
-			log.warn("Failed to get season/episode specific information for "
-					+ result.getId() + "; Date: " + date, e);
+			log.warn("Failed to get season/episode specific information for " + result.getId() + "; Date: " + date, e);
 		}
 
 	}
 
 	private void addSeasonEpisodeInfoByTitle(IMetadata md, String title) {
 		try {
-			String allurl = MessageFormat.format(EPISODE_BY_TITLE,
-					TVDBMetadataProvider.getApiKey(), result.getId(),
+			String allurl = MessageFormat.format(EPISODE_BY_TITLE, TVDBMetadataProvider.getApiKey(), result.getId(),
 					config.getLanguage());
 			log.info("TVDB Title: " + allurl);
 			IUrl url = UrlFactory.newUrl(allurl);
@@ -257,8 +232,7 @@ public class TVDBItemParser {
 			boolean updated = updateIfScored(nl, title, 1.0f);
 			if (!updated) {
 				float matchScore = 0.8f;
-				log.debug("Couldn't find an exact title match, so using a fuzzy match score of "
-						+ matchScore);
+				log.debug("Couldn't find an exact title match, so using a fuzzy match score of " + matchScore);
 
 				// do another search, this time use a less sensitive matching
 				// criteria
@@ -279,12 +253,10 @@ public class TVDBItemParser {
 		for (int i = 0; i < s; i++) {
 			Element el = (Element) nl.item(i);
 			String epTitle = DOMUtils.getElementValue(el, "EpisodeName");
-			float score = MetadataSearchUtil.calculateCompressedScore(title,
-					epTitle);
+			float score = MetadataSearchUtil.calculateCompressedScore(title, epTitle);
 
 			if (score >= scoreToMatch) {
-				log.debug("Found a title match: " + epTitle
-						+ "; Updating Metadata.");
+				log.debug("Found a title match: " + epTitle + "; Updating Metadata.");
 				updateMetadataFromElement(md, el);
 				updated = true;
 				break;
@@ -293,27 +265,23 @@ public class TVDBItemParser {
 		return updated;
 	}
 
-	private void addSeasonEpisodeInfo(IMetadata md, String season,
-			String episode) {
+	private void addSeasonEpisodeInfo(IMetadata md, String season, String episode) {
 		int inSeason = NumberUtils.toInt(season, -1);
 		int inEpisode = NumberUtils.toInt(episode, -1);
 
 		if (inSeason > 0 && inEpisode > 0) {
 			try {
-				updateMetadataFromUrl(md, MessageFormat.format(
-						SEASON_EPISODE_URL, TVDBMetadataProvider.getApiKey(),
-						result.getId(), String.valueOf(inSeason),
-						String.valueOf(inEpisode), config.getLanguage()));
+				updateMetadataFromUrl(
+						md,
+						MessageFormat.format(SEASON_EPISODE_URL, TVDBMetadataProvider.getApiKey(), result.getId(),
+								String.valueOf(inSeason), String.valueOf(inEpisode), config.getLanguage()));
 			} catch (Exception e) {
-				log.warn(
-						"Failed to get season/episode specific information for "
-								+ result.getId() + "; Season: " + season
-								+ "; episode: " + episode, e);
+				log.warn("Failed to get season/episode specific information for " + result.getId() + "; Season: " + season
+						+ "; episode: " + episode, e);
 			}
 		} else {
 			// TODO: Someday, allow for Season 0 and specials
-			log.warn("Can't do lookup by season/epsidoe for season: " + season
-					+ "; episode: " + episode);
+			log.warn("Can't do lookup by season/epsidoe for season: " + season + "; episode: " + episode);
 		}
 	}
 
@@ -321,8 +289,7 @@ public class TVDBItemParser {
 		int inSeason = NumberUtils.toInt(season, -9);
 		try {
 			if (banners == null) {
-				String seriesUrl = MessageFormat.format(BANNERS_URL,
-						TVDBMetadataProvider.getApiKey(), result.getId());
+				String seriesUrl = MessageFormat.format(BANNERS_URL, TVDBMetadataProvider.getApiKey(), result.getId());
 				log.info("Parsing TVDB Banners url: " + seriesUrl);
 				IUrl url = UrlFactory.newUrl(seriesUrl);
 				banners = DOMUtils.parseDocument(url);
@@ -333,9 +300,8 @@ public class TVDBItemParser {
 				Element el = (Element) nl.item(i);
 
 				String lang = DOMUtils.getElementValue(el, "Language");
-				if (StringUtils.isEmpty(lang) || lang.equals("en")
-						|| lang.equals(config.getLanguage())) {
-					
+				if (StringUtils.isEmpty(lang) || lang.equals("en") || lang.equals(config.getLanguage())) {
+
 					String type = DOMUtils.getElementValue(el, "BannerType");
 
 					MediaArt ma = null;
@@ -349,11 +315,9 @@ public class TVDBItemParser {
 						ma = new MediaArt();
 						ma.setType(MediaArtifactType.BANNER);
 					} else if ("season".equals(type)) {
-						int seasonNum = DOMUtils.getElementIntValue(el,
-								"Season", -1);
+						int seasonNum = DOMUtils.getElementIntValue(el, "Season", -1);
 						if (seasonNum == inSeason) {
-							String type2 = DOMUtils.getElementValue(el,
-									"BannerType2");
+							String type2 = DOMUtils.getElementValue(el, "BannerType2");
 							if ("season".equals(type2)) {
 								ma = new MediaArt();
 								ma.setType(MediaArtifactType.POSTER);
@@ -361,8 +325,7 @@ public class TVDBItemParser {
 								ma = new MediaArt();
 								ma.setType(MediaArtifactType.BANNER);
 							} else {
-								log.debug("Unhandled Season Banner Type2: "
-										+ type2);
+								log.debug("Unhandled Season Banner Type2: " + type2);
 							}
 							if (ma != null) {
 								ma.setSeason(seasonNum);
@@ -373,8 +336,7 @@ public class TVDBItemParser {
 					}
 
 					if (ma != null) {
-						addFanartUrl(md, ma,
-								DOMUtils.getElementValue(el, "BannerPath"));
+						addFanartUrl(md, ma, DOMUtils.getElementValue(el, "BannerPath"));
 					}
 				}
 			}

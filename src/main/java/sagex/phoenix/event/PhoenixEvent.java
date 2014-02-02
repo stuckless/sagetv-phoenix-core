@@ -5,15 +5,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to use on a method of class that will accept a PhoenixEvent, which is proxy
- * for the SageTV event system.
+ * Annotation to use on a method of class that will accept a PhoenixEvent, which
+ * is proxy for the SageTV event system.
  * 
- * Methods must have a signature of (String, Map) which is the EventName, EventArgs
+ * Methods must have a signature of (String, Map) which is the EventName,
+ * EventArgs
  * 
  * @author sean
  */
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = java.lang.annotation.ElementType.METHOD)
 public @interface PhoenixEvent {
-    String value();
+	String value();
 }

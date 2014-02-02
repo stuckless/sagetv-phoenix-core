@@ -7,9 +7,9 @@ import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.VFSManager;
 
 public class SourcesBuilder extends FactoryItemBuilder<Factory<IMediaFolder>> {
-    public SourcesBuilder(VFSManager mgr) {
-        super(mgr,"sources");
-    }
+	public SourcesBuilder(VFSManager mgr) {
+		super(mgr, "sources");
+	}
 
 	@Override
 	protected Factory<IMediaFolder> createFactory(String className) throws SAXException {

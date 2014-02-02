@@ -1,6 +1,5 @@
 package sagex.phoenix.upnp;
 
-
 import org.fourthline.cling.model.meta.Device;
 import org.fourthline.cling.model.types.UDAServiceType;
 

@@ -6,6 +6,7 @@ public class MediaControlInfo {
 
 	/**
 	 * Streamable URL from which client can access the media stream
+	 * 
 	 * @param indexFile
 	 */
 	public void setMediaUrl(String indexFile) {
@@ -17,13 +18,14 @@ public class MediaControlInfo {
 	}
 
 	/**
-	 * Physical file on the filesystem that needs to exist before we can return.  If this is
-	 * null, then no 'waiting' will occur.  Typically this is just the physical file for the
-	 * media url
+	 * Physical file on the filesystem that needs to exist before we can return.
+	 * If this is null, then no 'waiting' will occur. Typically this is just the
+	 * physical file for the media url
+	 * 
 	 * @param lockFile
 	 */
 	public void setLockFile(String lockFile) {
-		this.lockFile=lockFile;
+		this.lockFile = lockFile;
 	}
 
 	public String getLockFile() {

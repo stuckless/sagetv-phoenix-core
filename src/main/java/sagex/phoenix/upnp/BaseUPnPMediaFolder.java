@@ -22,11 +22,11 @@ public class BaseUPnPMediaFolder extends VirtualOnlineMediaFolder {
 	protected Service service = null;
 	protected String browseId = null;
 	protected boolean loaded = false;
-	
-	public BaseUPnPMediaFolder(IMediaFolder parent, String id, Object resource,	String title) {
+
+	public BaseUPnPMediaFolder(IMediaFolder parent, String id, Object resource, String title) {
 		super(parent, id, resource, title);
 	}
-	
+
 	@Override
 	protected void populateChildren(final List<IMediaResource> list) {
 		final ElapsedTimer t = new ElapsedTimer();
@@ -36,7 +36,7 @@ public class BaseUPnPMediaFolder extends VirtualOnlineMediaFolder {
 			public void received(ActionInvocation action, DIDLContent didl) {
 				populateContent(list, didl);
 				log.debug("Fetched UPnP resources for " + getBrowseId() + " is " + t.delta() + "ms");
-				loaded=true;
+				loaded = true;
 			}
 
 			@Override
@@ -48,37 +48,37 @@ public class BaseUPnPMediaFolder extends VirtualOnlineMediaFolder {
 				log.warn("Failed to browse UPNP Device; Error: " + arg2);
 				list.clear();
 				list.add(new DummyMediaFile("ERROR: " + arg2));
-				
+
 				// will force a reload if necessary
-				loaded=false;
+				loaded = false;
 				setChanged(true);
 			}
 		};
 
 		Phoenix.getInstance().getUPnPServer().executeAndWait(browse);
-		//loaded=false;
-		//Phoenix.getInstance().getUPnPServer().executeAsync(browse);
-		
+		// loaded=false;
+		// Phoenix.getInstance().getUPnPServer().executeAsync(browse);
+
 		// wait for the videos to load for 5 seconds
-		//isLoaded(OnlineViewFolder.FOLDER_TIMEOUT);
+		// isLoaded(OnlineViewFolder.FOLDER_TIMEOUT);
 	}
 
 	protected void populateContent(List<IMediaResource> list, DIDLContent didl) {
-		if (didl!=null) {
+		if (didl != null) {
 			addFolders(list, didl);
 			addItems(list, didl);
 		}
 	}
 
 	private void addItems(List<IMediaResource> list, DIDLContent didl) {
-		for (Item i: didl.getItems()) {
+		for (Item i : didl.getItems()) {
 			UPnPMediaFile mf = new UPnPMediaFile(this, service, i);
 			list.add(mf);
 		}
 	}
 
 	private void addFolders(List<IMediaResource> list, DIDLContent didl) {
-		for (Container c: didl.getContainers()) {
+		for (Container c : didl.getContainers()) {
 			UPnPMediaFolder mf = new UPnPMediaFolder(this, service, c);
 			list.add(mf);
 		}
@@ -99,21 +99,24 @@ public class BaseUPnPMediaFolder extends VirtualOnlineMediaFolder {
 	public void setBrowseId(String browseId) {
 		this.browseId = browseId;
 	}
-	
+
 	/**
-	 * Returns true is the folder has been loaded.  Returns false if the folder could not be loaded within
-	 * the waitFor timeout millisecods.  For exmample, if you need to cause the folder items to load, and you
-	 * need those items before you can continue then call isLoaded() and check for true.  For online videos
-	 * getChildren() will always return a list, even if the list has not been loaded, so this method blocks until the
-	 * list is fully loaded.
+	 * Returns true is the folder has been loaded. Returns false if the folder
+	 * could not be loaded within the waitFor timeout millisecods. For exmample,
+	 * if you need to cause the folder items to load, and you need those items
+	 * before you can continue then call isLoaded() and check for true. For
+	 * online videos getChildren() will always return a list, even if the list
+	 * has not been loaded, so this method blocks until the list is fully
+	 * loaded.
 	 * 
 	 * @param waitFor
 	 * @return
 	 */
 	public boolean isLoaded(long waitFor) {
 		long expired = System.currentTimeMillis() + waitFor;
-		while (System.currentTimeMillis()<expired) {
-			if (loaded) return true;
+		while (System.currentTimeMillis() < expired) {
+			if (loaded)
+				return true;
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
@@ -139,6 +142,5 @@ public class BaseUPnPMediaFolder extends VirtualOnlineMediaFolder {
 		}
 		return null;
 	}
-	
-	
+
 }

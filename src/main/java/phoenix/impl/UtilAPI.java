@@ -87,8 +87,7 @@ public class UtilAPI {
 		} else if (objects instanceof List) {
 			Collections.shuffle((List) objects);
 		} else {
-			log.error("Can't Shuffle Object Type: "
-					+ objects.getClass().getName());
+			log.error("Can't Shuffle Object Type: " + objects.getClass().getName());
 		}
 		return objects;
 	}
@@ -113,8 +112,7 @@ public class UtilAPI {
 			return null;
 		try {
 			if (array.getClass().isArray()) {
-				return subList(Arrays.asList((Object[]) array), start, length)
-						.toArray();
+				return subList(Arrays.asList((Object[]) array), start, length).toArray();
 			} else if (array instanceof List) {
 				return subList((List) array, start, length);
 			} else {
@@ -238,7 +236,7 @@ public class UtilAPI {
 		String relPath = MediaFileAPI.GetMediaFileRelativePath(mf);
 
 		int oldID = MediaFileAPI.GetMediaFileID(mf);
-		
+
 		File f[] = MediaFileAPI.GetSegmentFiles(mf);
 		if (f.length > 1) {
 			log.error("MediaFile has more than 1 File Segments; " + mf);
@@ -251,8 +249,7 @@ public class UtilAPI {
 		log.info("Renaming file to " + tmp);
 		boolean rename = Utility.RenameFilePath(cur, tmp);
 		if (!rename) {
-			log.error("Failed to rename mediafile: " + cur.getAbsolutePath()
-					+ "; to tmp file: " + tmp.getAbsolutePath());
+			log.error("Failed to rename mediafile: " + cur.getAbsolutePath() + "; to tmp file: " + tmp.getAbsolutePath());
 			return null;
 		}
 
@@ -261,10 +258,8 @@ public class UtilAPI {
 		if (!MediaFileAPI.DeleteFileWithoutPrejudice(mf)) {
 			log.error("Failed to delete mediafile: " + mf);
 			if (!Utility.RenameFilePath(tmp, cur)) {
-				log.error("Failed to rename the failed mediafile back to it's original filename: "
-						+ cur.getAbsolutePath()
-						+ "; Currently Named file is: "
-						+ tmp.getAbsolutePath());
+				log.error("Failed to rename the failed mediafile back to it's original filename: " + cur.getAbsolutePath()
+						+ "; Currently Named file is: " + tmp.getAbsolutePath());
 			}
 			return null;
 		}
@@ -272,28 +267,26 @@ public class UtilAPI {
 		if (cur.exists()) {
 			log.warn("Current file still exists, rename must have failed for " + cur);
 		}
-		
+
 		// original is deleted, now lets rename the old back
 		if (!Utility.RenameFilePath(tmp, cur)) {
-			log.error("Failed to rename the failed mediafile back to it's original filename: "
-					+ cur.getAbsolutePath()
-					+ "; Currently Named file is: "
-					+ tmp.getAbsolutePath());
+			log.error("Failed to rename the failed mediafile back to it's original filename: " + cur.getAbsolutePath()
+					+ "; Currently Named file is: " + tmp.getAbsolutePath());
 			return null;
 		}
-		
+
 		log.info("Adding MediaFile back to SageTV: " + cur);
 		// now add the original back into the library
 		if (relPath == null)
 			relPath = cur.getAbsolutePath();
 		mf = MediaFileAPI.AddMediaFile(cur, relPath);
 		if (mf == null) {
-			log.error("Failed to add new file to library: "
-					+ cur.getAbsolutePath());
+			log.error("Failed to add new file to library: " + cur.getAbsolutePath());
 			return null;
 		}
 
-		log.info("MediaFile has been stripped of metadata; oldID: " + oldID + "; newID: " + MediaFileAPI.GetMediaFileID(mf) + "; Sage MediaFile: " + mf);
+		log.info("MediaFile has been stripped of metadata; oldID: " + oldID + "; newID: " + MediaFileAPI.GetMediaFileID(mf)
+				+ "; Sage MediaFile: " + mf);
 		return mf;
 	}
 
@@ -327,8 +320,7 @@ public class UtilAPI {
 	 * By Calling this from the UI,
 	 */
 	public void InitializePhoenixContext(String UIContextName) {
-		log.info("InitializePhoenixContext() called with context "
-				+ UIContextName);
+		log.info("InitializePhoenixContext() called with context " + UIContextName);
 		// initializes the Sagex API to use a UI Context for all calls in this
 		// thread
 		SageAPI.setUIContext(UIContextName);
@@ -376,9 +368,7 @@ public class UtilAPI {
 		}
 
 		if (all == null || mediaPath == null) {
-			log.warn("Missing Sources or MediaFile; Sources: "
-					+ ArrayUtils.toString(all, "No Files") + "; MediaFile: "
-					+ mediaPath);
+			log.warn("Missing Sources or MediaFile; Sources: " + ArrayUtils.toString(all, "No Files") + "; MediaFile: " + mediaPath);
 			return null;
 		}
 
@@ -387,14 +377,13 @@ public class UtilAPI {
 
 			if (mediaPath.startsWith(basePath)) {
 				String path = mediaPath.substring(basePath.length() + 1);
-				log.debug("Returning Relative Path: " + path + " for item: "
-						+ mediaPath);
+				log.debug("Returning Relative Path: " + path + " for item: " + mediaPath);
 				return path;
 			}
 		}
 
-		log.warn("Could not find the relative path for mediafile: " + mediaFile
-				+ "; sources: " + ArrayUtils.toString(all, "No Sources"));
+		log.warn("Could not find the relative path for mediafile: " + mediaFile + "; sources: "
+				+ ArrayUtils.toString(all, "No Sources"));
 		// we have nothing
 		return null;
 	}
@@ -502,8 +491,7 @@ public class UtilAPI {
 			if (reg != null) {
 				regex.append(reg);
 			} else {
-				log.debug("Invalid Charact for KeyPad Regex Search: "
-						+ numbers.charAt(i) + " in " + numbers);
+				log.debug("Invalid Charact for KeyPad Regex Search: " + numbers.charAt(i) + " in " + numbers);
 			}
 		}
 		log.debug("KeyPad Search Regex: " + regex);
@@ -558,63 +546,76 @@ public class UtilAPI {
 	}
 
 	/**
-	 * Returns true if this is an extender.  An extender is defined as being a RemoteUI, but
-	 * it does not have a DesktopUI.  Extenders are similar to Placeshifters, except that
-	 * Placeshifters have a DesktopUI.  Like a Placeshifter, extenders run in the same JVM
-	 * space as the Server.
+	 * Returns true if this is an extender. An extender is defined as being a
+	 * RemoteUI, but it does not have a DesktopUI. Extenders are similar to
+	 * Placeshifters, except that Placeshifters have a DesktopUI. Like a
+	 * Placeshifter, extenders run in the same JVM space as the Server.
 	 * 
-	 * @param ctx UIContext to test, can be null. if it is null, the context will be discovered.
+	 * @param ctx
+	 *            UIContext to test, can be null. if it is null, the context
+	 *            will be discovered.
 	 * @return
 	 */
 	public boolean IsExtender(UIContext ctx) {
-		ctx = (ctx!=null)?ctx:new UIContext(Global.GetUIContextName());
+		ctx = (ctx != null) ? ctx : new UIContext(Global.GetUIContextName());
 		return (Global.IsRemoteUI(ctx) && !Global.IsDesktopUI(ctx));
 	}
 
 	/**
-	 * Returns true if this is a placeshifter.  Al placeshifter has a DesktopUI and it is Remote,
-	 * but it is not a Client (as per Global.IsClient).  A Placeshifter runs the same JVM
-	 * instance of the Server.
+	 * Returns true if this is a placeshifter. Al placeshifter has a DesktopUI
+	 * and it is Remote, but it is not a Client (as per Global.IsClient). A
+	 * Placeshifter runs the same JVM instance of the Server.
 	 * 
-	 * @param ctx UIContext to test, can be null. if it is null, the context will be discovered.
+	 * @param ctx
+	 *            UIContext to test, can be null. if it is null, the context
+	 *            will be discovered.
 	 * @return
 	 */
 	public boolean IsPlaceshifter(UIContext ctx) {
-		ctx = (ctx!=null)?ctx:new UIContext(Global.GetUIContextName());
+		ctx = (ctx != null) ? ctx : new UIContext(Global.GetUIContextName());
 		return (Global.IsRemoteUI(ctx) && Global.IsDesktopUI(ctx)) && !Global.IsClient(ctx);
 	}
 
 	/**
-	 * Returns true if the Server Resources are local to the caller.  ie, Extenders, Placeshifters,
-	 * and ServerUI all can access the Server Resources (ie, files) locally.
+	 * Returns true if the Server Resources are local to the caller. ie,
+	 * Extenders, Placeshifters, and ServerUI all can access the Server
+	 * Resources (ie, files) locally.
 	 * 
-	 * @param ctx UIContext to test, can be null. if it is null, the context will be discovered.
+	 * @param ctx
+	 *            UIContext to test, can be null. if it is null, the context
+	 *            will be discovered.
 	 * @return
 	 */
 	public boolean IsServerLocal(UIContext ctx) {
-		if (ctx==null || ctx.getName()==null) {
+		if (ctx == null || ctx.getName() == null) {
 			String name = Global.GetUIContextName();
-			
-			// basically if we don't have context, it's because we are running as the server.
-			if (name==null) return true;
-			
+
+			// basically if we don't have context, it's because we are running
+			// as the server.
+			if (name == null)
+				return true;
+
 			ctx = new UIContext(name);
 		}
-		
+
 		return (Global.IsServerUI(ctx) || IsExtender(ctx) || IsPlaceshifter(ctx));
 	}
 
-
 	/**
-	 * Given a Path (String or File) return an array of files that match the extensions passed.
+	 * Given a Path (String or File) return an array of files that match the
+	 * extensions passed.
 	 * 
-	 * @param path source directory (string or file)
-	 * @param exts array of extensions ie {"jpg","gif","png"}
-	 * @param recurse if true, then subdirectories will be searched as well
+	 * @param path
+	 *            source directory (string or file)
+	 * @param exts
+	 *            array of extensions ie {"jpg","gif","png"}
+	 * @param recurse
+	 *            if true, then subdirectories will be searched as well
 	 * @return File array or null, if no files were found
 	 */
 	public File[] GetFiles(Object path, String[] exts, boolean recurse) {
-		if (path==null) return null;
+		if (path == null)
+			return null;
 		File f = null;
 		if (path instanceof File) {
 			f = (File) path;
@@ -624,20 +625,23 @@ public class UtilAPI {
 			log.warn("GetFiles(): Can't determine type for " + path);
 			return null;
 		}
-		
+
 		if (!f.exists()) {
 			return null;
 		}
-		
-		File[] files = new ArrayList<File>(FileUtils.listFiles(f, exts, recurse)).toArray(new File[]{});
-		if (files.length==0) return null;
+
+		File[] files = new ArrayList<File>(FileUtils.listFiles(f, exts, recurse)).toArray(new File[] {});
+		if (files.length == 0)
+			return null;
 		return files;
 	}
-	
+
 	/**
-	 * Returns all the image files (jpg, png, and gif) for the given path.  Will not search subdirectories.
+	 * Returns all the image files (jpg, png, and gif) for the given path. Will
+	 * not search subdirectories.
 	 * 
-	 * @param path source path as a String or File
+	 * @param path
+	 *            source path as a String or File
 	 * 
 	 * @return {@link File} array or null if nothing was found.
 	 */
@@ -653,53 +657,62 @@ public class UtilAPI {
 	 * @return
 	 */
 	public int ToInt(Object data, int def) {
-		if (data==null) return def;
+		if (data == null)
+			return def;
 		return NumberUtils.toInt(data.toString(), def);
 	}
 
 	/**
 	 * Converts an object to long
+	 * 
 	 * @param data
 	 * @param def
 	 * @return
 	 */
 	public long ToLong(Object data, long def) {
-		if (data==null) return def;
+		if (data == null)
+			return def;
 		return NumberUtils.toLong(data.toString(), def);
 	}
-	
+
 	/**
 	 * Converts an object to float
+	 * 
 	 * @param data
 	 * @param def
 	 * @return
 	 */
 	public float ToFloat(Object data, float def) {
-		if (data==null) return def;
+		if (data == null)
+			return def;
 		return NumberUtils.toFloat(data.toString(), def);
 	}
 
 	/**
 	 * Converts and object to double
+	 * 
 	 * @param data
 	 * @param def
 	 * @return
 	 */
 	public double ToDouble(Object data, double def) {
-		if (data==null) return def;
+		if (data == null)
+			return def;
 		return NumberUtils.toDouble(data.toString(), def);
 	}
-	
+
 	/**
 	 * Converts an object to boolean
+	 * 
 	 * @param data
 	 * @return
 	 */
 	public boolean ToBoolean(Object data) {
-		if (data==null) return false;
+		if (data == null)
+			return false;
 		return BooleanUtils.toBoolean(data.toString());
 	}
-	
+
 	/**
 	 * Converts object to int using 0 as the default
 	 * 
@@ -709,7 +722,7 @@ public class UtilAPI {
 	public int ToInt(Object data) {
 		return ToInt(data, 0);
 	}
-	
+
 	/**
 	 * Converts object to long using 0 as the default
 	 * 
@@ -739,32 +752,38 @@ public class UtilAPI {
 	public double ToDouble(Object data) {
 		return ToDouble(data, 0d);
 	}
-	
+
 	/**
-	 * Moves the given item down the list... ie, closer to the bottom or end of the list
+	 * Moves the given item down the list... ie, closer to the bottom or end of
+	 * the list
 	 * 
-	 * @param list list the holds the element
-	 * @param el element to move
+	 * @param list
+	 *            list the holds the element
+	 * @param el
+	 *            element to move
 	 */
 	public void MoveDown(List list, Object el) {
-		if (list!=null&&el!=null) {
+		if (list != null && el != null) {
 			int p = list.indexOf(el);
-			if (p==-1 || (p+1)>=list.size()) return;
-			Collections.swap(list, p, p+1);
+			if (p == -1 || (p + 1) >= list.size())
+				return;
+			Collections.swap(list, p, p + 1);
 		}
 	}
-	
+
 	/**
-	 * Much like the SageTV EvaluateExpression except that it will process multiple commands
-	 * separated by semi colons
+	 * Much like the SageTV EvaluateExpression except that it will process
+	 * multiple commands separated by semi colons
+	 * 
 	 * @param cmds
 	 * @return
 	 */
 	public Object[] Eval(String cmds) {
-		if (cmds==null) return null;
+		if (cmds == null)
+			return null;
 		String cmdarr[] = cmds.split("\\s*;\\s*");
 		Object replies[] = new Object[cmdarr.length];
-		for (int i=0;i<cmdarr.length;i++) {
+		for (int i = 0; i < cmdarr.length; i++) {
 			try {
 				replies[i] = WidgetAPI.EvaluateExpression(cmdarr[i]);
 			} catch (Throwable e) {
@@ -775,30 +794,38 @@ public class UtilAPI {
 	}
 
 	/**
-	 * Moves the given item up the list... ie, closer to the top or start of the list
+	 * Moves the given item up the list... ie, closer to the top or start of the
+	 * list
 	 * 
-	 * @param list list the holds the element
-	 * @param el element to move
+	 * @param list
+	 *            list the holds the element
+	 * @param el
+	 *            element to move
 	 */
 	public void MoveUp(List list, Object el) {
-		if (list!=null&&el!=null) {
+		if (list != null && el != null) {
 			int p = list.indexOf(el);
-			if (p==-1 || (p-1)<0) return;
-			Collections.swap(list, p, p-1);
+			if (p == -1 || (p - 1) < 0)
+				return;
+			Collections.swap(list, p, p - 1);
 		}
 	}
-	
+
 	/**
-	 * Sends a Message to a active UI context as a popup, that goes away after the specified time.
+	 * Sends a Message to a active UI context as a popup, that goes away after
+	 * the specified time.
 	 * 
-	 * @param ctx Client Context
-	 * @param message Message to show
-	 * @param timeout hides the message after the given timeout
+	 * @param ctx
+	 *            Client Context
+	 * @param message
+	 *            Message to show
+	 * @param timeout
+	 *            hides the message after the given timeout
 	 */
 	public void Toast(String ctx, String message, long timeout) {
 		Toaster.toast(ctx, message, null, timeout);
 	}
-	
+
 	/**
 	 * Sends the message to All connected clients.
 	 * 
@@ -808,11 +835,22 @@ public class UtilAPI {
 	 */
 	public Set<String> ToastAll(String msg, long timeout) {
 		Set<String> clients = phoenix.client.GetConnectedClients();
-		if (clients!=null&&clients.size()>0) {
-			for (String s: clients) {
+		if (clients != null && clients.size() > 0) {
+			for (String s : clients) {
 				Toaster.toast(s, msg, null, timeout);
 			}
 		}
 		return clients;
 	}
+
+	/**
+	 * Returns the String that is Passed in. Used for testing.
+	 * 
+	 * @param string
+	 * @return
+	 */
+	public String Echo(String string) {
+		return string;
+	}
+
 }

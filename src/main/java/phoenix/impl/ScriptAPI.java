@@ -16,7 +16,7 @@ import sagex.phoenix.util.PhoenixScriptEngine;
 @API(group = "script")
 public class ScriptAPI {
 	private static final Logger log = Logger.getLogger(ScriptAPI.class);
-	
+
 	public Object Eval(String javascript) {
 		try {
 			PhoenixScriptEngine pe = new PhoenixScriptEngine();
@@ -27,7 +27,7 @@ public class ScriptAPI {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public Object Eval(String script, String functionCall) {
 		try {
 			PhoenixScriptEngine pe = new PhoenixScriptEngine();
@@ -40,14 +40,15 @@ public class ScriptAPI {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	/**
-	 * registers a new client script.  This will replace and overwrite any existing script for that
-	 * client
+	 * registers a new client script. This will replace and overwrite any
+	 * existing script for that client
+	 * 
 	 * @param client
 	 * @param script
 	 * @return
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public void RegisterScript(String client, String script) {
 		try {
@@ -57,9 +58,10 @@ public class ScriptAPI {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	/**
 	 * Returns the last modified date for script for the given client
+	 * 
 	 * @param client
 	 * @return
 	 */

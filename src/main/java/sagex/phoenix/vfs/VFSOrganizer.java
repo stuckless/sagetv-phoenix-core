@@ -48,9 +48,9 @@ public class VFSOrganizer {
 
 	private File dtdDir = null;
 	private String name = null;
-	
+
 	private ArrayList<String> composedOfFiles = new ArrayList<String>();
-	
+
 	public VFSOrganizer(File dtdDir) {
 		this.dtdDir = dtdDir;
 	}
@@ -58,11 +58,11 @@ public class VFSOrganizer {
 	public void organize(Reader in, String name) throws Exception {
 		this.composedOfFiles.add(name);
 		this.name = name;
-		
+
 		log.info("Organizing VFS " + name);
 
 		SAXReader xmlReader = newSAXReader();
-		
+
 		Document doc = xmlReader.read(in);
 		organizeNode(doc, "tags", "tag", "value", tags);
 		organizeNode(doc, "filters", "item", "name", filters);
@@ -96,7 +96,7 @@ public class VFSOrganizer {
 			}
 			xmlReader.setEntityResolver(er);
 		}
-		
+
 		return xmlReader;
 	}
 
@@ -127,20 +127,20 @@ public class VFSOrganizer {
 		DocumentFactory df = DocumentFactory.getInstance();
 		Document d = df.createDocument();
 		d.setDocType(df.createDocType("vfs", null, "vfs.dtd"));
-		
+
 		Element vfs = df.createElement("vfs");
 		d.setRootElement(vfs);
 
 		vfs.addComment("GENERATED FILE - DO NO EDIT");
 		vfs.addComment("LAST UPDATED - " + new Date(System.currentTimeMillis()));
 
-		if (composedOfFiles.size() >0) {
+		if (composedOfFiles.size() > 0) {
 			vfs.addComment("THIS FILE CONSISTS OF THE FOLLOWING VFS FILES");
 			for (String s : composedOfFiles) {
 				vfs.addComment(s);
 			}
 		}
-		
+
 		addNodes(tags, "tags", vfs, df);
 		addNodes(sources, "sources", vfs, df);
 		addNodes(filters, "filters", vfs, df);

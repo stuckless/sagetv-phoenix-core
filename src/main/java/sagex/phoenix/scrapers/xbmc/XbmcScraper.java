@@ -4,77 +4,78 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class XbmcScraper {
-    private Map<String, ScraperFunction> functions = new TreeMap<String, ScraperFunction>();
-    private String name;
-    private String thumb;
-    private String content;
-    private String id;
-    private String description;
-    
-    public XbmcScraper(String id) {
-        this.id=id;
-    }
+	private Map<String, ScraperFunction> functions = new TreeMap<String, ScraperFunction>();
+	private String name;
+	private String thumb;
+	private String content;
+	private String id;
+	private String description;
 
-    public void addFunction(ScraperFunction func) {
-        functions.put(func.getName(), func);
-    }
-    
-    public ScraperFunction getFunction(String name) {
-        return functions.get(name);
-    }
-    
-    public ScraperFunction[] getFunctions() {
-        return functions.values().toArray(new ScraperFunction[functions.size()]);
-    }
+	public XbmcScraper(String id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void addFunction(ScraperFunction func) {
+		functions.put(func.getName(), func);
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public ScraperFunction getFunction(String name) {
+		return functions.get(name);
+	}
 
-    public String getThumb() {
-        return thumb;
-    }
+	public ScraperFunction[] getFunctions() {
+		return functions.values().toArray(new ScraperFunction[functions.size()]);
+	}
 
-    public void setThumb(String thumb) {
-        this.thumb = thumb;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getContent() {
-        return content;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setContent(String content) {
-        this.content = content;
-    }
+	public String getThumb() {
+		return thumb;
+	}
 
-    public boolean containsFunction(String functionName) {
-        return functions.containsKey(functionName);
-    }
+	public void setThumb(String thumb) {
+		this.thumb = thumb;
+	}
 
-    public boolean isVideoScraper() {
-        String c = getContent();
-        if (c==null) return false;
-        
-        return c.contains("movies") || c.contains("tvshows");
-    }
+	public String getContent() {
+		return content;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public void setContent(String content) {
+		this.content = content;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public boolean containsFunction(String functionName) {
+		return functions.containsKey(functionName);
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public boolean isVideoScraper() {
+		String c = getContent();
+		if (c == null)
+			return false;
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+		return c.contains("movies") || c.contains("tvshows");
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }

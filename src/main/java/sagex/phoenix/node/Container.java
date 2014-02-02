@@ -7,12 +7,13 @@ import java.util.List;
 import sagex.phoenix.util.HasLabel;
 import sagex.phoenix.util.HasName;
 
-public class Container<ParentType, NodeType> implements IContainer<ParentType, NodeType>, INode<ParentType>, Iterable<NodeType>, HasLabel, HasName {
+public class Container<ParentType, NodeType> implements IContainer<ParentType, NodeType>, INode<ParentType>, Iterable<NodeType>,
+		HasLabel, HasName {
 	protected List<NodeType> items = new ArrayList<NodeType>();
 	private String id;
 	private String label;
 	private ParentType parent = null;
-	
+
 	public List<NodeType> getItems() {
 		return items;
 	}

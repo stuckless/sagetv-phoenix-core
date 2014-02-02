@@ -30,39 +30,33 @@ public class VFSContentDirectoryService extends AbstractContentDirectoryService 
 	}
 
 	@Override
-	public BrowseResult browse(String objectId, BrowseFlag browseFlag,
-			String filter, long firstResult, long maxResults,
+	public BrowseResult browse(String objectId, BrowseFlag browseFlag, String filter, long firstResult, long maxResults,
 			SortCriterion[] sort) throws ContentDirectoryException {
 		try {
-			log.info("browse(): " + objectId + "; " + browseFlag + "; "
-					+ filter + "; " + firstResult + "; " + maxResults + "; "
+			log.info("browse(): " + objectId + "; " + browseFlag + "; " + filter + "; " + firstResult + "; " + maxResults + "; "
 					+ sort);
 
 			if (objectId == null || "0".equals(objectId)) {
 				return getRootViews(browseFlag, filter, firstResult, maxResults, sort);
 			} else {
-				return getViewDetails(objectId, browseFlag,
-						filter, firstResult, maxResults,
-						sort);
+				return getViewDetails(objectId, browseFlag, filter, firstResult, maxResults, sort);
 			}
 		} catch (Exception ex) {
-			throw new ContentDirectoryException(
-					ContentDirectoryErrorCode.CANNOT_PROCESS, ex.toString());
+			throw new ContentDirectoryException(ContentDirectoryErrorCode.CANNOT_PROCESS, ex.toString());
 		}
 	}
 
-	private BrowseResult getViewDetails(String objectId, BrowseFlag browseFlag,
-			String filter, long firstResult, long maxResults,
+	private BrowseResult getViewDetails(String objectId, BrowseFlag browseFlag, String filter, long firstResult, long maxResults,
 			SortCriterion[] sort) {
-		
+
 		String parts[] = objectId.split(":");
-		
+
 		IMediaFolder children = null;
 		ViewFolder folder = getViewFolder(parts[0]);
-		if (parts.length>1) {
+		if (parts.length > 1) {
 			children = (IMediaFolder) folder.getChild(parts[1]);
 		}
-		
+
 		return null;
 	}
 
@@ -71,21 +65,21 @@ public class VFSContentDirectoryService extends AbstractContentDirectoryService 
 		return null;
 	}
 
-	private BrowseResult getRootViews(BrowseFlag browseFlag, String filter,	long firstResult, long maxResults, SortCriterion[] sort) throws Exception {
+	private BrowseResult getRootViews(BrowseFlag browseFlag, String filter, long firstResult, long maxResults, SortCriterion[] sort)
+			throws Exception {
 		DIDLContent didl = new DIDLContent();
-		
+
 		VFSManager vmgr = Phoenix.getInstance().getVFSManager();
 		List<ViewFactory> allviews = new ArrayList<ViewFactory>();
 		Set<ViewFactory> views = vmgr.getVFSViewFactory().getFactories("upnp");
-		if (views==null || views.size()==0) {
+		if (views == null || views.size() == 0) {
 			allviews.addAll(vmgr.getVFSViewFactory().getFactories(false));
 		} else {
 			allviews.addAll(views);
 		}
 
-		for (ViewFactory vf: allviews) {
-			StorageFolder folder = new StorageFolder(vf.getName(), "0",
-					vf.getLabel(), "Phoenix", 10, 1l);
+		for (ViewFactory vf : allviews) {
+			StorageFolder folder = new StorageFolder(vf.getName(), "0", vf.getLabel(), "Phoenix", 10, 1l);
 			didl.addContainer(folder);
 		}
 

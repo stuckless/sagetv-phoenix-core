@@ -21,29 +21,28 @@ import sagex.phoenix.vfs.visitors.DebugVisitor;
 public class CombinedMediaFolder extends DecoratedMediaFolder {
 	private boolean combine = false;
 	private Logger vlog = Loggers.VFS_LOG;
-	private boolean isParent=true;
+	private boolean isParent = true;
 
 	public CombinedMediaFolder(IMediaFolder decorate, boolean combined, boolean isParent) {
 		super(decorate);
 		this.combine = true;
-		this.isParent=isParent;
+		this.isParent = isParent;
 	}
-	
+
 	public CombinedMediaFolder(IMediaFolder decorate, boolean combined) {
 		this(decorate, combined, true);
 	}
 
 	@Override
-	protected List<IMediaResource> decorate(
-			List<IMediaResource> originalChildren) {
+	protected List<IMediaResource> decorate(List<IMediaResource> originalChildren) {
 		if (combine) {
 			vlog.debug("Begin Combining Children for Folder: " + getTitle());
 			if (vlog.isDebugEnabled()) {
-	            DebugVisitor walk = new DebugVisitor();
-	            getUndecoratedFolder().accept(walk, null, DEEP_UNLIMITED);
-	            log.debug("Dumping RAW Items Before Combining: " + getTitle() + "\n" + walk.toString());
+				DebugVisitor walk = new DebugVisitor();
+				getUndecoratedFolder().accept(walk, null, DEEP_UNLIMITED);
+				log.debug("Dumping RAW Items Before Combining: " + getTitle() + "\n" + walk.toString());
 			}
-			
+
 			List<IMediaResource> children = new ArrayList<IMediaResource>();
 
 			if (!isParent) {
@@ -68,8 +67,7 @@ public class CombinedMediaFolder extends DecoratedMediaFolder {
 		}
 	}
 
-	private void combineChildren(List<IMediaResource> Children,
-			List<IMediaResource> toList) {
+	private void combineChildren(List<IMediaResource> Children, List<IMediaResource> toList) {
 		vlog.debug("Begin Adding Chilren: " + Children.size());
 		for (IMediaResource r : Children) {
 			if (vlog.isDebugEnabled()) {
@@ -84,10 +82,10 @@ public class CombinedMediaFolder extends DecoratedMediaFolder {
 		// if the resource being added is file, the add it.
 		// if it's folder, then see if we have folder, and if so, then
 		// combine this folder with that folder.
-		
+
 		if (r instanceof IMediaFolder) {
 			CombinedMediaFolder fold = findFolder(r.getTitle(), toList);
-			if (fold==null) {
+			if (fold == null) {
 				vlog.debug("Creating Combined Folder for: " + r.getTitle());
 				toList.add(new CombinedMediaFolder((IMediaFolder) r, true, false));
 			} else {
@@ -101,7 +99,8 @@ public class CombinedMediaFolder extends DecoratedMediaFolder {
 	}
 
 	private CombinedMediaFolder findFolder(String title, List<IMediaResource> toList) {
-		if (title==null) return null;
+		if (title == null)
+			return null;
 		for (IMediaResource r : toList) {
 			if (r instanceof CombinedMediaFolder && title.equals(r.getTitle())) {
 				return (CombinedMediaFolder) r;

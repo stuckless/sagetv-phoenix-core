@@ -11,12 +11,12 @@ import sagex.phoenix.vfs.IMediaResource;
 public class ActorSearchVisitor extends FileVisitor {
 	private String searchContains = null;
 	private List<IMediaResource> addTo;
-	
+
 	public ActorSearchVisitor(String searchContains, List<IMediaResource> addTo) {
-		if (searchContains==null) {
-			searchContains="";
+		if (searchContains == null) {
+			searchContains = "";
 		}
-		
+
 		this.searchContains = searchContains.toLowerCase();
 		this.addTo = addTo;
 	}
@@ -24,11 +24,12 @@ public class ActorSearchVisitor extends FileVisitor {
 	@Override
 	public boolean visitFile(IMediaFile res, IProgressMonitor monitor) {
 		IMetadata md = res.getMetadata();
-		if (md==null) return false;
-		
+		if (md == null)
+			return false;
+
 		List<ICastMember> actors = md.getActors();
-		if (actors!=null) {
-			for (ICastMember cm: actors) {
+		if (actors != null) {
+			for (ICastMember cm : actors) {
 				if (isMatch(cm)) {
 					addTo.add(res);
 					return true;
@@ -40,15 +41,15 @@ public class ActorSearchVisitor extends FileVisitor {
 
 	private boolean isMatch(ICastMember cm) {
 		String name = cm.getName();
-		if (name!=null && name.toLowerCase().contains(searchContains)) {
+		if (name != null && name.toLowerCase().contains(searchContains)) {
 			return true;
 		}
-		
-		String role =cm.getRole();
-		if (role!=null && role.toLowerCase().contains(searchContains)) {
+
+		String role = cm.getRole();
+		if (role != null && role.toLowerCase().contains(searchContains)) {
 			return true;
 		}
-		
+
 		return false;
 	}
 

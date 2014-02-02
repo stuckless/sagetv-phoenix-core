@@ -9,23 +9,23 @@ public class MediaStreamerConfig {
 	private VLCConfig vlcConfig = null;
 	private ScriptConfig scriptConfig = null;
 	private ServerConfig serverConfig = null;
-	
+
 	public VLCConfig getVLCConfig() {
-		if (vlcConfig==null) {
+		if (vlcConfig == null) {
 			vlcConfig = GroupProxy.get(VLCConfig.class);
 		}
 		return vlcConfig;
 	}
-	
+
 	public ScriptConfig getScriptConfig() {
-		if (scriptConfig==null) {
+		if (scriptConfig == null) {
 			scriptConfig = GroupProxy.get(ScriptConfig.class);
 		}
 		return scriptConfig;
 	}
 
 	public ServerConfig getServerConfig() {
-		if (serverConfig==null) {
+		if (serverConfig == null) {
 			serverConfig = GroupProxy.get(ServerConfig.class);
 		}
 		return serverConfig;

@@ -23,16 +23,14 @@ import sagex.remote.json.JSONObject;
  */
 public class PhoenixAPIHander implements SageHandler {
 	/**
-	 * Phoenix token to identify that the commands are a batch of commands identified by this json array structure
-	 * 
-	 * {@value}
+	 * Phoenix token to identify that the commands are a batch of commands
+	 * identified by this json array structure * * {@value}
 	 */
 	public static final String PARAM_BATCH = "batch";
-	
+
 	/**
-	 * Phoenix Command either in the form of c=phoenix.umb.CreateView(viewnam) or c=phoenix.umb.CreateView&1=viewname
-	 * 
-	 * {@value}
+	 * Phoenix Command either in the form of c=phoenix.umb.CreateView(viewnam)
+	 * or c=phoenix.umb.CreateView&1=viewname * * {@value}
 	 */
 	public static final String PARAM_COMMAND = "c";
 
@@ -42,40 +40,37 @@ public class PhoenixAPIHander implements SageHandler {
 	public static final String PARAM_SIGNATURE = "s";
 
 	/**
-	 * SageTV UI context in which to execute the command
-	 * 
-	 * {@value}
+	 * SageTV UI context in which to execute the command * * {@value}
 	 */
 	public static final String PARAM_CONTEXT = "context";
 
 	/**
-	 * Server Side reference name in which to store the resulting object
-	 * 
+	 * Server Side reference name in which to store the resulting object * *
 	 * {@value}
 	 */
 	public static final String PARAM_REFERENCE = "ref";
 
 	/**
-	 * The length of time in MS that the server reference should be stored before it is expired. By default
-	 * references are never expired.
-	 * 
+	 * The length of time in MS that the server reference should be stored
+	 * before it is expired. By default references are never expired. * *
 	 * {@value}
 	 */
 	public static final String PARAM_REFERENCE_EXPIRY = "refexpiry";
 
 	/**
-	 * A Hint to be passed the serializers when serializing lists.  Not all serializers will honor this hint
-	 * but some will, such as the VFS serializer.  A depth of 1 means to serialize only the current folder items.
-	 * By default depth is 0 which means serialize all folders and sub folders.
-	 * {@value}
+	 * A Hint to be passed the serializers when serializing lists. Not all
+	 * serializers will honor this hint but some will, such as the VFS
+	 * serializer. A depth of 1 means to serialize only the current folder
+	 * items. By default depth is 0 which means serialize all folders and sub
+	 * folders. * {@value}
 	 */
 	public static final String PARAM_SERIALIZATION_DEPTH = "depth";
 
 	private RemoteAPI api = new RemoteAPI();
-	
+
 	public PhoenixAPIHander() {
 	}
-	
+
 	@Override
 	public void handleRequest(String[] args, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
@@ -83,47 +78,49 @@ public class PhoenixAPIHander implements SageHandler {
 				processBatch(args, req, resp);
 				return;
 			}
-			
+
 			// normal request
 			String cmd = req.getParameter(PARAM_COMMAND);
 			if (StringUtils.isEmpty(cmd)) {
 				throw new IOException("Missing " + PARAM_COMMAND + " Command String");
 			}
-			
+
 			ServletIOContext io = new ServletIOContext(req, resp);
 			Command c = new Command(io, cmd);
-			for (int i=1;i<99;i++) {
+			for (int i = 1; i < 99; i++) {
 				String arg = req.getParameter(String.valueOf(i));
-				if (StringUtils.isEmpty(arg)) break;
+				if (StringUtils.isEmpty(arg))
+					break;
 				c.getArgs().add(arg);
 			}
-			
+
 			c.setSignature(parseSignature(req.getParameter(PARAM_SIGNATURE)));
-			
+
 			// check for ui context
 			String uictx = req.getParameter(PARAM_CONTEXT);
 			if (!StringUtils.isEmpty(uictx)) {
 				c.setContext(new UIContext(uictx));
 			}
-			
+
 			// check for reference store and expiry
 			String ref = req.getParameter(PARAM_REFERENCE);
 			if (!StringUtils.isEmpty(ref)) {
 				c.setReferenceName(ref);
 				c.setReferenceExpiry(NumberUtils.toLong(req.getParameter(PARAM_REFERENCE_EXPIRY), 0));
 			}
-			
+
 			// set the serialization depth
 			RemoteContext.get().setSerializeDepth(NumberUtils.toInt(req.getParameter(PARAM_SERIALIZATION_DEPTH), 0));
-			
-			RemoteContext.get().setData("start",NumberUtils.toInt(req.getParameter("start"), 0));
-			RemoteContext.get().setData("end",NumberUtils.toInt(req.getParameter("end"), -1));
-			if (((Integer)RemoteContext.get().getData("end")) > 0) {
-				RemoteContext.get().setData("useranges",true);
+
+			RemoteContext.get().setData("start", NumberUtils.toInt(req.getParameter("start"), 0));
+			RemoteContext.get().setData("end", NumberUtils.toInt(req.getParameter("end"), -1));
+			if (((Integer) RemoteContext.get().getData("end")) > 0) {
+				RemoteContext.get().setData("useranges", true);
 			}
-			
-			Loggers.LOG.debug("REMOTEAPI: Ranges: " + RemoteContext.get().getData("start") + "; " + RemoteContext.get().getData("end") + "; " + RemoteContext.get().getData("useranges"));
-			
+
+			Loggers.LOG.debug("REMOTEAPI: Ranges: " + RemoteContext.get().getData("start") + "; "
+					+ RemoteContext.get().getData("end") + "; " + RemoteContext.get().getData("useranges"));
+
 			api.callAPI(c);
 		} catch (Exception e) {
 			resp.sendError(404, "ERROR: " + ExceptionUtils.getFullStackTrace(e));
@@ -134,10 +131,11 @@ public class PhoenixAPIHander implements SageHandler {
 	}
 
 	private Class[] parseSignature(String sig) throws Exception {
-		if (StringUtils.isEmpty(sig)) return null;
+		if (StringUtils.isEmpty(sig))
+			return null;
 		String sigs[] = sig.split("\\s*,\\s*");
 		Class classes[] = new Class[sigs.length];
-		for (int i=0;i<sigs.length;i++) {
+		for (int i = 0; i < sigs.length; i++) {
 			Class t = null;
 			String s = sigs[i];
 			if ("boolean".equals(s)) {
@@ -170,10 +168,10 @@ public class PhoenixAPIHander implements SageHandler {
 		ServletIOContext io = new ServletIOContext(req, resp);
 
 		io.getOutputStream().write("{\"reply\": [".getBytes());
-		
-		for (int i=0;i<s;i++) {
+
+		for (int i = 0; i < s; i++) {
 			try {
-				if (i>0) {
+				if (i > 0) {
 					io.getOutputStream().write(",".getBytes());
 				}
 				JSONObject jo = arr.optJSONObject(i);
@@ -181,32 +179,33 @@ public class PhoenixAPIHander implements SageHandler {
 				if (StringUtils.isEmpty(cmd)) {
 					throw new IOException("Missing " + PARAM_COMMAND + " Command String");
 				}
-				
+
 				Command c = new Command(io, cmd);
-				for (int j=1;j<99;j++) {
+				for (int j = 1; j < 99; j++) {
 					String arg = jo.optString(String.valueOf(j));
-					if (StringUtils.isEmpty(arg)) break;
+					if (StringUtils.isEmpty(arg))
+						break;
 					c.getArgs().add(arg);
 				}
 
 				c.setSignature(parseSignature(jo.optString(PARAM_SIGNATURE)));
-				
+
 				// check for ui context
 				String uictx = jo.optString(PARAM_CONTEXT);
 				if (!StringUtils.isEmpty(uictx)) {
 					c.setContext(new UIContext(uictx));
 				}
-				
+
 				// check for reference store and expiry
 				String ref = jo.optString(PARAM_REFERENCE);
 				if (!StringUtils.isEmpty(ref)) {
 					c.setReferenceName(ref);
 					c.setReferenceExpiry(jo.optLong(PARAM_REFERENCE_EXPIRY, 0));
 				}
-				
+
 				// set the serialization depth
-				RemoteContext.get().setSerializeDepth(jo.optInt(PARAM_SERIALIZATION_DEPTH,0));
-				
+				RemoteContext.get().setSerializeDepth(jo.optInt(PARAM_SERIALIZATION_DEPTH, 0));
+
 				api.callAPI(c);
 			} catch (Throwable t) {
 				JSONObject jo = new JSONObject();

@@ -13,9 +13,9 @@ import sagex.phoenix.util.Loggers;
  */
 public class SageEventBus implements IEventBus {
 	private SageTVPluginRegistry pluginRegistry = null;
-	
+
 	public SageEventBus(SageTVPluginRegistry pluginRegistry) {
-		this.pluginRegistry=pluginRegistry;
+		this.pluginRegistry = pluginRegistry;
 	}
 
 	@Override

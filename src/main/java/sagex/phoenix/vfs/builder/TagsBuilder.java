@@ -6,9 +6,9 @@ import sagex.phoenix.vfs.VFSManager;
 import sagex.phoenix.vfs.filters.FilterFactory;
 
 public class TagsBuilder extends FactoryItemBuilder<FilterFactory> {
-    public TagsBuilder(VFSManager mgr) {
-        super(mgr,"tags");
-    }
+	public TagsBuilder(VFSManager mgr) {
+		super(mgr, "tags");
+	}
 
 	@Override
 	protected FilterFactory createFactory(String className) throws SAXException {

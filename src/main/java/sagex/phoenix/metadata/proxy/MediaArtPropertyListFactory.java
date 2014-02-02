@@ -17,9 +17,11 @@ public class MediaArtPropertyListFactory extends StringPropertyListFactory {
 
 	@Override
 	public Object decode(String item) {
-		if (item==null) return null;
+		if (item == null)
+			return null;
 		String parts[] = item.split("\\s*\\|\\s*");
-		if (parts==null||parts.length<3) return null;
+		if (parts == null || parts.length < 3)
+			return null;
 		MediaArt ma = new MediaArt();
 		ma.setSeason(NumberUtils.toInt(parts[0]));
 		ma.setType(MediaArtifactType.toMediaArtifactType(parts[1]));
@@ -29,7 +31,8 @@ public class MediaArtPropertyListFactory extends StringPropertyListFactory {
 
 	@Override
 	public String encode(Object item) {
-		if (item==null) return "";
+		if (item == null)
+			return "";
 		IMediaArt ma = (IMediaArt) item;
 		StringBuilder sb = new StringBuilder();
 		sb.append(String.valueOf(ma.getSeason())).append("|").append(ma.getType()).append("|").append(ma.getDownloadUrl());

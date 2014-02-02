@@ -12,8 +12,9 @@ import sagex.phoenix.vfs.MediaResourceType;
 import sagex.phoenix.vfs.visitors.FileVisitor;
 
 /**
- * Clears the Year from TV Show Metadata, since the Year should come from the {@link ISeriesInfo}.
- *  
+ * Clears the Year from TV Show Metadata, since the Year should come from the
+ * {@link ISeriesInfo}.
+ * 
  * @author sean
  */
 public class FixTVYearVisitor extends FileVisitor {
@@ -34,14 +35,14 @@ public class FixTVYearVisitor extends FileVisitor {
 		}
 		return true;
 	}
-	
+
 	public static boolean fixTVYear(IMediaFile res, IMetadata md) {
 		boolean updated = false;
 		if (res.isType(MediaResourceType.TV.value())) {
 			// Remove the Year metadata on TV shows
 			if (!StringUtils.isEmpty(res.getMetadata().get(year))) {
 				res.getMetadata().clear(year);
-				updated=true;
+				updated = true;
 			}
 		}
 		return updated;

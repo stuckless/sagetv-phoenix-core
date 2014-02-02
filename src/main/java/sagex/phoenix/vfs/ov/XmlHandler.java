@@ -24,12 +24,12 @@ public class XmlHandler extends BaseBuilder {
 	private List<IMediaResource> resources = null;
 	private XmlFile file = null;
 	StringBuilder sdata = new StringBuilder();
-	
+
 	public XmlHandler(String name, XmlFolder folder, List<IMediaResource> resources) {
 		super(name);
-		this.folder=folder;
-		this.resources=resources;
-		this.options=folder.getOptions();
+		this.folder = folder;
+		this.resources = resources;
+		this.options = folder.getOptions();
 	}
 
 	@Override
@@ -39,22 +39,23 @@ public class XmlHandler extends BaseBuilder {
 			file = folder.createFile();
 			return;
 		}
-		
+
 		Set<XmlMetadata> mdSet = options.getMetadataKeysForElement(qName);
-		if (file != null && mdSet!=null) {
-			for (XmlMetadata md: mdSet) {
+		if (file != null && mdSet != null) {
+			for (XmlMetadata md : mdSet) {
 				if (md.XmlAttribute != null) {
 					updateMetadata(file, md, XmlUtil.attr(attributes, md.XmlAttribute));
 				}
 			}
 		}
 	}
-	
+
 	private void updateMetadata(IMediaFile file, XmlMetadata md, String val) {
-		if (val==null) return;
-		
+		if (val == null)
+			return;
+
 		Pattern regex = options.getRegex(md.MetadataKey);
-		if (regex!=null) {
+		if (regex != null) {
 			Matcher m = regex.matcher(val);
 			if (m.find()) {
 				if (!StringUtils.isEmpty(m.group(1))) {
@@ -62,19 +63,19 @@ public class XmlHandler extends BaseBuilder {
 				}
 			}
 		}
-		if (val!=null) {
+		if (val != null) {
 			val = val.trim();
 			if (md.MetadataKey.equals(FieldName.Duration)) {
 				long v = DateUtils.parseDuration(val);
 				val = String.valueOf(v);
 			}
 		}
-		
+
 		file.getMetadata().set(MetadataUtil.getSageProperty(md.MetadataKey), val);
 	}
 
 	@Override
-	public void endElement(String uri, String localName, String qName)	throws SAXException {
+	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if (qName.equals(options.getItemElement())) {
 			file.updateIds();
 			resources.add(file);
@@ -83,8 +84,8 @@ public class XmlHandler extends BaseBuilder {
 		}
 
 		Set<XmlMetadata> mdSet = options.getMetadataKeysForElement(qName);
-		if (file!=null && mdSet!=null) {
-			for (XmlMetadata md: mdSet) {
+		if (file != null && mdSet != null) {
+			for (XmlMetadata md : mdSet) {
 				if (md.XmlAttribute == null) {
 					// pull the data from the element
 					updateMetadata(file, md, sdata.toString().trim());
@@ -94,8 +95,7 @@ public class XmlHandler extends BaseBuilder {
 	}
 
 	@Override
-	public void characters(char[] ch, int start, int length)
-			throws SAXException {
+	public void characters(char[] ch, int start, int length) throws SAXException {
 		super.characters(ch, start, length);
 		sdata.append(getData());
 	}

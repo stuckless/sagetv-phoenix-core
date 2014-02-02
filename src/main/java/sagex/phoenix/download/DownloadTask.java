@@ -17,43 +17,44 @@ import sagex.phoenix.util.url.UrlUtil;
 public class DownloadTask extends TimerTask {
 	private DownloadManager mgr = null;
 	private DownloadItem item = null;
-	
+
 	public DownloadTask(DownloadManager manager, DownloadItem item) {
-		this.mgr=manager;
-		this.item=item;
+		this.mgr = manager;
+		this.item = item;
 	}
 
 	@Override
 	public void run() {
-		InputStream is=null;
-		OutputStream os=null;
+		InputStream is = null;
+		OutputStream os = null;
 		try {
-			mgr.log.info("Download Start: " + item); 
-			
-			if (item.getHandler()!=null) {
+			mgr.log.info("Download Start: " + item);
+
+			if (item.getHandler() != null) {
 				item.getHandler().onStart(item);
 			}
-			
+
 			item.setState(State.DOWNLOADING);
-			URLConnection conn = UrlUtil.openUrlConnection(item.getRemoteURL(), item.getUserAgent(), item.getReferrer(), item.getTimeout(), true);
+			URLConnection conn = UrlUtil.openUrlConnection(item.getRemoteURL(), item.getUserAgent(), item.getReferrer(),
+					item.getTimeout(), true);
 			is = conn.getInputStream();
-			
+
 			File out = item.getLocalFile();
-			if (out.getParent()!=null) {
+			if (out.getParent() != null) {
 				if (!out.getParentFile().exists()) {
 					FileUtils.mkdirsQuietly(out.getParentFile());
 				}
-				
+
 				if (!out.getParentFile().exists()) {
 					throw new Exception("Could not create destination directory: " + out.getParentFile());
 				}
 			}
-			
+
 			os = new FileOutputStream(out);
 			IOUtils.copyLarge(is, os);
 			os.flush();
 			item.setBytesDownloaded(out.length());
-			if (item.getLocalFile().length()==0) {
+			if (item.getLocalFile().length() == 0) {
 				mgr.log.warn("Download Completed by the file was emtpy for " + item);
 				throw new IOException("Downloaded Empty File for " + item);
 			} else {

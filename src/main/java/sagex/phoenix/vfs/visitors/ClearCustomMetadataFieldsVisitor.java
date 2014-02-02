@@ -8,7 +8,7 @@ import sagex.phoenix.vfs.IMediaFile;
  * Clears/Resets custom metadta fields for a Resource
  * 
  * @author seans
- *
+ * 
  */
 public class ClearCustomMetadataFieldsVisitor extends FileVisitor {
 	public ClearCustomMetadataFieldsVisitor() {
@@ -20,15 +20,16 @@ public class ClearCustomMetadataFieldsVisitor extends FileVisitor {
 		incrementAffected();
 		return true;
 	}
-	
+
 	/**
-	 * Given a {@link IMediaFile} it will clear the custom metadata (ie fanart metadata)
-	 * associated with it.
+	 * Given a {@link IMediaFile} it will clear the custom metadata (ie fanart
+	 * metadata) associated with it.
 	 * 
 	 * @param mf
 	 */
 	public static void clearMetadata(IMediaFile mf) {
-		if (mf==null) return;
+		if (mf == null)
+			return;
 		ISageCustomMetadataRW md = mf.getMetadata();
 		md.setDiscNumber(0);
 		md.setEpisodeNumber(0);

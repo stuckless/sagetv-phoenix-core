@@ -17,7 +17,7 @@ import sagex.phoenix.vfs.VirtualMediaFolder;
 public class SageSourcesMediaFolder extends VirtualMediaFolder {
 	private String types = null;
 
-	public SageSourcesMediaFolder(String types,	String folderName) {
+	public SageSourcesMediaFolder(String types, String folderName) {
 		super(null, folderName, null, folderName, true);
 		this.types = types;
 	}
@@ -27,16 +27,14 @@ public class SageSourcesMediaFolder extends VirtualMediaFolder {
 		if (types == null) {
 			addSource(ch, types, Configuration.GetLibraryImportPaths());
 		} else {
-			if (types.contains("V") || types.contains("B")
-					|| types.contains("D")) {
+			if (types.contains("V") || types.contains("B") || types.contains("D")) {
 				addSource(ch, types, Configuration.GetVideoLibraryImportPaths());
 			}
 			if (types.contains("T")) {
 				addSource(ch, types, Configuration.GetVideoDirectories());
 			}
 			if (types.contains("P")) {
-				addSource(ch, types, Configuration
-						.GetPictureLibraryImportPaths());
+				addSource(ch, types, Configuration.GetPictureLibraryImportPaths());
 			}
 			if (types.contains("M")) {
 				addSource(ch, types, Configuration.GetMusicLibraryImportPaths());
@@ -46,10 +44,10 @@ public class SageSourcesMediaFolder extends VirtualMediaFolder {
 
 	protected void addSource(List<IMediaResource> ch, String type, File files[]) {
 		for (File f : files) {
-			SageVirtualFilesystemMediaFolder smf = new SageVirtualFilesystemMediaFolder(
-					this, f, type);
+			SageVirtualFilesystemMediaFolder smf = new SageVirtualFilesystemMediaFolder(this, f, type);
 			if (smf.getChildren().size() > 0) {
-				log.info("Added files from Sage Import Source: " + f.getAbsolutePath() + "; Type: " + type + "; FolderName: " + smf.getTitle() + "; Children: " + smf.getChildren().size());
+				log.info("Added files from Sage Import Source: " + f.getAbsolutePath() + "; Type: " + type + "; FolderName: "
+						+ smf.getTitle() + "; Children: " + smf.getChildren().size());
 				ch.add(smf);
 			} else {
 				log.warn("No Files for Sage Import: " + f.getAbsolutePath());

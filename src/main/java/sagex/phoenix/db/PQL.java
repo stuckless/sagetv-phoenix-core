@@ -13,10 +13,10 @@ import sagex.phoenix.vfs.filters.IResourceFilter;
 public class PQL {
 	private LinkedList<IResourceFilter> groups = new LinkedList<IResourceFilter>();
 	private IResourceFilter current;
-	
+
 	public PQL() {
 	}
-	
+
 	public void and() {
 		current = (new AndFilter(current));
 	}
@@ -24,27 +24,27 @@ public class PQL {
 	public void or() {
 		current = (new ORFilter(current));
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void field(String field, String op, String value) throws ParseException {
-		if (current==null) {
+		if (current == null) {
 			current = (new FieldFilter(field, op, value));
 		} else if (current instanceof Pair) {
-			((Pair)current).second(new FieldFilter(field, op, value));
+			((Pair) current).second(new FieldFilter(field, op, value));
 		} else {
 			throw new ParseException("Can't add field " + field + " to " + current);
 		}
 	}
-	
+
 	public void begingroup() {
-		if (current!=null) {
+		if (current != null) {
 			groups.push(current);
-			current=null;
+			current = null;
 		}
 	}
-	
+
 	public void endgroup() throws ParseException {
-		if (groups.peek()!=null) {
+		if (groups.peek() != null) {
 			IResourceFilter filter = groups.pop();
 			if (filter instanceof Pair) {
 				((Pair) filter).second(current);
@@ -54,11 +54,11 @@ public class PQL {
 			}
 		}
 	}
-	
+
 	public IResourceFilter getFilter() {
 		return current;
 	}
-	
+
 	public String toString() {
 		return "Query: " + current;
 	}

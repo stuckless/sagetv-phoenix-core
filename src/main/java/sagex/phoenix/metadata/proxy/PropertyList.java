@@ -7,9 +7,8 @@ import java.util.List;
 /**
  * A list facade that backed by some fake "string" list of items, ie, a csv
  * string. This shows the backing string list as a java list and all changes the
- * java list and make to backing string list. This list requires and an
- * Adapter be used to adapt this java list to the backing string csv
- * list.
+ * java list and make to backing string list. This list requires and an Adapter
+ * be used to adapt this java list to the backing string csv list.
  * 
  * The primary use for this list is to provide an automated adapter between a
  * SageTV metadata list, ie Actors, and a Java List.

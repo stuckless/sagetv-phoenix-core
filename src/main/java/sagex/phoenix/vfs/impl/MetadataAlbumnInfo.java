@@ -13,8 +13,9 @@ import sagex.phoenix.vfs.IMediaFile;
  */
 public class MetadataAlbumnInfo implements IAlbumInfo {
 	IMediaFile file = null;
+
 	public MetadataAlbumnInfo(IMediaFile file) {
-		this.file=file;
+		this.file = file;
 	}
 
 	@Override
@@ -23,19 +24,19 @@ public class MetadataAlbumnInfo implements IAlbumInfo {
 	}
 
 	private String safeGetFirstString(List<String> list) {
-		if (list!=null && list.size()>0) {
+		if (list != null && list.size() > 0) {
 			return list.get(0);
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String getArtist() {
 		List<ICastMember> cmlist = file.getMetadata().getAlbumArtists();
-		if (cmlist == null || cmlist.size()==0) {
+		if (cmlist == null || cmlist.size() == 0) {
 			cmlist = file.getMetadata().getArtists();
 		}
-		if (cmlist!=null && cmlist.size()>0) {
+		if (cmlist != null && cmlist.size() > 0) {
 			return cmlist.get(0).getName();
 		}
 		return null;
@@ -59,7 +60,7 @@ public class MetadataAlbumnInfo implements IAlbumInfo {
 	@Override
 	public String getYear() {
 		int y = file.getMetadata().getYear();
-		if (y>0) {
+		if (y > 0) {
 			return String.valueOf(y);
 		}
 		return null;

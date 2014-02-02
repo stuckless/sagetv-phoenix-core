@@ -16,33 +16,32 @@ import test.InitPhoenix;
 import test.junit.lib.SimpleStubAPI;
 import test.junit.lib.SimpleStubAPI.Airing;
 
-
 public class TestRegexGroupers {
 	@BeforeClass
 	public static void init() throws IOException {
 		InitPhoenix.init(true, true);
 	}
-	
+
 	@Test
 	public void testRegexTitleFilter() throws ParseException {
 		SimpleStubAPI api = new SimpleStubAPI();
-		int id=1;
+		int id = 1;
 		Airing mf = api.newMediaFile(id++);
 		mf.put("GetMediaTitle", "House");
 		mf.put("IsTVFile", true);
-		mf.put("GetShowTitle","House");
-		mf.put("GetShowEpisode","Pilot");
+		mf.put("GetShowTitle", "House");
+		mf.put("GetShowEpisode", "Pilot");
 		mf.METADATA.put("Title", "House");
 		mf.METADATA.put("MediaType", "TV");
 		mf.METADATA.put("SeasonNumber", "2");
 
 		SageAPI.setProvider(api);
-		
+
 		RegexTitleGrouper rgrouper = new RegexTitleGrouper();
 		Grouper grouper = new Grouper(rgrouper);
 		grouper.getOption(RegexTitleGrouper.OPT_REGEX).value().setValue(".");
 		grouper.setChanged(true);
-		
+
 		String grp = grouper.getGroupName(new SageMediaFile(null, mf));
 		assertEquals("H", grp);
 	}

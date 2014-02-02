@@ -9,7 +9,7 @@ import java.util.Comparator;
  * Simple structure that manages a directory and it's filter
  * 
  * @author sean
- *
+ * 
  */
 public class ManagedDirectory {
 	private Comparator<File> nameComparator = new Comparator<File>() {
@@ -18,37 +18,38 @@ public class ManagedDirectory {
 			return f1.getName().compareToIgnoreCase(f2.getName());
 		}
 	};
-	
+
 	private File dir = null;
 	private FileFilter filter = null;
+
 	public ManagedDirectory(File directory, FileFilter filter) {
 		this.dir = directory;
-		this.filter=filter;
+		this.filter = filter;
 	}
-	
+
 	public File getDir() {
 		return dir;
 	}
-	
+
 	public void setDir(File dir) {
 		this.dir = dir;
 	}
-	
+
 	public FileFilter getFilter() {
 		return filter;
 	}
-	
+
 	public void setFilter(FileFilter filter) {
 		this.filter = filter;
 	}
-	
+
 	public File[] getFiles() {
-		if (dir!=null && dir.exists()) {
+		if (dir != null && dir.exists()) {
 			File[] files = dir.listFiles(filter);
 			Arrays.sort(files, getNameComparator());
 			return files;
 		} else {
-			return new File[]{};
+			return new File[] {};
 		}
 	}
 

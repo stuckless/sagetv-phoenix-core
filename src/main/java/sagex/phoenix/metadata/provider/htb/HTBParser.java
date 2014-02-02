@@ -29,14 +29,14 @@ public class HTBParser {
 	private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 	private Map<String, HTBSearchResult> results = new HashMap<String, HTBSearchResult>();
-	
+
 	private String searchTitle = null;
-	
+
 	private HTBMetadataProvider provider;
 	private String url;
 
 	public HTBParser(String url, String title, HTBMetadataProvider provider) {
-		this.url=url;
+		this.url = url;
 		this.provider = provider;
 		this.searchTitle = title;
 	}
@@ -70,7 +70,7 @@ public class HTBParser {
 		if (results.size() == 0) {
 			log.warn("HTB Search for " + url + " returned no results.");
 		}
-		
+
 		List<HTBSearchResult> items = new ArrayList<HTBSearchResult>(results.values());
 		Collections.sort(items, ScoredSearchResultSorter.INSTANCE);
 		return items;
@@ -78,31 +78,31 @@ public class HTBParser {
 
 	private void addImage(Element item) {
 		String mbid = getElementValue(item, "mbid");
-		if (mbid==null) {
+		if (mbid == null) {
 			log.warn("HTBackdrops Item didn't contain a valid entry: " + item.getTextContent());
 			return;
 		}
-		
+
 		HTBSearchResult sr = results.get(mbid);
-		if (sr==null) {
-			sr=new HTBSearchResult();
+		if (sr == null) {
+			sr = new HTBSearchResult();
 			sr.setMediaType(MediaType.MUSIC);
 			sr.setProviderId(provider.getInfo().getId());
 			String title = sagex.phoenix.util.StringUtils.unquote(getElementValue(item, "mb_name"));
 			sr.setTitle(title);
-			if (searchTitle!=null) {
+			if (searchTitle != null) {
 				sr.setScore(getScore(title));
 			} else {
 				// basically a null search title means an exact lookup by id
 				sr.setScore(1.0f);
 			}
-			
+
 			sr.setId(mbid);
 			sr.setUrl(provider.getDetailUrl(mbid));
 
 			results.put(mbid, sr);
 		}
-		
+
 		// add fanart images
 		MediaArt ma = new MediaArt();
 		if ("1".equals(getElementValue(item, "aid"))) {
@@ -112,13 +112,14 @@ public class HTBParser {
 		} else {
 			ma.setType(MediaArtifactType.POSTER);
 		}
-		
+
 		ma.setDownloadUrl(provider.getFanartDownloadUrl(getElementValue(item, "id")));
 		sr.getArtwork().add(ma);
 	}
 
 	private float getScore(String title) {
-		if (title == null) return 0.0f;
+		if (title == null)
+			return 0.0f;
 		try {
 			float score = MetadataSearchUtil.calculateScore(searchTitle, title);
 			return score;

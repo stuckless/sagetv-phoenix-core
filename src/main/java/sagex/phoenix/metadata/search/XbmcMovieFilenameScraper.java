@@ -46,8 +46,7 @@ public class XbmcMovieFilenameScraper extends XbmcFilenameScraper {
 		// get the year
 		String year = proc.executeFunction("GetYear", args);
 		if (StringUtils.isEmpty(year)) {
-			log.warn("Movie Scraper " + scraper + " failed to parse year for: "
-					+ filenameUri);
+			log.warn("Movie Scraper " + scraper + " failed to parse year for: " + filenameUri);
 		} else {
 			q.set(SearchQuery.Field.YEAR, year.trim());
 		}

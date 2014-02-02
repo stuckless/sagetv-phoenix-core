@@ -12,25 +12,27 @@ import java.io.FileFilter;
  * 
  */
 public class DirExcludeFileFilter implements FileFilter {
-    public String[] excludes = null;
+	public String[] excludes = null;
 
-    public DirExcludeFileFilter(String dirs) {
-        this(dirs.split(","));
-    }
+	public DirExcludeFileFilter(String dirs) {
+		this(dirs.split(","));
+	}
 
-    public DirExcludeFileFilter(String[] dirs) {
-        this.excludes = dirs;
-    }
+	public DirExcludeFileFilter(String[] dirs) {
+		this.excludes = dirs;
+	}
 
-    public boolean accept(File f) {
-        if (f.isFile()) return false;
-        if (excludes == null) return true;
-        for (String d : excludes) {
-            if (d.equals(f.getName())) {
-                return false;
-            }
-        }
-        return true;
-    }
+	public boolean accept(File f) {
+		if (f.isFile())
+			return false;
+		if (excludes == null)
+			return true;
+		for (String d : excludes) {
+			if (d.equals(f.getName())) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 }

@@ -5,9 +5,9 @@ import sagex.phoenix.vfs.IMediaFile;
 
 public class ArchiveVisitor extends FileVisitor {
 	private boolean archivedState = true;
-	
+
 	public ArchiveVisitor(Boolean archivedState) {
-		this.archivedState=archivedState;
+		this.archivedState = archivedState;
 	}
 
 	@Override

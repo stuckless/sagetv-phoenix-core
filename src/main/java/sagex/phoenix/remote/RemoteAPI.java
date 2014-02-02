@@ -59,7 +59,7 @@ public class RemoteAPI {
 		functions.put("map", new MapFunction());
 
 		// just return null
-		functions.put("null", new Function<String,String>() {
+		functions.put("null", new Function<String, String>() {
 			@Override
 			public String apply(String in) {
 				return null;
@@ -100,14 +100,16 @@ public class RemoteAPI {
 			Map<String, Object> reply = new HashMap<String, Object>();
 			reply.put("reply", in);
 
-			OutputStream os = cmd.getIOContext().getOutputStream();
-			PrintWriter pw = new PrintWriter(os);
-			cmd.getIOContext().writeHeader("Content-Type", "text/plain");
-			
+			cmd.getIOContext().setEncoding("UTF-8");
+			cmd.getIOContext().writeHeader("Content-Type", "application/json; charset=UTF-8");
+
+			PrintWriter pw = cmd.getIOContext().getWriter();
+
 			String jsonSer = cmd.getIOContext().getParameter("_jsonser");
-			
-			// TODO: jsonSer to JsonSerializer and invoke serializer on the reply
-			
+
+			// TODO: jsonSer to JsonSerializer and invoke serializer on the
+			// reply
+
 			createGson(BooleanUtils.toBoolean(cmd.getIOContext().getParameter("_prettyprint"))).toJson(reply, pw);
 			pw.flush();
 		}
@@ -127,11 +129,11 @@ public class RemoteAPI {
 						return false;
 					}
 				});
-				
+
 		if (prettyPrint) {
 			b.setPrettyPrinting();
 		}
-		
+
 		return b.create();
 	}
 

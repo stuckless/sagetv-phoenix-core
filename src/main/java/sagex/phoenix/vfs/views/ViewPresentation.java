@@ -15,14 +15,15 @@ import sagex.phoenix.vfs.sorters.MultiLevelComparator;
 import sagex.phoenix.vfs.sorters.Sorter;
 
 /**
- * View Presention organizes the sorts, filters, and groups for a given view level
+ * View Presention organizes the sorts, filters, and groups for a given view
+ * level
  * 
  * @author seans
- *
+ * 
  */
 public class ViewPresentation implements PublicCloneable {
-	private int level = 0;	
-	
+	private int level = 0;
+
 	private List<Filter> filters = new ArrayList<Filter>();
 	private List<Sorter> sorters = new ArrayList<Sorter>();
 	private List<Grouper> groupers = new ArrayList<Grouper>();
@@ -36,15 +37,15 @@ public class ViewPresentation implements PublicCloneable {
 	}
 
 	/**
-	 * Creates a ViewPresentation for a given level.  Root level, ie, top of the folder
-	 * tree is 0.
+	 * Creates a ViewPresentation for a given level. Root level, ie, top of the
+	 * folder tree is 0.
 	 * 
 	 * @param level
 	 */
 	public ViewPresentation(int level) {
 		this.setLevel(level);
 	}
-	
+
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		ViewPresentation p = (ViewPresentation) super.clone();
@@ -56,18 +57,21 @@ public class ViewPresentation implements PublicCloneable {
 	}
 
 	public boolean hasGroupers() {
-		return groupers.size()>0;
+		return groupers.size() > 0;
 	}
 
 	public String getGroupName(IMediaResource r) {
-		// TODO: Conditionally apply a grouper, that's really why we allow more than one
+		// TODO: Conditionally apply a grouper, that's really why we allow more
+		// than one
 		String name = null;
-		for (Grouper g: groupers) {
+		for (Grouper g : groupers) {
 			name = g.getGroupName(r);
-			if (!StringUtils.isEmpty(name)) break;
-			
+			if (!StringUtils.isEmpty(name))
+				break;
+
 			name = g.getEmptyFolderName();
-			if (!StringUtils.isEmpty(name)) break;
+			if (!StringUtils.isEmpty(name))
+				break;
 		}
 		return name;
 	}
@@ -78,30 +82,31 @@ public class ViewPresentation implements PublicCloneable {
 	 * @return
 	 */
 	public boolean isPruningSingleItems() {
-		for (Grouper g: groupers) {
-			if (g.isPruningSingleItemFolders()) return true;
+		for (Grouper g : groupers) {
+			if (g.isPruningSingleItemFolders())
+				return true;
 		}
 		return false;
 	}
 
 	public List<String> getGroupNames(IMediaResource r) {
 		List<String> groups = new ArrayList<String>();
-		for (Grouper g: groupers) {
-			boolean added=false;
+		for (Grouper g : groupers) {
+			boolean added = false;
 			if (g.isMultiGrouper()) {
 				List<String> list = g.getGroupNames(r);
-				if (list.size()>0) {
+				if (list.size() > 0) {
 					groups.addAll(list);
-					added=true;
+					added = true;
 				}
 			} else {
 				String name = g.getGroupName(r);
 				if (!StringUtils.isEmpty(name)) {
 					groups.add(name);
-					added=true;
+					added = true;
 				}
 			}
-			
+
 			if (!added) {
 				String name = g.getEmptyFolderName();
 				if (!StringUtils.isEmpty(name)) {
@@ -111,23 +116,23 @@ public class ViewPresentation implements PublicCloneable {
 		}
 		return groups;
 	}
-	
-    public boolean canAccept(IMediaResource r) {
-        if (filters.size() == 0) {
-            return true;
-        }
 
-        for (Filter f : filters) {
-            if (f.accept(r)) {
-                return true;
-            }
-        }
+	public boolean canAccept(IMediaResource r) {
+		if (filters.size() == 0) {
+			return true;
+		}
 
-        return false;
-    }
+		for (Filter f : filters) {
+			if (f.accept(r)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 	public boolean hasSorters() {
-		return sorters.size()>0;
+		return sorters.size() > 0;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -158,7 +163,7 @@ public class ViewPresentation implements PublicCloneable {
 
 	public Filter setFilter(Filter filter) {
 		int pos = filters.indexOf(filter);
-		if (pos==-1) {
+		if (pos == -1) {
 			filters.add(filter);
 		} else {
 			filters.remove(pos);
@@ -168,19 +173,19 @@ public class ViewPresentation implements PublicCloneable {
 	}
 
 	/**
-	 * A presentation can contain a hint, which can be used by the view renderer to
-	 * render a specific presentation in a certain way.  For example, a tv folder
-	 * may have views for group by series, group by season, an just episodes.  Each 
-	 * view presentation in those views may contain hints that could be used by
-	 * the renderer to show the series folders differently that the season grouped
-	 * folders.
+	 * A presentation can contain a hint, which can be used by the view renderer
+	 * to render a specific presentation in a certain way. For example, a tv
+	 * folder may have views for group by series, group by season, an just
+	 * episodes. Each view presentation in those views may contain hints that
+	 * could be used by the renderer to show the series folders differently that
+	 * the season grouped folders.
 	 * 
 	 * @return
 	 */
 	public List<String> getHints() {
 		return hints;
 	}
-	
+
 	/**
 	 * Returns true if the presentation has the given rendering hint.
 	 * 

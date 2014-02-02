@@ -21,362 +21,381 @@ import org.w3c.dom.NodeList;
 // // new logic - select the crap then drop anything to the right of it
 
 public class XbmcScraperProcessor {
-    public static final String  FUNCTION_SETTINGS = "GetSettings";
-    private static final Logger log               = Logger.getLogger(XbmcScraperProcessor.class);
-    private boolean truncateLogging = true;
+	public static final String FUNCTION_SETTINGS = "GetSettings";
+	private static final Logger log = Logger.getLogger(XbmcScraperProcessor.class);
+	private boolean truncateLogging = true;
 
-    private XbmcScraper         scraper           = null;
+	private XbmcScraper scraper = null;
 
-    // 20 buffers in total; buffer 0 is always blank
-    private String              buffers[]         = new String[21];
+	// 20 buffers in total; buffer 0 is always blank
+	private String buffers[] = new String[21];
 
-    // options that match those in the <Settings> elements.
-    Map<String, String>         options           = new HashMap<String, String>();
-    
-    private static final int PATTERN_OPTIONS = Pattern.MULTILINE + Pattern.CASE_INSENSITIVE + Pattern.DOTALL;
-    
-    private XbmcScraperConfiguration cfg = new XbmcScraperConfiguration();
+	// options that match those in the <Settings> elements.
+	Map<String, String> options = new HashMap<String, String>();
 
-    public XbmcScraperProcessor(XbmcScraper scraper) {
-        if (scraper==null) throw new RuntimeException("Scraper cannot be null!");
-        
-        this.scraper = scraper;
+	private static final int PATTERN_OPTIONS = Pattern.MULTILINE + Pattern.CASE_INSENSITIVE + Pattern.DOTALL;
 
-        mergeOptions(this.options);
+	private XbmcScraperConfiguration cfg = new XbmcScraperConfiguration();
 
-        log.debug("XbmcScraperProcessor created using Scraper: " + scraper.getName() + "; Content: " + scraper.getContent() + "; Complete Logging: " + !truncateLogging);
-        
-        clearBuffers();
-    }
-    
-    private XbmcScraperProcessor(XbmcScraper scraper, Map<String, String> options, String[] buffers) {
-        this.scraper=scraper;
-        this.options=options;
-        if (buffers!=null) {
-            for (int i=0;i<buffers.length;i++) {
-                this.buffers[i] = buffers[i];
-            }
-            //this.buffers = buffers;
-        } else {
-            clearBuffers();
-        }
-    }
+	public XbmcScraperProcessor(XbmcScraper scraper) {
+		if (scraper == null)
+			throw new RuntimeException("Scraper cannot be null!");
 
-    private void mergeOptions(Map<String, String> dest) {
-        try {
-            if (!containsFunction(FUNCTION_SETTINGS)) {
-                return;
-            } else {
-                String xmlString = executeFunction(FUNCTION_SETTINGS, null);
-                if (xmlString != null) {
-                    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                    DocumentBuilder parser = factory.newDocumentBuilder();
-                    ByteArrayInputStream xmlStream = new ByteArrayInputStream(xmlString.getBytes());
+		this.scraper = scraper;
 
-                    Document d = parser.parse(xmlStream);
+		mergeOptions(this.options);
 
-                    NodeList nl = d.getElementsByTagName("setting");
-                    for (int i = 0; i < nl.getLength(); i++) {
-                        Element e = (Element) nl.item(i);
-                        String id = e.getAttribute("id");
-                        if (StringUtils.isEmpty(id)) continue;
+		log.debug("XbmcScraperProcessor created using Scraper: " + scraper.getName() + "; Content: " + scraper.getContent()
+				+ "; Complete Logging: " + !truncateLogging);
 
-                        if (dest.get(id) == null) {
-                            String defValue = e.getAttribute("default");
-                            if (StringUtils.isEmpty(defValue)) continue;
-                            log.debug("Default Option: " + scraper.getId() +"; " + id + "; " + defValue);
-                            dest.put(id, cfg.getScraperProperty(scraper.getId(), id, defValue));
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            log.error("Failed to merge options!", e);
-        }
-    }
-    
-    public String executeFunction(String function, String input[]) {
-        ScraperFunction func = scraper.getFunction(function);
-        if(func != null){
-	        log.debug("** BEGIN Function: " + func.getName() + "; Dest: " + func.getDest() + "; ClearBuffers: " + func.isClearBuffers());
-	
-	        //if (func.isClearBuffers()) {
-	        //    clearBuffers();
-	        //}
-	
-	        setBuffers(input);
-	
-	        executeRegexps(func.getRegExps());
-	
-	        log.debug("** END Function: " + func.getName() + "; Dest: " + func.getDest() + "; ClearBuffers: " + func.isClearBuffers());
-	        return getBuffer(func.getDest());
-        } else {
-        	log.debug("** Could not locate Function: " + function + " in the scraper " + scraper.getId());
-        	return "";
-        }
-    }
+		clearBuffers();
+	}
 
-    private void executeRegexps(RegExp[] regExps) {
-        for (RegExp r : regExps) {
-            executeRegexp(r);
-        }
-    }
+	private XbmcScraperProcessor(XbmcScraper scraper, Map<String, String> options, String[] buffers) {
+		this.scraper = scraper;
+		this.options = options;
+		if (buffers != null) {
+			for (int i = 0; i < buffers.length; i++) {
+				this.buffers[i] = buffers[i];
+			}
+			// this.buffers = buffers;
+		} else {
+			clearBuffers();
+		}
+	}
 
-    private void executeRegexp(RegExp regex) {
-        String cond = regex.getConditional();
-        if (cond!=null) {
-            boolean not = cond.startsWith("!");
-            if (not) cond = cond.substring(1);
-            Boolean b = BooleanUtils.toBooleanObject(options.get(cond));
-            log.debug("Processing Conditional: " + regex.getConditional() + "; " + b);
-            boolean b2 = (b==null || b.booleanValue()==true); 
-            if (!(b2 || (not && !b2))) {
-                log.debug("Condition Not Met: " + regex.getConditional() + "; " + b2);
-                return;
-            }
-        }
-        
-        if (regex.hasRegExps()) {
-            executeRegexps(regex.getRegExps());
-        }
-        executeExpression(regex);        
-    }
+	private void mergeOptions(Map<String, String> dest) {
+		try {
+			if (!containsFunction(FUNCTION_SETTINGS)) {
+				return;
+			} else {
+				String xmlString = executeFunction(FUNCTION_SETTINGS, null);
+				if (xmlString != null) {
+					DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+					DocumentBuilder parser = factory.newDocumentBuilder();
+					ByteArrayInputStream xmlStream = new ByteArrayInputStream(xmlString.getBytes());
 
-    private void executeExpression(RegExp r) {
-        log.debug(String.format("Processing Expression: %s; Dest: %s; Input: %s; Output: %s", r.getExpression().getExpression(), r.getDest(), r.getInput(), r.getOutput()));
-        Expression exp = r.getExpression();
+					Document d = parser.parse(xmlStream);
 
-        String in = getBuffer(r.getInput());
-        if (in==null) in="";
+					NodeList nl = d.getElementsByTagName("setting");
+					for (int i = 0; i < nl.getLength(); i++) {
+						Element e = (Element) nl.item(i);
+						String id = e.getAttribute("id");
+						if (StringUtils.isEmpty(id))
+							continue;
 
-        String expr = exp.getExpression();
-        if (expr == null || expr.trim().length() == 0) {
-            log.debug("Expression was empty.  Returning processed output buffer using input as replacement array.");
-            setBuffer(r.getDest(), processOutputBuffers(r.getOutput(), new String[] { "", in }), r.isAppendBuffer());
-            return;
-        }
+						if (dest.get(id) == null) {
+							String defValue = e.getAttribute("default");
+							if (StringUtils.isEmpty(defValue))
+								continue;
+							log.debug("Default Option: " + scraper.getId() + "; " + id + "; " + defValue);
+							dest.put(id, cfg.getScraperProperty(scraper.getId(), id, defValue));
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			log.error("Failed to merge options!", e);
+		}
+	}
 
-        log.debug("Expression: " + expr);
-        expr = processOutputBuffersForInputBufferReferences(expr);
-        log.debug("Expression: " + expr);
-        log.debug("     Input: " + logBuffer(in));
-        Pattern p = Pattern.compile(expr, PATTERN_OPTIONS);
-        Matcher m = p.matcher(in);
-        if (m.find()) {
-            log.debug("Matched: Group Count: " + m.groupCount());
-            setBuffer(r.getDest(), processOutputBuffers(r.getOutput(), toGroupArray(exp.getNoCleanArray(), m)), r.isAppendBuffer());
+	public String executeFunction(String function, String input[]) {
+		ScraperFunction func = scraper.getFunction(function);
+		if (func != null) {
+			log.debug("** BEGIN Function: " + func.getName() + "; Dest: " + func.getDest() + "; ClearBuffers: "
+					+ func.isClearBuffers());
 
-            if (exp.isRepeat()) {
-                while (m.find()) {
-                    log.debug("Repeat Matched.  Group Count: " + m.groupCount());
-                    setBuffer(r.getDest(), processOutputBuffers(r.getOutput(), toGroupArray(exp.getNoCleanArray(), m)), r.isAppendBuffer());
-                }
-            }
-        } else {
-            log.debug(String.format("No Match! Expression: %s; Text: %s;", expr, logBuffer(in)));
-            if (exp.isClear()) {
-                log.debug("Clearing Destination Buffer: " + r.getDest());
-                setBuffer(r.getDest(), "", false);
-            }
-        }
-    }
+			// if (func.isClearBuffers()) {
+			// clearBuffers();
+			// }
 
-    private String logBuffer(String in) {
-        // if debug is not enabled, then return the whole buffer.
-        if (!log.isDebugEnabled()) return in;
+			setBuffers(input);
 
-        if (isTruncateLogging() && in != null && in.length() > 50) {
-            in = "TRUNCATED(50): " + in.substring(0, 50) + "...";
-        }
-        return in;
-    }
+			executeRegexps(func.getRegExps());
 
-    private String[] toGroupArray(String noCleanArray[], Matcher groups) {
-        int c = groups.groupCount();
-        String g[] = new String[c + 1];
-        for (int i = 0; i <= c; i++) {
-            String s = groups.group(i);
-            if (noCleanArray!=null && noCleanArray[i]!=null) {
-                // don clean
-                g[i] = groups.group(i);
-            } else {
-                g[i] = cleanHtml(groups.group(i));
-            }
-        }
-        return g;
-    }
+			log.debug("** END Function: " + func.getName() + "; Dest: " + func.getDest() + "; ClearBuffers: "
+					+ func.isClearBuffers());
+			return getBuffer(func.getDest());
+		} else {
+			log.debug("** Could not locate Function: " + function + " in the scraper " + scraper.getId());
+			return "";
+		}
+	}
 
-    private String cleanHtml(String group) {
-        if (group==null) return "";
-        log.debug("Before Clean Html: " + group);
-        String s = group.replaceAll("<[^>]+>", "");
-        log.debug("After Clean Html: " + s);
-        return s;
-    }
+	private void executeRegexps(RegExp[] regExps) {
+		for (RegExp r : regExps) {
+			executeRegexp(r);
+		}
+	}
 
-    private String processOutputBuffers(String output, String groups[]) {
-        log.debug("Processing output buffer replacement.");
-        Pattern p = Pattern.compile("\\\\([0-9])");
-        Matcher m = p.matcher(output);
-        StringBuffer sb = new StringBuffer();
+	private void executeRegexp(RegExp regex) {
+		String cond = regex.getConditional();
+		if (cond != null) {
+			boolean not = cond.startsWith("!");
+			if (not)
+				cond = cond.substring(1);
+			Boolean b = BooleanUtils.toBooleanObject(options.get(cond));
+			log.debug("Processing Conditional: " + regex.getConditional() + "; " + b);
+			boolean b2 = (b == null || b.booleanValue() == true);
+			if (!(b2 || (not && !b2))) {
+				log.debug("Condition Not Met: " + regex.getConditional() + "; " + b2);
+				return;
+			}
+		}
 
-        int lastStart = 0;
-        while (m.find()) {
-            sb.append(output.substring(lastStart, m.start()));
-            lastStart = m.end();
-            int g = Integer.parseInt(m.group(1));
-            if (g > groups.length) {
-                log.debug("No Group Replacement for: " + g);
-                continue;
-            }
+		if (regex.hasRegExps()) {
+			executeRegexps(regex.getRegExps());
+		}
+		executeExpression(regex);
+	}
 
-            // TODO: check noClean flag, and clean otherwise
-            String val = groups[Integer.parseInt(m.group(1))];
-            if (val==null) val="";
-            sb.append(val);
-        }
+	private void executeExpression(RegExp r) {
+		log.debug(String.format("Processing Expression: %s; Dest: %s; Input: %s; Output: %s", r.getExpression().getExpression(),
+				r.getDest(), r.getInput(), r.getOutput()));
+		Expression exp = r.getExpression();
 
-        sb.append(output.substring(lastStart));
+		String in = getBuffer(r.getInput());
+		if (in == null)
+			in = "";
 
-        return processOutputBuffersForPropertyReferences(processOutputBuffersForInputBufferReferences(sb.toString()));
-    }
+		String expr = exp.getExpression();
+		if (expr == null || expr.trim().length() == 0) {
+			log.debug("Expression was empty.  Returning processed output buffer using input as replacement array.");
+			setBuffer(r.getDest(), processOutputBuffers(r.getOutput(), new String[] { "", in }), r.isAppendBuffer());
+			return;
+		}
 
-    private String processOutputBuffersForInputBufferReferences(String output) {
-        log.debug("Processing output buffers for input buffer references.");
-        Pattern p = Pattern.compile("\\$\\$([0-9]+)");
-        Matcher m = p.matcher(output);
-        StringBuffer sb = new StringBuffer();
+		log.debug("Expression: " + expr);
+		expr = processOutputBuffersForInputBufferReferences(expr);
+		log.debug("Expression: " + expr);
+		log.debug("     Input: " + logBuffer(in));
+		Pattern p = Pattern.compile(expr, PATTERN_OPTIONS);
+		Matcher m = p.matcher(in);
+		if (m.find()) {
+			log.debug("Matched: Group Count: " + m.groupCount());
+			setBuffer(r.getDest(), processOutputBuffers(r.getOutput(), toGroupArray(exp.getNoCleanArray(), m)), r.isAppendBuffer());
 
-        int lastStart = 0;
-        while (m.find()) {
-            sb.append(output.substring(lastStart, m.start()));
-            lastStart = m.end();
-            sb.append(getBuffer(Integer.parseInt(m.group(1))));
-        }
+			if (exp.isRepeat()) {
+				while (m.find()) {
+					log.debug("Repeat Matched.  Group Count: " + m.groupCount());
+					setBuffer(r.getDest(), processOutputBuffers(r.getOutput(), toGroupArray(exp.getNoCleanArray(), m)),
+							r.isAppendBuffer());
+				}
+			}
+		} else {
+			log.debug(String.format("No Match! Expression: %s; Text: %s;", expr, logBuffer(in)));
+			if (exp.isClear()) {
+				log.debug("Clearing Destination Buffer: " + r.getDest());
+				setBuffer(r.getDest(), "", false);
+			}
+		}
+	}
 
-        sb.append(output.substring(lastStart));
+	private String logBuffer(String in) {
+		// if debug is not enabled, then return the whole buffer.
+		if (!log.isDebugEnabled())
+			return in;
 
-        return sb.toString();
-    }
+		if (isTruncateLogging() && in != null && in.length() > 50) {
+			in = "TRUNCATED(50): " + in.substring(0, 50) + "...";
+		}
+		return in;
+	}
 
-    private String processOutputBuffersForPropertyReferences(String output) {
-        log.debug("Processing output buffers for property references.");
-        Pattern p = Pattern.compile("\\$INFO\\[([^\\]]+)\\]");
-        Matcher m = p.matcher(output);
-        StringBuffer sb = new StringBuffer();
+	private String[] toGroupArray(String noCleanArray[], Matcher groups) {
+		int c = groups.groupCount();
+		String g[] = new String[c + 1];
+		for (int i = 0; i <= c; i++) {
+			String s = groups.group(i);
+			if (noCleanArray != null && noCleanArray[i] != null) {
+				// don clean
+				g[i] = groups.group(i);
+			} else {
+				g[i] = cleanHtml(groups.group(i));
+			}
+		}
+		return g;
+	}
 
-        int lastStart = 0;
-        while (m.find()) {
-            sb.append(output.substring(lastStart, m.start()));
-            lastStart = m.end();
-            sb.append(options.get(m.group(1)));
-        }
+	private String cleanHtml(String group) {
+		if (group == null)
+			return "";
+		log.debug("Before Clean Html: " + group);
+		String s = group.replaceAll("<[^>]+>", "");
+		log.debug("After Clean Html: " + s);
+		return s;
+	}
 
-        sb.append(output.substring(lastStart));
+	private String processOutputBuffers(String output, String groups[]) {
+		log.debug("Processing output buffer replacement.");
+		Pattern p = Pattern.compile("\\\\([0-9])");
+		Matcher m = p.matcher(output);
+		StringBuffer sb = new StringBuffer();
 
-        return sb.toString();
-    }
+		int lastStart = 0;
+		while (m.find()) {
+			sb.append(output.substring(lastStart, m.start()));
+			lastStart = m.end();
+			int g = Integer.parseInt(m.group(1));
+			if (g > groups.length) {
+				log.debug("No Group Replacement for: " + g);
+				continue;
+			}
 
-    private String getBuffer(int buffer) {
-        String text = buffers[buffer];
-        if (text==null) text="";
-        if (log.isDebugEnabled()) {
-            log.debug("Get Int Buffer: " + buffer + "; Text: " + logBuffer(text));
-        }
-        return text;
-    }
+			// TODO: check noClean flag, and clean otherwise
+			String val = groups[Integer.parseInt(m.group(1))];
+			if (val == null)
+				val = "";
+			sb.append(val);
+		}
 
-    private String getBuffer(String buffer) {
-        if (buffer==null) buffer="";
-        log.debug(String.format("Get String Buffer: %s", buffer));
-        Pattern bufferPattern = Pattern.compile("\\$\\$([0-9]+)");
-        Matcher m = bufferPattern.matcher(buffer);
-        if (m.find()) {
-            StringBuffer  sb = new StringBuffer();
-            sb.append(getBuffer(Integer.parseInt(m.group(1))));
-            while (m.find()) {
-                sb.append(getBuffer(Integer.parseInt(m.group(1))));
-            }
-            return sb.toString();
-        } else {
-            log.debug("getBuffer(): Using raw input: " + logBuffer(buffer));
-        }
-        return buffer;
-    }
+		sb.append(output.substring(lastStart));
 
-    private void setBuffer(int buffer, String text, boolean append) {
-        if (text==null) text="";
-        
-        if (log.isDebugEnabled()) {
-            log.debug(String.format("Set Buffer: %s; Append: %s; Text: %s", buffer, append, logBuffer(text)));
-        }
-        
-        Pattern p = Pattern.compile("<url\\s+.*function=");
-        Matcher m = p.matcher(text);
-        if (m.find()) {
-            log.debug("Processing Sub Function: " + text);
-            try {
-                XbmcUrl url = new XbmcUrl(text);
-                ScraperFunction func = scraper.getFunction(url.getFunctionName());
-                if (func==null) {
-                    throw new Exception("Invalid Function Name: " + url.getFunctionName());
-                }
-                XbmcScraperProcessor proc = newSubProcessor(func.isClearBuffers());
-                
-                // call the set buffer again with this result
-                // setBuffer(buffer, proc.executeFunction(url.getFunctionName(), new String[] {"", url.getTextContent()}), append);
-                text = proc.executeFunction(url.getFunctionName(), new String[] {"", url.getTextContent()});
-            } catch (Exception e) {
-                log.error("Failed to process function: " + text , e);
-                text = "\n<error>"+text+"\n<msg>"+e.getMessage()+"</msg></error>\n";
-            }
-        }
+		return processOutputBuffersForPropertyReferences(processOutputBuffersForInputBufferReferences(sb.toString()));
+	}
 
-        if (append) {
-            String s = buffers[buffer];
-            if (s != null) {
-                log.debug("Appending to buffer: " + buffer);
-                text = s + text;
-            }
-        }
-        buffers[buffer] = text;
-    }
+	private String processOutputBuffersForInputBufferReferences(String output) {
+		log.debug("Processing output buffers for input buffer references.");
+		Pattern p = Pattern.compile("\\$\\$([0-9]+)");
+		Matcher m = p.matcher(output);
+		StringBuffer sb = new StringBuffer();
 
-    public void clearBuffers() {
-        for (int i = 0; i < buffers.length; i++) {
-            setBuffer(i, "", false);
-        }
-    }
+		int lastStart = 0;
+		while (m.find()) {
+			sb.append(output.substring(lastStart, m.start()));
+			lastStart = m.end();
+			sb.append(getBuffer(Integer.parseInt(m.group(1))));
+		}
 
-    private void setBuffers(String[] input) {
-        if (input == null) return;
-        log.debug("Set Buffers: # of input Buffers: " + input.length);
-        for (int i = 0; i < input.length; i++) {
-            if (input[i] != null) setBuffer(i, input[i], false);
-        }
-    }
+		sb.append(output.substring(lastStart));
 
-    public boolean containsFunction(String functionName) {
-        return scraper.containsFunction(functionName);
-    }
-    
-    public XbmcScraper getScraper() {
-        return scraper;
-    }
+		return sb.toString();
+	}
 
-    public boolean isTruncateLogging() {
-        return truncateLogging;
-    }
+	private String processOutputBuffersForPropertyReferences(String output) {
+		log.debug("Processing output buffers for property references.");
+		Pattern p = Pattern.compile("\\$INFO\\[([^\\]]+)\\]");
+		Matcher m = p.matcher(output);
+		StringBuffer sb = new StringBuffer();
 
-    public void setTruncateLogging(boolean truncateLogging) {
-        this.truncateLogging = truncateLogging;
-    }
-    
-    /**
-     * Return a copy of this processor.  Clear the buffers if necessary.
-     * 
-     */
-    public XbmcScraperProcessor newSubProcessor(boolean clearBuffers) {
-        return new XbmcScraperProcessor(scraper, options, (clearBuffers) ? null : buffers);
-    }
+		int lastStart = 0;
+		while (m.find()) {
+			sb.append(output.substring(lastStart, m.start()));
+			lastStart = m.end();
+			sb.append(options.get(m.group(1)));
+		}
+
+		sb.append(output.substring(lastStart));
+
+		return sb.toString();
+	}
+
+	private String getBuffer(int buffer) {
+		String text = buffers[buffer];
+		if (text == null)
+			text = "";
+		if (log.isDebugEnabled()) {
+			log.debug("Get Int Buffer: " + buffer + "; Text: " + logBuffer(text));
+		}
+		return text;
+	}
+
+	private String getBuffer(String buffer) {
+		if (buffer == null)
+			buffer = "";
+		log.debug(String.format("Get String Buffer: %s", buffer));
+		Pattern bufferPattern = Pattern.compile("\\$\\$([0-9]+)");
+		Matcher m = bufferPattern.matcher(buffer);
+		if (m.find()) {
+			StringBuffer sb = new StringBuffer();
+			sb.append(getBuffer(Integer.parseInt(m.group(1))));
+			while (m.find()) {
+				sb.append(getBuffer(Integer.parseInt(m.group(1))));
+			}
+			return sb.toString();
+		} else {
+			log.debug("getBuffer(): Using raw input: " + logBuffer(buffer));
+		}
+		return buffer;
+	}
+
+	private void setBuffer(int buffer, String text, boolean append) {
+		if (text == null)
+			text = "";
+
+		if (log.isDebugEnabled()) {
+			log.debug(String.format("Set Buffer: %s; Append: %s; Text: %s", buffer, append, logBuffer(text)));
+		}
+
+		Pattern p = Pattern.compile("<url\\s+.*function=");
+		Matcher m = p.matcher(text);
+		if (m.find()) {
+			log.debug("Processing Sub Function: " + text);
+			try {
+				XbmcUrl url = new XbmcUrl(text);
+				ScraperFunction func = scraper.getFunction(url.getFunctionName());
+				if (func == null) {
+					throw new Exception("Invalid Function Name: " + url.getFunctionName());
+				}
+				XbmcScraperProcessor proc = newSubProcessor(func.isClearBuffers());
+
+				// call the set buffer again with this result
+				// setBuffer(buffer, proc.executeFunction(url.getFunctionName(),
+				// new String[] {"", url.getTextContent()}), append);
+				text = proc.executeFunction(url.getFunctionName(), new String[] { "", url.getTextContent() });
+			} catch (Exception e) {
+				log.error("Failed to process function: " + text, e);
+				text = "\n<error>" + text + "\n<msg>" + e.getMessage() + "</msg></error>\n";
+			}
+		}
+
+		if (append) {
+			String s = buffers[buffer];
+			if (s != null) {
+				log.debug("Appending to buffer: " + buffer);
+				text = s + text;
+			}
+		}
+		buffers[buffer] = text;
+	}
+
+	public void clearBuffers() {
+		for (int i = 0; i < buffers.length; i++) {
+			setBuffer(i, "", false);
+		}
+	}
+
+	private void setBuffers(String[] input) {
+		if (input == null)
+			return;
+		log.debug("Set Buffers: # of input Buffers: " + input.length);
+		for (int i = 0; i < input.length; i++) {
+			if (input[i] != null)
+				setBuffer(i, input[i], false);
+		}
+	}
+
+	public boolean containsFunction(String functionName) {
+		return scraper.containsFunction(functionName);
+	}
+
+	public XbmcScraper getScraper() {
+		return scraper;
+	}
+
+	public boolean isTruncateLogging() {
+		return truncateLogging;
+	}
+
+	public void setTruncateLogging(boolean truncateLogging) {
+		this.truncateLogging = truncateLogging;
+	}
+
+	/**
+	 * Return a copy of this processor. Clear the buffers if necessary.
+	 * 
+	 */
+	public XbmcScraperProcessor newSubProcessor(boolean clearBuffers) {
+		return new XbmcScraperProcessor(scraper, options, (clearBuffers) ? null : buffers);
+	}
 }

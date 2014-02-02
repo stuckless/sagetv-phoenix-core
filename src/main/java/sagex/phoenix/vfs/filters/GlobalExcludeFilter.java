@@ -5,15 +5,16 @@ import sagex.phoenix.vfs.IMediaResource;
 
 /**
  * will only accept a file, if it has not been excluded
+ * 
  * @author sean
- *
+ * 
  */
 public class GlobalExcludeFilter extends Filter {
 	public GlobalExcludeFilter() {
-    	super();
-    }
-    
-    public boolean canAccept(IMediaResource res) {
-    	return !Phoenix.getInstance().getMetadataManager().isExcluded(res);
-    }
+		super();
+	}
+
+	public boolean canAccept(IMediaResource res) {
+		return !Phoenix.getInstance().getMetadataManager().isExcluded(res);
+	}
 }

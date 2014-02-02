@@ -1,11 +1,13 @@
 package sagex.phoenix.vfs;
 
 /**
- * A "Dummy" media file is a media file that is NOT a media file, but rather something that is more
- * informational.  Ie, for online videos, a dummy file is added to the list to show that the items are loading, or
- * a dummy node is added to the list when there is an error loading items.
+ * A "Dummy" media file is a media file that is NOT a media file, but rather
+ * something that is more informational. Ie, for online videos, a dummy file is
+ * added to the list to show that the items are loading, or a dummy node is
+ * added to the list when there is an error loading items.
+ * 
  * @author sls
- *
+ * 
  */
 public class DummyMediaFile extends VirtualMediaFile {
 	public DummyMediaFile(String title) {
@@ -25,7 +27,7 @@ public class DummyMediaFile extends VirtualMediaFile {
 		if (type == MediaResourceType.DUMMY.value()) {
 			return true;
 		}
-		
+
 		return super.isType(type);
 	}
 }

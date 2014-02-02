@@ -15,14 +15,14 @@ public class MetadataPropertiesExportVisitor extends FileVisitor {
 	public boolean visitFile(IMediaFile res, IProgressMonitor monitor) {
 		if (res.isType(MediaResourceType.ANY_VIDEO.value())) {
 			monitor.setTaskName(res.getTitle());
-			
+
 			PropertiesPersistence p = new PropertiesPersistence();
 			try {
 				p.storeMetadata(res, res.getMetadata(), null);
 			} catch (MetadataException e) {
 				monitor.setTaskName("Failed: " + res.getTitle());
 			}
-			
+
 			monitor.worked(1);
 		}
 		return true;

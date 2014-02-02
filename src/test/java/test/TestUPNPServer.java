@@ -31,24 +31,23 @@ public class TestUPNPServer {
 			api.getProperties().put("phoenix/upnp/clientEnabled", "true");
 			SageAPI.setProvider(api);
 
-			InitPhoenix.init(true, false); //don't override the SageAPI so we set false
-			
+			InitPhoenix.init(true, false); // don't override the SageAPI so we
+											// set false
+
 			System.out.println("Waiting for servers...");
 			Collection<Device> devs = null;
 			while (true) {
 				devs = Phoenix.getInstance().getUPnPServer().getMediaServers("playon");
-				if (devs.size()>0) {
+				if (devs.size() > 0) {
 					break;
 				}
 				Thread.sleep(1000);
 				System.out.println("Checking...");
 			}
-			
+
 			Device dev = null;
-			for (Device d : Phoenix.getInstance().getUPnPServer()
-					.getMediaServers()) {
-				System.out.println("Device: "
-						+ d.getDetails().getFriendlyName());
+			for (Device d : Phoenix.getInstance().getUPnPServer().getMediaServers()) {
+				System.out.println("Device: " + d.getDetails().getFriendlyName());
 				if (d.getDetails().getFriendlyName().contains("PlayOn")) {
 					dev = d;
 				}
@@ -58,8 +57,7 @@ public class TestUPNPServer {
 				System.out.println("Creating Folder for device");
 				IMediaFolder mf = new UPnPDeviceMediaFolder(null, dev);
 				for (IMediaResource r : mf.getChildren()) {
-					System.out.println("UPNP Resource: " + r.getTitle() + " ["
-							+ r.getId() + "]");
+					System.out.println("UPNP Resource: " + r.getTitle() + " [" + r.getId() + "]");
 					if (r.getTitle().equals("YouTube")) {
 						System.out.println("** Begin Dumping YouTube **");
 						for (IMediaResource rr : ((IMediaFolder) r)) {
@@ -74,7 +72,7 @@ public class TestUPNPServer {
 				System.out.println("Title: " + r.getTitle());
 				System.out.println("Title: " + r.getMetadata().getEpisodeName());
 				System.out.println("Title: " + r.getMetadata().getRelativePathWithTitle());
-				
+
 				IMetadata md = ((IMediaFile) r).getMetadata();
 				System.out.println("Resolution: " + md.getFormatVideoResolution());
 				System.out.println("Duration: " + md.getDuration());
@@ -86,28 +84,29 @@ public class TestUPNPServer {
 				System.out.println("IsType:  VIDEO: " + r.isType(MediaResourceType.VIDEO.value()));
 				System.out.println("IsType: ONLINE: " + r.isType(MediaResourceType.ONLINE.value()));
 				System.out.println("");
-				
+
 				System.out.println("** TESTing ViewFolder ***");
 				StubViewFactory.registerView("upnp_test", mf2);
-				
+
 				ViewFolder folder = phoenix.umb.CreateView("upnp_test");
 				assertTrue("Not an Online View Folder", (folder instanceof OnlineViewFolder));
-				
-				// firest time get call getChildren(), should 1 item with please wait..
+
+				// firest time get call getChildren(), should 1 item with please
+				// wait..
 				List<IMediaResource> ch = folder.getChildren();
 				assertEquals(1, ch.size());
-				
+
 				// get the item and then test for please wait
 				IMediaFile mf3 = (IMediaFile) ch.get(0);
 				assertTrue("Not a please wait item: " + mf3.getTitle(), mf3.getTitle().toLowerCase().contains("please wait"));
-				
+
 				// now force to wait
-				assertTrue("Folder didn't load in 5 seconds",((OnlineViewFolder)folder).isLoaded(5000));
-				
+				assertTrue("Folder didn't load in 5 seconds", ((OnlineViewFolder) folder).isLoaded(5000));
+
 				// test that we have children
 				ch = folder.getChildren();
-				assertTrue("Folder Size was not more than 0: " + ch.size(), ch.size()>0);
-				
+				assertTrue("Folder Size was not more than 0: " + ch.size(), ch.size() > 0);
+
 				// test that we have an item
 				System.out.println("ITEM: " + ch.get(0).getTitle());
 			}

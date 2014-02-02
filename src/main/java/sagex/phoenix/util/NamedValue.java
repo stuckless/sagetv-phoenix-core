@@ -6,7 +6,7 @@ package sagex.phoenix.util;
  * @author sean
  */
 public class NamedValue implements HasName {
-	private String name,value;
+	private String name, value;
 
 	@Override
 	public int hashCode() {
@@ -40,10 +40,10 @@ public class NamedValue implements HasName {
 	}
 
 	public NamedValue(String name, String value) {
-		this.name=name;
-		this.value=value;
+		this.name = name;
+		this.value = value;
 	}
-	
+
 	public String getName() {
 		return name;
 	}

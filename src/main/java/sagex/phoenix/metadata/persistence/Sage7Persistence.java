@@ -24,14 +24,14 @@ import sagex.phoenix.vfs.MediaResourceType;
 
 /**
  * Save the metadata to the Sage Object of the given MediaFile
- *  
+ * 
  * @author seans
- *
+ * 
  */
 public class Sage7Persistence implements IMetadataPersistence {
 	private Logger log = Logger.getLogger(this.getClass());
 	private MetadataConfiguration config = GroupProxy.get(MetadataConfiguration.class);
-	
+
 	public Sage7Persistence() {
 	}
 
@@ -42,32 +42,33 @@ public class Sage7Persistence implements IMetadataPersistence {
 				log.info("Not updating metadata for music file " + file.getTitle());
 				return;
 			}
-			
+
 			// don't even try to save metadata for airings
 			if (file.isType(MediaResourceType.EPG_AIRING.value())) {
 				log.info("Can't save info for Airings; Title was " + file.getTitle());
-				// force the fanart title to be the title in the airing, since we can't change it.
+				// force the fanart title to be the title in the airing, since
+				// we can't change it.
 				md.setMediaTitle(file.getTitle());
 				return;
 			}
-			
+
 			// check if we are a TV update, and if so, we have a valid episode
 			MediaType mt = MediaType.toMediaType(md.getMediaType());
 			if (mt == MediaType.TV) {
 				// for TV to update, we need AT LEAST an episode # or a disc #
-				if (md.getEpisodeNumber()<=0 && md.getDiscNumber()<= 0) {
-					// force the fanart title to be the title in the airing, since we can't change it.
+				if (md.getEpisodeNumber() <= 0 && md.getDiscNumber() <= 0) {
+					// force the fanart title to be the title in the airing,
+					// since we can't change it.
 					md.setMediaTitle(file.getTitle());
 					log.info("Skipping Metadata Update for TV File: " + file + ", because it doesn't have an episode or disc #");
 					return;
 				}
 			}
-			
+
 			// carry on and update
-			boolean preserve = options.getBooleanValue(MetadataHints.PRESERVE_ORIGINAL_METADATA, config.getPreserverRecordingMetadata());
-			if (file.isType(MediaResourceType.RECORDING.value()) 
-					&& !MetadataUtil.isImportedRecording(file) 
-					&& preserve) {
+			boolean preserve = options.getBooleanValue(MetadataHints.PRESERVE_ORIGINAL_METADATA,
+					config.getPreserverRecordingMetadata());
+			if (file.isType(MediaResourceType.RECORDING.value()) && !MetadataUtil.isImportedRecording(file) && preserve) {
 				updateCustomMetadataFieldsOnly(file, md, options);
 				if (config.getFillInMissingRecordingMetadata()) {
 					MetadataUtil.fillMetadata(md, file.getMetadata());
@@ -78,7 +79,8 @@ public class Sage7Persistence implements IMetadataPersistence {
 						log.warn("Failed while fixing metadata fields.  Will carry on.");
 					}
 				}
-			} else if (options.getBooleanValue(MetadataHints.UPDATE_FANART, true) && !options.getBooleanValue(MetadataHints.UPDATE_METADATA, true)) {
+			} else if (options.getBooleanValue(MetadataHints.UPDATE_FANART, true)
+					&& !options.getBooleanValue(MetadataHints.UPDATE_METADATA, true)) {
 				updateCustomMetadataFieldsOnly(file, md, options);
 			} else {
 				log.info("Storing updated metadata for item " + file);
@@ -86,17 +88,19 @@ public class Sage7Persistence implements IMetadataPersistence {
 				IMetadata newMD = file.getMetadata();
 				// copy the modified metadata parts from the source to the dest
 				MetadataUtil.copyModifiedMetadata(md, newMD);
-				
+
 				// check to see if we are importing this as a recording
-				if (!file.isType(MediaResourceType.RECORDING.value()) && file.isType(MediaResourceType.TV.value()) && options.getBooleanValue(MetadataHints.IMPORT_TV_AS_RECORDING, false)) {
+				if (!file.isType(MediaResourceType.RECORDING.value()) && file.isType(MediaResourceType.TV.value())
+						&& options.getBooleanValue(MetadataHints.IMPORT_TV_AS_RECORDING, false)) {
 					Phoenix.getInstance().getMetadataManager().importMediaFileAsRecording(file);
 					if (!config.getArchiveRecordings()) {
 						file.setLibraryFile(false);
 					}
 				}
-				
+
 				// for recordings, the "Title" field should just be the title
-				// but for non-recordings, it should be the relative path of the import
+				// but for non-recordings, it should be the relative path of the
+				// import
 				if (file.isType(MediaResourceType.RECORDING.value())) {
 					if (!StringUtils.isEmpty(md.getRelativePathWithTitle())) {
 						newMD.setRelativePathWithTitle(md.getRelativePathWithTitle());
@@ -110,7 +114,7 @@ public class Sage7Persistence implements IMetadataPersistence {
 						newMD.setRelativePathWithTitle(md.getMediaTitle());
 					}
 				}
-				
+
 				// fix the metadata to be saved...
 				try {
 					FixTVYearVisitor.fixTVYear(file, newMD);
@@ -119,7 +123,7 @@ public class Sage7Persistence implements IMetadataPersistence {
 					log.warn("Failed while fixing metadata fields.  Will carry on.");
 				}
 			}
-			
+
 			try {
 				if (file.isType(MediaResourceType.TV.value())) {
 					if (!TVSeriesUtil.updateTVSeriesInfoForFile(file)) {
@@ -129,7 +133,7 @@ public class Sage7Persistence implements IMetadataPersistence {
 			} catch (Exception e) {
 				log.warn("Failed to update the Series Info for " + file, e);
 			}
-			
+
 			// store the fact that "Phoenix" updated the file
 			file.getMetadata().setScrapedBy("Phoenix");
 			file.getMetadata().setScrapedDate(new Date(System.currentTimeMillis()));
@@ -140,7 +144,7 @@ public class Sage7Persistence implements IMetadataPersistence {
 		}
 	}
 
-	private void updateCustomMetadataFieldsOnly(IMediaFile file, IMetadata md,	Hints options) {
+	private void updateCustomMetadataFieldsOnly(IMediaFile file, IMetadata md, Hints options) {
 		log.warn("Only custom metadata fields are being updated for file " + file + "; Hints: " + options);
 		// only update the custom metadata fields
 		ISageCustomMetadataRW sage = file.getMetadata();

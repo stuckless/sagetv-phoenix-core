@@ -10,8 +10,10 @@ import org.apache.commons.lang.StringUtils;
 import sagex.UIContext;
 
 public class Command {
-	public static enum Encoder {JSON, IMAGE}
-	
+	public static enum Encoder {
+		JSON, IMAGE
+	}
+
 	private String command;
 	private String className;
 	private String methodName;
@@ -21,22 +23,26 @@ public class Command {
 	private long referenceExpiry;
 	private Encoder encoder = Encoder.JSON;
 	private IOContext IOContext;
-	
-	private Class[] signature=null;
-	
+
+	private Class[] signature = null;
+
 	public Command(IOContext ioContext, String cmd) {
-		this.IOContext = ioContext; 
+		this.IOContext = ioContext;
 		setCommand(cmd);
 	}
-	
+
 	public String getCommand() {
 		return command;
 	}
-	
+
 	/**
-	 * Creates a command using either the api name, ie, "phoenix.umb.CreateView", or as function "phoenix.util.GetRandomNumber(10)".
+	 * Creates a command using either the api name, ie,
+	 * "phoenix.umb.CreateView", or as function
+	 * "phoenix.util.GetRandomNumber(10)".
 	 * 
-	 * Note, if you are pass the the command as a function with mulitple args, then do not quote the args, just comma separate them.
+	 * Note, if you are pass the the command as a function with mulitple args,
+	 * then do not quote the args, just comma separate them.
+	 * 
 	 * @param cmd
 	 */
 	public void setCommand(String cmd) {
@@ -46,7 +52,7 @@ public class Command {
 			if (m.find()) {
 				this.command = m.group(1);
 				String parts[] = m.group(2).split("\\s*,\\s*");
-				for (String s: parts) {
+				for (String s : parts) {
 					if (!StringUtils.isEmpty(s)) {
 						getArgs().add(s);
 					}
@@ -55,31 +61,33 @@ public class Command {
 		} else {
 			this.command = cmd;
 		}
-		
-		if (command==null) throw new RuntimeException("Missing Command");
-		if (!command.startsWith("phoenix.")) throw new RuntimeException("Invalid Phoenix API: " + cmd);
+
+		if (command == null)
+			throw new RuntimeException("Missing Command");
+		if (!command.startsWith("phoenix."))
+			throw new RuntimeException("Invalid Phoenix API: " + cmd);
 		int pos = command.lastIndexOf('.');
-		className = command.substring(0,pos);
-		methodName = command.substring(pos+1);
+		className = command.substring(0, pos);
+		methodName = command.substring(pos + 1);
 
 	}
-	
+
 	public String getClassName() {
 		return className;
 	}
-	
+
 	public void setClassName(String className) {
 		this.className = className;
 	}
-	
+
 	public String getMethodName() {
 		return methodName;
 	}
-	
+
 	public void setMethodName(String methodName) {
 		this.methodName = methodName;
 	}
-	
+
 	public List<String> getArgs() {
 		return args;
 	}
@@ -87,7 +95,7 @@ public class Command {
 	public UIContext getContext() {
 		return context;
 	}
-	
+
 	public void setContext(UIContext context) {
 		this.context = context;
 	}
@@ -97,8 +105,9 @@ public class Command {
 	}
 
 	/**
-	 * If the result of command should be stored as a reference, then the name must be non-null.  References can later be
-	 * retrieved using the ref: prefix or by calling {@link RemoteContext}.getReference(Name)
+	 * If the result of command should be stored as a reference, then the name
+	 * must be non-null. References can later be retrieved using the ref: prefix
+	 * or by calling {@link RemoteContext}.getReference(Name)
 	 * 
 	 * @param referenceName
 	 */
@@ -111,9 +120,10 @@ public class Command {
 	}
 
 	/**
-	 * If the reference expiry > 0 then the reference will be removed after the given the expiry delay.  ie, to expire a reference
-	 * after 10 seconds use, '10000' as the expiry.
-	 *  
+	 * If the reference expiry > 0 then the reference will be removed after the
+	 * given the expiry delay. ie, to expire a reference after 10 seconds use,
+	 * '10000' as the expiry.
+	 * 
 	 * @param referenceExpiry
 	 */
 	public void setReferenceExpiry(long referenceExpiry) {

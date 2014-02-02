@@ -4,67 +4,65 @@ import java.util.Date;
 
 import sagex.phoenix.util.Hints;
 
-
-
 /**
- * Stub class that simply implements the IMetadataSupport calls.  Only used to satisfy the API contract when 
- * BMT does not exist.
+ * Stub class that simply implements the IMetadataSupport calls. Only used to
+ * satisfy the API contract when BMT does not exist.
  * 
  * @author seans
  */
 public class NoMetadataSupport implements IMetadataSupport {
 
-    public boolean cancelMetadataScan(Object progress) {
-        return true;
-    }
+	public boolean cancelMetadataScan(Object progress) {
+		return true;
+	}
 
-    public float getMetadataScanComplete(Object progress) {
-        return 0;
-    }
+	public float getMetadataScanComplete(Object progress) {
+		return 0;
+	}
 
-    public IMetadataSearchResult[] getMetadataSearchResults(Object mediaFile, String name, String type) {
-        return null;
-    }
+	public IMetadataSearchResult[] getMetadataSearchResults(Object mediaFile, String name, String type) {
+		return null;
+	}
 
-    public IMetadataSearchResult[] getMetadataSearchResults(Object mediaFile) {
-        return null;
-    }
+	public IMetadataSearchResult[] getMetadataSearchResults(Object mediaFile) {
+		return null;
+	}
 
-    public boolean isMetadataScanRunning(Object progress) {
-        return false;
-    }
+	public boolean isMetadataScanRunning(Object progress) {
+		return false;
+	}
 
-    public Object startMetadataScan(Object mediaFiles, Hints options) {
-        return null;
-    }
+	public Object startMetadataScan(Object mediaFiles, Hints options) {
+		return null;
+	}
 
-    public boolean updateMetadataForResult(Object mediaFile, IMetadataSearchResult searchResult, Hints options) {
-        return false;
-    }
+	public boolean updateMetadataForResult(Object mediaFile, IMetadataSearchResult searchResult, Hints options) {
+		return false;
+	}
 
-    public int getSuccessCount(Object progress) {
-        return 0;
-    }
+	public int getSuccessCount(Object progress) {
+		return 0;
+	}
 
-    public Object[] getFailed(Object progress) {
-        return new Object[]{};
-    }
+	public Object[] getFailed(Object progress) {
+		return new Object[] {};
+	}
 
-    public int getFailedCount(Object progress) {
-        return 0;
-    }
+	public int getFailedCount(Object progress) {
+		return 0;
+	}
 
-    public Object[] getSkipped(Object progress) {
-        return new Object[]{};
-    }
+	public Object[] getSkipped(Object progress) {
+		return new Object[] {};
+	}
 
-    public int getSkippedCount(Object progress) {
-        return 0;
-    }
+	public int getSkippedCount(Object progress) {
+		return 0;
+	}
 
-    public Object[] getSuccess(Object progress) {
-        return new Object[]{};
-    }
+	public Object[] getSuccess(Object progress) {
+		return new Object[] {};
+	}
 
 	@Override
 	public Object[] getTrackers() {
@@ -111,6 +109,6 @@ public class NoMetadataSupport implements IMetadataSupport {
 	@Override
 	public void removeMetadataScan(Object progress) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

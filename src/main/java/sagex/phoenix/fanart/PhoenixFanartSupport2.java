@@ -83,7 +83,7 @@ public class PhoenixFanartSupport2 implements IFanartSupport2, IHasCentralizedFa
 
 	private MetadataConfiguration fanartConfig = null;
 	private LocalFanartSupport2 localFanart = new LocalFanartSupport2();
-	
+
 	public PhoenixFanartSupport2() {
 		fanartConfig = GroupProxy.get(MetadataConfiguration.class);
 		initializeFanartFolder(fanartConfig.getFanartCentralFolder());
@@ -92,20 +92,17 @@ public class PhoenixFanartSupport2 implements IFanartSupport2, IHasCentralizedFa
 	private void initializeFanartFolder(String dir) {
 		log.info("Phoenix Fanart initializing");
 		if (StringUtils.isEmpty(dir)) {
-			dir = System.getProperty("user.dir") + File.separator + "STVs"
-					+ File.separator + "Phoenix" + File.separator + "Fanart";
+			dir = System.getProperty("user.dir") + File.separator + "STVs" + File.separator + "Phoenix" + File.separator + "Fanart";
 			fanartConfig.setCentralFanartFolder(dir);
 		}
 		File fanartFolder = new File(dir);
 		if (!fanartFolder.exists()) {
 			log.warn("Fanart folder does not exist, creating: " + fanartFolder);
 			if (!fanartFolder.mkdirs()) {
-				log.warn("Failed to create the fanart folder, this may be a permissions problem:  Folder; "
-						+ fanartFolder);
+				log.warn("Failed to create the fanart folder, this may be a permissions problem:  Folder; " + fanartFolder);
 			}
 			if (!fanartFolder.canWrite()) {
-				log.warn("You don't have permissions to write to your fanart folder: "
-						+ fanartFolder);
+				log.warn("You don't have permissions to write to your fanart folder: " + fanartFolder);
 			}
 		}
 		log.info("Phoenix Fanart initialized");
@@ -119,7 +116,6 @@ public class PhoenixFanartSupport2 implements IFanartSupport2, IHasCentralizedFa
 		fanartConfig.setFanartEnabled(value);
 	}
 
-
 	public String GetFanartCentralFolder() {
 		return fanartConfig.getFanartCentralFolder();
 	}
@@ -130,72 +126,80 @@ public class PhoenixFanartSupport2 implements IFanartSupport2, IHasCentralizedFa
 		initializeFanartFolder(folder);
 	}
 
-	public void AddFanartArtifacts(List<File> files, String fanartFolder, IMediaFile mediaObject, MediaType mediaType, String mediaTitle, MediaArtifactType artifactType, String artifactTitle, Map<String, String> metadata) {
+	public void AddFanartArtifacts(List<File> files, String fanartFolder, IMediaFile mediaObject, MediaType mediaType,
+			String mediaTitle, MediaArtifactType artifactType, String artifactTitle, Map<String, String> metadata) {
 		File dir = FanartUtil.getCentralFanartDir(mediaType, mediaTitle, artifactType, artifactTitle, fanartFolder, metadata);
 		if (dir.exists()) {
 			if (artifactType == MediaArtifactType.ALBUM) {
 				File f = getSingleImageFile(dir, artifactTitle);
-				if (f!=null&&f.exists()) {
+				if (f != null && f.exists()) {
 					files.add(f);
 				}
 			} else {
 				Collection<File> af = FileUtils.listFiles(dir, ImageUtil.IMAGE_FORMATS, false);
-				if (af !=null && af.size()>0) {
+				if (af != null && af.size() > 0) {
 					files.addAll(af);
 				}
 			}
 		}
 	}
-	
+
 	private File getSingleImageFile(File dir, String baseName) {
-		if (!dir.exists()) return null;
-		if (baseName==null) return null;
-		for (String ext: ImageUtil.IMAGE_FORMATS) {
+		if (!dir.exists())
+			return null;
+		if (baseName == null)
+			return null;
+		for (String ext : ImageUtil.IMAGE_FORMATS) {
 			File f = new File(dir, baseName + "." + ext);
-			if (f.exists()) return f;
+			if (f.exists())
+				return f;
 		}
 		return null;
 	}
-	
-	public List<File> GetFanartArtifacts(IMediaFile mf, MediaType mediaType, String mediaTitle, MediaArtifactType artifactType, String artifactTitle, Map<String, String> metadata) {
+
+	public List<File> GetFanartArtifacts(IMediaFile mf, MediaType mediaType, String mediaTitle, MediaArtifactType artifactType,
+			String artifactTitle, Map<String, String> metadata) {
 		List<File> files = new ArrayList<File>();
-		
+
 		String fanartFolder = GetFanartCentralFolder();
 
 		if (!fanartConfig.getUseSeason()) {
-			// if we are setup to not use season specific fanart, null out metadata
+			// if we are setup to not use season specific fanart, null out
+			// metadata
 			metadata = null;
 		}
-		
+
 		// get fanart artifacts from the main directory
 		if (mediaType != MediaType.MUSIC) {
 			AddFanartArtifacts(files, fanartFolder, mf, mediaType, mediaTitle, artifactType, artifactTitle, metadata);
 		}
-		
+
 		// if tv files, then also include series level fanart
-		if (mediaType == MediaType.TV && metadata!=null && metadata.containsKey(FanartUtil.SEASON_NUMBER)) {
+		if (mediaType == MediaType.TV && metadata != null && metadata.containsKey(FanartUtil.SEASON_NUMBER)) {
 			AddFanartArtifacts(files, fanartFolder, mf, mediaType, mediaTitle, artifactType, artifactTitle, null);
 		}
-		
-		// for music fanart 
+
+		// for music fanart
 		if (mediaType == MediaType.MUSIC) {
 			if (artifactType == MediaArtifactType.ALBUM) {
 				// add album fanart
-				AddFanartArtifacts(files, fanartFolder, mf, mediaType, mf.getAlbumInfo().getArtist(), MediaArtifactType.ALBUM, mf.getAlbumInfo().getName(), null);
+				AddFanartArtifacts(files, fanartFolder, mf, mediaType, mf.getAlbumInfo().getArtist(), MediaArtifactType.ALBUM, mf
+						.getAlbumInfo().getName(), null);
 			} else {
 				// add artist fanart
-				AddFanartArtifacts(files, fanartFolder, mf, mediaType, mf.getAlbumInfo().getArtist(), artifactType, artifactTitle, null);
+				AddFanartArtifacts(files, fanartFolder, mf, mediaType, mf.getAlbumInfo().getArtist(), artifactType, artifactTitle,
+						null);
 			}
 		}
-		
+
 		// add in local fanart as well
 		if (fanartConfig.getLocalFanartEnabled()) {
-			List<File> locals =localFanart.GetFanartArtifacts(mf, mediaType, mediaTitle, artifactType, artifactTitle, metadata);
-			if (locals!=null&&locals.size()>0) {
+			List<File> locals = localFanart.GetFanartArtifacts(mf, mediaType, mediaTitle, artifactType, artifactTitle, metadata);
+			if (locals != null && locals.size() > 0) {
 				files.addAll(locals);
 			}
 		}
-		
+
 		return files;
 	}
 
@@ -205,9 +209,9 @@ public class PhoenixFanartSupport2 implements IFanartSupport2, IHasCentralizedFa
 	}
 
 	@Override
-	public File GetFanartArtifactsDir(IMediaFile mf, MediaType mediaType,
-			String mediaTitle, MediaArtifactType artifactType,
+	public File GetFanartArtifactsDir(IMediaFile mf, MediaType mediaType, String mediaTitle, MediaArtifactType artifactType,
 			String artifactTitle, Map<String, String> metadata) {
-		return FanartUtil.getCentralFanartDir(mediaType, mediaTitle, artifactType, artifactTitle, GetFanartCentralFolder(), metadata);
+		return FanartUtil.getCentralFanartDir(mediaType, mediaTitle, artifactType, artifactTitle, GetFanartCentralFolder(),
+				metadata);
 	}
 }

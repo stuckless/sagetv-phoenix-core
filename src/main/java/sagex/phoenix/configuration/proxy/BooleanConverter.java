@@ -10,6 +10,6 @@ public class BooleanConverter implements FieldConverter<Boolean> {
 
 	@Override
 	public String toString(Boolean in) {
-		return in==null?null:String.valueOf(in);
+		return in == null ? null : String.valueOf(in);
 	}
 }

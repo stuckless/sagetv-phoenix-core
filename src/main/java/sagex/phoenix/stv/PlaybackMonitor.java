@@ -14,26 +14,27 @@ import sagex.util.WaitFor;
 
 public class PlaybackMonitor extends Thread {
 	private Logger log = Logger.getLogger(this.getClass());
-	
+
 	private UIContext ctx = null;
 	private boolean abort = false;
 	private IMediaFile file = null;
 	private long MinUnderflowWarningTimePlayback;
-	
+
 	public PlaybackMonitor(UIContext ctx, IMediaFile file) {
-		this.ctx=ctx;
-		this.file=file;
-		this.MinUnderflowWarningTimePlayback=NumberUtils.toLong(Configuration.GetProperty(ctx, "online_video/min_underflow_warning_playback_near_end", String.valueOf(5*1000)));
+		this.ctx = ctx;
+		this.file = file;
+		this.MinUnderflowWarningTimePlayback = NumberUtils.toLong(Configuration.GetProperty(ctx,
+				"online_video/min_underflow_warning_playback_near_end", String.valueOf(5 * 1000)));
 		setDaemon(true);
 	}
 
 	protected boolean isUnderrunning(Object mf) {
 		int segments = MediaFileAPI.GetNumberOfSegments(ctx, mf);
-		long endTime = MediaFileAPI.GetEndForSegment(ctx, mf, segments-1) - AiringAPI.GetAiringStartTime(mf);
+		long endTime = MediaFileAPI.GetEndForSegment(ctx, mf, segments - 1) - AiringAPI.GetAiringStartTime(mf);
 		long curPlaybackTime = MediaPlayerAPI.GetMediaTime(ctx) - AiringAPI.GetAiringStartTime(mf);
 		return (endTime - curPlaybackTime) < MinUnderflowWarningTimePlayback;
 	}
-	
+
 	@Override
 	public void run() {
 		log.info("Playback Monitor Started");
@@ -48,20 +49,20 @@ public class PlaybackMonitor extends Thread {
 						MediaPlayerAPI.Pause(ctx);
 						final ProgressDialog dialog = new ProgressDialog(ctx.getName(), "Buffering...");
 						dialog.show();
-						final long waitTime=30000;
-						final long curTime=System.currentTimeMillis();
+						final long waitTime = 30000;
+						final long curTime = System.currentTimeMillis();
 						WaitFor wait = new WaitFor() {
 							@Override
 							public boolean isDoneWaiting() {
-								dialog.update((int) (((float)(System.currentTimeMillis()-curTime)/(float)waitTime) * 100) );
+								dialog.update((int) (((float) (System.currentTimeMillis() - curTime) / (float) waitTime) * 100));
 								return isUnderrunning(mf);
 							}
 						};
 						wait.waitFor(waitTime, 200);
-						
+
 						// just wait a little more just to buffer more
 						Thread.sleep(500);
-						
+
 						dialog.close();
 						if (!MediaPlayerAPI.IsPlaying()) {
 							MediaPlayerAPI.Play(ctx);
@@ -74,11 +75,12 @@ public class PlaybackMonitor extends Thread {
 				log.warn("Error during Playback Monitor!", e);
 			}
 		}
-		
-		log.info("Playback Monitor Finished: Aborted?: " + abort + "; Downloading?: " + DownloadUtil.isDownloading(Global.GetFileDownloadStatus(ctx)));
+
+		log.info("Playback Monitor Finished: Aborted?: " + abort + "; Downloading?: "
+				+ DownloadUtil.isDownloading(Global.GetFileDownloadStatus(ctx)));
 	}
-	
+
 	public void abort() {
-		abort=true;
+		abort = true;
 	}
 }

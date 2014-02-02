@@ -7,7 +7,7 @@ import sagex.phoenix.vfs.VFSManager;
 public class ImmutableVFSManager extends VFSManager {
 	public ImmutableVFSManager(File userDir, VFSManager parent) {
 		super(parent.getSystemFiles().getDir(), userDir);
-		
+
 		// basically copy the known factories
 		this.getVFSFilterFactory().addAll(parent.getVFSFilterFactory().getFactories());
 		this.getVFSGroupFactory().addAll(parent.getVFSGroupFactory().getFactories());

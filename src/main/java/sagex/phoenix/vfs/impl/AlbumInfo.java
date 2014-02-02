@@ -8,96 +8,101 @@ import sagex.phoenix.vfs.IAlbumInfo;
 import sagex.phoenix.vfs.IMediaFile;
 
 public class AlbumInfo implements IAlbumInfo, Serializable {
-    private static final long serialVersionUID = 1L;
-    private String name;
-    private String art;
-    private String artist;
-    private String genre;
-    private String year;
-    private List<IMediaFile> tracks = new ArrayList<IMediaFile>();
-    
-    public AlbumInfo() {
-    }
+	private static final long serialVersionUID = 1L;
+	private String name;
+	private String art;
+	private String artist;
+	private String genre;
+	private String year;
+	private List<IMediaFile> tracks = new ArrayList<IMediaFile>();
 
-    public boolean hasArt() {
-        return getArt()!=null;
-    }
+	public AlbumInfo() {
+	}
 
-    /**
-     * @return the art
-     */
-    public String getArt() {
-        return art;
-    }
+	public boolean hasArt() {
+		return getArt() != null;
+	}
 
-    /**
-     * @param art the art to set
-     */
-    public void setArt(String art) {
-        this.art = art;
-    }
+	/**
+	 * @return the art
+	 */
+	public String getArt() {
+		return art;
+	}
 
-    /**
-     * @return the artist
-     */
-    public String getArtist() {
-        return artist;
-    }
+	/**
+	 * @param art
+	 *            the art to set
+	 */
+	public void setArt(String art) {
+		this.art = art;
+	}
 
-    /**
-     * @param artist the artist to set
-     */
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
+	/**
+	 * @return the artist
+	 */
+	public String getArtist() {
+		return artist;
+	}
 
-    /**
-     * @return the genre
-     */
-    public String getGenre() {
-        return genre;
-    }
+	/**
+	 * @param artist
+	 *            the artist to set
+	 */
+	public void setArtist(String artist) {
+		this.artist = artist;
+	}
 
-    /**
-     * @param genre the genre to set
-     */
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
+	/**
+	 * @return the genre
+	 */
+	public String getGenre() {
+		return genre;
+	}
 
-    /**
-     * @return the year
-     */
-    public String getYear() {
-        return year;
-    }
+	/**
+	 * @param genre
+	 *            the genre to set
+	 */
+	public void setGenre(String genre) {
+		this.genre = genre;
+	}
 
-    /**
-     * @param year the year to set
-     */
-    public void setYear(String year) {
-        this.year = year;
-    }
+	/**
+	 * @return the year
+	 */
+	public String getYear() {
+		return year;
+	}
 
-    /**
-     * @return the tracks
-     */
-    public List<IMediaFile> getTracks() {
-        return tracks;
-    }
+	/**
+	 * @param year
+	 *            the year to set
+	 */
+	public void setYear(String year) {
+		this.year = year;
+	}
 
-    /**
-     * @param tracks the tracks to set
-     */
-    public void setTracks(List<IMediaFile> tracks) {
-        this.tracks = tracks;
-    }
+	/**
+	 * @return the tracks
+	 */
+	public List<IMediaFile> getTracks() {
+		return tracks;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	/**
+	 * @param tracks
+	 *            the tracks to set
+	 */
+	public void setTracks(List<IMediaFile> tracks) {
+		this.tracks = tracks;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
 }

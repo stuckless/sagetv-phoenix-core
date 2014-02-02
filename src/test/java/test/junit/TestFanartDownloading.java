@@ -1,6 +1,5 @@
 package test.junit;
 
-
 import java.io.File;
 
 import org.junit.BeforeClass;
@@ -22,19 +21,19 @@ public class TestFanartDownloading {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-	    InitPhoenix.init(true,true);
-	    
-	    MetadataConfiguration config = GroupProxy.get(MetadataConfiguration.class);
-	    File f = new File("target/junit/Fanart");
-	    if (!f.exists()) {
-	    	f.mkdirs();
-	    }
-	    config.setCentralFanartFolder(f.getAbsolutePath());
+		InitPhoenix.init(true, true);
+
+		MetadataConfiguration config = GroupProxy.get(MetadataConfiguration.class);
+		File f = new File("target/junit/Fanart");
+		if (!f.exists()) {
+			f.mkdirs();
+		}
+		config.setCentralFanartFolder(f.getAbsolutePath());
 	}
 
 	@Test
 	public void testFanartDownload() throws Exception {
-	    MetadataConfiguration config = GroupProxy.get(MetadataConfiguration.class);
+		MetadataConfiguration config = GroupProxy.get(MetadataConfiguration.class);
 		IMediaFile mf = new VirtualMediaFile("Iron Man 2");
 		final IMetadata md = MetadataProxy.newInstance();
 		md.setMediaType(MediaType.MOVIE.sageValue());

@@ -15,7 +15,7 @@ public class MediaNodeMediaFolder extends VirtualMediaFolder {
 	@Override
 	protected void populateChildren(List<IMediaResource> children) {
 		Object node = getMediaObject();
-		for (Object o: MediaNodeAPI.GetNodeChildren(node)) {
+		for (Object o : MediaNodeAPI.GetNodeChildren(node)) {
 			if (MediaNodeAPI.IsNodeFolder(o)) {
 				children.add(new MediaNodeMediaFolder(this, o));
 			} else {

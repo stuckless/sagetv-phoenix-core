@@ -12,10 +12,10 @@ import sagex.phoenix.util.PhoenixScriptEngine;
 
 public class JSMethodInvocationHandler implements InvocationHandler {
 	private PhoenixScriptEngine eng;
-	private Map<String,String> methodMap = new HashMap<String, String>();
-	
+	private Map<String, String> methodMap = new HashMap<String, String>();
+
 	public JSMethodInvocationHandler(PhoenixScriptEngine eng, String interfaceMethod, String jsMethod) {
-		this.eng=eng;
+		this.eng = eng;
 		methodMap.put(interfaceMethod, jsMethod);
 	}
 
@@ -34,17 +34,18 @@ public class JSMethodInvocationHandler implements InvocationHandler {
 				throw new IllegalStateException(String.valueOf(method));
 			}
 		}
-		
+
 		String jsMethod = methodMap.get(method.getName());
-		if (jsMethod==null) {
+		if (jsMethod == null) {
 			throw new NoSuchMethodException("No Javascript Method for " + method.getName());
 		}
-		
-        Invocable inv = (Invocable) eng.getEngine();
-        try {
+
+		Invocable inv = (Invocable) eng.getEngine();
+		try {
 			return inv.invokeFunction(jsMethod, args);
 		} catch (NoSuchMethodException e) {
-			throw new NoSuchMethodException("The Java Method: " + method.getName() + " maps to a Javascript Method " + jsMethod + " that does not exist.");
+			throw new NoSuchMethodException("The Java Method: " + method.getName() + " maps to a Javascript Method " + jsMethod
+					+ " that does not exist.");
 		} catch (ScriptException e) {
 			throw e;
 		}

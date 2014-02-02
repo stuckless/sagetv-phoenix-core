@@ -16,72 +16,73 @@ import sagex.phoenix.util.XmlUtil;
 
 public class SkinBuilder extends DefaultHandler {
 	private static final Logger log = Logger.getLogger(SkinBuilder.class);
-	
-    public static Skin buildPlugin(File pluginDir) throws ParserConfigurationException, SAXException, IOException {
-        SAXParserFactory saxFactory = SAXParserFactory.newInstance();
-        SAXParser parser = saxFactory.newSAXParser();
 
-        Skin plugin = new Skin(pluginDir);
-        SkinBuilder builder = new SkinBuilder(plugin);
+	public static Skin buildPlugin(File pluginDir) throws ParserConfigurationException, SAXException, IOException {
+		SAXParserFactory saxFactory = SAXParserFactory.newInstance();
+		SAXParser parser = saxFactory.newSAXParser();
 
-        File xml = plugin.getResource("skin.xml");
-        if (xml.exists()) {
-            parser.parse(xml, builder);
-        } else {
-        	log.info("No Skin declaration file for Skin: " + pluginDir);
-            // create a plugin using just the directory entry
-            plugin.setVersion("1.0");
-            plugin.setName(pluginDir.getName());
-            plugin.setId(pluginDir.getName());
-            plugin.setDescription(pluginDir.getAbsolutePath());
-        }
+		Skin plugin = new Skin(pluginDir);
+		SkinBuilder builder = new SkinBuilder(plugin);
 
-        return plugin;
-    }
+		File xml = plugin.getResource("skin.xml");
+		if (xml.exists()) {
+			parser.parse(xml, builder);
+		} else {
+			log.info("No Skin declaration file for Skin: " + pluginDir);
+			// create a plugin using just the directory entry
+			plugin.setVersion("1.0");
+			plugin.setName(pluginDir.getName());
+			plugin.setId(pluginDir.getName());
+			plugin.setDescription(pluginDir.getAbsolutePath());
+		}
 
-    private StringBuilder data   = new StringBuilder();
-    private Skin        plugin = null;
+		return plugin;
+	}
 
-    public SkinBuilder(Skin plugin) {
-        this.plugin = plugin;
-    }
+	private StringBuilder data = new StringBuilder();
+	private Skin plugin = null;
 
-    @Override
-    public void characters(char[] ch, int start, int length) throws SAXException {
-        data.append(ch, start, length);
-    }
+	public SkinBuilder(Skin plugin) {
+		this.plugin = plugin;
+	}
 
-    @Override
-    public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
-        data = new StringBuilder();
-        if ("plugin".equals(name)) {
-            plugin.setId(XmlUtil.attr(attributes, "id", null));
-            plugin.setName(XmlUtil.attr(attributes, "name", null));
-            plugin.setVersion(XmlUtil.attr(attributes, "version", "1.0"));
-            return;
-        }
+	@Override
+	public void characters(char[] ch, int start, int length) throws SAXException {
+		data.append(ch, start, length);
+	}
 
-        if ("depend".equals(name)) {
-            plugin.addDependency(XmlUtil.attr(attributes, "id", null));
-        }
-    }
+	@Override
+	public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
+		data = new StringBuilder();
+		if ("plugin".equals(name)) {
+			plugin.setId(XmlUtil.attr(attributes, "id", null));
+			plugin.setName(XmlUtil.attr(attributes, "name", null));
+			plugin.setVersion(XmlUtil.attr(attributes, "version", "1.0"));
+			return;
+		}
 
-    @Override
-    public void endElement(String uri, String localName, String name) throws SAXException {
-        if ("description".equals(name)) {
-            plugin.setDescription(getData());
-            return;
-        }
-    }
+		if ("depend".equals(name)) {
+			plugin.addDependency(XmlUtil.attr(attributes, "id", null));
+		}
+	}
 
-    public ISkin getSkin() {
-        return plugin;
-    }
+	@Override
+	public void endElement(String uri, String localName, String name) throws SAXException {
+		if ("description".equals(name)) {
+			plugin.setDescription(getData());
+			return;
+		}
+	}
 
-    private String getData() {
-        String s = data.toString();
-        if (s == null) return null;
-        return s.trim();
-    }
+	public ISkin getSkin() {
+		return plugin;
+	}
+
+	private String getData() {
+		String s = data.toString();
+		if (s == null)
+			return null;
+		return s.trim();
+	}
 
 }

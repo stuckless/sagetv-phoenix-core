@@ -20,9 +20,10 @@ public class CustomFolders extends VirtualMediaFolder {
 	@Override
 	protected void populateChildren(List<IMediaResource> list) {
 		Object folders[] = UserRecordAPI.GetAllUserRecords(getId());
-		if (folders!=null&&folders.length>0) {
-			for (Object f: folders) {
-				list.add(new CustomFolder(this, UserRecordAPI.GetUserRecordData(f, FIELD_TABLE), UserRecordAPI.GetUserRecordData(f, FIELD_TITLE)));
+		if (folders != null && folders.length > 0) {
+			for (Object f : folders) {
+				list.add(new CustomFolder(this, UserRecordAPI.GetUserRecordData(f, FIELD_TABLE), UserRecordAPI.GetUserRecordData(f,
+						FIELD_TITLE)));
 			}
 		}
 	}
@@ -38,13 +39,14 @@ public class CustomFolders extends VirtualMediaFolder {
 	public void addMediaResource(IMediaResource res) {
 		super.addMediaResource(res);
 	}
-	
+
 	public CustomFolder newCustomFolder(String table, String title) {
 		IMediaResource res = getChildById(CustomFolder.CustomFolderPrefix + table);
-		if (res!=null) return (CustomFolder) res;
-		
+		if (res != null)
+			return (CustomFolder) res;
+
 		Object rec = UserRecordAPI.GetUserRecord(getId(), table);
-		if (rec==null) {
+		if (rec == null) {
 			CustomFolder f = new CustomFolder(this, table, title);
 			Object cust = UserRecordAPI.AddUserRecord(getId(), table);
 			UserRecordAPI.SetUserRecordData(cust, FIELD_TABLE, table);

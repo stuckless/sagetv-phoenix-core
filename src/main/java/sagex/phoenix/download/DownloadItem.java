@@ -4,89 +4,92 @@ import java.io.File;
 import java.net.URL;
 
 public class DownloadItem {
-	public enum State {WAITING, DOWNLOADING, COMPLETE, ERROR}
+	public enum State {
+		WAITING, DOWNLOADING, COMPLETE, ERROR
+	}
+
 	private long id = System.nanoTime();
 	private File localFile = null;
 	private URL remoteURL = null;
 	private long bytesDownloaded = 0;
-	private long totalBytes=0;
+	private long totalBytes = 0;
 	private String referrer = null;
 	private String userAgent = null;
 	private State state = State.WAITING;
 	private DownloadHandler handler;
-	private boolean overwrite=false;
-	
+	private boolean overwrite = false;
+
 	private int retries = 0;
 	private int maxReties = 1;
 	private Throwable error;
-	
+
 	private Object userObject;
 	private int timeout;
-	
+
 	public DownloadItem() {
 	}
 
 	public DownloadItem(URL source, File dest) {
-		this.remoteURL=source;
-		this.localFile=dest;
+		this.remoteURL = source;
+		this.localFile = dest;
 	}
-	
+
 	public long getId() {
 		return id;
 	}
-	
+
 	public File getLocalFile() {
 		return localFile;
 	}
-	
+
 	public void setLocalFile(File localFile) {
 		this.localFile = localFile;
 	}
-	
+
 	public URL getRemoteURL() {
 		return remoteURL;
 	}
-	
+
 	public void setRemoteURL(URL remoteURL) {
 		this.remoteURL = remoteURL;
 	}
-	
+
 	public long getBytesDownloaded() {
 		return bytesDownloaded;
 	}
-	
+
 	public void setBytesDownloaded(long bytesDownloaded) {
 		this.bytesDownloaded = bytesDownloaded;
 	}
-	
+
 	public long getTotalBytes() {
 		return totalBytes;
 	}
-	
+
 	public void setTotalBytes(int totalBytes) {
 		this.totalBytes = totalBytes;
 	}
-	
+
 	public String getReferrer() {
 		return referrer;
 	}
-	
+
 	public void setReferrer(String referrer) {
 		this.referrer = referrer;
 	}
-	
+
 	public State getState() {
 		return state;
 	}
-	
+
 	public void setState(State state) {
 		this.state = state;
 	}
-	
+
 	public DownloadHandler getHandler() {
 		return handler;
 	}
-	
+
 	public void setHandler(DownloadHandler handler) {
 		this.handler = handler;
 	}
@@ -102,10 +105,12 @@ public class DownloadItem {
 	@Override
 	public String toString() {
 		return "DownloadItem [bytesDownloaded=" + bytesDownloaded + ", " + (error != null ? "error=" + error + ", " : "")
-				+ (handler != null ? "handler=" + handler + ", " : "") + "id=" + id + ", " + (localFile != null ? "localFile=" + localFile + ", " : "")
-				+ "maxReties=" + maxReties + ", " + (referrer != null ? "referrer=" + referrer + ", " : "")
-				+ (remoteURL != null ? "remoteURL=" + remoteURL + ", " : "") + "retries=" + retries + ", " + (state != null ? "state=" + state + ", " : "")
-				+ "totalBytes=" + totalBytes + ", " + (userAgent != null ? "userAgent=" + userAgent : "") + "]";
+				+ (handler != null ? "handler=" + handler + ", " : "") + "id=" + id + ", "
+				+ (localFile != null ? "localFile=" + localFile + ", " : "") + "maxReties=" + maxReties + ", "
+				+ (referrer != null ? "referrer=" + referrer + ", " : "")
+				+ (remoteURL != null ? "remoteURL=" + remoteURL + ", " : "") + "retries=" + retries + ", "
+				+ (state != null ? "state=" + state + ", " : "") + "totalBytes=" + totalBytes + ", "
+				+ (userAgent != null ? "userAgent=" + userAgent : "") + "]";
 	}
 
 	public int getRetries() {
@@ -154,9 +159,9 @@ public class DownloadItem {
 	}
 
 	public void setTimeout(int timeout) {
-		this.timeout=timeout;
+		this.timeout = timeout;
 	}
-	
+
 	public int getTimeout() {
 		return timeout;
 	}

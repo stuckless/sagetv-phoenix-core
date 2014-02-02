@@ -1,6 +1,5 @@
 package test.junit;
 
-
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.createNiceMock;
 import static org.easymock.EasyMock.eq;
@@ -27,73 +26,73 @@ public class TestGetYearError {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		InitPhoenix.init(true,true);
+		InitPhoenix.init(true, true);
 	}
-	
+
 	@Test
 	public void testYear() throws Exception {
 		final Map<String, String> simpleMetadataMap = new HashMap<String, String>();
-        ISageAPIProvider prov = createNiceMock(ISageAPIProvider.class);
-        expect(prov.callService(eq("GetShowYear"), (Object[]) anyObject())).andAnswer(new IAnswer<Object>() {
-            public Object answer() throws Throwable {
-                return simpleMetadataMap.get(((Object[])getCurrentArguments()[1])[0]);
-            }
-        }).anyTimes();
+		ISageAPIProvider prov = createNiceMock(ISageAPIProvider.class);
+		expect(prov.callService(eq("GetShowYear"), (Object[]) anyObject())).andAnswer(new IAnswer<Object>() {
+			public Object answer() throws Throwable {
+				return simpleMetadataMap.get(((Object[]) getCurrentArguments()[1])[0]);
+			}
+		}).anyTimes();
 
-        expect(prov.callService(eq("GetMediaFileMetadata"), (Object[]) anyObject())).andAnswer(new IAnswer<Object>() {
-            public Object answer() throws Throwable {
-                return simpleMetadataMap.get(((Object[])getCurrentArguments()[1])[0]);
-            }
-        }).anyTimes();
-        
-        expect(prov.callService(eq("IsMediaFileObject"), (Object[]) anyObject())).andAnswer(new IAnswer<Object>() {
-            public Object answer() throws Throwable {
-                return true;
-            }
-        }).anyTimes();
-        
-        replay(prov);
-        SageAPI.setProvider(prov);
+		expect(prov.callService(eq("GetMediaFileMetadata"), (Object[]) anyObject())).andAnswer(new IAnswer<Object>() {
+			public Object answer() throws Throwable {
+				return simpleMetadataMap.get(((Object[]) getCurrentArguments()[1])[0]);
+			}
+		}).anyTimes();
 
-        simpleMetadataMap.put("mediafile1", "2010");
-        simpleMetadataMap.put("mediafile2", "ten");
-        simpleMetadataMap.put("mediafile3", "");
-        simpleMetadataMap.put("mediafile4", null);
-        
-        IMetadata md = AiringMetadataProxy.newInstance("mediafile1");
-        assertEquals(phoenix.metadata.GetYear("mediafile1"),2010);
+		expect(prov.callService(eq("IsMediaFileObject"), (Object[]) anyObject())).andAnswer(new IAnswer<Object>() {
+			public Object answer() throws Throwable {
+				return true;
+			}
+		}).anyTimes();
 
-        md = AiringMetadataProxy.newInstance("mediafile2");
-        assertEquals(phoenix.metadata.GetYear("mediafile2"),0);
+		replay(prov);
+		SageAPI.setProvider(prov);
 
-        md = AiringMetadataProxy.newInstance("mediafile3");
-        assertEquals(phoenix.metadata.GetYear("mediafile3"),0);
+		simpleMetadataMap.put("mediafile1", "2010");
+		simpleMetadataMap.put("mediafile2", "ten");
+		simpleMetadataMap.put("mediafile3", "");
+		simpleMetadataMap.put("mediafile4", null);
 
-        md = AiringMetadataProxy.newInstance("mediafile4");
-        assertEquals(phoenix.metadata.GetYear("mediafile4"),0);
+		IMetadata md = AiringMetadataProxy.newInstance("mediafile1");
+		assertEquals(phoenix.metadata.GetYear("mediafile1"), 2010);
 
-        md = SageMediaFileMetadataProxy.newInstance("mediafile1");
-        assertEquals(phoenix.metadata.GetYear("mediafile1"),2010);
-        
-        md = SageMediaFileMetadataProxy.newInstance("mediafile2");
-        assertEquals(phoenix.metadata.GetYear("mediafile2"),0);
-        
-        md = SageMediaFileMetadataProxy.newInstance("mediafile3");
-        assertEquals(phoenix.metadata.GetYear("mediafile3"),0);
-        
-        md = SageMediaFileMetadataProxy.newInstance("mediafile4");
-        assertEquals(phoenix.metadata.GetYear("mediafile4"),0);
+		md = AiringMetadataProxy.newInstance("mediafile2");
+		assertEquals(phoenix.metadata.GetYear("mediafile2"), 0);
+
+		md = AiringMetadataProxy.newInstance("mediafile3");
+		assertEquals(phoenix.metadata.GetYear("mediafile3"), 0);
+
+		md = AiringMetadataProxy.newInstance("mediafile4");
+		assertEquals(phoenix.metadata.GetYear("mediafile4"), 0);
+
+		md = SageMediaFileMetadataProxy.newInstance("mediafile1");
+		assertEquals(phoenix.metadata.GetYear("mediafile1"), 2010);
+
+		md = SageMediaFileMetadataProxy.newInstance("mediafile2");
+		assertEquals(phoenix.metadata.GetYear("mediafile2"), 0);
+
+		md = SageMediaFileMetadataProxy.newInstance("mediafile3");
+		assertEquals(phoenix.metadata.GetYear("mediafile3"), 0);
+
+		md = SageMediaFileMetadataProxy.newInstance("mediafile4");
+		assertEquals(phoenix.metadata.GetYear("mediafile4"), 0);
 	}
-	
+
 	@Test
 	public void testYearUsingStub() throws Exception {
 		final Map<String, String> simpleMetadataMap = new HashMap<String, String>();
-        ISageAPIProvider prov = new ISageAPIProvider() {
+		ISageAPIProvider prov = new ISageAPIProvider() {
 			@Override
 			public Object callService(String context, String name, Object[] args) throws Exception {
 				return callService(name, args);
 			}
-			
+
 			@Override
 			public Object callService(String name, Object[] args) throws Exception {
 				if ("GetShowYear".equals(name)) {
@@ -108,36 +107,36 @@ public class TestGetYearError {
 				}
 			}
 		};
-        SageAPI.setProvider(prov);
+		SageAPI.setProvider(prov);
 
-        simpleMetadataMap.put("mediafile1", "2010");
-        simpleMetadataMap.put("mediafile2", "ten");
-        simpleMetadataMap.put("mediafile3", "");
-        simpleMetadataMap.put("mediafile4", null);
-        
-        IMetadata md = AiringMetadataProxy.newInstance("mediafile1");
-        assertEquals(phoenix.metadata.GetYear("mediafile1"),2010);
+		simpleMetadataMap.put("mediafile1", "2010");
+		simpleMetadataMap.put("mediafile2", "ten");
+		simpleMetadataMap.put("mediafile3", "");
+		simpleMetadataMap.put("mediafile4", null);
 
-        md = AiringMetadataProxy.newInstance("mediafile2");
-        assertEquals(phoenix.metadata.GetYear("mediafile2"),0);
+		IMetadata md = AiringMetadataProxy.newInstance("mediafile1");
+		assertEquals(phoenix.metadata.GetYear("mediafile1"), 2010);
 
-        md = AiringMetadataProxy.newInstance("mediafile3");
-        assertEquals(phoenix.metadata.GetYear("mediafile3"),0);
+		md = AiringMetadataProxy.newInstance("mediafile2");
+		assertEquals(phoenix.metadata.GetYear("mediafile2"), 0);
 
-        md = AiringMetadataProxy.newInstance("mediafile4");
-        assertEquals(phoenix.metadata.GetYear("mediafile4"),0);
+		md = AiringMetadataProxy.newInstance("mediafile3");
+		assertEquals(phoenix.metadata.GetYear("mediafile3"), 0);
 
-        md = SageMediaFileMetadataProxy.newInstance("mediafile1");
-        assertEquals(phoenix.metadata.GetYear("mediafile1"),2010);
-        
-        md = SageMediaFileMetadataProxy.newInstance("mediafile2");
-        assertEquals(phoenix.metadata.GetYear("mediafile2"),0);
-        
-        md = SageMediaFileMetadataProxy.newInstance("mediafile3");
-        assertEquals(phoenix.metadata.GetYear("mediafile3"),0);
-        
-        md = SageMediaFileMetadataProxy.newInstance("mediafile4");
-        assertEquals(phoenix.metadata.GetYear("mediafile4"),0);
+		md = AiringMetadataProxy.newInstance("mediafile4");
+		assertEquals(phoenix.metadata.GetYear("mediafile4"), 0);
+
+		md = SageMediaFileMetadataProxy.newInstance("mediafile1");
+		assertEquals(phoenix.metadata.GetYear("mediafile1"), 2010);
+
+		md = SageMediaFileMetadataProxy.newInstance("mediafile2");
+		assertEquals(phoenix.metadata.GetYear("mediafile2"), 0);
+
+		md = SageMediaFileMetadataProxy.newInstance("mediafile3");
+		assertEquals(phoenix.metadata.GetYear("mediafile3"), 0);
+
+		md = SageMediaFileMetadataProxy.newInstance("mediafile4");
+		assertEquals(phoenix.metadata.GetYear("mediafile4"), 0);
 	}
-	
+
 }

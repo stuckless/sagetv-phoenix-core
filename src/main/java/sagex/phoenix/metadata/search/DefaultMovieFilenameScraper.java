@@ -43,14 +43,12 @@ public class DefaultMovieFilenameScraper implements IFilenameScraper {
 		} catch (Throwable t) {
 			filenameUri = PathUtils.getLocation(res);
 		}
-		
+
 		SearchQuery q = new SearchQuery(hints);
-		
+
 		// scrapers failed, so let's do it this way.
 		String title = PathUtils.getBasename(res);
-		log.warn("Using DEFAULT scraper for: "
-				+ filenameUri + ", will use the following movie title: "
-				+ title);
+		log.warn("Using DEFAULT scraper for: " + filenameUri + ", will use the following movie title: " + title);
 		q.set(Field.RAW_TITLE, title);
 
 		// look for a year pattern...
@@ -60,7 +58,7 @@ public class DefaultMovieFilenameScraper implements IFilenameScraper {
 			int year = NumberUtils.toInt(title.substring(m.start(), m.end()), 0);
 			// only add the year if it's a valid year
 			// sometimes it might find 1080p and think that it's a year
-			if (year>0 && year != 1080) {
+			if (year > 0 && year != 1080) {
 				q.set(Field.YEAR, title.substring(m.start(), m.end()));
 				q.set(Field.RAW_TITLE, title.substring(0, m.start()));
 			}

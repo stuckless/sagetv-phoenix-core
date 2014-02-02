@@ -65,16 +65,14 @@ import sagex.phoenix.vfs.MediaResourceType;
 @API(group = "fanart")
 public class FanartAPI {
 	/**
-	 * Store for the tv series fanart defaults
-	 * {@value}
+	 * Store for the tv series fanart defaults * {@value}
 	 */
 	public static final String STORE_SERIES_FANART = "phoenix.seriesfanart";
 	/**
-	 * Store the tv season fanart defaults
-	 * {@value}
+	 * Store the tv season fanart defaults * {@value}
 	 */
 	private static final String STORE_SEASON_FANART = "phoenix.seasonfanart";
-	
+
 	private static final Logger log = Logger.getLogger(FanartAPI.class);
 
 	private IFanartSupport2 api = null;
@@ -723,7 +721,7 @@ public class FanartAPI {
 
 		if (mediaType == MediaType.TV) {
 			IMetadata md = mf.getMetadata();
-			if (md.getEpisodeNumber()>0) {
+			if (md.getEpisodeNumber() > 0) {
 				Map<String, String> props = new HashMap<String, String>();
 				props.put(FanartUtil.SEASON_NUMBER, String.valueOf(md.getSeasonNumber()));
 				props.put(FanartUtil.EPISODE_NUMBER, String.valueOf(md.getEpisodeNumber()));
@@ -776,8 +774,7 @@ public class FanartAPI {
 		File fa = singleCache.get(key);
 		if (fa == null) {
 			// check if there is a default artifact
-			File def = GetDefaultArtifact(mediaObject, mediaType, mediaTitle, artifactType,
-					artifactTitle, metadata);
+			File def = GetDefaultArtifact(mediaObject, mediaType, mediaTitle, artifactType, artifactTitle, metadata);
 			if (def != null) {
 				singleCache.put(key, def);
 				fa = def;
@@ -827,14 +824,14 @@ public class FanartAPI {
 
 	public File GetDefaultArtifact(Object mediaObject, MediaType mediaType, String mediaTitle, MediaArtifactType artifactType,
 			String artifactTitle, Map<String, String> metadata) {
- 
+
 		Object file = sage(mediaObject);
 		IMediaFile mf = phoenix.media.GetMediaFile(mediaObject);
 		mediaType = resolveMediaType(mediaType, mf);
 		mediaTitle = resolveMediaTitle(mediaTitle, mf);
 		artifactTitle = resolveFanartArtifactTitle(artifactType, artifactTitle, mf);
 		metadata = resolveFanartMetadata(metadata, mediaType, mf);
-		
+
 		if (file == null || artifactType == null)
 			return null;
 
@@ -847,28 +844,28 @@ public class FanartAPI {
 			key = ISageCustomMetadataRW.FieldName.DEFAULT_BANNER;
 		}
 
-        //check if the Metadata has SEASON specific data and handle differently
-        Boolean isTVSeason = Boolean.FALSE;
-        if (metadata!=null){
-            if (metadata.containsKey(FanartUtil.SEASON_NUMBER)){
-                isTVSeason = Boolean.TRUE;
-            }
-        }
-		
-        String def = null;
-        if (isTVSeason) {
-            String title = resolveMediaTitle(mf.getTitle(), mf);
-            String SeasonNumber = metadata.get(FanartUtil.SEASON_NUMBER);
-            String SeasonTitle = resolveMediaSeasonTitle(title, SeasonNumber);
+		// check if the Metadata has SEASON specific data and handle differently
+		Boolean isTVSeason = Boolean.FALSE;
+		if (metadata != null) {
+			if (metadata.containsKey(FanartUtil.SEASON_NUMBER)) {
+				isTVSeason = Boolean.TRUE;
+			}
+		}
+
+		String def = null;
+		if (isTVSeason) {
+			String title = resolveMediaTitle(mf.getTitle(), mf);
+			String SeasonNumber = metadata.get(FanartUtil.SEASON_NUMBER);
+			String SeasonTitle = resolveMediaSeasonTitle(title, SeasonNumber);
 			def = UserRecordUtil.getField(STORE_SEASON_FANART, SeasonTitle, artifactType.name());
-        } else if (mf.isType(MediaResourceType.TV.value())) {
+		} else if (mf.isType(MediaResourceType.TV.value())) {
 			// defaults for TV shows need to be stored against the seriesname
 			String title = resolveMediaTitle(mf.getTitle(), mf);
 			def = UserRecordUtil.getField(STORE_SERIES_FANART, title, artifactType.name());
-        } else {
-    		def = MediaFileAPI.GetMediaFileMetadata(mf.getMediaObject(), key);
-        }
-        
+		} else {
+			def = MediaFileAPI.GetMediaFileMetadata(mf.getMediaObject(), key);
+		}
+
 		if (!StringUtils.isEmpty(def)) {
 			File f = new File(def);
 
@@ -907,9 +904,9 @@ public class FanartAPI {
 	}
 
 	public static String resolveMediaSeasonTitle(String mediaTitle, String SeasonNumber) {
-        return mediaTitle + "-" + FanartUtil.SEASON_NUMBER + "-" + SeasonNumber;
-    }
-	
+		return mediaTitle + "-" + FanartUtil.SEASON_NUMBER + "-" + SeasonNumber;
+	}
+
 	private void SetFanartArtifact(Object mediaObject, File fanart, MediaType mediaType, String mediaTitle,
 			MediaArtifactType artifactType, String artifactTitle, Map<String, String> metadata) {
 
@@ -920,16 +917,16 @@ public class FanartAPI {
 		}
 		mediaType = resolveMediaType(mediaType, mf);
 		metadata = resolveFanartMetadata(metadata, mediaType, mf);
-        mediaTitle = mf.getTitle();
-		
-        //check if the Metadata has SEASON specific data and handle differently
-        Boolean isTVSeason = Boolean.FALSE;
-        if (metadata!=null){
-            if (metadata.containsKey(FanartUtil.SEASON_NUMBER)){
-                isTVSeason = Boolean.TRUE;
-            }
-        }
-		
+		mediaTitle = mf.getTitle();
+
+		// check if the Metadata has SEASON specific data and handle differently
+		Boolean isTVSeason = Boolean.FALSE;
+		if (metadata != null) {
+			if (metadata.containsKey(FanartUtil.SEASON_NUMBER)) {
+				isTVSeason = Boolean.TRUE;
+			}
+		}
+
 		try {
 			if (!(api instanceof IHasCentralizedFanart)) {
 				log.warn("SetFanartArtifact only valid for central fanart implementations");
@@ -950,11 +947,11 @@ public class FanartAPI {
 
 			// for tv series, store it against the series name
 			if (isTVSeason) {
-	            //special handling for SEASON Defaults
-	            String SeasonNumber = metadata.get(FanartUtil.SEASON_NUMBER);
-	            String SeasonTitle = resolveMediaSeasonTitle(mediaTitle, SeasonNumber);
-	            log.debug("SetFanartArtifact: using special TV SEASON logic for '" + SeasonTitle + "'");
-                UserRecordUtil.setField(STORE_SEASON_FANART, SeasonTitle, artifactType.name(), file);
+				// special handling for SEASON Defaults
+				String SeasonNumber = metadata.get(FanartUtil.SEASON_NUMBER);
+				String SeasonTitle = resolveMediaSeasonTitle(mediaTitle, SeasonNumber);
+				log.debug("SetFanartArtifact: using special TV SEASON logic for '" + SeasonTitle + "'");
+				UserRecordUtil.setField(STORE_SEASON_FANART, SeasonTitle, artifactType.name(), file);
 			} else if (mf.isType(MediaResourceType.TV.value())) {
 				// tv without season information
 				UserRecordUtil.setField(STORE_SERIES_FANART, mediaTitle, artifactType.name(), file);

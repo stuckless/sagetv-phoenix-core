@@ -22,8 +22,9 @@ public class RemoveFanartFilesVisitor extends FileVisitor {
 
 	@Override
 	public boolean visitFile(IMediaFile res, IProgressMonitor monitor) {
-		String sfile = phoenix.fanart.GetFanartArtifactDir(res, (MediaType)null, null, (MediaArtifactType)null, null, null, false);
-		if (sfile !=null) {
+		String sfile = phoenix.fanart
+				.GetFanartArtifactDir(res, (MediaType) null, null, (MediaArtifactType) null, null, null, false);
+		if (sfile != null) {
 			File file = new File(sfile);
 			try {
 				Loggers.METADATA.info("REMOVE FANART: " + file);

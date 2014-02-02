@@ -17,13 +17,15 @@ public class TestCorruptImageScaling {
 		InitPhoenix.init(false, true);
 		File imageIn = new File("NoCommit/testimages/79d4b5d02165889b4dc98857284b6b9c-164541-6.jpg");
 		File imageOut = new File("NoCommit/testimages/79d4b5d02165889b4dc98857284b6b9c-164541-6.jpg_scaled.jpg");
-        BufferedImage img = readImage(imageIn);//ImageUtil.getImageAsBufferedImage(imageIn);
-        BufferedImage imgNew;
-        //imgNew = Phoenix.getInstance().getTransformFactory().applyTransform(img, "{name:scale, width:200}");
-        ImageIO.write(img, "JPEG", imageOut);
-        System.out.println("Image Written");
+		BufferedImage img = readImage(imageIn);// ImageUtil.getImageAsBufferedImage(imageIn);
+		BufferedImage imgNew;
+		// imgNew =
+		// Phoenix.getInstance().getTransformFactory().applyTransform(img,
+		// "{name:scale, width:200}");
+		ImageIO.write(img, "JPEG", imageOut);
+		System.out.println("Image Written");
 	}
-	
+
 	public static BufferedImage readImage(File in) {
 		BufferedImage bufferedImage = null;
 		int w = 0;
@@ -35,28 +37,14 @@ public class TestCorruptImageScaling {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		WritableRaster raster = 
-			Raster.createInterleavedRaster (DataBuffer.TYPE_BYTE,
-					w,
-					h,
-					4,
-					null);
-		ComponentColorModel colorModel=
-			new ComponentColorModel (ColorSpace.getInstance(ColorSpace.CS_sRGB),
-					new int[] {8,8,8,8},
-					true,
-					false,
-					ComponentColorModel.TRANSLUCENT,
-					DataBuffer.TYPE_BYTE);
-		BufferedImage dukeImg = 
-			new BufferedImage (colorModel,
-					raster,
-					false,
-					null);
+		WritableRaster raster = Raster.createInterleavedRaster(DataBuffer.TYPE_BYTE, w, h, 4, null);
+		ComponentColorModel colorModel = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB),
+				new int[] { 8, 8, 8, 8 }, true, false, ComponentColorModel.TRANSLUCENT, DataBuffer.TYPE_BYTE);
+		BufferedImage dukeImg = new BufferedImage(colorModel, raster, false, null);
 
 		Graphics2D g = dukeImg.createGraphics();
-		g.drawImage(bufferedImage, 0,0,null);
-		
+		g.drawImage(bufferedImage, 0, 0, null);
+
 		return dukeImg;
 	}
 }

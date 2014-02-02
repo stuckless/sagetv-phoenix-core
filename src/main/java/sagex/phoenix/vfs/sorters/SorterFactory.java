@@ -8,30 +8,31 @@ import sagex.phoenix.factory.Factory;
 import sagex.phoenix.vfs.IMediaResource;
 
 public class SorterFactory extends Factory<Sorter> {
-    private Sorter sorter = null;
-    
-    public SorterFactory(String klass) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-    	this(((Class<Comparator<IMediaResource>>) Class.forName(klass)).newInstance());
-    }
-    
-    public SorterFactory(Comparator<IMediaResource> comparator) {
-    	sorter = new Sorter(comparator);
+	private Sorter sorter = null;
+
+	public SorterFactory(String klass) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+		this(((Class<Comparator<IMediaResource>>) Class.forName(klass)).newInstance());
 	}
 
-    public Sorter create(Set<ConfigurableOption> configurableOptions) {
-    	Sorter newSort;
+	public SorterFactory(Comparator<IMediaResource> comparator) {
+		sorter = new Sorter(comparator);
+	}
+
+	public Sorter create(Set<ConfigurableOption> configurableOptions) {
+		Sorter newSort;
 		try {
 			newSort = (Sorter) sorter.clone();
-	    	newSort.setName(getName());
-	    	newSort.setLabel(getLabel());
+			newSort.setName(getName());
+			newSort.setLabel(getLabel());
 		} catch (CloneNotSupportedException e) {
 			log.warn("Failedt to create new sorter!", e);
 			return null;
 		}
-		
-		// simply clone the original sorter and return it fully configured with the new options
-    	newSort.configure(configurableOptions);
-    	newSort.setTags(getTags());
-    	return newSort;
-    }
+
+		// simply clone the original sorter and return it fully configured with
+		// the new options
+		newSort.configure(configurableOptions);
+		newSort.setTags(getTags());
+		return newSort;
+	}
 }

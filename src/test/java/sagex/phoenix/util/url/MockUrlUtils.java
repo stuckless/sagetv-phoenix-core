@@ -15,7 +15,8 @@ public class MockUrlUtils {
 
 	public static IUrl mockUrlResource(Object resolveBase, String res) throws IOException {
 		IUrl url = mock(IUrl.class);
-		doReturn(resolveBase.getClass().getResource(res).openStream()).when(url).getInputStream((ICookieHandler) any(), anyBoolean());
+		doReturn(resolveBase.getClass().getResource(res).openStream()).when(url).getInputStream((ICookieHandler) any(),
+				anyBoolean());
 		return url;
 	}
 }

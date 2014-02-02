@@ -9,12 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 import sagex.phoenix.remote.streaming.GenericCommandMediaProcess.Env;
-import sagex.phoenix.util.Loggers;
 import sagex.phoenix.util.TextReplacement;
 
 public class VLCHLSMediaProcess extends MediaProcess {
@@ -25,12 +23,13 @@ public class VLCHLSMediaProcess extends MediaProcess {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static void putEnv(Map map, String name, String value) {
 		if (!StringUtils.isEmpty(value)) {
-			map.put(name,value);
+			map.put(name, value);
 		}
 	}
 
-	// 
-	// vlc -I dummy --mms-caching 0 "$1" vlc://quit --sout=#transcode{vcodec=h264,vb=256}:std{access=livehttp{seglen=10,delsegs=true,numsegs=5,index=/home/sls/WWW/mystream.m3u8,index-url=http://192.168.1.12:8000/mystream-########.ts},mux=ts{use-key-frames},dst=/home/sls/WWW/mystream-########.ts}
+	//
+	// vlc -I dummy --mms-caching 0 "$1" vlc://quit
+	// --sout=#transcode{vcodec=h264,vb=256}:std{access=livehttp{seglen=10,delsegs=true,numsegs=5,index=/home/sls/WWW/mystream.m3u8,index-url=http://192.168.1.12:8000/mystream-########.ts},mux=ts{use-key-frames},dst=/home/sls/WWW/mystream-########.ts}
 	@Override
 	public synchronized void start() throws Exception {
 		mediaManager.log("VLC Process Manager starting...");
@@ -41,7 +40,7 @@ public class VLCHLSMediaProcess extends MediaProcess {
 		cmd.add("dummy");
 		cmd.add("--mms-caching");
 		cmd.add("0");
-		
+
 		if (!StringUtils.isEmpty(config.getVLCConfig().getExtraArgs().get())) {
 			try {
 				// split the args and add them.
@@ -50,12 +49,12 @@ public class VLCHLSMediaProcess extends MediaProcess {
 				mediaManager.log(e);
 			}
 		}
-		
+
 		// add in the file(s)
-		for (String f: getRequest().getSources()) {
+		for (String f : getRequest().getSources()) {
 			cmd.add(f);
 		}
-		
+
 		cmd.add("vlc://quit");
 
 		StringBuilder sout = new StringBuilder("--sout=");
@@ -66,7 +65,7 @@ public class VLCHLSMediaProcess extends MediaProcess {
 			getMediaManager().log("Missing Profile for " + profileId + "; using default profile");
 			vlcProfile = config.getVLCConfig().getDefault_profile().get();
 		}
-		
+
 		Map<String, String> env = new HashMap<String, String>();
 		putEnv(env, Env.BASE_URL, getRequest().getBaseUrl());
 		putEnv(env, Env.CLIENT_ID, getRequest().getClientId());
@@ -75,16 +74,16 @@ public class VLCHLSMediaProcess extends MediaProcess {
 		putEnv(env, Env.OUTPUT_DIR, getRequest().getOutputDir());
 		vlcProfile = TextReplacement.replaceVariables(vlcProfile, env);
 		sout.append(vlcProfile);
-		
+
 		cmd.add(sout.toString());
-		
+
 		// set the mediaurl in the control info
 		controlInfo.setMediaUrl(getIndexUrl());
 		controlInfo.setLockFile(getIndexFile());
-		
+
 		String cmdString = Arrays.toString(cmd.toArray());
 		mediaManager.log("VLC Command: " + cmdString);
-		
+
 		// write the command to the log
 		File logFile = getOutputLogFile();
 		try {
@@ -99,7 +98,7 @@ public class VLCHLSMediaProcess extends MediaProcess {
 			sb.append(ExceptionUtils.getFullStackTrace(e)).append("\n");
 			FileUtils.writeStringToFile(logFile, sb.toString());
 		}
-		
+
 		mediaManager.log("VLC Process Started");
 	}
 
@@ -123,7 +122,7 @@ public class VLCHLSMediaProcess extends MediaProcess {
 		File f = new File(getRequest().getOutputDir(), getDestFilenameForSegment());
 		return f.toString();
 	}
-	
+
 	private String getDestFilenameForSegment() {
 		return getStreamName() + "-########.ts";
 	}

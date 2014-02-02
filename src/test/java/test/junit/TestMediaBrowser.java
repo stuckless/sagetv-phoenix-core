@@ -115,8 +115,7 @@ public class TestMediaBrowser {
 		filter.setValue("Test");
 		assertEquals("Test", filter.getOption(Filter.OPT_VALUE).value().get());
 
-		VirtualMediaFolder folder = new VirtualMediaFolder(null,
-				"Sample Folder");
+		VirtualMediaFolder folder = new VirtualMediaFolder(null, "Sample Folder");
 		folder.addMediaResource(newMF("Test"));
 		folder.addMediaResource(newMF("Test1"));
 		folder.addMediaResource(newMF("Test2"));
@@ -127,8 +126,7 @@ public class TestMediaBrowser {
 		assertEquals("Incorrect Child Count", 4, view.getChildren().size());
 
 		// get all filters, and dump them.
-		Set<FilterFactory> filters = Phoenix.getInstance().getVFSManager()
-				.getVFSFilterFactory().getFactories(view.getTags());
+		Set<FilterFactory> filters = Phoenix.getInstance().getVFSManager().getVFSFilterFactory().getFactories(view.getTags());
 		assertTrue(filters.size() > 0);
 		for (FilterFactory f : filters) {
 			System.out.println("Available Filter: " + f.getLabel());
@@ -163,34 +161,31 @@ public class TestMediaBrowser {
 	public void testGroups() {
 		VirtualMediaFolder folder = new VirtualMediaFolder("TV");
 		VirtualMediaFile f = null;
-		f = new VirtualMediaFile(folder, "Futurama-S1E1", "Futurama-S1E1",
-				"Futurama");
+		f = new VirtualMediaFile(folder, "Futurama-S1E1", "Futurama-S1E1", "Futurama");
 		f.getMetadata().setRelativePathWithTitle("Futurama");
 		f.getMetadata().setSeasonNumber(1);
 		f.getMetadata().setEpisodeNumber(1);
 		f.getMetadata().setEpisodeName("Episode 1");
 		folder.getChildren().add(f);
 
-		// grouping should group basedon the letters and numbers only, and ignore case,
+		// grouping should group basedon the letters and numbers only, and
+		// ignore case,
 		// so prove that here
-		f = new VirtualMediaFile(folder, "Futurama-S1E2", "Futurama-S1E2",
-				"futurama");
+		f = new VirtualMediaFile(folder, "Futurama-S1E2", "Futurama-S1E2", "futurama");
 		f.getMetadata().setRelativePathWithTitle("Futurama");
 		f.getMetadata().setSeasonNumber(1);
 		f.getMetadata().setEpisodeNumber(2);
 		f.getMetadata().setEpisodeName("Episode 2");
 		folder.getChildren().add(f);
 
-		f = new VirtualMediaFile(folder, "Futurama-S1E3", "Futurama-S1E3",
-				"Futurama!");
+		f = new VirtualMediaFile(folder, "Futurama-S1E3", "Futurama-S1E3", "Futurama!");
 		f.getMetadata().setRelativePathWithTitle("Futurama");
 		f.getMetadata().setSeasonNumber(1);
 		f.getMetadata().setEpisodeNumber(3);
 		f.getMetadata().setEpisodeName("Episode 3");
 		folder.getChildren().add(f);
 
-		f = new VirtualMediaFile(folder, "Futurama-S2E1", "Futurama-S2E1",
-				"Futurama");
+		f = new VirtualMediaFile(folder, "Futurama-S2E1", "Futurama-S2E1", "Futurama");
 		f.getMetadata().setRelativePathWithTitle("Futurama");
 		f.getMetadata().setSeasonNumber(2);
 		f.getMetadata().setEpisodeNumber(1);
@@ -212,8 +207,7 @@ public class TestMediaBrowser {
 			public String getGroupName(IMediaResource res) {
 				if (res instanceof IMediaFile) {
 					System.out.println("RES: " + res);
-					String g = ((IMediaFile) res).getMetadata()
-							.getRelativePathWithTitle();
+					String g = ((IMediaFile) res).getMetadata().getRelativePathWithTitle();
 					System.out.println("GROUP: " + g);
 					return g;
 				} else {
@@ -238,8 +232,7 @@ public class TestMediaBrowser {
 		assertTrue(fact.hasViewPresentation(2));
 
 		ViewFolder view = new ViewFolder(fact, 0, null, folder);
-		view.accept(new SimpleSTDOUTVisitor(), null,
-				IMediaResource.DEEP_UNLIMITED);
+		view.accept(new SimpleSTDOUTVisitor(), null, IMediaResource.DEEP_UNLIMITED);
 		assertEquals(1, view.getGroupers().size());
 		assertEquals(2, view.getChildren().size());
 
@@ -261,25 +254,18 @@ public class TestMediaBrowser {
 		// check that we have 2 child items in Futurama for Season 1 and Season
 		// 2
 		ViewFolder futuramaItems = (ViewFolder) res;
-		System.out.println("*** Factory: "
-				+ futuramaItems.getViewFactory().getViewPresentations().size());
-		System.out.println("*** Groupers: "
-				+ futuramaItems.getViewFactory().getViewPresentation(1)
-						.getGroupers().size());
-		System.out.println("*** Groupers: "
-				+ futuramaItems.getGroupers().size());
-		System.out.println("*** Level: "
-				+ futuramaItems.getPresentation().getLevel());
+		System.out.println("*** Factory: " + futuramaItems.getViewFactory().getViewPresentations().size());
+		System.out.println("*** Groupers: " + futuramaItems.getViewFactory().getViewPresentation(1).getGroupers().size());
+		System.out.println("*** Groupers: " + futuramaItems.getGroupers().size());
+		System.out.println("*** Level: " + futuramaItems.getPresentation().getLevel());
 		if (futuramaItems.getChildren().size() != 2) {
 			System.out.println("*** Invalid Grouping ****");
 			dumpResources(futuramaItems.getChildren());
-			fail("Folder has too many/too few items: "
-					+ futuramaItems.getChildren().size());
+			fail("Folder has too many/too few items: " + futuramaItems.getChildren().size());
 		}
 
 		// first items in futuram should be folder with 3 items
-		Iterator<IMediaResource> futureIter = futuramaItems.getChildren()
-				.iterator();
+		Iterator<IMediaResource> futureIter = futuramaItems.getChildren().iterator();
 		IMediaFolder season1 = (IMediaFolder) futureIter.next();
 		assertEquals("Season 01", season1.getTitle());
 		if (season1.getChildren().size() != 3) {
@@ -310,32 +296,28 @@ public class TestMediaBrowser {
 	public void testGroupsSingleLevel() {
 		VirtualMediaFolder folder = new VirtualMediaFolder("TV");
 		VirtualMediaFile f = null;
-		f = new VirtualMediaFile(folder, "Futurama-S1E1", "Futurama-S1E1",
-				"Futurama");
+		f = new VirtualMediaFile(folder, "Futurama-S1E1", "Futurama-S1E1", "Futurama");
 		f.getMetadata().setRelativePathWithTitle("Futurama");
 		f.getMetadata().setSeasonNumber(1);
 		f.getMetadata().setEpisodeNumber(1);
 		f.getMetadata().setEpisodeName("Episode 1");
 		folder.getChildren().add(f);
 
-		f = new VirtualMediaFile(folder, "Futurama-S1E2", "Futurama-S1E2",
-				"Futurama");
+		f = new VirtualMediaFile(folder, "Futurama-S1E2", "Futurama-S1E2", "Futurama");
 		f.getMetadata().setRelativePathWithTitle("Futurama");
 		f.getMetadata().setSeasonNumber(1);
 		f.getMetadata().setEpisodeNumber(2);
 		f.getMetadata().setEpisodeName("Episode 2");
 		folder.getChildren().add(f);
 
-		f = new VirtualMediaFile(folder, "Futurama-S1E3", "Futurama-S1E3",
-				"Futurama");
+		f = new VirtualMediaFile(folder, "Futurama-S1E3", "Futurama-S1E3", "Futurama");
 		f.getMetadata().setRelativePathWithTitle("Futurama");
 		f.getMetadata().setSeasonNumber(1);
 		f.getMetadata().setEpisodeNumber(3);
 		f.getMetadata().setEpisodeName("Episode 3");
 		folder.getChildren().add(f);
 
-		f = new VirtualMediaFile(folder, "Futurama-S2E1", "Futurama-S2E1",
-				"Futurama");
+		f = new VirtualMediaFile(folder, "Futurama-S2E1", "Futurama-S2E1", "Futurama");
 		f.getMetadata().setRelativePathWithTitle("Futurama");
 		f.getMetadata().setSeasonNumber(2);
 		f.getMetadata().setEpisodeNumber(1);
@@ -356,8 +338,7 @@ public class TestMediaBrowser {
 			@Override
 			public String getGroupName(IMediaResource res) {
 				if (res instanceof IMediaFile) {
-					String g = ((IMediaFile) res).getMetadata()
-							.getRelativePathWithTitle();
+					String g = ((IMediaFile) res).getMetadata().getRelativePathWithTitle();
 					return g;
 				} else {
 					return null;
@@ -400,15 +381,13 @@ public class TestMediaBrowser {
 		if (futuramaItems.getChildren().size() != 4) {
 			System.out.println("*** Invalid Grouping ****");
 			// dumpResources(futuramaItems.getChildren());
-			fail("Folder has too many/too few items: "
-					+ futuramaItems.getChildren().size());
+			fail("Folder has too many/too few items: " + futuramaItems.getChildren().size());
 		}
 	}
 
 	private void dumpResources(List<IMediaResource> children) {
 		for (IMediaResource r : children) {
-			System.out.println("Item: " + r.getTitle() + "; Folder: "
-					+ (r instanceof IMediaFolder));
+			System.out.println("Item: " + r.getTitle() + "; Folder: " + (r instanceof IMediaFolder));
 		}
 	}
 
@@ -419,18 +398,13 @@ public class TestMediaBrowser {
 		f = new VirtualMediaFile(folder, "B", "B", "B");
 		folder.getChildren().add(f);
 
-		folder.getChildren().add(
-				new VirtualMediaFolder(folder, "Sub Folder B", null,
-						"Sub Folder B"));
+		folder.getChildren().add(new VirtualMediaFolder(folder, "Sub Folder B", null, "Sub Folder B"));
 
 		f = new VirtualMediaFile(folder, "C", "C", "C");
 		folder.getChildren().add(f);
 
-		folder.getChildren().add(
-				new VirtualMediaFolder(folder, "Sub Folder A", null,
-						"Sub Folder A"));
-		VirtualMediaFolder subc = new VirtualMediaFolder(folder,
-				"Sub Folder C", null, "Sub Folder C");
+		folder.getChildren().add(new VirtualMediaFolder(folder, "Sub Folder A", null, "Sub Folder A"));
+		VirtualMediaFolder subc = new VirtualMediaFolder(folder, "Sub Folder C", null, "Sub Folder C");
 		f = new VirtualMediaFile(subc, "item2", "item2", "item2");
 		subc.addMediaResource(f);
 		f = new VirtualMediaFile(subc, "item1", "item1", "item1");
@@ -449,8 +423,7 @@ public class TestMediaBrowser {
 		assertEquals(6, folder.getChildren().size());
 
 		// grab simple title sorter
-		Sorter sorter = Phoenix.getInstance().getVFSManager()
-				.getVFSSortFactory().getFactory("title").create(null);
+		Sorter sorter = Phoenix.getInstance().getVFSManager().getVFSSortFactory().getFactory("title").create(null);
 
 		ViewFolder view = new ViewFolder(null, 0, null, folder);
 		view.setSorter(sorter);
@@ -473,8 +446,7 @@ public class TestMediaBrowser {
 
 		IMediaFolder r = (IMediaFolder) view.getChildren().get(2);
 		assertEquals("Sub Folder C", r.getTitle());
-		assertTrue("ViewFolder folders must be a ViewFolder",
-				r instanceof ViewFolder);
+		assertTrue("ViewFolder folders must be a ViewFolder", r instanceof ViewFolder);
 		iter = r.getChildren().iterator();
 		assertEquals("item1", iter.next().getTitle());
 		assertEquals("item2", iter.next().getTitle());
@@ -506,8 +478,7 @@ public class TestMediaBrowser {
 		assertEquals("Sub Folder B", iter.next().getTitle());
 		assertEquals("Sub Folder C", iter.next().getTitle());
 
-		sorter.getOption(Sorter.OPT_SORT_ORDER).value()
-				.setValue(Sorter.SORT_DESC);
+		sorter.getOption(Sorter.OPT_SORT_ORDER).value().setValue(Sorter.SORT_DESC);
 		sorter.setChanged(true);
 		view.refresh();
 		iter = view.getChildren().iterator();
@@ -550,8 +521,7 @@ public class TestMediaBrowser {
 		assertEquals(7, folder.getChildren().size());
 
 		ViewFolder view = new ViewFolder(null, 0, null, folder);
-		Sorter sorter = Phoenix.getInstance().getVFSManager()
-				.getVFSSortFactory().getFactory("title").create(null);
+		Sorter sorter = Phoenix.getInstance().getVFSManager().getVFSSortFactory().getFactory("title").create(null);
 		view.setSorter(sorter);
 		view.refresh();
 		assertEquals(7, view.getChildren().size());
@@ -582,8 +552,7 @@ public class TestMediaBrowser {
 		assertEquals("TmpTV", iter.next().getTitle());
 
 		view.setSorter(sorter);
-		sorter.getOption(Sorter.OPT_SORT_ORDER).value()
-				.setValue(Sorter.SORT_DESC);
+		sorter.getOption(Sorter.OPT_SORT_ORDER).value().setValue(Sorter.SORT_DESC);
 		sorter.setChanged(true);
 		view.refresh();
 		iter = view.getChildren().iterator();
@@ -610,18 +579,14 @@ public class TestMediaBrowser {
 		files.add(makeFile("import2/Shows/ShowA.avi", true));
 
 		ISageAPIProvider prov = createNiceMock(ISageAPIProvider.class);
-		expect(prov.callService("GetVideoLibraryImportPaths", null)).andAnswer(
-				new IAnswer<Object[]>() {
-					public Object[] answer() throws Throwable {
-						System.out
-								.println("*** Returning Library Import Paths ****");
-						return imports.toArray(new File[] {});
-					}
-				}).anyTimes();
+		expect(prov.callService("GetVideoLibraryImportPaths", null)).andAnswer(new IAnswer<Object[]>() {
+			public Object[] answer() throws Throwable {
+				System.out.println("*** Returning Library Import Paths ****");
+				return imports.toArray(new File[] {});
+			}
+		}).anyTimes();
 
-		expect(
-				prov.callService(eq("GetFileForSegment"),
-						(Object[]) anyObject())).andAnswer(new IAnswer<File>() {
+		expect(prov.callService(eq("GetFileForSegment"), (Object[]) anyObject())).andAnswer(new IAnswer<File>() {
 			public File answer() throws Throwable {
 				// Mental Note about IAnswer
 				// getCurrentArguments() return the arguments that are passed in
@@ -634,40 +599,31 @@ public class TestMediaBrowser {
 			}
 		}).anyTimes();
 
-		expect(
-				prov.callService(eq("GetMediaFiles"),
-						aryEq(new Object[] { "VL" }))).andAnswer(
-				new IAnswer<Object[]>() {
-					public Object[] answer() throws Throwable {
-						return files.toArray(new File[] {});
-					}
-				}).anyTimes();
+		expect(prov.callService(eq("GetMediaFiles"), aryEq(new Object[] { "VL" }))).andAnswer(new IAnswer<Object[]>() {
+			public Object[] answer() throws Throwable {
+				return files.toArray(new File[] {});
+			}
+		}).anyTimes();
 
-		expect(prov.callService(eq("GetShowTitle"), (Object[]) anyObject()))
-				.andAnswer(new IAnswer<Object>() {
-					public Object answer() throws Throwable {
-						return ((File) ((Object[]) getCurrentArguments()[1])[0])
-								.getName();
-					}
-				}).anyTimes();
+		expect(prov.callService(eq("GetShowTitle"), (Object[]) anyObject())).andAnswer(new IAnswer<Object>() {
+			public Object answer() throws Throwable {
+				return ((File) ((Object[]) getCurrentArguments()[1])[0]).getName();
+			}
+		}).anyTimes();
 
-		expect(
-				prov.callService(eq("GetMediaFileForFilePath"),
-						(Object[]) anyObject())).andAnswer(
-				new IAnswer<Object>() {
-					public Object answer() throws Throwable {
-						File file = (File) ((Object[]) getCurrentArguments()[1])[0];
-						return file;
-					}
-				}).anyTimes();
+		expect(prov.callService(eq("GetMediaFileForFilePath"), (Object[]) anyObject())).andAnswer(new IAnswer<Object>() {
+			public Object answer() throws Throwable {
+				File file = (File) ((Object[]) getCurrentArguments()[1])[0];
+				return file;
+			}
+		}).anyTimes();
 
 		replay(prov);
 		SageAPI.setProvider(prov);
 
 		Loggers.VFS_LOG.setLevel(Level.DEBUG);
 		IMediaFolder folder = phoenix.api.GetSageSourcesMediaFolder(true, "VL");
-		System.out.println("\n\n*** Dumping Combined View: "
-				+ folder.getClass().getName());
+		System.out.println("\n\n*** Dumping Combined View: " + folder.getClass().getName());
 		IMediaResourceVisitor vis = new SimpleSTDOUTVisitor();
 		// DebugFolderWalker.walk(folder, true, vis);
 		folder.accept(vis, null, 0);
@@ -705,14 +661,10 @@ public class TestMediaBrowser {
 		p.accept(vis, null, IMediaResource.DEEP_UNLIMITED);
 		assertEquals("Did not visit all folders", 2, vis.folders);
 		assertEquals("Did not visit all files", 6, vis.files);
-		assertEquals("Incorrect Folder Order", "Parent", vis.folderList.get(0)
-				.getTitle());
-		assertEquals("Incorrect Folder Order", "ChildFolder", vis.folderList
-				.get(1).getTitle());
-		assertEquals("Incorrect Folder Order", "Child1", vis.fileList.get(0)
-				.getTitle());
-		assertEquals("Incorrect Folder Order", "Child6", vis.fileList.get(5)
-				.getTitle());
+		assertEquals("Incorrect Folder Order", "Parent", vis.folderList.get(0).getTitle());
+		assertEquals("Incorrect Folder Order", "ChildFolder", vis.folderList.get(1).getTitle());
+		assertEquals("Incorrect Folder Order", "Child1", vis.fileList.get(0).getTitle());
+		assertEquals("Incorrect Folder Order", "Child6", vis.fileList.get(5).getTitle());
 
 		vis.reset();
 		p.accept(vis, null, 0);
@@ -723,10 +675,8 @@ public class TestMediaBrowser {
 		p.accept(vis, null, 1);
 		assertEquals("Did not visit all folders", 2, vis.folders);
 		assertEquals("Did not visit all files", 3, vis.files);
-		assertEquals("Incorrect Folder Order", "Parent", vis.folderList.get(0)
-				.getTitle());
-		assertEquals("Incorrect Folder Order", "ChildFolder", vis.folderList
-				.get(1).getTitle());
+		assertEquals("Incorrect Folder Order", "Parent", vis.folderList.get(0).getTitle());
+		assertEquals("Incorrect Folder Order", "ChildFolder", vis.folderList.get(1).getTitle());
 	}
 
 	@Test
@@ -750,8 +700,7 @@ public class TestMediaBrowser {
 
 	@Test
 	public void testConfigurationOptionsAPI() {
-		ConfigurableOption co = new ConfigurableOption("test", "label", "one",
-				DataType.string, true, ListSelection.single,
+		ConfigurableOption co = new ConfigurableOption("test", "label", "one", DataType.string, true, ListSelection.single,
 				"one:One,two:Two,three:Three");
 
 		List<ListValue> values = co.getListValues();
@@ -830,8 +779,7 @@ public class TestMediaBrowser {
 		// simulate rendering the Filters in the STV
 		List<ConfigurableOption> opts = viewAPI.GetOptions(f);
 		for (ConfigurableOption opt : opts) {
-			System.out.println("Filter Option: " + confAPI.GetName(opt) + "; "
-					+ confAPI.GetLabel(opt));
+			System.out.println("Filter Option: " + confAPI.GetName(opt) + "; " + confAPI.GetLabel(opt));
 			assertNotNull(confAPI.GetLabel(opt));
 			assertNotNull(confAPI.GetName(opt));
 		}
@@ -866,8 +814,7 @@ public class TestMediaBrowser {
 		// simular rendering of sorters in the STV
 		opts = viewAPI.GetOptions(s);
 		for (ConfigurableOption opt : opts) {
-			System.out.println("Sorter Option: " + confAPI.GetName(opt) + "; "
-					+ confAPI.GetLabel(opt));
+			System.out.println("Sorter Option: " + confAPI.GetName(opt) + "; " + confAPI.GetLabel(opt));
 			assertNotNull(confAPI.GetLabel(opt));
 			assertNotNull(confAPI.GetName(opt));
 		}
@@ -912,11 +859,8 @@ public class TestMediaBrowser {
 		api.overrideAPI("GetUIContextNames", null);
 
 		// this expression evaluates to false
-		api.addExpression("GetProperty(\"xxx_enabled\",\"false\")==\"true\"",
-				"false");
-		api.addExpression(
-				"phoenix_config_GetProperty(\"phoenix/core/enableAdvancedViews\")",
-				false);
+		api.addExpression("GetProperty(\"xxx_enabled\",\"false\")==\"true\"", "false");
+		api.addExpression("phoenix_config_GetProperty(\"phoenix/core/enableAdvancedViews\")", false);
 		ISageAPIProvider old = SageAPI.getProvider();
 		SageAPI.setProvider(api);
 
@@ -924,8 +868,7 @@ public class TestMediaBrowser {
 		fact.setName("test");
 		fact.addTag("test");
 		fact.getOption(ViewFactory.OPT_VISIBLE).value().set("false");
-		FactoryRegistry<ViewFactory> fr = new FactoryRegistry<ViewFactory>(
-				"views");
+		FactoryRegistry<ViewFactory> fr = new FactoryRegistry<ViewFactory>("views");
 		fr.addFactory(fact);
 
 		fact = new ViewFactory();
@@ -961,9 +904,7 @@ public class TestMediaBrowser {
 		fact = new ViewFactory();
 		fact.setName("xxx");
 		fact.addTag("xxx");
-		fact.getOption(ViewFactory.OPT_VISIBLE)
-				.value()
-				.setValue("${GetProperty(\"xxx_enabled\",\"false\")==\"true\"}");
+		fact.getOption(ViewFactory.OPT_VISIBLE).value().setValue("${GetProperty(\"xxx_enabled\",\"false\")==\"true\"}");
 		assertFalse(fact.isVisible());
 		fr.addFactory(fact);
 
@@ -977,8 +918,7 @@ public class TestMediaBrowser {
 
 		// this expression evaluates to true, this changes things so that
 		// we should now be returning 1 result for xxx since it is not hidden
-		api.addExpression("GetProperty(\"xxx_enabled\",\"false\")==\"true\"",
-				"true");
+		api.addExpression("GetProperty(\"xxx_enabled\",\"false\")==\"true\"", "true");
 		list2 = fr.getFactories("xxx", false);
 		assertEquals(1, list2.size());
 
@@ -988,13 +928,10 @@ public class TestMediaBrowser {
 			assertTrue("Should only return visible views", vf.isVisible());
 		}
 
-		api.addExpression(
-				"phoenix_config_GetProperty(\"phoenix/core/enableAdvancedViews\")",
-				false);
+		api.addExpression("phoenix_config_GetProperty(\"phoenix/core/enableAdvancedViews\")", false);
 		Set<ViewFactory> factories2 = phoenix.umb.GetViewFactories("online");
 		for (ViewFactory vf : factories2) {
-			System.out.println("! Online View: " + vf.getName() + "; "
-					+ vf.isVisible() + "; " + phoenix.umb.IsVisible(vf));
+			System.out.println("! Online View: " + vf.getName() + "; " + vf.isVisible() + "; " + phoenix.umb.IsVisible(vf));
 		}
 		assertEquals(0, factories2.size());
 
@@ -1003,8 +940,7 @@ public class TestMediaBrowser {
 
 	@Test
 	public void testGenreFilter() {
-		FileMediaFile mf = (FileMediaFile) FileResourceFactory
-				.createResource(new File("/tmp/file.avi"));
+		FileMediaFile mf = (FileMediaFile) FileResourceFactory.createResource(new File("/tmp/file.avi"));
 		mf.getMetadata().getGenres().add("Movie");
 		mf.getMetadata().getGenres().add("Action");
 
@@ -1041,21 +977,14 @@ public class TestMediaBrowser {
 		FileMediaFile mf2 = (FileMediaFile) FileResourceFactory.createResource(new File("/tmp/Movies/Wow/Beach Ball/file.avi"));
 
 		// test using options in the filter
-		String filter = "<!DOCTYPE vfs SYSTEM \"vfs.dtd\">\r\n" + 
-				"<vfs>\r\n" + 
-				"   <filters>\r\n" + 
-				"        <item-group name=\"testfilterexclude2\" label=\"Movies Only\" mode=\"and\">\r\n" + 
-				"          <filter by=\"filepath\" scope=\"exclude\">\r\n" +
-				"             <option name=\"value\">New</option>\n" +
-				"          </filter>\r\n" + 
-				"        </item-group>\r\n" + 
-				"   </filters>\r\n" + 
-				"</vfs>\r\n" + 
-				"";
-		
+		String filter = "<!DOCTYPE vfs SYSTEM \"vfs.dtd\">\r\n" + "<vfs>\r\n" + "   <filters>\r\n"
+				+ "        <item-group name=\"testfilterexclude2\" label=\"Movies Only\" mode=\"and\">\r\n"
+				+ "          <filter by=\"filepath\" scope=\"exclude\">\r\n" + "             <option name=\"value\">New</option>\n"
+				+ "          </filter>\r\n" + "        </item-group>\r\n" + "   </filters>\r\n" + "</vfs>\r\n" + "";
+
 		VFSBuilder b = new VFSBuilder(Phoenix.getInstance().getVFSManager());
 		b.registerVFSSources(filter, Phoenix.getInstance().getVFSDir(), Phoenix.getInstance().getVFSManager());
-		
+
 		Filter f = phoenix.umb.CreateFilter("testfilterexclude2");
 		assertEquals(false, f.accept(mf));
 		assertEquals(true, f.accept(mf2));
@@ -1067,52 +996,34 @@ public class TestMediaBrowser {
 		FileMediaFile mf = (FileMediaFile) FileResourceFactory.createResource(makeFile("TestOverride/Movies/New/File1.avi"));
 		FileMediaFile mf2 = (FileMediaFile) FileResourceFactory.createResource(makeFile("TestOverride/Movies/New/File2.avi"));
 
-		String view = "<!DOCTYPE vfs SYSTEM \"vfs.dtd\">\r\n" +
-				"<vfs>" +
-				"   <filters>\r\n" + 
-				"        <item-group name=\"testoverride\" label=\"Test Override\" mode=\"and\">\r\n" + 
-				"          <filter by=\"filepath\" scope=\"exclude\">\r\n" +
-				"             <option name=\"value\">File1</option>\n" +
-				"          </filter>\r\n" + 
-				"        </item-group>\r\n" + 
-				"   </filters>\r\n" + 
-				"  <views>" +
-				"		<view name=\"test_override_view\" label=\"Test Override\">\r\n" + 
-				"			<description>Test Override</description>\r\n" + 
-				"			<source name=\"filesystem\">\r\n" +
-				"             <option name=\"dir\">"+mfdir.getAbsolutePath()+"</option>\n" +
-				"           </source>" +
-				"			<filter by=\"testoverride\"/>\r\n" + 
-				"		</view>" +
-				"  </views>" +
-				"</vfs>";
-		
+		String view = "<!DOCTYPE vfs SYSTEM \"vfs.dtd\">\r\n" + "<vfs>" + "   <filters>\r\n"
+				+ "        <item-group name=\"testoverride\" label=\"Test Override\" mode=\"and\">\r\n"
+				+ "          <filter by=\"filepath\" scope=\"exclude\">\r\n"
+				+ "             <option name=\"value\">File1</option>\n" + "          </filter>\r\n" + "        </item-group>\r\n"
+				+ "   </filters>\r\n" + "  <views>" + "		<view name=\"test_override_view\" label=\"Test Override\">\r\n"
+				+ "			<description>Test Override</description>\r\n" + "			<source name=\"filesystem\">\r\n"
+				+ "             <option name=\"dir\">" + mfdir.getAbsolutePath() + "</option>\n" + "           </source>"
+				+ "			<filter by=\"testoverride\"/>\r\n" + "		</view>" + "  </views>" + "</vfs>";
+
 		VFSOrganizer org = new VFSOrganizer(Phoenix.getInstance().getVFSDir());
 		org.organize(new StringReader(view), "view1");
-		
+
 		// Create a new filter using the same name.
 		// the previous view should be using this new filter when
 		// create view is called, lets see if that happens
-		String filter = "<!DOCTYPE vfs SYSTEM \"vfs.dtd\">\r\n" + 
-				"<vfs>\r\n" + 
-				"   <filters>\r\n" + 
-				"        <item-group name=\"testoverride\" label=\"Overriding it again\" mode=\"and\">\r\n" + 
-				"          <filter by=\"filepath\" scope=\"exclude\">\r\n" +
-				"             <option name=\"value\">BOB</option>\n" +
-				"          </filter>\r\n" + 
-				"        </item-group>\r\n" + 
-				"   </filters>\r\n" + 
-				"</vfs>\r\n" + 
-				"";
+		String filter = "<!DOCTYPE vfs SYSTEM \"vfs.dtd\">\r\n" + "<vfs>\r\n" + "   <filters>\r\n"
+				+ "        <item-group name=\"testoverride\" label=\"Overriding it again\" mode=\"and\">\r\n"
+				+ "          <filter by=\"filepath\" scope=\"exclude\">\r\n" + "             <option name=\"value\">BOB</option>\n"
+				+ "          </filter>\r\n" + "        </item-group>\r\n" + "   </filters>\r\n" + "</vfs>\r\n" + "";
 
 		org.organize(new StringReader(filter), "filter");
-		
+
 		StringWriter w = new StringWriter();
 		org.writeTo(w);
-		
+
 		VFSBuilder b = new VFSBuilder(Phoenix.getInstance().getVFSManager());
 		b.registerVFSSources(w.getBuffer().toString(), Phoenix.getInstance().getVFSDir(), Phoenix.getInstance().getVFSManager());
-		
+
 		ViewFolder v = phoenix.umb.CreateView("test_override_view");
 		// TODO: Fix this, this is still broken
 		assertEquals(2, v.getChildren().size());
@@ -1125,88 +1036,65 @@ public class TestMediaBrowser {
 		FileMediaFile mf2 = (FileMediaFile) FileResourceFactory.createResource(makeFile("TestOverride/Movies/New/File2.avi"));
 
 		VFSOrganizer org = new VFSOrganizer(Phoenix.getInstance().getVFSDir());
-		String view = "<!DOCTYPE vfs SYSTEM \"vfs.dtd\">\r\n" +
-				"<vfs>" +
-				"   <filters>\r\n" + 
-				"        <item-group name=\"testoverride\" label=\"Test Override\" mode=\"and\">\r\n" + 
-				"          <filter by=\"filepath\" scope=\"exclude\">\r\n" +
-				"             <option name=\"value\">File1</option>\n" +
-				"          </filter>\r\n" + 
-				"        </item-group>\r\n" + 
-				"   </filters>\r\n" + 
-				"  <views>" +
-				"		<view name=\"test_override_view\" label=\"Test Override\">\r\n" + 
-				"			<description>Test Override</description>\r\n" + 
-				"			<source name=\"filesystem\">\r\n" +
-				"             <option name=\"dir\">"+mfdir.getAbsolutePath()+"</option>\n" +
-				"           </source>" +
-				"			<filter by=\"testoverride\"/>\r\n" + 
-				"		</view>" +
-				"		<view name=\"test_override_view2\" label=\"Test Override2\" flat=\"true\">\r\n" + 
-				"			<description>Test Override 2</description>\r\n" + 
-				"			<view-source name=\"test_override_view\"/>\r\n" +
-				"		</view>" +
-				"  </views>" +
-				"</vfs>";
-		
+		String view = "<!DOCTYPE vfs SYSTEM \"vfs.dtd\">\r\n" + "<vfs>" + "   <filters>\r\n"
+				+ "        <item-group name=\"testoverride\" label=\"Test Override\" mode=\"and\">\r\n"
+				+ "          <filter by=\"filepath\" scope=\"exclude\">\r\n"
+				+ "             <option name=\"value\">File1</option>\n" + "          </filter>\r\n" + "        </item-group>\r\n"
+				+ "   </filters>\r\n" + "  <views>" + "		<view name=\"test_override_view\" label=\"Test Override\">\r\n"
+				+ "			<description>Test Override</description>\r\n" + "			<source name=\"filesystem\">\r\n"
+				+ "             <option name=\"dir\">" + mfdir.getAbsolutePath() + "</option>\n" + "           </source>"
+				+ "			<filter by=\"testoverride\"/>\r\n" + "		</view>"
+				+ "		<view name=\"test_override_view2\" label=\"Test Override2\" flat=\"true\">\r\n"
+				+ "			<description>Test Override 2</description>\r\n" + "			<view-source name=\"test_override_view\"/>\r\n"
+				+ "		</view>" + "  </views>" + "</vfs>";
+
 		org.organize(new StringReader(view), "view1");
-		
-		// Create a new view, that overrides the first view, and removes the filter.
+
+		// Create a new view, that overrides the first view, and removes the
+		// filter.
 		// the net result is that our second view should now use the new source
-		String views = "<!DOCTYPE vfs SYSTEM \"vfs.dtd\">\r\n" + 
-				"<vfs>\r\n" + 
-				"  <views>" +
-				"		<view name=\"test_override_view\" label=\"Test Override\">\r\n" + 
-				"			<description>Test Override</description>\r\n" + 
-				"			<source name=\"filesystem\">\r\n" +
-				"             <option name=\"dir\">"+mfdir.getAbsolutePath()+"</option>\n" +
-				"           </source>" +
-				"		</view>" +
-				"  </views>" +
-				"</vfs>\r\n" + 
-				"";
-		
+		String views = "<!DOCTYPE vfs SYSTEM \"vfs.dtd\">\r\n" + "<vfs>\r\n" + "  <views>"
+				+ "		<view name=\"test_override_view\" label=\"Test Override\">\r\n"
+				+ "			<description>Test Override</description>\r\n" + "			<source name=\"filesystem\">\r\n"
+				+ "             <option name=\"dir\">" + mfdir.getAbsolutePath() + "</option>\n" + "           </source>"
+				+ "		</view>" + "  </views>" + "</vfs>\r\n" + "";
+
 		org.organize(new StringReader(views), "view2");
 		StringWriter w = new StringWriter();
 		org.writeTo(w);
-		
+
 		VFSBuilder b = new VFSBuilder(Phoenix.getInstance().getVFSManager());
 		b.registerVFSSources(w.getBuffer().toString(), Phoenix.getInstance().getVFSDir(), Phoenix.getInstance().getVFSManager());
 
-		// if the view references works correctly, then we should now be using the new 
+		// if the view references works correctly, then we should now be using
+		// the new
 		// view without filtering as our new view source
 		ViewFolder v = phoenix.umb.CreateView("test_override_view2");
 		assertEquals(2, v.getChildren().size());
 	}
-	
-	
+
 	@Test
 	public void testFilterCloning() throws ParserConfigurationException, SAXException, IOException {
-		String view = "<!DOCTYPE vfs SYSTEM \"vfs.dtd\">\r\n" +
-				"<vfs>" +
-				"   <filters>\r\n" + 
-				"        <item-group name=\"testclone\" label=\"Test Override\" mode=\"and\">\r\n" + 
-				"          <filter by=\"metadata\" scope=\"include\">\r\n" +
-				"             <option name=\"field\">MediaType</option>\n" +
-				"             <option name=\"value\">TV</option>\n" +
-				"          </filter>\r\n" + 
-				"        </item-group>\r\n" + 
-				"   </filters>\r\n" + 
-				"</vfs>";
-		
-		assertTrue("VFS Manager Filters not loaded??", Phoenix.getInstance().getVFSManager().getVFSFilterFactory().getFactories().size()>0);
-		
+		String view = "<!DOCTYPE vfs SYSTEM \"vfs.dtd\">\r\n" + "<vfs>" + "   <filters>\r\n"
+				+ "        <item-group name=\"testclone\" label=\"Test Override\" mode=\"and\">\r\n"
+				+ "          <filter by=\"metadata\" scope=\"include\">\r\n"
+				+ "             <option name=\"field\">MediaType</option>\n" + "             <option name=\"value\">TV</option>\n"
+				+ "          </filter>\r\n" + "        </item-group>\r\n" + "   </filters>\r\n" + "</vfs>";
+
+		assertTrue("VFS Manager Filters not loaded??", Phoenix.getInstance().getVFSManager().getVFSFilterFactory().getFactories()
+				.size() > 0);
+
 		VFSBuilder b = new VFSBuilder(Phoenix.getInstance().getVFSManager());
 		b.registerVFSSources(view, Phoenix.getInstance().getVFSDir(), Phoenix.getInstance().getVFSManager());
-		
+
 		VirtualMediaFile vmf = new VirtualMediaFile("Test");
 		vmf.getMetadata().setMediaType("TV");
 		assertEquals("TV", vmf.getMetadata().getMediaType());
-		
+
 		Filter f = phoenix.umb.CreateFilter("testclone");
 		assertTrue("Did Not Accept TV", f.accept(vmf));
 	}
-	
+
 	private static class Recording {
 		private static int ids = 0;
 		public int id;
@@ -1223,19 +1111,14 @@ public class TestMediaBrowser {
 
 	@Test
 	public void testGroupingAPI() {
-		final Recording[] recordings = new Recording[] {
-				new Recording("House", "EP1"), new Recording("House", "EP2"),
-				new Recording("House", "EP3"), new Recording("Bones", "EP1"),
-				new Recording("Bones", "EP2"), };
+		final Recording[] recordings = new Recording[] { new Recording("House", "EP1"), new Recording("House", "EP2"),
+				new Recording("House", "EP3"), new Recording("Bones", "EP1"), new Recording("Bones", "EP2"), };
 
 		ISageAPIProvider prov = new ISageAPIProvider() {
 			@Override
-			public Object callService(String context, String name, Object[] args)
-					throws Exception {
-				if ("GetMediaFiles".equals(name)
-						|| "EvaluateExpression".equals(name)) {
-					List<Recording> items = new ArrayList<Recording>(
-							Arrays.asList(recordings));
+			public Object callService(String context, String name, Object[] args) throws Exception {
+				if ("GetMediaFiles".equals(name) || "EvaluateExpression".equals(name)) {
+					List<Recording> items = new ArrayList<Recording>(Arrays.asList(recordings));
 					for (Iterator<Recording> i = items.iterator(); i.hasNext();) {
 						Recording r = i.next();
 						if (r.deleted) {
@@ -1243,22 +1126,17 @@ public class TestMediaBrowser {
 						}
 					}
 					return items.toArray(new Recording[] {});
-				} else if ("GetMediaFileID".equals(name)
-						|| "GetAiringID".equals(name)) {
+				} else if ("GetMediaFileID".equals(name) || "GetAiringID".equals(name)) {
 					return ((Recording) args[0]).id;
-				} else if ("IsTVFile".equals(name)
-						|| "IsAiringObject".equals(name)
-						|| "IsMediaFileObject".equals(name)) {
+				} else if ("IsTVFile".equals(name) || "IsAiringObject".equals(name) || "IsMediaFileObject".equals(name)) {
 					return true;
 				} else if ("GetShowEpisode".equals(name)) {
 					return ((Recording) args[0]).ep;
 				} else if ("GetShowExternalID".equals(name)) {
 					return "EP" + ((Recording) args[0]).id;
-				} else if ("GetShowTitle".equals(name)
-						|| "GetMediaTitle".equals(name)) {
+				} else if ("GetShowTitle".equals(name) || "GetMediaTitle".equals(name)) {
 					return ((Recording) args[0]).name;
-				} else if ("GetShowCategory".equals(name)
-						|| "GetMediaFileMetadata".equals(name)) {
+				} else if ("GetShowCategory".equals(name) || "GetMediaFileMetadata".equals(name)) {
 					return null;
 				} else {
 					System.out.println("Unhandled API: " + name);
@@ -1267,8 +1145,7 @@ public class TestMediaBrowser {
 			}
 
 			@Override
-			public Object callService(String name, Object[] args)
-					throws Exception {
+			public Object callService(String name, Object[] args) throws Exception {
 				return callService(null, name, args);
 			}
 		};
@@ -1302,24 +1179,18 @@ public class TestMediaBrowser {
 		Sorter s = phoenix.umb.GetSoter("mysorter", view);
 		assertNull(s);
 	}
-	
+
 	@Test
 	public void testDeleteChildrenOfViewRemovesFolderFromViewAsWell() {
-		final Recording[] recordings = new Recording[] {
-				new Recording("House", "EP1"), new Recording("House", "EP2"),
-				new Recording("House", "EP3"), 
-				new Recording("Bones", "EP1"), new Recording("Bones", "EP2"),
-		};
+		final Recording[] recordings = new Recording[] { new Recording("House", "EP1"), new Recording("House", "EP2"),
+				new Recording("House", "EP3"), new Recording("Bones", "EP1"), new Recording("Bones", "EP2"), };
 
 		ISageAPIProvider prov = new ISageAPIProvider() {
 			@Override
-			public Object callService(String context, String name, Object[] args)
-					throws Exception {
-				if ("GetMediaFiles".equals(name)
-						|| "EvaluateExpression".equals(name)) {
+			public Object callService(String context, String name, Object[] args) throws Exception {
+				if ("GetMediaFiles".equals(name) || "EvaluateExpression".equals(name)) {
 					System.out.println("** GetMediaFiles");
-					List<Recording> items = new ArrayList<Recording>(
-							Arrays.asList(recordings));
+					List<Recording> items = new ArrayList<Recording>(Arrays.asList(recordings));
 					for (Iterator<Recording> i = items.iterator(); i.hasNext();) {
 						Recording r = i.next();
 						if (r.deleted) {
@@ -1328,26 +1199,21 @@ public class TestMediaBrowser {
 						}
 					}
 					return items.toArray(new Recording[] {});
-				} else if ("GetMediaFileID".equals(name)
-						|| "GetAiringID".equals(name)) {
+				} else if ("GetMediaFileID".equals(name) || "GetAiringID".equals(name)) {
 					return ((Recording) args[0]).id;
-				} else if ("IsTVFile".equals(name)
-						|| "IsAiringObject".equals(name)
-						|| "IsMediaFileObject".equals(name)) {
+				} else if ("IsTVFile".equals(name) || "IsAiringObject".equals(name) || "IsMediaFileObject".equals(name)) {
 					return true;
 				} else if ("GetShowEpisode".equals(name)) {
 					return ((Recording) args[0]).ep;
 				} else if ("GetShowExternalID".equals(name)) {
 					return "EP" + ((Recording) args[0]).id;
-				} else if ("GetShowTitle".equals(name)
-						|| "GetMediaTitle".equals(name)) {
+				} else if ("GetShowTitle".equals(name) || "GetMediaTitle".equals(name)) {
 					return ((Recording) args[0]).name;
-				} else if ("GetShowCategory".equals(name)
-						|| "GetMediaFileMetadata".equals(name)) {
+				} else if ("GetShowCategory".equals(name) || "GetMediaFileMetadata".equals(name)) {
 					return null;
 				} else if ("DeleteFile".equals(name)) {
 					System.out.println("Deleting: " + ((Recording) args[0]).name);
-					((Recording) args[0]).deleted=true;
+					((Recording) args[0]).deleted = true;
 					return true;
 				} else if ("GetProperty".equals(name)) {
 					return System.getProperty(name, "");
@@ -1358,8 +1224,7 @@ public class TestMediaBrowser {
 			}
 
 			@Override
-			public Object callService(String name, Object[] args)
-					throws Exception {
+			public Object callService(String name, Object[] args) throws Exception {
 				return callService(null, name, args);
 			}
 		};
@@ -1381,38 +1246,32 @@ public class TestMediaBrowser {
 		assertNotNull("No title grouper", gf);
 		phoenix.umb.SetGrouper(view, (Grouper) phoenix.umb.Create(gf));
 		assertEquals(2, view.getChildren().size());
-		
+
 		IMediaFolder chf = (IMediaFolder) view.getChild("Bones");
 		// delete the 2 children of bones..
 		chf.getChildren().get(0).delete(new Hints());
 		chf.getChildren().get(0).delete(new Hints());
-		
+
 		assertEquals(0, chf.getChildren().size());
-		
+
 		chf = (IMediaFolder) view.getChild("Bones");
 		view.accept(new PrintTreeVisitor(new PrintWriter(System.out)), null, IMediaFolder.DEEP_UNLIMITED);
-		
+
 		// now test the view to see if we still have bones
 		assertEquals(1, view.getChildren().size());
 	}
 
-
 	@Test
 	public void testDeleteFile() {
-		final Recording[] recordings = new Recording[] {
-				new Recording("House", "EP1"), new Recording("House", "EP2"),
-				new Recording("House", "EP3"), new Recording("Bones", "EP1"),
-				new Recording("Bones", "EP2"), };
+		final Recording[] recordings = new Recording[] { new Recording("House", "EP1"), new Recording("House", "EP2"),
+				new Recording("House", "EP3"), new Recording("Bones", "EP1"), new Recording("Bones", "EP2"), };
 
 		ISageAPIProvider prov = new ISageAPIProvider() {
 			@Override
-			public Object callService(String context, String name, Object[] args)
-					throws Exception {
-				if ("GetMediaFiles".equals(name)
-						|| "EvaluateExpression".equals(name)) {
+			public Object callService(String context, String name, Object[] args) throws Exception {
+				if ("GetMediaFiles".equals(name) || "EvaluateExpression".equals(name)) {
 					System.out.println("** Getting files");
-					List<Recording> items = new ArrayList<Recording>(
-							Arrays.asList(recordings));
+					List<Recording> items = new ArrayList<Recording>(Arrays.asList(recordings));
 					for (Iterator<Recording> i = items.iterator(); i.hasNext();) {
 						Recording r = i.next();
 						if (r.deleted) {
@@ -1421,22 +1280,17 @@ public class TestMediaBrowser {
 						}
 					}
 					return items.toArray(new Recording[] {});
-				} else if ("GetMediaFileID".equals(name)
-						|| "GetAiringID".equals(name)) {
+				} else if ("GetMediaFileID".equals(name) || "GetAiringID".equals(name)) {
 					return ((Recording) args[0]).id;
-				} else if ("IsTVFile".equals(name)
-						|| "IsAiringObject".equals(name)
-						|| "IsMediaFileObject".equals(name)) {
+				} else if ("IsTVFile".equals(name) || "IsAiringObject".equals(name) || "IsMediaFileObject".equals(name)) {
 					return true;
 				} else if ("GetShowEpisode".equals(name)) {
 					return ((Recording) args[0]).ep;
 				} else if ("GetShowExternalID".equals(name)) {
 					return "EP" + ((Recording) args[0]).id;
-				} else if ("GetShowTitle".equals(name)
-						|| "GetMediaTitle".equals(name)) {
+				} else if ("GetShowTitle".equals(name) || "GetMediaTitle".equals(name)) {
 					return ((Recording) args[0]).name;
-				} else if ("GetShowCategory".equals(name)
-						|| "GetMediaFileMetadata".equals(name)) {
+				} else if ("GetShowCategory".equals(name) || "GetMediaFileMetadata".equals(name)) {
 					return null;
 				} else if ("DeleteFile".equals(name)) {
 					System.out.println("**Deleted Called");
@@ -1453,8 +1307,7 @@ public class TestMediaBrowser {
 			}
 
 			@Override
-			public Object callService(String name, Object[] args)
-					throws Exception {
+			public Object callService(String name, Object[] args) throws Exception {
 				return callService(null, name, args);
 			}
 		};
@@ -1472,7 +1325,7 @@ public class TestMediaBrowser {
 		assertTrue("Did not delete file", deleted);
 		assertEquals(4, view.getChildren().size());
 	}
-	
+
 	@Test
 	public void testDeleteFileRemoveFromparent() {
 		VirtualMediaFolder root = new VirtualMediaFolder("Root");
@@ -1490,19 +1343,14 @@ public class TestMediaBrowser {
 
 	@Test
 	public void testBookmarks() {
-		final Recording[] recordings = new Recording[] {
-				new Recording("House", "EP1"), new Recording("House", "EP2"),
-				new Recording("House", "EP3"), new Recording("Bones", "EP1"),
-				new Recording("Bones", "EP2"), };
+		final Recording[] recordings = new Recording[] { new Recording("House", "EP1"), new Recording("House", "EP2"),
+				new Recording("House", "EP3"), new Recording("Bones", "EP1"), new Recording("Bones", "EP2"), };
 
 		ISageAPIProvider prov = new ISageAPIProvider() {
 			@Override
-			public Object callService(String context, String name, Object[] args)
-					throws Exception {
-				if ("GetMediaFiles".equals(name)
-						|| "EvaluateExpression".equals(name)) {
-					List<Recording> items = new ArrayList<Recording>(
-							Arrays.asList(recordings));
+			public Object callService(String context, String name, Object[] args) throws Exception {
+				if ("GetMediaFiles".equals(name) || "EvaluateExpression".equals(name)) {
+					List<Recording> items = new ArrayList<Recording>(Arrays.asList(recordings));
 					for (Iterator<Recording> i = items.iterator(); i.hasNext();) {
 						Recording r = i.next();
 						if (r.deleted) {
@@ -1510,22 +1358,17 @@ public class TestMediaBrowser {
 						}
 					}
 					return items.toArray(new Recording[] {});
-				} else if ("GetMediaFileID".equals(name)
-						|| "GetAiringID".equals(name)) {
+				} else if ("GetMediaFileID".equals(name) || "GetAiringID".equals(name)) {
 					return ((Recording) args[0]).id;
-				} else if ("IsTVFile".equals(name)
-						|| "IsAiringObject".equals(name)
-						|| "IsMediaFileObject".equals(name)) {
+				} else if ("IsTVFile".equals(name) || "IsAiringObject".equals(name) || "IsMediaFileObject".equals(name)) {
 					return true;
 				} else if ("GetShowEpisode".equals(name)) {
 					return ((Recording) args[0]).ep;
 				} else if ("GetShowExternalID".equals(name)) {
 					return "EP" + ((Recording) args[0]).id;
-				} else if ("GetShowTitle".equals(name)
-						|| "GetMediaTitle".equals(name)) {
+				} else if ("GetShowTitle".equals(name) || "GetMediaTitle".equals(name)) {
 					return ((Recording) args[0]).name;
-				} else if ("GetShowCategory".equals(name)
-						|| "GetMediaFileMetadata".equals(name)) {
+				} else if ("GetShowCategory".equals(name) || "GetMediaFileMetadata".equals(name)) {
 					return null;
 				} else if ("DeleteFile".equals(name)) {
 					((Recording) args[0]).deleted = true;
@@ -1542,8 +1385,7 @@ public class TestMediaBrowser {
 			}
 
 			@Override
-			public Object callService(String name, Object[] args)
-					throws Exception {
+			public Object callService(String name, Object[] args) throws Exception {
 				return callService(null, name, args);
 			}
 		};
@@ -1552,7 +1394,7 @@ public class TestMediaBrowser {
 
 		ViewFolder view = phoenix.umb.CreateView("phoenix.view.default.allTV");
 		assertNotNull("Didn't create recordings view", view);
-		assertTrue(view.getChildren().size()>0);
+		assertTrue(view.getChildren().size() > 0);
 		dumpResources(view.getChildren());
 
 		view = phoenix.umb.CreateView("phoenix.view.default.allTV", "{bookmark:'/House'}");
@@ -1602,24 +1444,21 @@ public class TestMediaBrowser {
 		a.METADATA.put("Year", "2009");
 
 		api.addExpression("GetMediaFiles()", api.mediafiles.values().toArray());
-		
+
 		ViewFolder f = phoenix.umb.CreateView("phoenix.view.source.mediafiles");
 		assertEquals(3, f.getChildren().size());
 
 		Grouper g = new Grouper(new MetadataFieldGrouper());
-		g.getOption(MetadataFieldGrouper.OPT_METADATA_FIELD).value()
-				.setValue("Year");
+		g.getOption(MetadataFieldGrouper.OPT_METADATA_FIELD).value().setValue("Year");
 		g.setChanged(true);
 		f.setGrouper(g);
 		f.setChanged();
 		assertEquals(2, f.getChildren().size());
 		assertEquals("2009", f.getChild("2009").getTitle());
 		assertEquals("2008", f.getChild("2008").getTitle());
-		assertEquals(2, ((IMediaFolder) f.getChild("2009")).getChildren()
-				.size());
+		assertEquals(2, ((IMediaFolder) f.getChild("2009")).getChildren().size());
 
-		assertNotNull(Phoenix.getInstance().getVFSManager()
-				.getVFSGroupFactory().getFactory("metadata"));
+		assertNotNull(Phoenix.getInstance().getVFSManager().getVFSGroupFactory().getFactory("metadata"));
 	}
 
 	@Test
@@ -1659,16 +1498,14 @@ public class TestMediaBrowser {
 		a.METADATA.put("Year", "2009");
 
 		api.addExpression("GetMediaFiles()", api.mediafiles.values().toArray());
-		
+
 		ViewFolder f = phoenix.umb.CreateView("phoenix.view.source.mediafiles");
 		assertEquals(3, f.getChildren().size());
 
 		Filter filt = new MetadataFieldFilter();
-		filt.getOption(MetadataFieldGrouper.OPT_METADATA_FIELD).value()
-				.setValue("Year");
+		filt.getOption(MetadataFieldGrouper.OPT_METADATA_FIELD).value().setValue("Year");
 		filt.getOption(MetadataFieldFilter.OPT_VALUE).value().setValue("2009");
-		filt.getOption(MetadataFieldFilter.OPT_COMPARE_AS_NUMBER).value()
-				.setValue("true");
+		filt.getOption(MetadataFieldFilter.OPT_COMPARE_AS_NUMBER).value().setValue("true");
 		filt.setChanged(true);
 		f.setFilter(filt);
 		f.setChanged();
@@ -1679,11 +1516,9 @@ public class TestMediaBrowser {
 
 		// test string filter
 		filt = new MetadataFieldFilter();
-		filt.getOption(MetadataFieldGrouper.OPT_METADATA_FIELD).value()
-				.setValue("Year");
+		filt.getOption(MetadataFieldGrouper.OPT_METADATA_FIELD).value().setValue("Year");
 		filt.getOption(MetadataFieldFilter.OPT_VALUE).value().setValue("2008");
-		filt.getOption(MetadataFieldFilter.OPT_COMPARE_AS_NUMBER).value()
-				.setValue("false");
+		filt.getOption(MetadataFieldFilter.OPT_COMPARE_AS_NUMBER).value().setValue("false");
 		filt.setChanged(true);
 		f.setFilter(filt);
 		f.setChanged();
@@ -1691,8 +1526,7 @@ public class TestMediaBrowser {
 		assertEquals("Title 2", f.getChildren().get(0).getTitle());
 		f.removeFilter(filt);
 
-		assertNotNull(Phoenix.getInstance().getVFSManager()
-				.getVFSFilterFactory().getFactory("metadata"));
+		assertNotNull(Phoenix.getInstance().getVFSManager().getVFSFilterFactory().getFactory("metadata"));
 	}
 
 	@Test
@@ -1733,14 +1567,12 @@ public class TestMediaBrowser {
 
 		api.addExpression("GetMediaFiles()", api.mediafiles.values().toArray());
 		ViewFolder f = phoenix.umb.CreateView("phoenix.view.source.mediafiles");
-		
+
 		assertEquals(3, f.getChildren().size());
 
 		Sorter s = new Sorter(new MetadataFieldSorter());
-		s.getOption(MetadataFieldSorter.OPT_METADATA_FIELD).value()
-				.setValue("Year");
-		s.getOption(MetadataFieldFilter.OPT_COMPARE_AS_NUMBER).value()
-				.setValue("true");
+		s.getOption(MetadataFieldSorter.OPT_METADATA_FIELD).value().setValue("Year");
+		s.getOption(MetadataFieldFilter.OPT_COMPARE_AS_NUMBER).value().setValue("true");
 		s.setChanged(true);
 		f.setSorter(s);
 		f.setChanged();
@@ -1752,10 +1584,8 @@ public class TestMediaBrowser {
 		// test string sorter, desc
 		f.removeSorter(s);
 		s = new Sorter(new MetadataFieldSorter());
-		s.getOption(MetadataFieldSorter.OPT_METADATA_FIELD).value()
-				.setValue("Year");
-		s.getOption(MetadataFieldFilter.OPT_COMPARE_AS_NUMBER).value()
-				.setValue("false");
+		s.getOption(MetadataFieldSorter.OPT_METADATA_FIELD).value().setValue("Year");
+		s.getOption(MetadataFieldFilter.OPT_COMPARE_AS_NUMBER).value().setValue("false");
 		s.getOption(Sorter.OPT_SORT_ORDER).value().setValue(Sorter.SORT_DESC);
 		s.setChanged(true);
 		f.setSorter(s);
@@ -1765,14 +1595,12 @@ public class TestMediaBrowser {
 		assertEquals("Title 1", f.getChildren().get(1).getTitle());
 		assertEquals("Title 2", f.getChildren().get(2).getTitle());
 
-		assertNotNull(Phoenix.getInstance().getVFSManager().getVFSSortFactory()
-				.getFactory("metadata"));
+		assertNotNull(Phoenix.getInstance().getVFSManager().getVFSSortFactory().getFactory("metadata"));
 	}
 
 	@Test
 	public void testFiltPathFilter() {
-		FileMediaFile mf = (FileMediaFile) FileResourceFactory
-				.createResource(new File("/tmp/path1/path2/file.avi"));
+		FileMediaFile mf = (FileMediaFile) FileResourceFactory.createResource(new File("/tmp/path1/path2/file.avi"));
 
 		Filter f = new FilePathFilter();
 		f.setValue("path1|path2");
@@ -1801,8 +1629,8 @@ public class TestMediaBrowser {
 		ISageAPIProvider old = SageAPI.getProvider();
 		try {
 			SimpleStubAPI api = new SimpleStubAPI();
-			api.LOG_MISSING_GETPROPERTY=true;
-			api.getProperties().put("phoenix/homevideos/folders","/tmp/path1/homemovies1/;/tmp/path1/homemovies2/");
+			api.LOG_MISSING_GETPROPERTY = true;
+			api.getProperties().put("phoenix/homevideos/folders", "/tmp/path1/homemovies1/;/tmp/path1/homemovies2/");
 			SageAPI.setProvider(api);
 
 			Filter f = new HomeVideosFilter();
@@ -1817,6 +1645,6 @@ public class TestMediaBrowser {
 	}
 
 	private FileMediaFile createFile(String file) {
-		return(FileMediaFile) FileResourceFactory.createResource(new File(file));
+		return (FileMediaFile) FileResourceFactory.createResource(new File(file));
 	}
 }

@@ -13,8 +13,9 @@ import sagex.phoenix.factory.ConfigurableOption.ListValue;
 import sagex.phoenix.tools.annotation.API;
 
 /**
- * API for managing configurable options that tend to be used in Factories and Views
- *  
+ * API for managing configurable options that tend to be used in Factories and
+ * Views
+ * 
  * @author seans
  */
 @API(group = "opt")
@@ -22,15 +23,15 @@ public class ConfigurableOptionsAPI {
 	public String GetName(ConfigurableOption opt) {
 		return opt.getName();
 	}
-	
+
 	public String GetLabel(ConfigurableOption opt) {
 		return opt.getLabel();
 	}
-	
+
 	public String GetType(ConfigurableOption opt) {
 		return opt.getDataType().name();
 	}
-	
+
 	public String GetValue(ConfigurableOption opt) {
 		return opt.getString("");
 	}
@@ -54,27 +55,28 @@ public class ConfigurableOptionsAPI {
 	public boolean IsList(ConfigurableOption opt) {
 		return opt.isList();
 	}
-	
+
 	public boolean IsMultiSelectList(ConfigurableOption opt) {
 		return IsList(opt) && ListSelection.multi.equals(opt.getListSelection());
 	}
-	
+
 	public List<ListValue> GetListValues(ConfigurableOption opt) {
 		return opt.getListValues();
 	}
-	
+
 	public String GetName(ListValue listValue) {
 		return listValue.getName();
 	}
-	
+
 	public String GetValue(ListValue listValue) {
 		return listValue.getValue();
 	}
-	
+
 	public boolean IsToggle(ConfigurableOption opt) {
-		return DataType.bool.equals(opt.getDataType()) || (IsList(opt) && opt.getListValues()!=null&&opt.getListValues().size()>=2);
+		return DataType.bool.equals(opt.getDataType())
+				|| (IsList(opt) && opt.getListValues() != null && opt.getListValues().size() >= 2);
 	}
-	
+
 	public void Toggle(ConfigurableOption opt) {
 		if (IsToggle(opt)) {
 			if (DataType.bool.equals(opt.getDataType())) {
@@ -82,42 +84,44 @@ public class ConfigurableOptionsAPI {
 				opt.value().setValue(String.valueOf(!opt.getBoolean(true)));
 				return;
 			}
-			
+
 			// otherwise toggle list
 			List<ListValue> values = opt.getListValues();
 			String curVal = opt.getString("");
-			if (curVal==null) {
+			if (curVal == null) {
 				opt.value().setValue(values.get(0).getValue());
 				return;
 			}
-			
+
 			// otherwise, find our option, and then move to the next one
 			int pos = -1;
-			for (int i=0;i<values.size();i++) {
+			for (int i = 0; i < values.size(); i++) {
 				if (curVal.equals(values.get(i).getValue())) {
 					pos = i;
 					break;
 				}
 			}
-			
+
 			// move to next spot
 			pos = pos + 1;
-			if (pos>=values.size()) {
-				pos=0;
+			if (pos >= values.size()) {
+				pos = 0;
 			}
 			opt.value().setValue(values.get(pos).getValue());
 		}
 	}
-	
+
 	public boolean IsListItemSelected(ConfigurableOption opt, ListValue item) {
 		Object val = opt.value().get();
-		if (val==null) return false;
+		if (val == null)
+			return false;
 		String vals[] = String.valueOf(val).split("\\s*,\\s*");
-		
-		for (String s: vals) {
-			if (s.equals(item.getValue())) return true;
+
+		for (String s : vals) {
+			if (s.equals(item.getValue()))
+				return true;
 		}
-		
+
 		return false;
 	}
 
@@ -126,12 +130,14 @@ public class ConfigurableOptionsAPI {
 		if (opt.isList() && ListSelection.single.equals(opt.getListSelection())) {
 			opt.value().setValue(item.getValue());
 		}
-		
+
 		// multi-select, then add this selection
 		Object val = opt.value().get();
-		if (val==null) return;
+		if (val == null)
+			return;
 		List<String> vals = new ArrayList<String>(Arrays.asList(String.valueOf(val).split("\\s*,\\s*")));
-		if (vals.contains(item.getValue())) return;
+		if (vals.contains(item.getValue()))
+			return;
 		vals.add(item.getValue());
 		opt.value().setValue(StringUtils.join(vals, ","));
 	}
@@ -141,15 +147,16 @@ public class ConfigurableOptionsAPI {
 		if (opt.isList() && ListSelection.single.equals(opt.getListSelection())) {
 			opt.value().setValue(null);
 		}
-		
+
 		// multi-select, then add this selection
 		Object val = opt.value().get();
-		if (val==null) return;
+		if (val == null)
+			return;
 		List<String> vals = new ArrayList<String>(Arrays.asList(String.valueOf(val).split("\\s*,\\s*")));
 		vals.remove(item.getValue());
 		opt.value().setValue(StringUtils.join(vals, ","));
 	}
-	
+
 	public ListValue GetSelectedItem(ConfigurableOption opt) {
 		for (ListValue lv : opt.getListValues()) {
 			if (IsListItemSelected(opt, lv)) {
@@ -158,5 +165,5 @@ public class ConfigurableOptionsAPI {
 		}
 		return null;
 	}
-	
+
 }

@@ -17,8 +17,8 @@ public class AndFilter extends Pair<IResourceFilter, IResourceFilter> implements
 	public boolean accept(IMediaResource res) {
 		return first().accept(res) && second().accept(res);
 	}
-	
+
 	public String toString() {
-		return "("+first()+" AND "+ second()+")";
+		return "(" + first() + " AND " + second() + ")";
 	}
 }

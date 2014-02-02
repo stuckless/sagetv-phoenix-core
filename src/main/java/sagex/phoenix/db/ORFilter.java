@@ -17,8 +17,8 @@ public class ORFilter extends Pair<IResourceFilter, IResourceFilter> implements 
 	public boolean accept(IMediaResource res) {
 		return first().accept(res) || second().accept(res);
 	}
-	
+
 	public String toString() {
-		return "("+first()+" OR "+ second()+")";
+		return "(" + first() + " OR " + second() + ")";
 	}
 }

@@ -22,25 +22,25 @@ public class BaseConfigurableSerializer implements JsonSerializer<BaseConfigurab
 		root.addProperty("_class", bc.getClass().getName());
 		JsonObject metadata = new JsonObject();
 		root.add("_metadata", metadata);
-		
+
 		if (bc instanceof HasName) {
-			root.addProperty("name", ((HasName)bc).getName());
+			root.addProperty("name", ((HasName) bc).getName());
 		}
 
 		if (bc instanceof HasLabel) {
-			root.addProperty("label", ((HasLabel)bc).getLabel());
+			root.addProperty("label", ((HasLabel) bc).getLabel());
 		}
-		
-		for (String s: bc.getOptionNames()) {
+
+		for (String s : bc.getOptionNames()) {
 			// add option/value
 			ConfigurableOption opt = bc.getOption(s);
 			root.addProperty(s, opt.getString(null));
-			
+
 			// add metadata
 			JsonObject copt = new JsonObject();
 			copt.addProperty("label", opt.getLabel());
 			copt.addProperty("type", opt.getDataType().toString());
-			metadata.addProperty(s, opt.getString(null));			
+			metadata.addProperty(s, opt.getString(null));
 			metadata.add(s, copt);
 		}
 		return root;

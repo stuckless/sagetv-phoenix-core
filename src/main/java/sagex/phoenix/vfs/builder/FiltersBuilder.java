@@ -23,10 +23,10 @@ public class FiltersBuilder extends FactoryItemBuilder<FilterFactory> {
 	private FilterFactory filterRef = null;
 	private Set<ConfigurableOption> opts = null;
 	private ConfigurableOption opt = null;
-	
-    public FiltersBuilder(VFSManager mgr) {
-        super(mgr,"filters");
-    }
+
+	public FiltersBuilder(VFSManager mgr) {
+		super(mgr, "filters");
+	}
 
 	@Override
 	protected FilterFactory createFactory(String className) throws SAXException {
@@ -39,7 +39,7 @@ public class FiltersBuilder extends FactoryItemBuilder<FilterFactory> {
 		} catch (ClassNotFoundException e) {
 			error("Failed to find class instance for factory for  " + className, e);
 		}
-		
+
 		return null;
 	}
 
@@ -56,18 +56,18 @@ public class FiltersBuilder extends FactoryItemBuilder<FilterFactory> {
 			factory.getOption(Factory.OPT_LABEL).value().set(groupLabel);
 			factory.getOption(Factory.OPT_VISIBLE).value().set(groupVisible);
 			factoryConfigured(factory);
-			groupedFilter=null;
+			groupedFilter = null;
 		} else if ("filter".equals(name)) {
 			groupedFilter.addFilter(filterRef.create(opts));
-			filterRef=null;
-			opts=null;
+			filterRef = null;
+			opts = null;
 		} else if ("option".equals(name)) {
-			if (filterRef!=null) {
+			if (filterRef != null) {
 				String data = getData();
 				if (!StringUtils.isEmpty(data)) {
 					opt.value().setValue(data);
 				}
-	        	opts.add(opt);
+				opts.add(opt);
 			}
 		} else {
 			super.endElement(uri, localName, name);
@@ -77,11 +77,12 @@ public class FiltersBuilder extends FactoryItemBuilder<FilterFactory> {
 	@Override
 	public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
 		clearData();
-		
-		// need to handle option/end option and set the option within the filter for a filter group
-		
+
+		// need to handle option/end option and set the option within the filter
+		// for a filter group
+
 		if ("item-group".equals(name)) {
-			if ("or".equals(XmlUtil.attr(attributes,"mode","or"))) {
+			if ("or".equals(XmlUtil.attr(attributes, "mode", "or"))) {
 				groupedFilter = new OrResourceFilter();
 			} else {
 				groupedFilter = new AndResourceFilter();
@@ -91,7 +92,7 @@ public class FiltersBuilder extends FactoryItemBuilder<FilterFactory> {
 			groupVisible = XmlUtil.attr(attributes, "visible");
 		} else if ("filter".equals(name)) {
 			filterRef = (FilterFactory) manager.getVFSFilterFactory().getFactory(XmlUtil.attr(attributes, "by"));
-			if (filterRef==null) {
+			if (filterRef == null) {
 				error("filters:item-group: unknown factory: " + XmlUtil.attr(attributes, "by"));
 			}
 			String value = XmlUtil.attr(attributes, "value");
@@ -103,13 +104,13 @@ public class FiltersBuilder extends FactoryItemBuilder<FilterFactory> {
 			if (!StringUtils.isEmpty(scope)) {
 				opts.add(new ConfigurableOption(Filter.OPT_SCOPE, scope));
 			}
-			if (groupedFilter==null) {
+			if (groupedFilter == null) {
 				error("filters:filters: apears to be missing grouped filter??");
 			}
 		} else if ("option".equals(name)) {
-			if (filterRef!=null) {
-	        	opt = new ConfigurableOption(XmlUtil.attr(attributes, "name"));
-	        	opt.value().set(XmlUtil.attr(attributes, "value"));
+			if (filterRef != null) {
+				opt = new ConfigurableOption(XmlUtil.attr(attributes, "name"));
+				opt.value().set(XmlUtil.attr(attributes, "value"));
 			} else {
 				super.startElement(uri, localName, name, attributes);
 			}

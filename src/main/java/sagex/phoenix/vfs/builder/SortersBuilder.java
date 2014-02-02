@@ -6,9 +6,9 @@ import sagex.phoenix.vfs.VFSManager;
 import sagex.phoenix.vfs.sorters.SorterFactory;
 
 public class SortersBuilder extends FactoryItemBuilder<SorterFactory> {
-    public SortersBuilder(VFSManager mgr) {
-        super(mgr,"sorts");
-    }
+	public SortersBuilder(VFSManager mgr) {
+		super(mgr, "sorts");
+	}
 
 	@Override
 	protected SorterFactory createFactory(String className) throws SAXException {

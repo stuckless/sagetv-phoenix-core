@@ -17,19 +17,19 @@ import sagex.phoenix.vfs.VirtualOnlineMediaFolder;
 
 public class XmlFolder extends VirtualOnlineMediaFolder {
 	private XmlOptions options = new XmlOptions();
-	
+
 	public XmlFolder(IMediaFolder parent, String title, String feedurl) {
 		super(parent, feedurl, feedurl, title, false);
-		this.options=new XmlOptions();
+		this.options = new XmlOptions();
 		options.setFeedUrl(feedurl);
 		log.info("Processing Feed: " + feedurl);
 	}
 
 	public XmlFolder(IMediaFolder parent, String title, XmlOptions options) {
 		super(parent, options.getFeedUrl(), options.getFeedUrl(), title, false);
-		this.options=options;
+		this.options = options;
 	}
-	
+
 	@Override
 	protected void populateChildren(List<IMediaResource> children) {
 		IUrl u = new Url(options.getFeedUrl());

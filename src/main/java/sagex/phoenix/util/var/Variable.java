@@ -7,49 +7,51 @@ import sagex.phoenix.configuration.proxy.FieldConverter;
 
 /**
  * @author seans
- *
+ * 
  */
 public class Variable<T> {
-    protected static final Logger log = Logger.getLogger(Variable.class);
-    
-    protected T value;
-    protected Class<T> type;
-    protected FieldConverter<T> converter;
+	protected static final Logger log = Logger.getLogger(Variable.class);
+
+	protected T value;
+	protected Class<T> type;
+	protected FieldConverter<T> converter;
 
 	public Variable(Class<T> type) {
 		this(null, type);
-    }
-    
-    public Variable(T value, Class<T> type) {
-        this.type=type;
-    	this.converter = (FieldConverter<T>) Converter.fromType(type);
-    	if (value!=null) {
-    		// don't bother calling set on null value
-            set(value);
-    	}
-    }
+	}
 
-    public Class<T> getType() {
+	public Variable(T value, Class<T> type) {
+		this.type = type;
+		this.converter = (FieldConverter<T>) Converter.fromType(type);
+		if (value != null) {
+			// don't bother calling set on null value
+			set(value);
+		}
+	}
+
+	public Class<T> getType() {
 		return type;
 	}
-    
-    public T get() {
-        return value;
-    }
-    
-    public void set(T value) {
-        this.value=value;
-    }
-    
-    public FieldConverter<T> getConverter() {
-    	return converter;
-    }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return "Variable<"+type+"> [value=" + value + "]";
-    }    
+	public T get() {
+		return value;
+	}
+
+	public void set(T value) {
+		this.value = value;
+	}
+
+	public FieldConverter<T> getConverter() {
+		return converter;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Variable<" + type + "> [value=" + value + "]";
+	}
 }

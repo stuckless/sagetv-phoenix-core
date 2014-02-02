@@ -32,27 +32,30 @@ public class FanartStorage implements DownloadHandler {
 
 	private MetadataConfiguration metadataConfig = GroupProxy.get(MetadataConfiguration.class);
 
-	public void saveFanart(IMediaFile mediaFileParent, String title, IMetadata md, Hints options, String fanartDir) throws MetadataException {
-		if (title==null) {
-			title=md.getMediaTitle();
+	public void saveFanart(IMediaFile mediaFileParent, String title, IMetadata md, Hints options, String fanartDir)
+			throws MetadataException {
+		if (title == null) {
+			title = md.getMediaTitle();
 		}
-		
-		if (title==null) {
+
+		if (title == null) {
 			title = md.getEpisodeName();
 		}
-		
+
 		if (mediaFileParent.isType(MediaResourceType.MUSIC.value())) {
 			title = mediaFileParent.getAlbumInfo().getArtist();
 		}
-		
-		if (title==null) {
+
+		if (title == null) {
 			throw new MetadataException("Cannot determin media title.  Cannot store fanart.", mediaFileParent, md);
 		}
-		
+
 		File f = new File(fanartDir);
 		if (!f.exists()) {
 			if (!f.mkdirs())
-				throw new MetadataException("Central Fanart Folder does not exist, and it cannot be created.  Folder: " + fanartDir, mediaFileParent, md);
+				throw new MetadataException(
+						"Central Fanart Folder does not exist, and it cannot be created.  Folder: " + fanartDir, mediaFileParent,
+						md);
 		}
 
 		for (MediaArtifactType mt : MediaArtifactType.values()) {
@@ -60,7 +63,8 @@ public class FanartStorage implements DownloadHandler {
 		}
 	}
 
-	private void saveCentralFanart(String title, IMetadata md, MediaArtifactType mt, Hints options, String fanartDir) throws MetadataException {
+	private void saveCentralFanart(String title, IMetadata md, MediaArtifactType mt, Hints options, String fanartDir)
+			throws MetadataException {
 		MediaType mediaType = MediaType.toMediaType(md.getMediaType());
 		Map<String, String> extraMD = new HashMap<String, String>();
 
@@ -88,12 +92,14 @@ public class FanartStorage implements DownloadHandler {
 			try {
 				downloadFanartArtifacts(mt, artifactDir, md, FanartUtil.getMediaArt(md, mt, md.getSeasonNumber()), options);
 			} catch (IOException e) {
-				throw new MetadataException("Failed to download Season fanart for " + title + "; Season: " + md.getSeasonNumber(), e);
+				throw new MetadataException("Failed to download Season fanart for " + title + "; Season: " + md.getSeasonNumber(),
+						e);
 			}
 		}
 	}
 
-	private void downloadFanartArtifacts(MediaArtifactType mt, File fanartDir, IMetadata md, List<IMediaArt> artwork, Hints options) throws IOException {
+	private void downloadFanartArtifacts(MediaArtifactType mt, File fanartDir, IMetadata md, List<IMediaArt> artwork, Hints options)
+			throws IOException {
 		int downloaded = 0;
 		int max = metadataConfig.getMaxDownloadableImages();
 		if (max == -1) {
@@ -112,47 +118,52 @@ public class FanartStorage implements DownloadHandler {
 		}
 	}
 
-	private void downloadFanartArtifact(MediaArtifactType mt, IMediaArt mediaArt, IMetadata md, File downloadDir, Hints options) throws IOException {
+	private void downloadFanartArtifact(MediaArtifactType mt, IMediaArt mediaArt, IMetadata md, File downloadDir, Hints options)
+			throws IOException {
 		String url = mediaArt.getDownloadUrl();
 		File downloadFile = null;
 
 		if (!shouldSkipFile(downloadDir, url)) {
-			// we create a tmp name, since various different source could have the same name
+			// we create a tmp name, since various different source could have
+			// the same name
 			String name = new String(Hex.encodeHex(DigestUtils.md5(url)));
-			
+
 			if (mt == MediaArtifactType.EPISODE) {
-				Map<String,String> m = new HashMap<String, String>();
+				Map<String, String> m = new HashMap<String, String>();
 				m.put(FanartUtil.SEASON_NUMBER, String.valueOf(md.getSeasonNumber()));
 				m.put(FanartUtil.EPISODE_NUMBER, String.valueOf(md.getEpisodeNumber()));
 				downloadFile = new File(downloadDir, FanartUtil.getEpisodeFilename(m));
 			} else {
-				downloadFile = new File(downloadDir, name+"-"+new File(url).getName());
+				downloadFile = new File(downloadDir, name + "-" + new File(url).getName());
 			}
-			
+
 			if (downloadFile.getName().indexOf(".") == -1) {
 				// no ext, so use a default .jpg ext
 				downloadFile = new File(downloadDir, downloadFile.getName() + ".jpg");
 			}
 
 			// NOTE: We are updating it here, since otherwise, the downloader
-			// which happens in the background will download the items if they are
-			// added very quickly, which results in the remote server being hammered
+			// which happens in the background will download the items if they
+			// are
+			// added very quickly, which results in the remote server being
+			// hammered
 			try {
 				updateSkipFile(downloadFile, url);
 			} catch (IOException e) {
 				log.warn("Failed to add item to the image skip file: " + url);
 			}
-			
+
 			if (downloadFile.exists()) {
-				log.warn("Will not overwrite file: " + downloadFile + "; Consider removing the file if you want it updated in the future.");
+				log.warn("Will not overwrite file: " + downloadFile
+						+ "; Consider removing the file if you want it updated in the future.");
 				return;
 			}
-			
+
 			DownloadItem di = new DownloadItem();
 			di.setRemoteURL(new URL(url));
 			di.setLocalFile(downloadFile);
 			di.setHandler(this);
-			
+
 			// schedule download
 			Phoenix.getInstance().getDownloadManager().download(di);
 		}
@@ -184,12 +195,12 @@ public class FanartStorage implements DownloadHandler {
 			Loggers.METADATA.warn("FANART-DOWNLOAD-FAILED: " + item.getRemoteURL());
 			return;
 		}
-		if (file.length() < (metadataConfig.getDeleteImagesSmallerThan()*1024)) {
+		if (file.length() < (metadataConfig.getDeleteImagesSmallerThan() * 1024)) {
 			Loggers.METADATA.warn("FANART-DOWNLOAD-TOO-SMALL: " + item.getRemoteURL() + "; SIZE: " + file.length());
 			return;
 		}
 	}
-	
+
 	private synchronized void updateSkipFile(File file, String url) throws IOException {
 		File artifactDir = file.getParentFile();
 		File storedFile = new File(artifactDir, "images");
@@ -207,7 +218,8 @@ public class FanartStorage implements DownloadHandler {
 
 	@Override
 	public void onError(DownloadItem item) {
-		Loggers.METADATA.info("FANART-ERROR: " + item.getLocalFile() + ";" + item.getRemoteURL() + "; " + ((item.getError()!=null)?item.getError().getMessage():""));
+		Loggers.METADATA.info("FANART-ERROR: " + item.getLocalFile() + ";" + item.getRemoteURL() + "; "
+				+ ((item.getError() != null) ? item.getError().getMessage() : ""));
 	}
 
 	@Override

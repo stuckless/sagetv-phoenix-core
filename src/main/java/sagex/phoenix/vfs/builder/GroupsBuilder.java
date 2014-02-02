@@ -6,9 +6,9 @@ import sagex.phoenix.vfs.VFSManager;
 import sagex.phoenix.vfs.groups.GroupingFactory;
 
 public class GroupsBuilder extends FactoryItemBuilder<GroupingFactory> {
-    public GroupsBuilder(VFSManager mgr) {
-        super(mgr,"groups");
-    }
+	public GroupsBuilder(VFSManager mgr) {
+		super(mgr, "groups");
+	}
 
 	@Override
 	protected GroupingFactory createFactory(String className) throws SAXException {

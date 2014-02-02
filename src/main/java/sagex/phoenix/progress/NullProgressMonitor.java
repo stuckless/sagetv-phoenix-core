@@ -1,19 +1,20 @@
 package sagex.phoenix.progress;
 
 /**
- * NullProgressMonitor is a monitor that does not honor, done or cancelled.  There is only
- * a single instance that is shared by all places the use a null progress monitor.  It's a lazy
- * and cheap way to call a visitor with a monitor when you don't care about the progress.
+ * NullProgressMonitor is a monitor that does not honor, done or cancelled.
+ * There is only a single instance that is shared by all places the use a null
+ * progress monitor. It's a lazy and cheap way to call a visitor with a monitor
+ * when you don't care about the progress.
  * 
- * To get an instance of the NullProgressMonitor, use the INSTANCE field.  Keep in mind this
- * single instance does NOT hold any stateful information.  ie, after calling beginTask(name),
- * and you call getTaskName() it will be null.
+ * To get an instance of the NullProgressMonitor, use the INSTANCE field. Keep
+ * in mind this single instance does NOT hold any stateful information. ie,
+ * after calling beginTask(name), and you call getTaskName() it will be null.
  * 
  * @author seans
  */
 public class NullProgressMonitor implements IProgressMonitor {
 	public static final NullProgressMonitor INSTANCE = new NullProgressMonitor();
-	
+
 	private NullProgressMonitor() {
 	}
 

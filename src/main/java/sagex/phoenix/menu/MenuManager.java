@@ -19,17 +19,15 @@ import sagex.phoenix.menu.Menu.Insert;
 import sagex.phoenix.node.INodeVisitor;
 import sagex.phoenix.util.FileUtils;
 
-public class MenuManager extends SystemConfigurationFileManager implements
-		SystemConfigurationFileManager.ConfigurationFileVisitor {
+public class MenuManager extends SystemConfigurationFileManager implements SystemConfigurationFileManager.ConfigurationFileVisitor {
 	public static final Logger log = Logger.getLogger(MenuManager.class);
 
-	private Map<String, Menu> indexed = new HashMap<String, Menu>(); 
+	private Map<String, Menu> indexed = new HashMap<String, Menu>();
 	private List<Menu> menus = new LinkedList<Menu>();
 	private List<Fragment> fragments = new LinkedList<Fragment>();
 
 	public MenuManager(File systemDir, File userDir) {
-		super(systemDir, userDir, new SuffixFileFilter(".xml",
-				IOCase.INSENSITIVE));
+		super(systemDir, userDir, new SuffixFileFilter(".xml", IOCase.INSENSITIVE));
 	}
 
 	public Menu getMenu(String name) {
@@ -73,13 +71,13 @@ public class MenuManager extends SystemConfigurationFileManager implements
 		menus.clear();
 		indexed.clear();
 		fragments.clear();
-		
+
 		accept(this);
-		
-		for (Menu m: menus) {
+
+		for (Menu m : menus) {
 			indexMenu(m);
 		}
-		
+
 		log.info("Adjusting menu item visibility based on stored settings");
 		updateMenuDetails(menus);
 
@@ -88,7 +86,7 @@ public class MenuManager extends SystemConfigurationFileManager implements
 
 		log.info("Ordering Menu Items...");
 		orderMenuItems(menus);
-		
+
 		log.info("End Loading Menus");
 	}
 
@@ -96,16 +94,16 @@ public class MenuManager extends SystemConfigurationFileManager implements
 		if (!indexed.containsKey(m.getName())) {
 			indexed.put(m.getName(), m);
 		}
-		
-		for (IMenuItem i: m) {
+
+		for (IMenuItem i : m) {
 			if (i instanceof Menu) {
-				indexMenu((Menu)i);
+				indexMenu((Menu) i);
 			}
 		}
 	}
 
 	private void orderMenuItems(List<Menu> menus) {
-		for (Menu m: menus) {
+		for (Menu m : menus) {
 			m.visit(new INodeVisitor<IMenuItem>() {
 				@Override
 				public void visit(IMenuItem node) {
@@ -125,12 +123,12 @@ public class MenuManager extends SystemConfigurationFileManager implements
 
 	private void processFragment(Fragment frag) {
 		Menu m = getMenu(frag.getParentMenu());
-		if (m==null) {
+		if (m == null) {
 			log.warn("Can't process fragment: " + frag.getParentMenu() + " since the parent menu was not found");
 			return;
 		}
-		
-		for (IMenuItem item: frag.getItems()) {
+
+		for (IMenuItem item : frag.getItems()) {
 			if (StringUtils.isEmpty(frag.getInsertAfter()) && StringUtils.isEmpty(frag.getInsertBefore())) {
 				log.info("Fragment: Replacing Menu Item: " + item.getName());
 				if (!m.replaceItem(m.getItemByName(item.getName()), item)) {
@@ -139,7 +137,7 @@ public class MenuManager extends SystemConfigurationFileManager implements
 			} else if (!StringUtils.isEmpty(frag.getInsertAfter())) {
 				log.info("Fragment: Insert Menu Item: " + item.getName() + " after " + frag.getInsertAfter());
 				m.addItem(item, frag.getInsertAfter(), Insert.after);
-			} else  if (!StringUtils.isEmpty(frag.getInsertBefore())) {
+			} else if (!StringUtils.isEmpty(frag.getInsertBefore())) {
 				log.info("Fragment: Insert Menu Item: " + item.getName() + " before " + frag.getInsertBefore());
 				m.addItem(item, frag.getInsertBefore(), Insert.before);
 			} else {
@@ -174,25 +172,23 @@ public class MenuManager extends SystemConfigurationFileManager implements
 		try {
 			log.info("Loading Menu: " + file.getAbsolutePath());
 
-			for (Menu m : MenuBuilder.buildMenus(file, getSystemFiles()
-					.getDir())) {
+			for (Menu m : MenuBuilder.buildMenus(file, getSystemFiles().getDir())) {
 				addMenu(m, type);
 			}
 		} catch (Exception e) {
 			log.error("Error loading menu file: " + file, e);
-			Phoenix.fireError(
-					"Error in Menu File: " + file + "; " + e.getMessage(), e);
+			Phoenix.fireError("Error in Menu File: " + file + "; " + e.getMessage(), e);
 		}
 	}
 
 	public synchronized void addMenu(Menu menu, ConfigurationType type) {
 		if (menu instanceof Fragment) {
-			fragments.add((Fragment)menu);
+			fragments.add((Fragment) menu);
 			return;
 		}
-		
+
 		Menu old = getMenu(menu.getName());
-		if (old!=null) {
+		if (old != null) {
 			log.info("Replacing " + type + " menu: " + menu.getName() + " with new menu " + menu.getChildCount() + " items");
 			removeMenu(old);
 		} else {

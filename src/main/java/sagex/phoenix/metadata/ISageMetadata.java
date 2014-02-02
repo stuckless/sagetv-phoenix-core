@@ -3,17 +3,21 @@ package sagex.phoenix.metadata;
 import sagex.phoenix.metadata.proxy.SageProperty;
 
 /**
- * Interface to represent Sage Metadata.  This interface is just a placeholder.  If you create custom sage metadata
- * fields, then they should implement this class, sot that they can be handled by the metadata proxy classes.
- *   
- * To create a metadata instance use {@link MetadataUtil}.create(MetadataInterface)
+ * Interface to represent Sage Metadata. This interface is just a placeholder.
+ * If you create custom sage metadata fields, then they should implement this
+ * class, sot that they can be handled by the metadata proxy classes.
+ * 
+ * To create a metadata instance use {@link MetadataUtil}
+ * .create(MetadataInterface)
+ * 
  * <pre>
  * {@link A_METADATA_INSTANCE} md = {@link MetadataUtil}.create(SAGE_METADATA_INTERFACE);
  * md.setTitle("MyTitle");
  * </pre>
  * 
- * As a convenience, their is a complete metadata class called, {@link ISageMetadataALL} that contains all the
- * known metadata fields.  You can can add to this list by extending that interface, and then instanciating your
+ * As a convenience, their is a complete metadata class called,
+ * {@link ISageMetadataALL} that contains all the known metadata fields. You can
+ * can add to this list by extending that interface, and then instanciating your
  * interface using the {@link MetadataUtil}.create()
  * 
  * @see ISageMetadataALL
@@ -26,8 +30,11 @@ import sagex.phoenix.metadata.proxy.SageProperty;
  * @author seans
  */
 public interface ISageMetadata {
-    public boolean isSet(SageProperty key);
-    public void clear(SageProperty key);
-    public String get(SageProperty key);
-    public void set(SageProperty key, String value);
+	public boolean isSet(SageProperty key);
+
+	public void clear(SageProperty key);
+
+	public String get(SageProperty key);
+
+	public void set(SageProperty key, String value);
 }

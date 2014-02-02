@@ -9,106 +9,117 @@ import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.util.Hints;
 
 /**
- * Abstract Media Resource.  Most VFS items should descend from this class
- * just to take advantage of some of the boilerplate implementation.
+ * Abstract Media Resource. Most VFS items should descend from this class just
+ * to take advantage of some of the boilerplate implementation.
  * 
  * @author seans
- *
+ * 
  */
 public abstract class AbstractMediaResource implements IMediaResource {
-    protected Logger log                = Logger.getLogger(this.getClass());
+	protected Logger log = Logger.getLogger(this.getClass());
 	protected String id;
 	private Object resource;
 	private IMediaFolder parent;
 	private String title;
-    private long lastModified = System.currentTimeMillis();
-    private Object thumbnail;
-    private long startTime, endTime;
-    
-	protected enum Flag {Watched, Library, DontLike, Favorite, ManualRecord, Archived} 
-    private Map<Flag, Boolean> flags = new EnumMap<Flag, Boolean>(Flag.class);
-    
-    /**
-     * Creates a new unnamed media resource with the given parent and unique id.
-     * 
-     * @param parent Optional parent that owns this resource.
-     * @param id unique id for the resource. Cannot be null.
-     */
+	private long lastModified = System.currentTimeMillis();
+	private Object thumbnail;
+	private long startTime, endTime;
+
+	protected enum Flag {
+		Watched, Library, DontLike, Favorite, ManualRecord, Archived
+	}
+
+	private Map<Flag, Boolean> flags = new EnumMap<Flag, Boolean>(Flag.class);
+
+	/**
+	 * Creates a new unnamed media resource with the given parent and unique id.
+	 * 
+	 * @param parent
+	 *            Optional parent that owns this resource.
+	 * @param id
+	 *            unique id for the resource. Cannot be null.
+	 */
 	public AbstractMediaResource(IMediaFolder parent, String id) {
-		this (parent, id, null, null);
+		this(parent, id, null, null);
 	}
 
 	/**
-	 * Creates a fully resolved media resource that includes a valid id and title.  If id is
-	 * null, then you must ensure that createId(resource) return a unique id for this resource.
-	 * Ids do not need to be unique across the system, but they should be unique for a given
-	 * parent.  ie, if the id or 2 objects for the same parent are equal, then the resources
-	 * are considered to be the same resource.
-	 *  
-	 * @param parent Optional parent for this resource.
-	 * @param id unique id for this resource.
+	 * Creates a fully resolved media resource that includes a valid id and
+	 * title. If id is null, then you must ensure that createId(resource) return
+	 * a unique id for this resource. Ids do not need to be unique across the
+	 * system, but they should be unique for a given parent. ie, if the id or 2
+	 * objects for the same parent are equal, then the resources are considered
+	 * to be the same resource.
+	 * 
+	 * @param parent
+	 *            Optional parent for this resource.
+	 * @param id
+	 *            unique id for this resource.
 	 * @param resource
 	 * @param title
 	 */
 	public AbstractMediaResource(IMediaFolder parent, String id, Object resource, String title) {
 		this.parent = parent;
-		this.id=id;
-		this.resource=resource;
+		this.id = id;
+		this.resource = resource;
 		this.title = title;
-		
-		// ID and RESOURCE can never be null.  If they are, then we
+
+		// ID and RESOURCE can never be null. If they are, then we
 		// need to create tmp values for them.
-		if (this.id==null) {
+		if (this.id == null) {
 			this.id = createId(resource);
 		}
-		
-		if (this.id==null) {
+
+		if (this.id == null) {
 			log.warn("Creating TMP id for resource: " + resource + "; consider adding fixed ID.");
-			this.id = createTemporayId(); 
+			this.id = createTemporayId();
 		}
-		
-		if (this.id!=null) {
+
+		if (this.id != null) {
 			// fix ids, they cannot how / in them
 			this.id = this.id.replace('/', '\\');
 		}
-		
-		if (resource==null) this.resource = this.id;
-		if (title==null)  this.title=this.id;
+
+		if (resource == null)
+			this.resource = this.id;
+		if (title == null)
+			this.title = this.id;
 		setTitle(title);
 	}
 
-    protected String createTemporayId() {
-        if (resource!=null) {
-            return "TMP" + resource.hashCode();
-        } else {
-            return "TMP" + hashCode();
-        }
-    }
-	
+	protected String createTemporayId() {
+		if (resource != null) {
+			return "TMP" + resource.hashCode();
+		} else {
+			return "TMP" + hashCode();
+		}
+	}
+
 	protected boolean getFlag(Flag flag) {
 		Boolean b = flags.get(flag);
-		if (b==null) {
+		if (b == null) {
 			return false;
 		}
 		return b;
 	}
-	
+
 	public void setFlag(Flag flag, boolean val) {
 		flags.put(flag, val);
 	}
-	
+
 	public boolean isFlagSet(Flag flag) {
 		return flags.containsKey(flag);
 	}
-	
+
 	public void setTitle(String title) {
-		if (title==null) title=id;
-		this.title=title;
+		if (title == null)
+			title = id;
+		this.title = title;
 	}
 
 	/**
-	 * sub classes can override this method to create ids based on the
-	 * backing resource
+	 * sub classes can override this method to create ids based on the backing
+	 * resource
 	 * 
 	 * @param resource
 	 * @return
@@ -116,21 +127,21 @@ public abstract class AbstractMediaResource implements IMediaResource {
 	protected String createId(Object resource) {
 		return null;
 	}
-	
+
 	@Override
 	public String getId() {
 		return id;
 	}
-	
+
 	protected void setId(String id) {
-		this.id=id;
+		this.id = id;
 	}
 
 	@Override
 	public Object getMediaObject() {
 		return resource;
 	}
-	
+
 	protected void setMediaObject(Object resource) {
 		this.resource = resource;
 	}
@@ -142,8 +153,9 @@ public abstract class AbstractMediaResource implements IMediaResource {
 
 	@Override
 	public void accept(IMediaResourceVisitor visitor, IProgressMonitor monitor, int deep) {
-		if (monitor!=null && monitor.isCancelled()) return;
-		if (deep>=0) {
+		if (monitor != null && monitor.isCancelled())
+			return;
+		if (deep >= 0) {
 			visitor.visit(this, monitor);
 		}
 	}
@@ -159,21 +171,25 @@ public abstract class AbstractMediaResource implements IMediaResource {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		AbstractMediaResource other = (AbstractMediaResource) obj;
 
 		if (id != null) {
 			return id.equals(other.id);
 		}
-		
+
 		return false;
 	}
 
 	@Override
 	public int compareTo(IMediaResource o) {
-        if (this.equals(o)) return 0;
+		if (this.equals(o))
+			return 0;
 		return id.compareTo(o.getId());
 	}
 
@@ -184,10 +200,10 @@ public abstract class AbstractMediaResource implements IMediaResource {
 	public void setThumbnail(Object thumbnail) {
 		this.thumbnail = thumbnail;
 	}
-	
-    public String toString() {
-        return getClass().getName() + " [Id: "+id+", Title: "+title+"]";
-    }
+
+	public String toString() {
+		return getClass().getName() + " [Id: " + id + ", Title: " + title + "]";
+	}
 
 	@Override
 	public boolean delete(Hints hints) {
@@ -220,7 +236,7 @@ public abstract class AbstractMediaResource implements IMediaResource {
 	public boolean isLibraryFile() {
 		return getFlag(Flag.Library);
 	}
-	
+
 	public void setLibraryFile(boolean library) {
 		setFlag(Flag.Library, library);
 	}
@@ -262,13 +278,13 @@ public abstract class AbstractMediaResource implements IMediaResource {
 
 	@Override
 	public void touch(long time) {
-		this.lastModified=time;
+		this.lastModified = time;
 	}
-	
+
 	public boolean isArchived() {
 		return getFlag(Flag.Archived);
 	}
-	
+
 	public void setArchived(boolean arch) {
 		setFlag(Flag.Archived, arch);
 	}
@@ -288,10 +304,9 @@ public abstract class AbstractMediaResource implements IMediaResource {
 	public void setEndTime(long endTime) {
 		this.endTime = endTime;
 	}
-	
+
 	public String getPath() {
-		return (getParent()==null?"":getParent().getPath()) + "/" + getTitle();
+		return (getParent() == null ? "" : getParent().getPath()) + "/" + getTitle();
 	}
-	
-	
+
 }

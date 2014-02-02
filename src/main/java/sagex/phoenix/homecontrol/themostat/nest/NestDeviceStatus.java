@@ -13,7 +13,7 @@ public class NestDeviceStatus implements IDeviceStatus {
 	protected boolean isEnerySaving;
 	protected String currentMode;
 	protected float humidity;
-	
+
 	public NestDeviceStatus() {
 	}
 

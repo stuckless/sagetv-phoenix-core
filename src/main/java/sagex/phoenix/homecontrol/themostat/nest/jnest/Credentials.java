@@ -3,11 +3,11 @@ package sagex.phoenix.homecontrol.themostat.nest.jnest;
 import java.util.Properties;
 
 public class Credentials {
-	
+
 	private String userName;
 	private String password;
-	
-	public Credentials (String userName, String password) {
+
+	public Credentials(String userName, String password) {
 		this.userName = userName;
 		this.password = password;
 	}
@@ -27,8 +27,8 @@ public class Credentials {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	public Properties toProperties () {
+
+	public Properties toProperties() {
 		Properties properties = new Properties();
 		properties.setProperty("username", userName);
 		properties.setProperty("password", password);

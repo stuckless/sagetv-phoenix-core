@@ -6,6 +6,7 @@ import sagex.phoenix.util.NamedValue;
 
 /**
  * Simple Option Factory for creating options
+ * 
  * @author sean
  */
 public interface IOptionFactory {

@@ -15,21 +15,21 @@ public class VirtualMediaFile extends AbstractMediaResource implements IMediaFil
 	private List<File> files;
 	private IMetadata metadata;
 	private IAlbumInfo album;
-	
+
 	public VirtualMediaFile(String title) {
 		super(null, title, title, title);
 	}
 
 	@Override
 	public boolean isType(int type) {
-		if (type==MediaResourceType.FILE.value()) {
+		if (type == MediaResourceType.FILE.value()) {
 			return true;
-		} else if (type==MediaResourceType.ONLINE.value()) {
+		} else if (type == MediaResourceType.ONLINE.value()) {
 			return false;
-		} else if (type==MediaResourceType.HOME_MOVIE.value()) {
+		} else if (type == MediaResourceType.HOME_MOVIE.value()) {
 			return HomeVideosFilter.isHomeVideo(this);
 		}
-		
+
 		return super.isType(type);
 	}
 
@@ -43,15 +43,16 @@ public class VirtualMediaFile extends AbstractMediaResource implements IMediaFil
 
 	@Override
 	public IAlbumInfo getAlbumInfo() {
-		if (album==null) {
-			this.album=createAlbumInfo();
+		if (album == null) {
+			this.album = createAlbumInfo();
 		}
 		return album;
 	}
-	
+
 	/**
-	 * Subclasses can override this to provide their own implementation
-	 * for album info.
+	 * Subclasses can override this to provide their own implementation for
+	 * album info.
+	 * 
 	 * @return
 	 */
 	protected IAlbumInfo createAlbumInfo() {
@@ -60,20 +61,21 @@ public class VirtualMediaFile extends AbstractMediaResource implements IMediaFil
 
 	@Override
 	public List<File> getFiles() {
-		if (files==null) files=createFiles();
+		if (files == null)
+			files = createFiles();
 		return files;
 	}
 
 	/**
-	 * Subclasses need to override this to create a modifiable list
-	 * if they need to store files in their media resource.
+	 * Subclasses need to override this to create a modifiable list if they need
+	 * to store files in their media resource.
 	 * 
 	 * @return
 	 */
 	protected List<File> createFiles() {
 		return Collections.emptyList();
 	}
-	
+
 	/**
 	 * Adds a managed file part to this media file resource
 	 * 
@@ -85,13 +87,13 @@ public class VirtualMediaFile extends AbstractMediaResource implements IMediaFil
 
 	@Override
 	public IMetadata getMetadata() {
-		if (metadata==null) metadata = createMetadata();
+		if (metadata == null)
+			metadata = createMetadata();
 		return metadata;
 	}
 
 	/**
-	 * subclasses can override this to create their own metadata
-	 * instances
+	 * subclasses can override this to create their own metadata instances
 	 * 
 	 * @return
 	 */

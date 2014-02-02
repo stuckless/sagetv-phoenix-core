@@ -21,7 +21,7 @@ import sagex.phoenix.vfs.util.HasOptions;
  */
 public class Grouper extends BaseConfigurable implements IGrouper, IMultiGrouper, Cloneable, HasLabel, HasName {
 	private IGrouper grouper = null;
-	
+
 	private String emptyFolderName;
 	private boolean multiGrouper = false;
 	private boolean pruneSingeItemFolders;
@@ -29,31 +29,30 @@ public class Grouper extends BaseConfigurable implements IGrouper, IMultiGrouper
 	private String label;
 
 	private String factoryId;
-	
+
 	private Set<String> tags = new TreeSet<String>();
 
 	/**
-	 * Empty Groupname option name
-	 * {@value}
+	 * Empty Groupname option name * {@value}
 	 */
 	public static final String OPT_EMPTY_GROUPNAME = "empty-foldername";
 
 	/**
-	 * Empty Groupname option name
-	 * {@value}
+	 * Empty Groupname option name * {@value}
 	 */
 	public static final String OPT_PRUNE_SINGLE_ITEM = "prune-single-item-groups";
-	
+
 	public Grouper(IGrouper grouper) {
 		super();
-		if (grouper==null) {
+		if (grouper == null) {
 			throw new RuntimeException("Can't create a Grouper using a Null Comparator!");
 		}
-		this.grouper=grouper;
+		this.grouper = grouper;
 		addOption(new ConfigurableOption(OPT_EMPTY_GROUPNAME, "Empty Group Name", null, DataType.string));
-		addOption(new ConfigurableOption(OPT_PRUNE_SINGLE_ITEM, "Promote single item groups", null, DataType.bool, true, ListSelection.single, "true:Yes,no:No"));
+		addOption(new ConfigurableOption(OPT_PRUNE_SINGLE_ITEM, "Promote single item groups", null, DataType.bool, true,
+				ListSelection.single, "true:Yes,no:No"));
 		if (grouper instanceof HasOptions) {
-			for (ConfigurableOption co: ((HasOptions) grouper).getOptions()) {
+			for (ConfigurableOption co : ((HasOptions) grouper).getOptions()) {
 				addOption(co);
 			}
 		}
@@ -65,7 +64,7 @@ public class Grouper extends BaseConfigurable implements IGrouper, IMultiGrouper
 		if (isChanged()) {
 			updateLocalValues();
 		}
-		
+
 		return grouper.getGroupName(res);
 	}
 
@@ -74,7 +73,7 @@ public class Grouper extends BaseConfigurable implements IGrouper, IMultiGrouper
 		pruneSingeItemFolders = getOption(OPT_PRUNE_SINGLE_ITEM).getBoolean(false);
 		onUpdate();
 		if (grouper instanceof HasOptions) {
-			((HasOptions)grouper).onUpdate(this);
+			((HasOptions) grouper).onUpdate(this);
 		}
 		setChanged(false);
 	}
@@ -85,7 +84,7 @@ public class Grouper extends BaseConfigurable implements IGrouper, IMultiGrouper
 	public String getEmptyFolderName() {
 		return emptyFolderName;
 	}
-	
+
 	public boolean isPruningSingleItemFolders() {
 		return pruneSingeItemFolders;
 	}
@@ -93,15 +92,15 @@ public class Grouper extends BaseConfigurable implements IGrouper, IMultiGrouper
 	public boolean isMultiGrouper() {
 		return multiGrouper;
 	}
-	
+
 	@Override
 	public List<String> getGroupNames(IMediaResource res) {
 		if (isChanged()) {
 			updateLocalValues();
 		}
-		
+
 		if (multiGrouper) {
-			return ((IMultiGrouper)grouper).getGroupNames(res);
+			return ((IMultiGrouper) grouper).getGroupNames(res);
 		} else {
 			return Collections.emptyList();
 		}
@@ -110,7 +109,7 @@ public class Grouper extends BaseConfigurable implements IGrouper, IMultiGrouper
 	public void setLabel(String label) {
 		this.label = label;
 	}
-	
+
 	public String getLabel() {
 		return label;
 	}

@@ -32,7 +32,7 @@ public class OnlineVideoPlayer implements ProgressDialog.CancelHandler {
 	private boolean aborted = false;
 
 	private long bufferedWaitTime = 5000;
-	
+
 	private PlaybackMonitor playbackMonitor = null;
 
 	public OnlineVideoPlayer(UIContext ctx, IMediaFile file) {
@@ -45,7 +45,7 @@ public class OnlineVideoPlayer implements ProgressDialog.CancelHandler {
 		url = ((HasPlayableUrl) file).getUrl();
 
 		// NOTE: we need the absolute file... SageTV will fail without it
-		this.destFile = Phoenix.getInstance().getUserCacheEntry("onlinevideos",	url);
+		this.destFile = Phoenix.getInstance().getUserCacheEntry("onlinevideos", url);
 		try {
 			this.destFile = this.destFile.getCanonicalFile();
 		} catch (IOException e) {
@@ -73,7 +73,7 @@ public class OnlineVideoPlayer implements ProgressDialog.CancelHandler {
 	public boolean play() {
 		// register this player
 		Phoenix.getInstance().getOnlineVideoPlaybackManager().addPlayer(this);
-		
+
 		dialog = new ProgressDialog(ctx.getName(), "Waiting for Video " + file.getTitle());
 
 		try {
@@ -82,13 +82,13 @@ public class OnlineVideoPlayer implements ProgressDialog.CancelHandler {
 			dialog.show();
 
 			// attempt to resolve the real url, if necessary
-			if (Phoenix.getInstance().getOnlineVideosUrlResolverManager().getResolvers().size()>0) {
+			if (Phoenix.getInstance().getOnlineVideosUrlResolverManager().getResolvers().size() > 0) {
 				String newUrl = null;
-				for (IUrlResolver r: Phoenix.getInstance().getOnlineVideosUrlResolverManager().getResolvers()) {
+				for (IUrlResolver r : Phoenix.getInstance().getOnlineVideosUrlResolverManager().getResolvers()) {
 					try {
 						if (r.canAccept(url)) {
 							newUrl = r.getUrl(url);
-							if (newUrl!=null) {
+							if (newUrl != null) {
 								break;
 							}
 						}
@@ -96,13 +96,13 @@ public class OnlineVideoPlayer implements ProgressDialog.CancelHandler {
 						log.warn("Failed while processin url resolver: " + r, e);
 					}
 				}
-				
-				if (newUrl!=null) {
+
+				if (newUrl != null) {
 					log.info("Resolved url: " + url + " to " + newUrl);
 					url = newUrl;
 				}
 			}
-	
+
 			log.info("Starting filedownload for " + url + " to " + destFile);
 			if (destFile.exists()) {
 				// if we already have the file, the maybe we can just play it.
@@ -110,15 +110,14 @@ public class OnlineVideoPlayer implements ProgressDialog.CancelHandler {
 					return watchAndWait();
 				} else {
 					// TODO: check file size and play
-					log.warn("Removing old file (partially downloaded): "
-							+ destFile);
+					log.warn("Removing old file (partially downloaded): " + destFile);
 					destFile.delete();
 				}
 			}
 
 			// in the event that their is a download already, then cancel it.
 			Global.CancelFileDownload(ctx);
-			
+
 			// start the download
 			if (Global.StartFileDownload(ctx, url, null, destFile)) {
 				long waitTimeout = 20000;
@@ -126,13 +125,15 @@ public class OnlineVideoPlayer implements ProgressDialog.CancelHandler {
 				WaitFor wait = new WaitFor() {
 					@Override
 					public boolean isDoneWaiting() {
-						if (aborted) return true;
+						if (aborted)
+							return true;
 						long time = Global.GetFileDownloadStreamTime(ctx);
-						if (time>0) {
-							if (time>bufferedWaitTime) {
+						if (time > 0) {
+							if (time > bufferedWaitTime) {
 								dialog.update(100);
 							} else {
-								dialog.update("Buffering Video " + file.getTitle(), (int)(((float)time/(float)bufferedWaitTime)*100));
+								dialog.update("Buffering Video " + file.getTitle(),
+										(int) (((float) time / (float) bufferedWaitTime) * 100));
 							}
 						}
 						log.info("Stream Time: " + Global.GetFileDownloadStreamTime(ctx));
@@ -140,21 +141,21 @@ public class OnlineVideoPlayer implements ProgressDialog.CancelHandler {
 					}
 				};
 				wait.waitFor(waitTimeout, 500);
-				
+
 				// check if we aborted
 				if (aborted) {
 					destroy();
 					dialog.close();
-					Toaster.toast("Playback aborted for " + file.getTitle() , 1000);
+					Toaster.toast("Playback aborted for " + file.getTitle(), 1000);
 					return false;
 				}
-				
+
 				// check that we have a stream
 				long time = Global.GetFileDownloadStreamTime(ctx);
-				if (time==0) {
+				if (time == 0) {
 					destroy();
 					dialog.close();
-					Toaster.toast("Failed to get Online Video for " + file.getTitle() + " in " + waitTimeout + "ms" , 1500);
+					Toaster.toast("Failed to get Online Video for " + file.getTitle() + " in " + waitTimeout + "ms", 1500);
 					return false;
 				}
 
@@ -172,14 +173,10 @@ public class OnlineVideoPlayer implements ProgressDialog.CancelHandler {
 				// Name="NewShow = AddShow(TitleText, false, TitleText, ShowDesc, NewDur, null, null, null, null, null, null, null, null, null, &quot;TMP&quot; + Time(), null, 0)"
 				// Sym="BASE-82840">
 				Object show = ShowAPI
-						.AddShow(ctx, file.getTitle(), false, file.getTitle(),
-								file.getMetadata().getDescription(), duration,
-								null, null, null, null, null, null, null, null,
-								null, "TMP" + System.currentTimeMillis(), null,
-								0);
+						.AddShow(ctx, file.getTitle(), false, file.getTitle(), file.getMetadata().getDescription(), duration, null,
+								null, null, null, null, null, null, null, null, "TMP" + System.currentTimeMillis(), null, 0);
 				MediaFileAPI.SetMediaFileShow(ctx, mf, show);
-				log.info("AddShow() called with duration " + duration + " for "
-						+ mf);
+				log.info("AddShow() called with duration " + duration + " for " + mf);
 
 				// create the playback monitor
 				if (DownloadUtil.isDownloading(Global.GetFileDownloadStatus(ctx))) {
@@ -205,21 +202,21 @@ public class OnlineVideoPlayer implements ProgressDialog.CancelHandler {
 	public String getUIContext() {
 		return ctx.getName();
 	}
-	
+
 	public void destroy() {
-		aborted=true;
-		
+		aborted = true;
+
 		// cancel any downloads
 		if (DownloadUtil.isDownloading(Global.GetFileDownloadStatus(ctx))) {
 			log.info("Cancelling file download of url " + url + " to " + destFile);
 			Global.CancelFileDownload(ctx);
 		}
-		
+
 		// cancel the background monitoring
 		if (playbackMonitor != null) {
 			playbackMonitor.abort();
 		}
-		
+
 		// remove ourself fromt online players manager
 		Phoenix.getInstance().getOnlineVideoPlaybackManager().removePlayer(this);
 	}
@@ -231,7 +228,6 @@ public class OnlineVideoPlayer implements ProgressDialog.CancelHandler {
 	@Override
 	public String toString() {
 		return "OnlineVideoPlayer [" + (ctx != null ? "ctx=" + ctx.getName() + ", " : "")
-				+ (file != null ? "file=" + file.getTitle() + ", " : "")
-				+ (url != null ? "url=" + url : "") + "]";
+				+ (file != null ? "file=" + file.getTitle() + ", " : "") + (url != null ? "url=" + url : "") + "]";
 	}
 }

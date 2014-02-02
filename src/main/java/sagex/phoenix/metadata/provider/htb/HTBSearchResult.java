@@ -11,7 +11,7 @@ public class HTBSearchResult extends MediaSearchResult {
 	private static final long serialVersionUID = 1L;
 
 	private ArrayList<MediaArt> artwork = new ArrayList<MediaArt>();
-	
+
 	public HTBSearchResult() {
 	}
 

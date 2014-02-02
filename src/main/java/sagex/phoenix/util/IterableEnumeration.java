@@ -4,20 +4,21 @@ import java.util.Enumeration;
 import java.util.Iterator;
 
 public class IterableEnumeration<E> implements Iterator<E> {
-    private Enumeration<E> enumeration;
-    public IterableEnumeration(Enumeration<E> e) {
-        this.enumeration=e;
-    }
+	private Enumeration<E> enumeration;
 
-    public boolean hasNext() {
-        return enumeration.hasMoreElements();
-    }
+	public IterableEnumeration(Enumeration<E> e) {
+		this.enumeration = e;
+	}
 
-    public E next() {
-        return enumeration.nextElement();
-    }
+	public boolean hasNext() {
+		return enumeration.hasMoreElements();
+	}
 
-    public void remove() {
-        throw new UnsupportedOperationException("Cannot Remove Elements");
-    }
+	public E next() {
+		return enumeration.nextElement();
+	}
+
+	public void remove() {
+		throw new UnsupportedOperationException("Cannot Remove Elements");
+	}
 }

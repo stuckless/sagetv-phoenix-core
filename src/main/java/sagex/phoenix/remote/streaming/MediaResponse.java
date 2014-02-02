@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 public class MediaResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private MediaRequest oldRequest = null;
 	private MediaControlInfo controlInfo;
 	private MediaRequest request;
 
 	private String shortErrorMessage;
 	private String longErrorMessage;
-	
+
 	public MediaResponse() {
 	}
 
@@ -26,13 +26,13 @@ public class MediaResponse implements Serializable {
 	public void setControlInfo(MediaControlInfo controlInfo) {
 		this.controlInfo = controlInfo;
 	}
-	
+
 	public MediaControlInfo getControlInfo() {
 		return controlInfo;
 	}
 
 	public void setRequest(MediaRequest req) {
-		this.request=req;
+		this.request = req;
 	}
 
 	public MediaRequest getRequest() {
@@ -40,7 +40,7 @@ public class MediaResponse implements Serializable {
 	}
 
 	public void setError(String shortErorrMessage, String longErrorMessage) {
-		this.shortErrorMessage=shortErorrMessage;
+		this.shortErrorMessage = shortErorrMessage;
 		this.longErrorMessage = longErrorMessage;
 	}
 

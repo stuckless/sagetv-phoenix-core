@@ -14,15 +14,14 @@ import sagex.phoenix.util.PhoenixManagedScriptEngineProxy;
 import sagex.phoenix.vfs.ov.IUrlResolver;
 import test.InitPhoenix;
 
-
 public class TestUrlResolvers {
-	static Map<String,String> map = new HashMap<String, String>();
-	
+	static Map<String, String> map = new HashMap<String, String>();
+
 	@BeforeClass
 	public static void setup() throws IOException {
 		InitPhoenix.init(true, true);
 	}
-	
+
 	@Test
 	public void testJavaScriptResolver() {
 		File file = new File("src/test/java/test/junit/sampleJavascriptResolver.js");
@@ -32,8 +31,8 @@ public class TestUrlResolvers {
 		assertEquals("http://youtube.com/realfile.flv", res.getUrl(url));
 		System.out.println("New Url: " + res.getUrl(url));
 	}
-	
+
 	public void testYoutubeScriptResolver() {
-		
+
 	}
 }

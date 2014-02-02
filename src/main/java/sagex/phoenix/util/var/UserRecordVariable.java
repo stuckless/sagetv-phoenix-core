@@ -21,5 +21,4 @@ public class UserRecordVariable<T> extends DynamicVariable<T> {
 		super.setValue(value);
 	}
 
-	
 }

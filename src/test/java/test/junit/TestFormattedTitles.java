@@ -1,6 +1,5 @@
 package test.junit;
 
-
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
@@ -19,7 +18,7 @@ public class TestFormattedTitles {
 	public static void setUpBeforeClass() throws Exception {
 		InitPhoenix.init(true, true);
 	}
-	
+
 	@Test
 	public void testFormattedTVTitles() {
 		IMediaFile mf = (IMediaFile) FileResourceFactory.createResource(new File("target/junit/testing/House S01E01.avi"));
@@ -30,13 +29,13 @@ public class TestFormattedTitles {
 		md.setRelativePathWithTitle("House");
 
 		md = mf.getMetadata();
-		
-		String title = phoenix.media.GetFormattedTitle(mf) ;
+
+		String title = phoenix.media.GetFormattedTitle(mf);
 		assertEquals("House - Test Episode", title);
-		
+
 		md.setSeasonNumber(1);
 		md.setEpisodeNumber(5);
-		title = phoenix.media.GetFormattedTitle(mf) ;
+		title = phoenix.media.GetFormattedTitle(mf);
 		assertEquals("House - S01E05 - Test Episode", title);
 	}
 
@@ -50,16 +49,16 @@ public class TestFormattedTitles {
 		md.setRelativePathWithTitle("Test Movie");
 
 		md = mf.getMetadata();
-		
-		String title = phoenix.media.GetFormattedTitle(mf) ;
+
+		String title = phoenix.media.GetFormattedTitle(mf);
 		assertEquals("Test Movie", title);
-		
+
 		md.setYear(2010);
-		title = phoenix.media.GetFormattedTitle(mf) ;
+		title = phoenix.media.GetFormattedTitle(mf);
 		assertEquals("Test Movie (2010)", title);
 
 		md.setDiscNumber(2);
-		title = phoenix.media.GetFormattedTitle(mf) ;
+		title = phoenix.media.GetFormattedTitle(mf);
 		assertEquals("Test Movie (2010) - Disc 02", title);
 	}
 
@@ -72,17 +71,17 @@ public class TestFormattedTitles {
 		md.setEpisodeName("Movies/Test Movie");
 
 		md = mf.getMetadata();
-		
-		String title = phoenix.media.GetFormattedTitle(mf) ;
+
+		String title = phoenix.media.GetFormattedTitle(mf);
 		assertEquals("Test Movie", title);
-		
+
 		md.setYear(2010);
-		title = phoenix.media.GetFormattedTitle(mf) ;
+		title = phoenix.media.GetFormattedTitle(mf);
 		assertEquals("Test Movie (2010)", title);
 
 		md.setDiscNumber(2);
-		title = phoenix.media.GetFormattedTitle(mf) ;
+		title = phoenix.media.GetFormattedTitle(mf);
 		assertEquals("Test Movie (2010) - Disc 02", title);
 	}
-	
+
 }

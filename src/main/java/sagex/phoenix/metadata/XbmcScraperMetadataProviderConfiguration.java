@@ -10,11 +10,12 @@ import sagex.phoenix.metadata.provider.xbmc.XbmcMetadataProvider;
 import sagex.phoenix.scrapers.xbmc.XbmcScraper;
 import sagex.phoenix.scrapers.xbmc.XbmcScraperParser;
 
-public class XbmcScraperMetadataProviderConfiguration extends SystemConfigurationFileManager implements SystemConfigurationFileManager.ConfigurationFileVisitor {
+public class XbmcScraperMetadataProviderConfiguration extends SystemConfigurationFileManager implements
+		SystemConfigurationFileManager.ConfigurationFileVisitor {
 	private MetadataManager manager;
 
 	public XbmcScraperMetadataProviderConfiguration(MetadataManager manager, File systemDir, File userDir) {
-		super(systemDir, userDir, new SuffixFileFilter(".xml",	IOCase.INSENSITIVE));
+		super(systemDir, userDir, new SuffixFileFilter(".xml", IOCase.INSENSITIVE));
 		this.manager = manager;
 	}
 

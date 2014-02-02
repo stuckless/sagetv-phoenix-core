@@ -16,96 +16,98 @@ import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.metadata.search.SearchQuery;
 
 public class MyMoviesMetadataProvider extends MetadataProvider {
-    private Logger                 log               = Logger.getLogger(this.getClass());
+	private Logger log = Logger.getLogger(this.getClass());
 
-    public static final String                  PROVIDER_ID       = "mymovies";
+	public static final String PROVIDER_ID = "mymovies";
 
-    private File                                xmlFile           = null;
-    private MyMoviesXmlFile                      xmlFileTool;
+	private File xmlFile = null;
+	private MyMoviesXmlFile xmlFileTool;
 
-    private boolean                             initialized       = false;
-    
-    private MyMoviesConfiguration cfg = new MyMoviesConfiguration();
-    
-    public MyMoviesMetadataProvider(IMetadataProviderInfo info) {
-    	super(info);
-    }
+	private boolean initialized = false;
 
-    public synchronized List<IMetadataSearchResult> search(SearchQuery query) throws MetadataException {
-        if (!initialized) initialize();
+	private MyMoviesConfiguration cfg = new MyMoviesConfiguration();
 
-        if (shouldRebuildIndexes()) {
-            try {
-                rebuildIndexes();
-            } catch (Exception e) {
-                log.error("Failed to rebuild the indexes for MyMovies!", e);
-            }
-        }
+	public MyMoviesMetadataProvider(IMetadataProviderInfo info) {
+		super(info);
+	}
 
-        
-        // search by ID, if the ID is present
-        if (!StringUtils.isEmpty(query.get(SearchQuery.Field.ID))) {
-            List<IMetadataSearchResult> res = MetadataSearchUtil.searchById(this, query, query.get(SearchQuery.Field.ID));
-            if (res!=null) {
-                return res;
-            }
-        }
-        
-        // carry on normal search
-        String arg = query.get(SearchQuery.Field.QUERY);
-        try {
-            return MyMoviesIndex.getInstance().searchTitle(arg);
-        } catch (Exception e) {
-            throw new MetadataException("MyMovies seaarch failed for: " + query, e);
-        }
-    }
+	public synchronized List<IMetadataSearchResult> search(SearchQuery query) throws MetadataException {
+		if (!initialized)
+			initialize();
 
-    private void initialize() throws MetadataException {
-        String indexDir = new File(Phoenix.getInstance().getUserCacheDir(),  "mymovies").getAbsolutePath();
-        MyMoviesIndex.getInstance().setIndexDir(indexDir);
+		if (shouldRebuildIndexes()) {
+			try {
+				rebuildIndexes();
+			} catch (Exception e) {
+				log.error("Failed to rebuild the indexes for MyMovies!", e);
+			}
+		}
 
-        String xml = cfg.getXmlFile();
-        if (xml == null) {
-            throw new MetadataException("Missing xml.  Please Set MyMovies Xml Location.");
-        }
+		// search by ID, if the ID is present
+		if (!StringUtils.isEmpty(query.get(SearchQuery.Field.ID))) {
+			List<IMetadataSearchResult> res = MetadataSearchUtil.searchById(this, query, query.get(SearchQuery.Field.ID));
+			if (res != null) {
+				return res;
+			}
+		}
 
-        xmlFile = new File(xml);
-        if (!xmlFile.exists()) {
-            throw new MetadataException("Missing Xml File: " + xmlFile);
-        }
-        
-        log.info("MyMovies initialized using xml file: " + xmlFile);
+		// carry on normal search
+		String arg = query.get(SearchQuery.Field.QUERY);
+		try {
+			return MyMoviesIndex.getInstance().searchTitle(arg);
+		} catch (Exception e) {
+			throw new MetadataException("MyMovies seaarch failed for: " + query, e);
+		}
+	}
 
-        xmlFileTool = new MyMoviesXmlFile(xmlFile);
-        initialized = true;
-    }
-    
-    private boolean isXmlModified() {
-        return xmlFile.lastModified() > cfg.getXmlFileLastModified();
-    }
+	private void initialize() throws MetadataException {
+		String indexDir = new File(Phoenix.getInstance().getUserCacheDir(), "mymovies").getAbsolutePath();
+		MyMoviesIndex.getInstance().setIndexDir(indexDir);
 
-    private void rebuildIndexes() throws Exception {
-        log.debug("Rebuilding MyMovies Indexes....");
+		String xml = cfg.getXmlFile();
+		if (xml == null) {
+			throw new MetadataException("Missing xml.  Please Set MyMovies Xml Location.");
+		}
 
-        MyMoviesIndex.getInstance().clean();
-        MyMoviesIndex.getInstance().beginIndexing();
-        xmlFileTool.visitMovies(MyMoviesIndex.getInstance());
-        MyMoviesIndex.getInstance().endIndexing();
-        
-        cfg.setXmlFileLastModified(xmlFile.lastModified());
-        Phoenix.getInstance().getConfigurationManager().save();
-    }
+		xmlFile = new File(xml);
+		if (!xmlFile.exists()) {
+			throw new MetadataException("Missing Xml File: " + xmlFile);
+		}
 
-    private boolean shouldRebuildIndexes() {
-        return MyMoviesIndex.getInstance().isNew() || isXmlModified();
-    }
+		log.info("MyMovies initialized using xml file: " + xmlFile);
 
-    public synchronized IMetadata getMetaData(IMetadataSearchResult result) throws MetadataException {
-	    if (!initialized) initialize();
-	    
-	    if (MetadataSearchUtil.hasMetadata(result)) return MetadataSearchUtil.getMetadata(result);
-	
-	    return new MyMoviesParser(result.getId(), this).getMetaData();
+		xmlFileTool = new MyMoviesXmlFile(xmlFile);
+		initialized = true;
+	}
+
+	private boolean isXmlModified() {
+		return xmlFile.lastModified() > cfg.getXmlFileLastModified();
+	}
+
+	private void rebuildIndexes() throws Exception {
+		log.debug("Rebuilding MyMovies Indexes....");
+
+		MyMoviesIndex.getInstance().clean();
+		MyMoviesIndex.getInstance().beginIndexing();
+		xmlFileTool.visitMovies(MyMoviesIndex.getInstance());
+		MyMoviesIndex.getInstance().endIndexing();
+
+		cfg.setXmlFileLastModified(xmlFile.lastModified());
+		Phoenix.getInstance().getConfigurationManager().save();
+	}
+
+	private boolean shouldRebuildIndexes() {
+		return MyMoviesIndex.getInstance().isNew() || isXmlModified();
+	}
+
+	public synchronized IMetadata getMetaData(IMetadataSearchResult result) throws MetadataException {
+		if (!initialized)
+			initialize();
+
+		if (MetadataSearchUtil.hasMetadata(result))
+			return MetadataSearchUtil.getMetadata(result);
+
+		return new MyMoviesParser(result.getId(), this).getMetaData();
 	}
 
 	public MyMoviesXmlFile getMyMoviesXmlFile() {

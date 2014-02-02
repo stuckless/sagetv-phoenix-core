@@ -6,14 +6,14 @@ import sagex.phoenix.util.Hints;
 import sagex.phoenix.util.NamedValue;
 
 public class Field extends AbstractElement {
-    private ConfigType type = ConfigType.TEXT;
-    private String defaultValue;
-    private IOptionFactory optionFactory=null;
-    private String listSeparator;
-    private ConfigScope scope = ConfigScope.CLIENT;
-    private Hints hints = new Hints();
+	private ConfigType type = ConfigType.TEXT;
+	private String defaultValue;
+	private IOptionFactory optionFactory = null;
+	private String listSeparator;
+	private ConfigScope scope = ConfigScope.CLIENT;
+	private Hints hints = new Hints();
 
-    public Hints getHints() {
+	public Hints getHints() {
 		return hints;
 	}
 
@@ -22,38 +22,38 @@ public class Field extends AbstractElement {
 	}
 
 	public ConfigType getType() {
-        return type;
-    }
+		return type;
+	}
 
-    public void setType(ConfigType type) {
-        this.type = type;
-    }
+	public void setType(ConfigType type) {
+		this.type = type;
+	}
 
-    public String getDefaultValue() {
-        return defaultValue;
-    }
+	public String getDefaultValue() {
+		return defaultValue;
+	}
 
-    public void setDefaultValue(String defaultValue) {
-        this.defaultValue = defaultValue;
-    }
+	public void setDefaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
 
-    public List<NamedValue> getOptions() {
-		if (optionFactory==null && type == ConfigType.BOOL) {
+	public List<NamedValue> getOptions() {
+		if (optionFactory == null && type == ConfigType.BOOL) {
 			optionFactory = BooleanOptionsFactory.DEFAULT_BOOLEAN_FACTORY;
 		}
-		
-    	if (optionFactory!=null) {
-    		return optionFactory.getOptions(getId());
-    	}
-    	return null;
-    }
-    
-    /**
-     * Gets the Options factory for this item.  An options factory is responsible for returning a list of
-     * possible values for a field.
-     * 
-     * @return
-     */
+
+		if (optionFactory != null) {
+			return optionFactory.getOptions(getId());
+		}
+		return null;
+	}
+
+	/**
+	 * Gets the Options factory for this item. An options factory is responsible
+	 * for returning a list of possible values for a field.
+	 * 
+	 * @return
+	 */
 	public IOptionFactory getOptionFactory() {
 		return optionFactory;
 	}
@@ -67,14 +67,15 @@ public class Field extends AbstractElement {
 	}
 
 	/**
-	 * Gets the list separator for this field, IF the field types is a multichoice field type.
+	 * Gets the list separator for this field, IF the field types is a
+	 * multichoice field type.
 	 * 
 	 * @return
 	 */
 	public String getListSeparator() {
 		return listSeparator;
 	}
-	
+
 	/**
 	 * gets the scope for the field, ie, Client, Server, User
 	 * 
@@ -92,7 +93,7 @@ public class Field extends AbstractElement {
 	}
 
 	public Field() {
-        super(FIELD);
-    }
+		super(FIELD);
+	}
 
 }

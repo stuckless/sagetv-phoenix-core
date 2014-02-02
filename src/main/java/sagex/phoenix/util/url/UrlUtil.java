@@ -72,8 +72,7 @@ public class UrlUtil {
 		try {
 			return URLEncoder.encode(data, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			log.warn("Failed to url encode data: " + data
-					+ " as UTF-8; will try again using default encoding", e);
+			log.warn("Failed to url encode data: " + data + " as UTF-8; will try again using default encoding", e);
 			return URLEncoder.encode(data);
 		}
 	}
@@ -87,8 +86,7 @@ public class UrlUtil {
 	 * @throws IOException
 	 * @throws SocketTimeoutException
 	 */
-	public static URLConnection openUrlConnection(URL url,
-			boolean followRedirects) throws IOException, SocketTimeoutException {
+	public static URLConnection openUrlConnection(URL url, boolean followRedirects) throws IOException, SocketTimeoutException {
 		return openUrlConnection(url, null, null, 0, followRedirects);
 	}
 
@@ -102,8 +100,7 @@ public class UrlUtil {
 	 * @throws IOException
 	 * @throws SocketTimeoutException
 	 */
-	public static URLConnection openUrlConnection(URL url, String userAgent,
-			String referrer, int timeout, boolean followRedirects)
+	public static URLConnection openUrlConnection(URL url, String userAgent, String referrer, int timeout, boolean followRedirects)
 			throws IOException, SocketTimeoutException {
 		UrlConfiguration cfg = GroupProxy.get(UrlConfiguration.class);
 		URLConnection conn = url.openConnection();
@@ -118,8 +115,7 @@ public class UrlUtil {
 			if (referrer != null) {
 				conn.setRequestProperty("REFERER", referrer);
 			}
-			((HttpURLConnection) conn)
-					.setInstanceFollowRedirects(followRedirects);
+			((HttpURLConnection) conn).setInstanceFollowRedirects(followRedirects);
 		}
 
 		if (timeout <= 0) {
@@ -158,8 +154,7 @@ public class UrlUtil {
 		try {
 			return URLDecoder.decode(data, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			log.warn("Failed to url encode data: " + data
-					+ " as UTF-8; will try again using default encoding", e);
+			log.warn("Failed to url encode data: " + data + " as UTF-8; will try again using default encoding", e);
 			return URLDecoder.decode(data);
 		}
 	}

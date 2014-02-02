@@ -11,7 +11,7 @@ import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.sage.SageSourcesMediaFolder;
 
 /**
- * Simple factory for creating a structured source from a sage media mask.  ie,
+ * Simple factory for creating a structured source from a sage media mask. ie,
  * this factory will create a hierarch structure of sage media files.
  * 
  * @author seans
@@ -30,7 +30,7 @@ public class SageSourcesFactory extends Factory<IMediaFolder> {
 		boolean combine = getOption("combine", altOptions).getBoolean(false);
 		String mediamask = getOption("mediamask", altOptions).getString(null);
 		if (combine) {
-			return new CombinedMediaFolder(new SageSourcesMediaFolder(mediamask, getLabel()),combine);
+			return new CombinedMediaFolder(new SageSourcesMediaFolder(mediamask, getLabel()), combine);
 		} else {
 			return new SageSourcesMediaFolder(mediamask, getLabel());
 		}

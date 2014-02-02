@@ -9,15 +9,14 @@ import org.junit.Test;
 
 import phoenix.impl.UtilAPI;
 
-
 public class TestRemoveAll {
 	@Test
 	public void testRemoveAll() {
 		UtilAPI util = new UtilAPI();
-		
-		String a1[] = {"A","B","C","D"};
-		String a2[] = {"B","C"};
-		
+
+		String a1[] = { "A", "B", "C", "D" };
+		String a2[] = { "B", "C" };
+
 		List l1 = util.RemoveAll(a1, a2);
 		assertNotNull(l1);
 		assertEquals(2, l1.size());

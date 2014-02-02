@@ -10,6 +10,6 @@ public class IntConverter implements FieldConverter<Integer> {
 
 	@Override
 	public String toString(Integer in) {
-		return in==null?null:String.valueOf(in);
+		return in == null ? null : String.valueOf(in);
 	}
 }

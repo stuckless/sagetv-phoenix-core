@@ -1,6 +1,5 @@
 package sagex.phoenix.remote.services;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -19,14 +18,14 @@ public class ScriptingEngingTest {
 	private static interface MyInterface {
 		public String callMe(String name);
 	}
-	
+
 	private static final String CLIENTID = "junitclient";
-	
+
 	@BeforeClass
 	public static void init() throws IOException {
 		InitPhoenix.init(true, true);
 	}
-	
+
 	@Test
 	public void testScriptEngine() throws IOException, NoSuchMethodException, ScriptException {
 		String script = IOUtils.toString(ScriptingEngingTest.class.getResourceAsStream("testscript.js"));
@@ -38,7 +37,7 @@ public class ScriptingEngingTest {
 		assertTrue("__onload not called in script", loaded);
 
 		// test that we can map a js function to an interface method
-		MyInterface r = serv.newInterfaceHandler(MyInterface.class, CLIENTID, "callMe", "testMyInterfaceCall"); 
+		MyInterface r = serv.newInterfaceHandler(MyInterface.class, CLIENTID, "callMe", "testMyInterfaceCall");
 		String val = r.callMe("123");
 		assertEquals(val, "123");
 		System.out.println("MyInteface: " + r.toString());

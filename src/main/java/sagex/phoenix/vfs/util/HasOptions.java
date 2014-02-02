@@ -7,5 +7,6 @@ import sagex.phoenix.factory.ConfigurableOption;
 
 public interface HasOptions {
 	public List<ConfigurableOption> getOptions();
+
 	public void onUpdate(BaseConfigurable configurable);
 }

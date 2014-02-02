@@ -12,52 +12,52 @@ import java.util.Properties;
 import javax.net.ssl.HttpsURLConnection;
 
 public final class Util {
-	
-	public static StringBuffer getStringBufferFromResponse (HttpsURLConnection urlc) throws IOException {
-		
+
+	public static StringBuffer getStringBufferFromResponse(HttpsURLConnection urlc) throws IOException {
+
 		InputStream is = urlc.getInputStream();
-	    BufferedReader in = new BufferedReader(new InputStreamReader(is));
-        StringBuffer buffer = new StringBuffer();
-        String str;
-        
-        while ((str = in.readLine()) != null) {
-            buffer.append(str);
-        }
-        
-        in.close();
+		BufferedReader in = new BufferedReader(new InputStreamReader(is));
+		StringBuffer buffer = new StringBuffer();
+		String str;
+
+		while ((str = in.readLine()) != null) {
+			buffer.append(str);
+		}
+
+		in.close();
 		return buffer;
 	}
-	
-	public static StringBuffer getStringBufferFromResponse (HttpURLConnection urlc) throws IOException {
-		
+
+	public static StringBuffer getStringBufferFromResponse(HttpURLConnection urlc) throws IOException {
+
 		InputStream is = urlc.getInputStream();
-	    BufferedReader in = new BufferedReader(new InputStreamReader(is));
-        StringBuffer buffer = new StringBuffer();
-        String str;
-        
-        while ((str = in.readLine()) != null) {
-            buffer.append(str);
-        }
-        
-        in.close();
+		BufferedReader in = new BufferedReader(new InputStreamReader(is));
+		StringBuffer buffer = new StringBuffer();
+		String str;
+
+		while ((str = in.readLine()) != null) {
+			buffer.append(str);
+		}
+
+		in.close();
 		return buffer;
 	}
-	
+
 	@SuppressWarnings("deprecation")
-	public static String makeQueryString (Properties properties) {
-		
+	public static String makeQueryString(Properties properties) {
+
 		String string = "";
 		Enumeration<?> e = properties.propertyNames();
-		
+
 		while (e.hasMoreElements()) {
-		      String key = (String) e.nextElement();
-		      string += URLEncoder.encode(key) + "=" + URLEncoder.encode(properties.getProperty(key)) + "&";
+			String key = (String) e.nextElement();
+			string += URLEncoder.encode(key) + "=" + URLEncoder.encode(properties.getProperty(key)) + "&";
 		}
-		
+
 		return string;
-		
+
 	}
-	
+
 	public static String getFakeStatusResponse() {
 		String str = "";
 		str += "{";

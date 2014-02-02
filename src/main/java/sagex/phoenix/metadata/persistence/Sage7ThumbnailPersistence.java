@@ -15,9 +15,9 @@ import sagex.phoenix.vfs.util.PathUtils;
 
 /**
  * Save a Sage7 thumbanil file for a given mediafile
- *  
+ * 
  * @author seans
- *
+ * 
  */
 public class Sage7ThumbnailPersistence implements IMetadataPersistence {
 	public Sage7ThumbnailPersistence() {
@@ -27,7 +27,7 @@ public class Sage7ThumbnailPersistence implements IMetadataPersistence {
 	public void storeMetadata(IMediaFile file, IMetadata md, Hints options) throws MetadataException {
 		try {
 			File f = PathUtils.getFirstFile(file);
-			if (f!=null && f.exists()) {
+			if (f != null && f.exists()) {
 				MediaType mt = MediaType.MOVIE;
 				if (file.isType(MediaResourceType.MUSIC.value())) {
 					mt = MediaType.MUSIC;
@@ -37,18 +37,21 @@ public class Sage7ThumbnailPersistence implements IMetadataPersistence {
 					return;
 				}
 				File thumbfile = FanartUtil.getLocalFanartForFile(f, mt, MediaArtifactType.POSTER, false);
-				if (thumbfile==null) return;
+				if (thumbfile == null)
+					return;
 				if (thumbfile.exists()) {
 					// do nothing, since it exists
 					return;
 				}
-				
+
 				String poster = phoenix.fanart.GetFanartPoster(file);
-				if (poster==null) return;
-				
+				if (poster == null)
+					return;
+
 				File posterFile = new File(poster);
-				if (!posterFile.exists()) return;
-				
+				if (!posterFile.exists())
+					return;
+
 				PersistenceUtil.writeImageFromUrl(posterFile.toURI().toString(), thumbfile, 150);
 			}
 		} catch (Exception e) {

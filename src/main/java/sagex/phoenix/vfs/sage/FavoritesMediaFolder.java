@@ -16,28 +16,28 @@ import sagex.phoenix.vfs.sorters.StartTimeSorter;
  */
 public class FavoritesMediaFolder extends VirtualMediaFolder {
 	private boolean singleLevel = false;
-	
+
 	public FavoritesMediaFolder() {
 		this(false);
 	}
 
 	public FavoritesMediaFolder(boolean singleLevel) {
 		super("Favorites");
-		this.singleLevel=singleLevel;
+		this.singleLevel = singleLevel;
 	}
 
 	@Override
 	protected void populateChildren(List<IMediaResource> children) {
 		Object favs[] = FavoriteAPI.GetFavorites();
-		if (favs!=null) {
-			for (Object f: favs) {
+		if (favs != null) {
+			for (Object f : favs) {
 				if (singleLevel) {
 					Object singles[] = FavoriteAPI.GetFavoriteAirings(f);
-					if (singles!=null) {
+					if (singles != null) {
 						long curTime = System.currentTimeMillis();
-						for (Object s: singles) {
+						for (Object s : singles) {
 							IMediaFile mf = new SageMediaFile(this, s);
-							if (mf.getStartTime()>curTime) {
+							if (mf.getStartTime() > curTime) {
 								children.add(mf);
 							}
 						}
@@ -47,7 +47,7 @@ public class FavoritesMediaFolder extends VirtualMediaFolder {
 				}
 			}
 		}
-		
+
 		if (singleLevel) {
 			Collections.sort(children, new StartTimeSorter());
 		}

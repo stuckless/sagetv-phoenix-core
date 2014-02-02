@@ -16,9 +16,10 @@ public class TimerUtil {
 		timer.schedule(task, delay, period);
 		return timer;
 	}
-	
+
 	/**
 	 * Schedules a task to run once after a given delay
+	 * 
 	 * @param delay
 	 * @param task
 	 * @return
@@ -28,7 +29,7 @@ public class TimerUtil {
 		timer.schedule(task, delay);
 		return timer;
 	}
-	
+
 	/**
 	 * performs sleep on the current thread
 	 * 

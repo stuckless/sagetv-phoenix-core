@@ -12,17 +12,18 @@ import sagex.phoenix.vfs.util.PathUtils;
  * @author seans
  */
 public class FileNameFilter extends BaseRegexFilter {
-    public FileNameFilter() {
-        super("Extension Regex");
-    }
-    
+	public FileNameFilter() {
+		super("Extension Regex");
+	}
+
 	@Override
 	protected boolean canAccept(IMediaResource res) {
-        if (res instanceof IMediaFile) {
-            File file = PathUtils.getFirstFile((IMediaFile) res);
-            if (file==null) return false;
-            return match(file.getName());
-        }
-        return false;
+		if (res instanceof IMediaFile) {
+			File file = PathUtils.getFirstFile((IMediaFile) res);
+			if (file == null)
+				return false;
+			return match(file.getName());
+		}
+		return false;
 	}
 }

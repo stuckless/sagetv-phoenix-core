@@ -5,9 +5,9 @@ import sagex.phoenix.vfs.IMediaFile;
 
 public class WatchedVisitor extends FileVisitor {
 	private boolean watchedState = true;
-	
+
 	public WatchedVisitor(Boolean watchedState) {
-		this.watchedState=watchedState;
+		this.watchedState = watchedState;
 	}
 
 	@Override

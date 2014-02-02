@@ -22,34 +22,34 @@ public class UPnPMetadata implements IMetadata {
 	private UPnPMediaFile file;
 	private Item item;
 	private Res resource;
-	
+
 	public UPnPMetadata(UPnPMediaFile file) {
-		this.file=file;
-		this.item=((Item)file.getMediaObject());
-		if (item.getResources()!=null && item.getResources().size()>0) {
+		this.file = file;
+		this.item = ((Item) file.getMediaObject());
+		if (item.getResources() != null && item.getResources().size() > 0) {
 			resource = item.getResources().get(0);
 		}
 	}
-	
-    public <V> String prop(java.lang.Class<? extends Property<V>> propertyClass) {
-    	if (item!=null) {
-    		Property<V> p = item.getFirstProperty(propertyClass);
-    		if (p!=null) {
-    			return (String) p.getValue();
-    		}
-    	}
-    	return null;
-    }
 
-    public <V> int propInt(java.lang.Class<? extends Property<V>> propertyClass) {
-    	if (item!=null) {
-    		Property<V> p = item.getFirstProperty(propertyClass);
-    		if (p!=null) {
-    			return (Integer) p.getValue();
-    		}
-    	}
-    	return 0;
-    }
+	public <V> String prop(java.lang.Class<? extends Property<V>> propertyClass) {
+		if (item != null) {
+			Property<V> p = item.getFirstProperty(propertyClass);
+			if (p != null) {
+				return (String) p.getValue();
+			}
+		}
+		return null;
+	}
+
+	public <V> int propInt(java.lang.Class<? extends Property<V>> propertyClass) {
+		if (item != null) {
+			Property<V> p = item.getFirstProperty(propertyClass);
+			if (p != null) {
+				return (Integer) p.getValue();
+			}
+		}
+		return 0;
+	}
 
 	@Override
 	public int getWidth() {
@@ -290,7 +290,7 @@ public class UPnPMetadata implements IMetadata {
 
 	@Override
 	public boolean getStereo() {
-		return resource.getNrAudioChannels()>1;
+		return resource.getNrAudioChannels() > 1;
 	}
 
 	@Override
@@ -493,9 +493,9 @@ public class UPnPMetadata implements IMetadata {
 	public List<ICastMember> getActors() {
 		List<ICastMember> cast = new ArrayList<ICastMember>();
 		Property[] props = item.getProperties(DIDLObject.Property.UPNP.ACTOR.class);
-		if (props!=null) {
+		if (props != null) {
 			for (Property p : props) {
-				if (p.getValue()!=null) {
+				if (p.getValue() != null) {
 					cast.add(new CastMember(p.getValue().toString(), "Actor"));
 				}
 			}
@@ -542,9 +542,9 @@ public class UPnPMetadata implements IMetadata {
 	public List<ICastMember> getDirectors() {
 		List<ICastMember> cast = new ArrayList<ICastMember>();
 		Property[] props = item.getProperties(DIDLObject.Property.UPNP.DIRECTOR.class);
-		if (props!=null) {
+		if (props != null) {
 			for (Property p : props) {
-				if (p.getValue()!=null) {
+				if (p.getValue() != null) {
 					cast.add(new CastMember(p.getValue().toString(), "Director"));
 				}
 			}
@@ -556,9 +556,9 @@ public class UPnPMetadata implements IMetadata {
 	public List<ICastMember> getProducers() {
 		List<ICastMember> cast = new ArrayList<ICastMember>();
 		Property[] props = item.getProperties(DIDLObject.Property.UPNP.PRODUCER.class);
-		if (props!=null) {
+		if (props != null) {
 			for (Property p : props) {
-				if (p.getValue()!=null) {
+				if (p.getValue() != null) {
 					cast.add(new CastMember(p.getValue().toString(), "Producer"));
 				}
 			}
@@ -600,9 +600,9 @@ public class UPnPMetadata implements IMetadata {
 	public List<ICastMember> getArtists() {
 		List<ICastMember> cast = new ArrayList<ICastMember>();
 		Property[] props = item.getProperties(DIDLObject.Property.UPNP.ARTIST.class);
-		if (props!=null) {
+		if (props != null) {
 			for (Property p : props) {
-				if (p.getValue()!=null) {
+				if (p.getValue() != null) {
 					cast.add(new CastMember(p.getValue().toString(), "Artist"));
 				}
 			}
@@ -652,8 +652,10 @@ public class UPnPMetadata implements IMetadata {
 	@Override
 	public String getMediaType() {
 		String cl = item.getClazz().getValue();
-		if (cl==null || cl.contains("video")) return MediaType.MOVIE.sageValue();
-		if (cl.contains("audio") || cl.contains("music")) return MediaType.MUSIC.sageValue();
+		if (cl == null || cl.contains("video"))
+			return MediaType.MOVIE.sageValue();
+		if (cl.contains("audio") || cl.contains("music"))
+			return MediaType.MUSIC.sageValue();
 		return MediaType.MOVIE.sageValue();
 	}
 

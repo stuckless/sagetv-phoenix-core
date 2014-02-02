@@ -4,13 +4,20 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public class MediaRequest implements Serializable {
-	public static enum Profiles {low, normal, hd}
-	public static enum Networks {mobile, wifi}
-	public static enum Encoders {vlc, script};
-	
+	public static enum Profiles {
+		low, normal, hd
+	}
+
+	public static enum Networks {
+		mobile, wifi
+	}
+
+	public static enum Encoders {
+		vlc, script
+	};
+
 	private static final long serialVersionUID = 1L;
 
-	
 	protected String clientId;
 
 	private String[] sources;
@@ -28,13 +35,14 @@ public class MediaRequest implements Serializable {
 	private String clientScreen;
 
 	private String network;
-	
+
 	public MediaRequest() {
 	}
-	
+
 	public String getClientId() {
 		return clientId;
 	}
+
 	public void setClientId(String clientId) {
 		this.clientId = clientId;
 	}
@@ -42,13 +50,13 @@ public class MediaRequest implements Serializable {
 	public String[] getSources() {
 		return sources;
 	}
-	
+
 	public void setSources(String[] sources) {
-		this.sources=sources;
+		this.sources = sources;
 	}
 
 	public void setSingleSource(String source) {
-		this.sources=new String[] {source};
+		this.sources = new String[] { source };
 	}
 
 	public String getOutputDir() {
@@ -87,7 +95,7 @@ public class MediaRequest implements Serializable {
 	}
 
 	public boolean isRequestingGenericStreamer() {
-		return requestingGenericStreamer ;
+		return requestingGenericStreamer;
 	}
 
 	public void setRequestingGenericStreamer(boolean requestingGenericStreamer) {
@@ -95,11 +103,11 @@ public class MediaRequest implements Serializable {
 	}
 
 	public void setProfile(String profile) {
-		this.profile=profile;
+		this.profile = profile;
 	}
 
 	public void setClientScreen(String screen) {
-		this.clientScreen=screen;
+		this.clientScreen = screen;
 	}
 
 	public void setNetwork(String network) {

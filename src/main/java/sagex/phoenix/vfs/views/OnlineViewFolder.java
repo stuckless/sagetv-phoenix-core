@@ -11,7 +11,7 @@ import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.IMediaResourceVisitor;
 
 public class OnlineViewFolder extends ViewFolder {
-	public static int FOLDER_TIMEOUT=5000;
+	public static int FOLDER_TIMEOUT = 5000;
 	private boolean loaded = false;
 
 	public OnlineViewFolder(ViewFactory factory, int level, ViewFolder parent, IMediaFolder decorate) {
@@ -34,19 +34,21 @@ public class OnlineViewFolder extends ViewFolder {
 	}
 
 	/**
-	 * Count returns the known size of the items, and doesn't cause a force load of the items if they have not
-	 * been loaded, like getChildren().size() does.  For online videos, it is recommended that you never call
-	 * getChildren() except when you really want to resolve the children, ie, fetch them.
+	 * Count returns the known size of the items, and doesn't cause a force load
+	 * of the items if they have not been loaded, like getChildren().size()
+	 * does. For online videos, it is recommended that you never call
+	 * getChildren() except when you really want to resolve the children, ie,
+	 * fetch them.
 	 * 
 	 * @return
 	 */
 	public int count() {
-		if (decoratedChildren!=null) {
+		if (decoratedChildren != null) {
 			return decoratedChildren.size();
 		}
 		return 0;
 	}
-	
+
 	@Override
 	public List<IMediaResource> getChildren() {
 		if (changed) {
@@ -92,10 +94,11 @@ public class OnlineViewFolder extends ViewFolder {
 	 * @return
 	 */
 	public boolean isLoaded(long waitFor) {
-		if (loaded) return true;
+		if (loaded)
+			return true;
 		// force children to load
 		loadChilren();
-		
+
 		// wait until they are loaded
 		long expired = System.currentTimeMillis() + waitFor;
 		while (System.currentTimeMillis() < expired) {

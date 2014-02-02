@@ -10,7 +10,7 @@ public class SyncReply {
 	public List<SyncMediaFile> files;
 
 	public SyncReply(String id) {
-		this.id=id;
+		this.id = id;
 	}
 
 }

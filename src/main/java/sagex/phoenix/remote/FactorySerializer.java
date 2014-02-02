@@ -1,6 +1,5 @@
 package sagex.phoenix.remote;
 
-
 import java.lang.reflect.Type;
 
 import sagex.phoenix.factory.Factory;

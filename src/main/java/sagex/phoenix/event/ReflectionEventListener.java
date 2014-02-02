@@ -34,8 +34,7 @@ public class ReflectionEventListener implements SageTVEventListener {
 				}
 			}
 		} catch (Exception ex) {
-			Loggers.LOG.warn("Failed to dispatch event for: " + name
-					+ " to method " + method.getName() + " in class "
+			Loggers.LOG.warn("Failed to dispatch event for: " + name + " to method " + method.getName() + " in class "
 					+ parent.getClass().getName(), ex);
 		}
 	}

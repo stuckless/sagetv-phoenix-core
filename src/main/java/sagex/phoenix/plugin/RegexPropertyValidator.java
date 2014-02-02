@@ -15,13 +15,15 @@ public class RegexPropertyValidator implements IPropertyValidator {
 	public void validate(String setting, String value) throws Exception {
 		try {
 			// it's ok to clear the value
-			if (StringUtils.isEmpty(value)) return;
-			
-			// simply calls pattern.compile().. if it's invalid, then pattern will
+			if (StringUtils.isEmpty(value))
+				return;
+
+			// simply calls pattern.compile().. if it's invalid, then pattern
+			// will
 			// throw an exception
 			Pattern.compile(value);
 		} catch (Exception e) {
-			Loggers.LOG.warn("Regex Validation Failed for setting: " + setting +"; value: " + value, e);
+			Loggers.LOG.warn("Regex Validation Failed for setting: " + setting + "; value: " + value, e);
 			throw e;
 		}
 	}

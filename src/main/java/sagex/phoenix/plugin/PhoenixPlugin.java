@@ -62,7 +62,7 @@ import sagex.plugin.SageEvents;
  */
 public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITaskProgressHandler {
 	private MetadataConfiguration config = null;
-	private RetryTaskManager retryTaskManager=null;
+	private RetryTaskManager retryTaskManager = null;
 	private HomeVideosFilter homeVideoFilter = new HomeVideosFilter();
 	private HomeVideosConfiguration homeVideoCfg = null;
 
@@ -97,13 +97,11 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 				try {
 					Properties props = PropertiesUtils.load(propFile);
 					if (props.containsKey(IMetadata.XWatched)) {
-						smf.setWatched(BooleanUtils.toBoolean(props
-								.getProperty(IMetadata.XWatched)));
+						smf.setWatched(BooleanUtils.toBoolean(props.getProperty(IMetadata.XWatched)));
 					}
 
 					if (props.containsKey(IMetadata.XLibraryFile)) {
-						smf.setLibraryFile(BooleanUtils.toBoolean(props
-								.getProperty(IMetadata.XLibraryFile)));
+						smf.setLibraryFile(BooleanUtils.toBoolean(props.getProperty(IMetadata.XLibraryFile)));
 					}
 				} catch (IOException e) {
 				}
@@ -111,16 +109,16 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 				// don't process other metadata
 				return;
 			}
-			
+
 			// check for home videos
 			if (homeVideoFilter.accept(smf)) {
 				// we have a home video
-				
+
 				if (!StringUtils.isEmpty(homeVideoCfg.getCategory())) {
 					// assign the home video category to this
 					smf.getMetadata().getGenres().add(homeVideoCfg.getCategory());
 				}
-				
+
 				return;
 			}
 
@@ -177,22 +175,18 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 					.getEventBus()
 					.fireEvent(
 							PhoenixEventID.SystemMessageEvent,
-							SageSystemMessageListener
-									.createEvent(
-											SystemMessageID.AUTOMATIC_METADATA_LOOKUP_FAILED,
-											SageSystemMessageListener.STATUS,
-											"Automatic Metadata Failed: "
-													+ file.getTitle(),
-											e.getMessage(), e), false);
+							SageSystemMessageListener.createEvent(SystemMessageID.AUTOMATIC_METADATA_LOOKUP_FAILED,
+									SageSystemMessageListener.STATUS, "Automatic Metadata Failed: " + file.getTitle(),
+									e.getMessage(), e), false);
 		}
-		
+
 	}
-	
+
 	@SageEvent(value = SageEvents.AllPluginsLoaded, background = false)
 	public void onPluginsLoaded() {
 		log.info("Begin: Phoenix looking for plugins that contribute to the Phoenix Core...");
 		List<HasFileConfigurations> managers = new ArrayList<HasFileConfigurations>();
-		
+
 		try {
 			Object[] plugins = PluginAPI.GetAllAvailablePlugins();
 			if (plugins != null && plugins.length > 0) {
@@ -203,14 +197,13 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 						dir = new File(pluginArea);
 					}
 					if (dir == null || !dir.exists()) {
-						dir = new File(new File("plugins"),
-								PluginAPI.GetPluginIdentifier(plugin));
+						dir = new File(new File("plugins"), PluginAPI.GetPluginIdentifier(plugin));
 					}
 					if (dir == null || !dir.exists()) {
 						// skip this plugin, it has nothing to offer
 						continue;
 					}
-					
+
 					dir = new File(dir, "Phoenix");
 					if (dir == null || !dir.exists()) {
 						// skip this plugin, it has no phoenix contribution
@@ -227,10 +220,10 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 					managePlugin(new File(dir, "scrapers/xbmc/tvfilenames"), Phoenix.getInstance().getTVScrapers(), managers);
 				}
 			}
-			
-			if (managers.size()>0) {
+
+			if (managers.size() > 0) {
 				log.info("Begin Reloading some configurations because of plugin contributions");
-				for (HasFileConfigurations m: managers) {
+				for (HasFileConfigurations m : managers) {
 					m.loadConfigurations();
 				}
 				log.info("End Reloading some configurations because of plugin contributions");
@@ -245,7 +238,7 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 
 		log.info("End: Phoenix looking for plugins that contribute to the Phoenix Core");
 	}
-	
+
 	private void managePlugin(File dir, SystemConfigurationFileManager manager, List<HasFileConfigurations> managers) {
 		if (dir.exists()) {
 			manager.addPluginConfiguration(dir);
@@ -268,11 +261,13 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 				Group el = (Group) Phoenix.getInstance().getConfigurationMetadataManager().findElement("phoenix");
 				PluginConfigurationHelper.addConfiguration(this, el);
 				config = GroupProxy.get(MetadataConfiguration.class);
-				retryTaskManager = new RetryTaskManager(config.getAutomaticRetryCount(), config.getAutomaticRetryThreadCount(), config.getAutomaticRetryDelay());
+				retryTaskManager = new RetryTaskManager(config.getAutomaticRetryCount(), config.getAutomaticRetryThreadCount(),
+						config.getAutomaticRetryDelay());
 				homeVideoCfg = GroupProxy.get(HomeVideosConfiguration.class);
-				
+
 				// register ourself to listen configuration button events
-				// and dispatch them to the setConfigValue so that it triggers an button event
+				// and dispatch them to the setConfigValue so that it triggers
+				// an button event
 				Phoenix.getInstance().getEventBus().addListener(ConfigurationManager.BUTTON_EVENT, new SageTVEventListener() {
 					@Override
 					public void sageEvent(String evt, Map args) {
@@ -284,13 +279,9 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 			} catch (Throwable t) {
 				t.printStackTrace();
 			}
-			
-			if (StringUtils.isEmpty((String) phoenix.config
-					.GetServerProperty("phoenix/configured"))) {
-				phoenix.config.SetServerProperty(
-						"phoenix/configured",
-						String.valueOf(Calendar.getInstance().getTime()
-								.getTime()));
+
+			if (StringUtils.isEmpty((String) phoenix.config.GetServerProperty("phoenix/configured"))) {
+				phoenix.config.SetServerProperty("phoenix/configured", String.valueOf(Calendar.getInstance().getTime().getTime()));
 				try {
 					upgradeFromBMT();
 				} catch (Throwable t) {
@@ -305,8 +296,7 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 	}
 
 	public static void updateCustomMetadataFields() {
-		String fieldProp = Configuration.GetServerProperty(
-				"custom_metadata_properties", "");
+		String fieldProp = Configuration.GetServerProperty("custom_metadata_properties", "");
 		String fields[] = fieldProp.split(";");
 		Set<String> fieldList = new TreeSet<String>(Arrays.asList(fields));
 
@@ -320,15 +310,13 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 		// }
 
 		// add known custom props
-		String custom[] = MetadataUtil
-				.getPropertyKeys(ISageCustomMetadataRW.class);
+		String custom[] = MetadataUtil.getPropertyKeys(ISageCustomMetadataRW.class);
 		for (String s : custom) {
 			fieldList.add(s);
 		}
 
 		fieldProp = StringUtils.join(fieldList, ";");
-		Configuration
-				.SetServerProperty("custom_metadata_properties", fieldProp);
+		Configuration.SetServerProperty("custom_metadata_properties", fieldProp);
 		Loggers.LOG.info("Setting Custom Metadata Fields: " + fieldProp);
 	}
 
@@ -336,27 +324,20 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 		boolean autoplugin = false;
 
 		// check if bmt is configured, and if so, then remove it.
-		String plugin = Configuration.GetProperty(
-				"mediafile_metadata_parser_plugins", null);
-		if (plugin != null
-				&& plugin.contains("org.jdna.sage.MetadataUpdaterPlugin")) {
-			Configuration
-					.SetProperty("mediafile_metadata_parser_plugins", null);
+		String plugin = Configuration.GetProperty("mediafile_metadata_parser_plugins", null);
+		if (plugin != null && plugin.contains("org.jdna.sage.MetadataUpdaterPlugin")) {
+			Configuration.SetProperty("mediafile_metadata_parser_plugins", null);
 			autoplugin = true;
 		}
 
-		plugin = Configuration.GetServerProperty(
-				"mediafile_metadata_parser_plugins", null);
-		if (plugin != null
-				&& plugin.contains("org.jdna.sage.MetadataUpdaterPlugin")) {
-			Configuration.SetServerProperty(
-					"mediafile_metadata_parser_plugins", null);
+		plugin = Configuration.GetServerProperty("mediafile_metadata_parser_plugins", null);
+		if (plugin != null && plugin.contains("org.jdna.sage.MetadataUpdaterPlugin")) {
+			Configuration.SetServerProperty("mediafile_metadata_parser_plugins", null);
 			autoplugin = true;
 		}
 
 		if (autoplugin) {
-			MetadataConfiguration config = GroupProxy
-					.get(MetadataConfiguration.class);
+			MetadataConfiguration config = GroupProxy.get(MetadataConfiguration.class);
 			config.setAutomatedFanartEnabled(true);
 		}
 
@@ -394,13 +375,10 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 				.getEventBus()
 				.fireEvent(
 						PhoenixEventID.SystemMessageEvent,
-						SageSystemMessageListener
-								.createEvent(
-										SystemMessageID.PHOENIX_METADATA,
-										SageSystemMessageListener.INFO,
-										"Batch Metadata Tools updated",
-										"Phoenix Metadata has been installed and the legacy bmt files/plugin have been removed.",
-										null), false);
+						SageSystemMessageListener.createEvent(SystemMessageID.PHOENIX_METADATA, SageSystemMessageListener.INFO,
+								"Batch Metadata Tools updated",
+								"Phoenix Metadata has been installed and the legacy bmt files/plugin have been removed.", null),
+						false);
 	}
 
 	private void removeFile(String f) {
@@ -439,7 +417,7 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 		IMediaFile file = (IMediaFile) item.getUserData().get("file");
 		boolean recording = (Boolean) item.getUserData().get("recording");
 		log.info("Retrying Scan for " + file);
-		
+
 		Hints options = Phoenix.getInstance().getMetadataManager().getDefaultMetadataOptions();
 		options.setBooleanHint(MetadataHints.KNOWN_RECORDING, recording);
 		options.setBooleanHint(MetadataHints.AUTOMATIC, true);
@@ -449,16 +427,16 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 
 	@Override
 	public boolean canRetry(Throwable t) {
-		if (t!=null && t instanceof MetadataException) {
-			return ((MetadataException)t).canRetry();
+		if (t != null && t instanceof MetadataException) {
+			return ((MetadataException) t).canRetry();
 		}
 		return false;
 	}
-	
+
 	public RetryTaskManager getRetryTaskManager() {
 		return retryTaskManager;
 	}
-	
+
 	@ButtonClickHandler("phoenix/fanart/rescanFanart")
 	public void rescanCollection() {
 		log.info("Rescanning Missing Metadata items to update fanart and metadata");

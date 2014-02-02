@@ -12,13 +12,15 @@ import sagex.phoenix.vfs.filters.IResourceFilter;
 /**
  * Used to search a mediafolder for a given mediafile
  * 
- * The Query can be a complete metadata query using metadata field names, such as,
+ * The Query can be a complete metadata query using metadata field names, such
+ * as,
+ * 
  * <pre>
  * Title contains 'House' and (SeasonNumber = 3 or SeasonNumber = 4)
  * </pre>
  * 
  * @author seans
- *
+ * 
  */
 public class SearchVisitor extends FileVisitor {
 	private List<IMediaFile> files = new ArrayList<IMediaFile>();
@@ -28,7 +30,7 @@ public class SearchVisitor extends FileVisitor {
 	public SearchVisitor(IResourceFilter filter) {
 		this.searchFilter = filter;
 	}
-	
+
 	/**
 	 * 
 	 * @param query
@@ -41,10 +43,10 @@ public class SearchVisitor extends FileVisitor {
 		parser.parse();
 		this.searchFilter = parser.getFilter();
 	}
-	
+
 	@Override
 	public boolean visitFile(IMediaFile res, IProgressMonitor monitor) {
-		if (searchFilter!=null) {
+		if (searchFilter != null) {
 			if (searchFilter.accept(res)) {
 				files.add(res);
 				incrementAffected();
@@ -53,15 +55,15 @@ public class SearchVisitor extends FileVisitor {
 		}
 		return true;
 	}
-	
+
 	public List<IMediaFile> getFiles() {
 		return files;
 	}
-	
+
 	public String getQuery() {
 		return search;
 	}
-	
+
 	public IResourceFilter getFilter() {
 		return searchFilter;
 	}

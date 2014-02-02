@@ -12,17 +12,20 @@ import sagex.phoenix.vfs.IMediaResourceVisitor;
 
 public class AutomaticMetadataVisitor implements IMediaResourceVisitor {
 	private Hints options = null;
+
 	public AutomaticMetadataVisitor(Hints options) {
-		this.options=options;
-		if (options==null) this.options=Phoenix.getInstance().getMetadataManager().getDefaultMetadataOptions();
+		this.options = options;
+		if (options == null)
+			this.options = Phoenix.getInstance().getMetadataManager().getDefaultMetadataOptions();
 	}
-	
+
 	@Override
 	public boolean visit(IMediaResource res, IProgressMonitor mon) {
 		if (res instanceof IMediaFile) {
 			try {
-				if (mon!=null) mon.setTaskName(res.getTitle());
-				
+				if (mon != null)
+					mon.setTaskName(res.getTitle());
+
 				if (Phoenix.getInstance().getMetadataManager().canScanMediaFile((IMediaFile) res, options)) {
 					Phoenix.getInstance().getMetadataManager().automaticUpdate((IMediaFile) res, options);
 					if (mon instanceof ProgressTracker) {
@@ -41,7 +44,7 @@ public class AutomaticMetadataVisitor implements IMediaResourceVisitor {
 					((ProgressTracker) mon).addFailed(res, e.getMessage());
 				}
 			} finally {
-				if (mon!=null) {
+				if (mon != null) {
 					mon.worked(1);
 				}
 			}

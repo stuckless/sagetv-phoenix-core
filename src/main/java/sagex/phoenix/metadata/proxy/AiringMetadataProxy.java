@@ -20,9 +20,10 @@ import sagex.phoenix.util.DateUtils;
 import sagex.util.TypesUtil;
 
 /**
- * Represents the {@link IMetadata} for a Sage Airing object.  Airings are Read Only and represent
- * the EPG data.  This provides enough functionality to get Airings showing up in the VFS and
- * to use the VFS apis.  set and clear do nothing, isSet always return true and get always return null.
+ * Represents the {@link IMetadata} for a Sage Airing object. Airings are Read
+ * Only and represent the EPG data. This provides enough functionality to get
+ * Airings showing up in the VFS and to use the VFS apis. set and clear do
+ * nothing, isSet always return true and get always return null.
  * 
  * @author seans
  */
@@ -31,24 +32,23 @@ public class AiringMetadataProxy implements InvocationHandler, ISageMetadata {
 	private Object sageAiring;
 
 	private boolean movieAiring = false;
-	
+
 	protected AiringMetadataProxy(Object sageAiring) {
 		this.sageAiring = sageAiring;
 		String showId = ShowAPI.GetShowExternalID(sageAiring);
-		if (showId !=null && showId.startsWith("MV")) {
+		if (showId != null && showId.startsWith("MV")) {
 			movieAiring = true;
 		} else {
-            String altCat = ShowAPI.GetShowCategory(sageAiring);
-            if (altCat != null) {
-                if (altCat.equals("Movie") || altCat.equals(Configuration.GetProperty("alternate_movie_category","Movie"))) {
-                    movieAiring = true;
-                }
-            }
+			String altCat = ShowAPI.GetShowCategory(sageAiring);
+			if (altCat != null) {
+				if (altCat.equals("Movie") || altCat.equals(Configuration.GetProperty("alternate_movie_category", "Movie"))) {
+					movieAiring = true;
+				}
+			}
 		}
 	}
 
-	public Object invoke(Object proxy, Method method, Object[] args)
-			throws Throwable {
+	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 		if ("toString".equals(method.getName())) {
 			return toString();
 		} else if ("isSet".equals(method.getName())) {
@@ -95,9 +95,11 @@ public class AiringMetadataProxy implements InvocationHandler, ISageMetadata {
 			} else if ("Genre".equals(md.value())) {
 				List<String> list = new ArrayList<String>();
 				String s = ShowAPI.GetShowCategory(sageAiring);
-				if (s!=null) list.add(s);
+				if (s != null)
+					list.add(s);
 				s = ShowAPI.GetShowSubCategory(sageAiring);
-				if (s!=null) list.add(s);
+				if (s != null)
+					list.add(s);
 				return list;
 			} else if ("Description".equals(md.value())) {
 				return ShowAPI.GetShowDescription(sageAiring);
@@ -139,7 +141,7 @@ public class AiringMetadataProxy implements InvocationHandler, ISageMetadata {
 				log.debug("invoke(): Airing Metadata Not Handled for: " + method.getName() + "; " + md.value());
 			}
 		}
-		
+
 		// returns a default typed value
 		return TypesUtil.fromString(null, method.getReturnType());
 	}
@@ -148,7 +150,7 @@ public class AiringMetadataProxy implements InvocationHandler, ISageMetadata {
 		if ("Duration".equals(md.value())) {
 			return String.valueOf(AiringAPI.GetAiringDuration(sageAiring));
 		} else if ("AiringTime".equals(md.value())) {
-			//return new Date(AiringAPI.GetAiringStartTime(sageAiring));
+			// return new Date(AiringAPI.GetAiringStartTime(sageAiring));
 			return null;
 		} else if ("Title".equals(md.value()) || "MediaTitle".equals(md.value())) {
 			return AiringAPI.GetAiringTitle(sageAiring);
@@ -167,9 +169,11 @@ public class AiringMetadataProxy implements InvocationHandler, ISageMetadata {
 		} else if ("Genre".equals(md.value())) {
 			PropertyList<String> list = new PropertyList<String>(new GenrePropertyListFactory());
 			String s = ShowAPI.GetShowCategory(sageAiring);
-			if (s!=null) list.add(s);
+			if (s != null)
+				list.add(s);
 			s = ShowAPI.GetShowSubCategory(sageAiring);
-			if (s!=null) list.add(s);
+			if (s != null)
+				list.add(s);
 			return list.getFactory().fromList(list);
 		} else if ("Description".equals(md.value())) {
 			return ShowAPI.GetShowDescription(sageAiring);
@@ -212,19 +216,19 @@ public class AiringMetadataProxy implements InvocationHandler, ISageMetadata {
 			log.debug("Failed to get Metadata for Field: " + md.value());
 			return null;
 		}
-		
+
 	}
-	
+
 	private List<ICastMember> cast(String value) {
 		List<ICastMember> list = new ArrayList<ICastMember>();
 		String actors[] = ShowAPI.GetPeopleListInShowInRole(sageAiring, value);
-		if (actors!=null) {
+		if (actors != null) {
 			CastMemberPropertyListFactory factory = new CastMemberPropertyListFactory();
 			for (String a : actors) {
 				ICastMember cm = (ICastMember) factory.decode(a);
-				if (cm!=null) {
+				if (cm != null) {
 					list.add(cm);
-				} 
+				}
 			}
 		}
 		return list;
@@ -233,10 +237,11 @@ public class AiringMetadataProxy implements InvocationHandler, ISageMetadata {
 	public String toString() {
 		return this.getClass().getName();
 	}
-	
-    public static IMetadata newInstance(Object mediaFile) {
-        return (IMetadata) java.lang.reflect.Proxy.newProxyInstance(AiringMetadataProxy.class.getClassLoader(), new Class[] {IMetadata.class}, new AiringMetadataProxy(mediaFile));
-    }
+
+	public static IMetadata newInstance(Object mediaFile) {
+		return (IMetadata) java.lang.reflect.Proxy.newProxyInstance(AiringMetadataProxy.class.getClassLoader(),
+				new Class[] { IMetadata.class }, new AiringMetadataProxy(mediaFile));
+	}
 
 	@Override
 	public boolean isSet(SageProperty key) {

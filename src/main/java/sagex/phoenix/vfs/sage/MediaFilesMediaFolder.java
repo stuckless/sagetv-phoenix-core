@@ -13,9 +13,8 @@ import sagex.phoenix.vfs.VirtualMediaFolder;
  * 
  */
 public class MediaFilesMediaFolder extends VirtualMediaFolder {
-	public MediaFilesMediaFolder(IMediaFolder parent, Object[] mediaFiles,
-			String title) {
-		super(parent, title, (mediaFiles==null?new Object[]{}:mediaFiles), title, true);
+	public MediaFilesMediaFolder(IMediaFolder parent, Object[] mediaFiles, String title) {
+		super(parent, title, (mediaFiles == null ? new Object[] {} : mediaFiles), title, true);
 	}
 
 	protected void addSageMediaFile(List<IMediaResource> children, Object mf) {
@@ -30,7 +29,7 @@ public class MediaFilesMediaFolder extends VirtualMediaFolder {
 	@Override
 	protected void populateChildren(List<IMediaResource> children) {
 		if (getMediaObject() != null) {
-			for (Object mf : (Object[])getMediaObject()) {
+			for (Object mf : (Object[]) getMediaObject()) {
 				addSageMediaFile(children, mf);
 			}
 		}

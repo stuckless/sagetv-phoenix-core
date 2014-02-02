@@ -43,8 +43,7 @@ public class MetadataException extends Exception {
 		updateRetry(ex);
 	}
 
-	public MetadataException(String msg, SearchQuery query, IMediaFile file,
-			IMetadata md, Throwable ex) {
+	public MetadataException(String msg, SearchQuery query, IMediaFile file, IMetadata md, Throwable ex) {
 		super(msg, ex);
 		this.query = query;
 		this.file = file;
@@ -52,8 +51,7 @@ public class MetadataException extends Exception {
 		updateRetry(ex);
 	}
 
-	public MetadataException(String msg, SearchQuery query, IMediaFile file,
-			Throwable ex) {
+	public MetadataException(String msg, SearchQuery query, IMediaFile file, Throwable ex) {
 		super(msg, ex);
 		this.query = query;
 		this.file = file;
@@ -76,16 +74,14 @@ public class MetadataException extends Exception {
 		this.result = result;
 	}
 
-	public MetadataException(String string, IMediaFile file2, IMetadata md,
-			Throwable e) {
+	public MetadataException(String string, IMediaFile file2, IMetadata md, Throwable e) {
 		super(string, e);
 		this.file = file2;
 		this.metadata = md;
 		updateRetry(e);
 	}
 
-	public MetadataException(String string, IMetadataSearchResult result2,
-			Throwable e) {
+	public MetadataException(String string, IMetadataSearchResult result2, Throwable e) {
 		super(string, e);
 		this.result = result2;
 		updateRetry(e);
@@ -101,13 +97,9 @@ public class MetadataException extends Exception {
 		// retry if connection exception or socket exception or
 		// if it's a metadata exception, and we can retry
 		if (e != null
-				&& (e instanceof ConnectException
-					||  e instanceof SocketTimeoutException 
-					|| (e instanceof MetadataException 
-						&& ((MetadataException) e).canRetry()))
-					|| (ExceptionUtils.indexOfType(e, ConnectException.class)!=-1)
-					|| (ExceptionUtils.indexOfType(e, SocketTimeoutException.class)!=-1)
-						) {
+				&& (e instanceof ConnectException || e instanceof SocketTimeoutException || (e instanceof MetadataException && ((MetadataException) e)
+						.canRetry())) || (ExceptionUtils.indexOfType(e, ConnectException.class) != -1)
+				|| (ExceptionUtils.indexOfType(e, SocketTimeoutException.class) != -1)) {
 			canRetry = true;
 		}
 	}

@@ -10,6 +10,6 @@ public class LongConverter implements FieldConverter<Long> {
 
 	@Override
 	public String toString(Long in) {
-		return in==null?null:String.valueOf(in);
+		return in == null ? null : String.valueOf(in);
 	}
 }

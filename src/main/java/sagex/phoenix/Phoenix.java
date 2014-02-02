@@ -61,10 +61,11 @@ import sagex.util.Log4jConfigurator;
  * 
  */
 public class Phoenix {
-	// some tests set this to true to prevent some things from starting in TEST mode
-	private static boolean TESTING = false; 
+	// some tests set this to true to prevent some things from starting in TEST
+	// mode
+	private static boolean TESTING = false;
 	private static boolean STANDALONE = false;
-	
+
 	/**
 	 * Default UserData area, if not overridden * {@value}
 	 */
@@ -96,7 +97,7 @@ public class Phoenix {
 
 	// create a simple Thread worker for doing misc tasks.
 	private ExecutorService timer = Executors.newFixedThreadPool(5);
-	
+
 	private Logger log = Logger.getLogger(this.getClass());
 
 	private MenuManager menuManager = null;
@@ -119,129 +120,102 @@ public class Phoenix {
 	private TVScraperManager tvFilenameScrapers = null;
 
 	private PhoenixUPNPServer upnpServer = null;
-	
+
 	private SearchQueryFactory searchQueryFactory = new SearchQueryFactory();
 
 	private OnlineVideosUrlResolverManager urlResolverManager;
-	
+
 	private OnlineVideoPlaybackManager onlinePlaybackManager;
-	
+
 	private MediaStreamerManager mediaStreamingManager;
 
 	private ScriptingServiceFactory scriptingSerivesFactory;
-	
+
 	protected Phoenix() {
-		STANDALONE = BooleanUtils.toBoolean(System
-				.getProperty("phoenix/standalone"));
-		TESTING = BooleanUtils.toBoolean(System
-				.getProperty("phoenix/testing"));
+		STANDALONE = BooleanUtils.toBoolean(System.getProperty("phoenix/standalone"));
+		TESTING = BooleanUtils.toBoolean(System.getProperty("phoenix/testing"));
 	}
 
 	public static boolean isStandalone() {
 		return STANDALONE;
 	}
-	
+
 	protected void init() {
 		try {
-			Log4jConfigurator.configureQuietly("phoenix", this.getClass()
-					.getClassLoader());
-			Log4jConfigurator.configureQuietly("phoenix-metadata", this
-					.getClass().getClassLoader());
-			log.info("Initializing Phoenix - Version: "
-					+ phoenix.system.GetVersion());
+			Log4jConfigurator.configureQuietly("phoenix", this.getClass().getClassLoader());
+			Log4jConfigurator.configureQuietly("phoenix-metadata", this.getClass().getClassLoader());
+			log.info("Initializing Phoenix - Version: " + phoenix.system.GetVersion());
 			log.info("Java classpath: " + System.getProperty("java.class.path"));
-			log.info("Java Impl: " + System.getProperty("java.vendor") + " - "
-					+ System.getProperty("java.version"));
-			log.info("OS: " + System.getProperty("os.name") + " - "
-					+ System.getProperty("os.arch") + " - "
+			log.info("Java Impl: " + System.getProperty("java.vendor") + " - " + System.getProperty("java.version"));
+			log.info("OS: " + System.getProperty("os.name") + " - " + System.getProperty("os.arch") + " - "
 					+ System.getProperty("os.version"));
 			log.info("User: " + System.getProperty("user.name"));
 
 			// register the SystemEvent handler
 			log.info("Registering System Message Handler to the Event Bus");
-			eventBus.addListener(PhoenixEventID.SystemMessageEvent,
-					new SageSystemMessageListener());
+			eventBus.addListener(PhoenixEventID.SystemMessageEvent, new SageSystemMessageListener());
 
 			try {
 				// Configuration metadata should be loaded first, since just
 				// about everything uses it.
 				// IT MUST NEVER call Phoenix.getInstance(), or else it will
 				// lock the system.
-				configurationMetadataManager = new ConfigurationMetadataManager(
-						getPhoenixConfigurationMetadataDir(), new File(
-								getPhoenixUserDir(), "Configuration"));
+				configurationMetadataManager = new ConfigurationMetadataManager(getPhoenixConfigurationMetadataDir(), new File(
+						getPhoenixUserDir(), "Configuration"));
 				configurationMetadataManager.loadConfigurations();
-				configurationManager = new ConfigurationManager(
-						configurationMetadataManager,
-						new SageConfigurationProvider());
+				configurationManager = new ConfigurationManager(configurationMetadataManager, new SageConfigurationProvider());
 				log.info("Configuration Metadata Initialized");
 			} catch (Throwable t) {
-				log.warn(
-						"Failed to load the Configuration Metadata.  Configuration Operations will fail.",
-						t);
+				log.warn("Failed to load the Configuration Metadata.  Configuration Operations will fail.", t);
 				t.printStackTrace();
 			}
 
 			// create the managers, but don't initialize them, until
 			// initServices() is called.
-			vfsManager = new VFSManager(getVFSDir(), new File(
-					getPhoenixUserDir(), "vfs"));
+			vfsManager = new VFSManager(getVFSDir(), new File(getPhoenixUserDir(), "vfs"));
 
 			if (!STANDALONE) {
-				menuManager = new MenuManager(getMenusDir(), new File(
-						getPhoenixUserDir(), "Menus"));
+				menuManager = new MenuManager(getMenusDir(), new File(getPhoenixUserDir(), "Menus"));
 			}
 
-			transformFactory = new TransformFactory(
-					getJavascriptImageTransformDir());
+			transformFactory = new TransformFactory(getJavascriptImageTransformDir());
 
 			if (!STANDALONE) {
-				skinManager = new SkinManager(getPhoenixSkinsDir(), new File(
-						getPhoenixUserDir(), "Skins"));
+				skinManager = new SkinManager(getPhoenixSkinsDir(), new File(getPhoenixUserDir(), "Skins"));
 			}
 
-			metadataManager = new MetadataManager(getPhoenixMetadataDir(),
-					new File(getPhoenixUserDir(), "metadata"));
+			metadataManager = new MetadataManager(getPhoenixMetadataDir(), new File(getPhoenixUserDir(), "metadata"));
 
-			metadataManager
-					.addConfiguration(new XbmcScraperMetadataProviderConfiguration(
-							metadataManager, new File(getScrapersDir(),
-									"xbmc/video"), new File(
-									getPhoenixUserDir(), "scrapers/xbmc/video")));
+			metadataManager.addConfiguration(new XbmcScraperMetadataProviderConfiguration(metadataManager, new File(
+					getScrapersDir(), "xbmc/video"), new File(getPhoenixUserDir(), "scrapers/xbmc/video")));
 
-			movieFilenameScrapers = new MovieScraperManager(new File(
-					getScrapersDir(), "xbmc/moviefilenames"), new File(
+			movieFilenameScrapers = new MovieScraperManager(new File(getScrapersDir(), "xbmc/moviefilenames"), new File(
 					getPhoenixUserDir(), "scrapers/xbmc/moviefilenames"));
-			tvFilenameScrapers = new TVScraperManager(new File(
-					getScrapersDir(), "xbmc/tvfilenames"), new File(
-					getPhoenixUserDir(), "scrapers/xbmc/tvfilenames"));
+			tvFilenameScrapers = new TVScraperManager(new File(getScrapersDir(), "xbmc/tvfilenames"), new File(getPhoenixUserDir(),
+					"scrapers/xbmc/tvfilenames"));
 
 			downloadManager = new DownloadManager();
 
-			ratingsManager = new RatingsManager(getPhoenixMetadataDir(),
-					new File(getPhoenixUserDir(), "metadata"));
+			ratingsManager = new RatingsManager(getPhoenixMetadataDir(), new File(getPhoenixUserDir(), "metadata"));
 
-			fileMatcher = new FileMatcherManager(getScrapersDir(), new File(
-					getPhoenixUserDir(), "scrapers"));
+			fileMatcher = new FileMatcherManager(getScrapersDir(), new File(getPhoenixUserDir(), "scrapers"));
 
-			urlResolverManager = new OnlineVideosUrlResolverManager(getDir(new File(getPhoenixRootDir(), "urlresolvers")), new File(
-					getPhoenixUserDir(), "urlresolvers"));
-			
-			onlinePlaybackManager =  new OnlineVideoPlaybackManager();
+			urlResolverManager = new OnlineVideosUrlResolverManager(getDir(new File(getPhoenixRootDir(), "urlresolvers")),
+					new File(getPhoenixUserDir(), "urlresolvers"));
+
+			onlinePlaybackManager = new OnlineVideoPlaybackManager();
 			getEventBus().addListener(onlinePlaybackManager);
-			
+
 			mediaStreamingManager = new MediaStreamerManager(new MediaStreamerConfig(), new MediaProcessFactory());
-			
+
 			scriptingSerivesFactory = new ScriptingServiceFactory();
-			
+
 			if (!(STANDALONE || TESTING)) {
 				upnpServer = new PhoenixUPNPServer();
 				upnpServer.init();
 			}
 		} catch (Throwable t) {
-			log.error(
-					"Phoenix Failed to initialize correctly.  Phoenix will most like not function correctly.",
-					t);
+			log.error("Phoenix Failed to initialize correctly.  Phoenix will most like not function correctly.", t);
 			t.printStackTrace();
 		} finally {
 			fireOnLoadEvents();
@@ -250,7 +224,7 @@ public class Phoenix {
 
 		state = State.Online;
 	}
-	
+
 	/**
 	 * Init services is called when running in plugin mode. This will load the
 	 * various configurations.
@@ -264,8 +238,7 @@ public class Phoenix {
 				eventBus.addListener(vfsManager);
 				log.info("VFS Initialized");
 			} catch (Throwable t) {
-				log.warn("Failed to load the VFS.  VFS Operations will fail.",
-						t);
+				log.warn("Failed to load the VFS.  VFS Operations will fail.", t);
 			}
 
 			if (!STANDALONE) {
@@ -273,9 +246,7 @@ public class Phoenix {
 					menuManager.loadConfigurations();
 					log.info("Menus Initialized");
 				} catch (Throwable t) {
-					log.warn(
-							"Failed to load the Dynamic Menus.  Dynamic Menus Operations will fail.",
-							t);
+					log.warn("Failed to load the Dynamic Menus.  Dynamic Menus Operations will fail.", t);
 					t.printStackTrace();
 				}
 			}
@@ -285,9 +256,7 @@ public class Phoenix {
 					skinManager.loadConfigurations();
 					log.info("Skins Initialized");
 				} catch (Exception t) {
-					log.warn(
-							"Failed to load the Skin/Theme Manager.  Some Skin Operations will fail.",
-							t);
+					log.warn("Failed to load the Skin/Theme Manager.  Some Skin Operations will fail.", t);
 					t.printStackTrace();
 				}
 			}
@@ -296,9 +265,7 @@ public class Phoenix {
 				metadataManager.loadConfigurations();
 				log.info("Metadata Scrapers Initialized");
 			} catch (Exception t) {
-				log.warn(
-						"Failed to load the Metadata/Fanart Manager.  Some Metadata Operations will fail.",
-						t);
+				log.warn("Failed to load the Metadata/Fanart Manager.  Some Metadata Operations will fail.", t);
 				t.printStackTrace();
 			}
 
@@ -306,9 +273,7 @@ public class Phoenix {
 				movieFilenameScrapers.loadConfigurations();
 				log.info("Movie Filename Scrapers Initialized");
 			} catch (Exception t) {
-				log.warn(
-						"Failed to load the Movie Filename Scrapers.  Some Metadata Operations will fail.",
-						t);
+				log.warn("Failed to load the Movie Filename Scrapers.  Some Metadata Operations will fail.", t);
 				t.printStackTrace();
 			}
 
@@ -316,9 +281,7 @@ public class Phoenix {
 				tvFilenameScrapers.loadConfigurations();
 				log.info("TV Filename Scrapers Initialized");
 			} catch (Exception t) {
-				log.warn(
-						"Failed to load the TV Filename Scrapers.  Some Metadata Operations will fail.",
-						t);
+				log.warn("Failed to load the TV Filename Scrapers.  Some Metadata Operations will fail.", t);
 				t.printStackTrace();
 			}
 
@@ -326,28 +289,24 @@ public class Phoenix {
 				ratingsManager.loadConfigurations();
 				log.info("Ratings Manager Initialized");
 			} catch (Exception e) {
-				log.warn(
-						"Failed to load the ratings manager.  Rating mappings will fail.",
-						e);
+				log.warn("Failed to load the ratings manager.  Rating mappings will fail.", e);
 			}
 
 			try {
 				fileMatcher.loadConfigurations();
 				log.info("MediaTitles.xml Initialized");
 			} catch (Exception t) {
-				log.warn(
-						"Failed to load the MediaTitles Manager.  Some Metadata Operations will fail.",
-						t);
+				log.warn("Failed to load the MediaTitles Manager.  Some Metadata Operations will fail.", t);
 				t.printStackTrace();
 			}
-			
+
 			try {
 				urlResolverManager.loadConfigurations();
 				log.info("URL Resolvers has been loaded");
 			} catch (Exception e) {
 				log.warn("Failed to load url resolvers", e);
 			}
-			
+
 			try {
 				scriptingSerivesFactory.initialize();
 				log.info("Scripting Services Factory initialized");
@@ -356,8 +315,7 @@ public class Phoenix {
 			}
 
 			// add in task monitoring...
-			getTaskManager().scheduleTask(CachedUrlCleanupTask.TaskID,
-					new CachedUrlCleanupTask(),
+			getTaskManager().scheduleTask(CachedUrlCleanupTask.TaskID, new CachedUrlCleanupTask(),
 					Calendar.getInstance().getTime(), 24 * 60 * 60 * 1000);
 			log.info("Core Scheduled Tasks Initialized");
 
@@ -366,12 +324,10 @@ public class Phoenix {
 				if (!phoenix.weather.IsConfigured()) {
 					try {
 						try {
-							Object gweather = WidgetAPI
-									.EvaluateExpression("sage_google_weather_GoogleWeather_getInstance()");
+							Object gweather = WidgetAPI.EvaluateExpression("sage_google_weather_GoogleWeather_getInstance()");
 							if (gweather != null) {
 								// configure using google weather
-								Global.AddGlobalContext(
-										"PHOENIX_GOOGLE_WEATHER", gweather);
+								Global.AddGlobalContext("PHOENIX_GOOGLE_WEATHER", gweather);
 								String loc = (String) WidgetAPI
 										.EvaluateExpression("sage_google_weather_GoogleWeather_getNWSZipCode(PHOENIX_GOOGLE_WEATHER)");
 								if (StringUtils.isEmpty(loc)) {
@@ -379,8 +335,7 @@ public class Phoenix {
 											.EvaluateExpression("sage_google_weather_GoogleWeather_getGoogleWeatherLoc(PHOENIX_GOOGLE_WEATHER)");
 								}
 								phoenix.weather.SetLocation(loc);
-								Global.AddGlobalContext(
-										"PHOENIX_GOOGLE_WEATHER", null);
+								Global.AddGlobalContext("PHOENIX_GOOGLE_WEATHER", null);
 							}
 						} catch (Throwable t) {
 							log.warn("Nothing to be be too concerned about... Tried to use google weather, at doesn't appear to be there, yet.");
@@ -388,8 +343,7 @@ public class Phoenix {
 
 						if (!phoenix.weather.IsConfigured()) {
 							log.info("Configuring weather using EPG zip code");
-							String zip = Configuration.GetServerProperty(
-									"epg/zip_code", null);
+							String zip = Configuration.GetServerProperty("epg/zip_code", null);
 							if (!StringUtils.isEmpty(zip)) {
 								phoenix.weather.SetLocation(zip);
 							}
@@ -400,9 +354,7 @@ public class Phoenix {
 				}
 			}
 		} catch (Throwable t) {
-			log.error(
-					"Phoenix Failed to initialize Phoenix Services, some things may not work.",
-					t);
+			log.error("Phoenix Failed to initialize Phoenix Services, some things may not work.", t);
 			t.printStackTrace();
 		} finally {
 			fireOnLoadEvents();
@@ -416,10 +368,10 @@ public class Phoenix {
 		} catch (Exception e) {
 			// don't care, we are shutting down
 		}
-		
+
 		skinManager.stopPlugins();
-		
-		if (upnpServer!=null) {
+
+		if (upnpServer != null) {
 			upnpServer.shutdown();
 		}
 	}
@@ -427,7 +379,7 @@ public class Phoenix {
 	public PhoenixUPNPServer getUPnPServer() {
 		return upnpServer;
 	}
-	
+
 	public TransformFactory getTransformFactory() {
 		return transformFactory;
 	}
@@ -435,7 +387,7 @@ public class Phoenix {
 	public MenuManager getMenuManager() {
 		return menuManager;
 	}
-	
+
 	public OnlineVideosUrlResolverManager getOnlineVideosUrlResolverManager() {
 		return urlResolverManager;
 	}
@@ -464,13 +416,11 @@ public class Phoenix {
 	}
 
 	public File getPhoenixRootDir() {
-		return new File(getSageTVRootDir(), System.getProperty(
-				"phoenix/homeDir", "STVs/Phoenix"));
+		return new File(getSageTVRootDir(), System.getProperty("phoenix/homeDir", "STVs/Phoenix"));
 	}
 
 	public File getPhoenixUserDir() {
-		return new File(getSageTVRootDir(), System.getProperty(
-				"phoenix/userDir",
+		return new File(getSageTVRootDir(), System.getProperty("phoenix/userDir",
 				Configuration.GetProperty("phoenix/userDir", DEFAULT_USERDATA)));
 	}
 
@@ -521,7 +471,7 @@ public class Phoenix {
 	public OnlineVideoPlaybackManager getOnlineVideoPlaybackManager() {
 		return onlinePlaybackManager;
 	}
-	
+
 	public VFSManager getVFSManager() {
 		return vfsManager;
 	}
@@ -566,10 +516,8 @@ public class Phoenix {
 		if (state == State.Online) {
 			INSTANCE.getEventBus().fireEvent(
 					PhoenixEventID.SystemMessageEvent,
-					SageSystemMessageListener.createEvent(
-							SystemMessageID.PHOENIX_GENERAL_ERROR,
-							SageSystemMessageListener.ERROR, "Phoenix Error",
-							msg, t), false);
+					SageSystemMessageListener.createEvent(SystemMessageID.PHOENIX_GENERAL_ERROR, SageSystemMessageListener.ERROR,
+							"Phoenix Error", msg, t), false);
 		} else {
 			Loggers.LOG.warn("fireError(): " + msg, t);
 		}
@@ -631,12 +579,10 @@ public class Phoenix {
 	 */
 	public static void addOnLoad(Runnable r) {
 		if (state == State.Online) {
-			Loggers.LOG
-					.info("Firing new onload task, now since Phoenix is started.");
+			Loggers.LOG.info("Firing new onload task, now since Phoenix is started.");
 			r.run();
 		} else {
-			Loggers.LOG
-					.info("Adding new onload task, to fire when Phoenix is started.");
+			Loggers.LOG.info("Adding new onload task, to fire when Phoenix is started.");
 			onLoadList.add(r);
 		}
 	}
@@ -683,8 +629,7 @@ public class Phoenix {
 			return null;
 		File cache = new File(getUserCacheDir(), folder);
 		String cachePrefix = DigestUtils.md5Hex(filepath);
-		cache = new File(cache, cachePrefix.charAt(0) + "/"
-				+ cachePrefix.charAt(1) + "/" + cachePrefix.charAt(2));
+		cache = new File(cache, cachePrefix.charAt(0) + "/" + cachePrefix.charAt(1) + "/" + cachePrefix.charAt(2));
 		if (!cache.exists()) {
 			if (!cache.mkdirs()) {
 				log.warn("Failed to create cache dir " + cache);
@@ -695,17 +640,20 @@ public class Phoenix {
 		cache = new File(cache, name);
 		return cache;
 	}
-	
+
 	/**
-	 * The following running will run in a background thread, when there is time.  Typically these tasks should not
-	 * run for a long time, ie, a few seconds at most, since the entire background thread pool will serialize
-	 * these requests such that there is only a couples of tasks running at a time.
+	 * The following running will run in a background thread, when there is
+	 * time. Typically these tasks should not run for a long time, ie, a few
+	 * seconds at most, since the entire background thread pool will serialize
+	 * these requests such that there is only a couples of tasks running at a
+	 * time.
+	 * 
 	 * @param r
 	 */
 	public void invokeLater(Runnable r) {
 		timer.submit(r);
 	}
-	
+
 	public MediaStreamerManager getMediaStreamer() {
 		return mediaStreamingManager;
 	}

@@ -8,6 +8,8 @@ import java.lang.annotation.Target;
 @Target(java.lang.annotation.ElementType.METHOD)
 public @interface LuceneIndexable {
 	public boolean store() default false;
+
 	public boolean index() default true;
+
 	public boolean fulltextsearch() default false;
 }

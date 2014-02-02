@@ -14,20 +14,20 @@ import sagex.phoenix.vfs.VirtualOnlineMediaFolder;
 
 /**
  * Shows all UPnP Devices on the network
- *  
+ * 
  * @author sls
  */
 public class UPnPSourceFactory extends Factory<IMediaFolder> {
 	public UPnPSourceFactory() {
 	}
-	
+
 	@Override
 	public IMediaFolder create(Set<ConfigurableOption> configurableOptions) {
 		VirtualMediaFolder root = new VirtualOnlineMediaFolder("UPnP Devices");
-		
+
 		Collection<Device> devices = Phoenix.getInstance().getUPnPServer().getMediaServers();
-		if (devices!=null && devices.size()>0) {
-			for (Device d: devices) {
+		if (devices != null && devices.size() > 0) {
+			for (Device d : devices) {
 				root.addMediaResource(new UPnPDeviceMediaFolder(root, d));
 			}
 		}

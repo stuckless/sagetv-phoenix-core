@@ -21,40 +21,47 @@ public class VFSDocumentationGenerator {
 
 		List<?> groups = manager.getVFSGroupFactory().getFactories();
 		printSection("Groupers", (List<BaseConfigurable>) groups, pw);
-		addExample(pw, "Group By Genre, With Empty Folder Name", "group", "genre", null, new String[] {"empty-foldername", "No Genre"});
-		addExample(pw, "Group By Title, Prune Single Item Folders", "group", "title", null, new String[] {"prune-single-item-groups", "true"});
-		addExample(pw, "Group By MediaTitle Metadata Field", "group", "metadata", null, new String[] {"field", "MediaTitle"});
+		addExample(pw, "Group By Genre, With Empty Folder Name", "group", "genre", null, new String[] { "empty-foldername",
+				"No Genre" });
+		addExample(pw, "Group By Title, Prune Single Item Folders", "group", "title", null, new String[] {
+				"prune-single-item-groups", "true" });
+		addExample(pw, "Group By MediaTitle Metadata Field", "group", "metadata", null, new String[] { "field", "MediaTitle" });
 
 		List<?> sort = manager.getVFSSortFactory().getFactories();
 		printSection("Sorters", (List<BaseConfigurable>) sort, pw);
-		addExample(pw, "Sort by Start Time, Decending", "sort", "starttime", null, new String[] {"sort-order", "desc"});
-		addExample(pw, "Sort by Start Time, Ascending, Folders before MediaFiles", "sort", "starttime", null, new String[] {"sort-order", "asc"}, new String[] {"folders-first", "true"});
-		addExample(pw, "Sort by Duration Metadata Field", "sort", "metadata", null, new String[] {"field", "Duration"});
-		
+		addExample(pw, "Sort by Start Time, Decending", "sort", "starttime", null, new String[] { "sort-order", "desc" });
+		addExample(pw, "Sort by Start Time, Ascending, Folders before MediaFiles", "sort", "starttime", null, new String[] {
+				"sort-order", "asc" }, new String[] { "folders-first", "true" });
+		addExample(pw, "Sort by Duration Metadata Field", "sort", "metadata", null, new String[] { "field", "Duration" });
+
 		List<?> filters = manager.getVFSFilterFactory().getFactories();
 		printSection("Filters", (List<BaseConfigurable>) filters, pw);
 		addExample(pw, "Filter by Channels", "filter", "channel", "1251,1252,1256");
-		addExample(pw, "Filter by Genre, Exclude 'Horror'", "filter", "genre", "Horror", new String[] {"scope","exclude"});
-		addExample(pw, "Filter by Genre, Exclude anything containing 'Horror'", "filter", "genre", ".*Horror.*", new String[] {"scope","exclude"}, new String[] {"use-regex-matching","true"});
-		addExample(pw, "Filter by Metadata, Include HDTV", "filter", "metadata", null, new String[] {"field","HDTV"}, new String[] {"value","true"});
-		
+		addExample(pw, "Filter by Genre, Exclude 'Horror'", "filter", "genre", "Horror", new String[] { "scope", "exclude" });
+		addExample(pw, "Filter by Genre, Exclude anything containing 'Horror'", "filter", "genre", ".*Horror.*", new String[] {
+				"scope", "exclude" }, new String[] { "use-regex-matching", "true" });
+		addExample(pw, "Filter by Metadata, Include HDTV", "filter", "metadata", null, new String[] { "field", "HDTV" },
+				new String[] { "value", "true" });
 
 		List<Factory<IMediaFolder>> sources = manager.getVFSSourceFactory().getFactories();
 		pw.println("= Sources =");
-		for (Factory f: sources) {
+		for (Factory f : sources) {
 			pw.printf("  * %s\n", f.getName(), f.getLabel());
-			for (String s: f.getOptionNames()) {
+			for (String s : f.getOptionNames()) {
 				printOption(f, s, pw);
 			}
 			pw.println();
 		}
-		addSourceExample(pw, "Source for DVDs", "mediafiles", new String[] {"mediamask","D"});
-		addSourceExample(pw, "Source for DVDs, BluRay, and Videos", "mediafiles", new String[] {"mediamask","DBV"});
-		addSourceExample(pw, "Source for Just TV Recordings", "expression", new String[] {"expression", "phoenix_util_ToArray(phoenix_util_RemoveAll(GetMediaFiles(\"T\"), GetMediaFiles(\"TL\")))"});
-		addSourceExample(pw, "RSS Source for Youtube Trailers, as TV", "rss", new String[] {"feedurl", "http://gdata.youtube.com/feeds/api/videos?alt=rss&q=trailer"}, new String[] {"mediatype","TV"}, new String[] {"label", "Youtube - Trailers"});
+		addSourceExample(pw, "Source for DVDs", "mediafiles", new String[] { "mediamask", "D" });
+		addSourceExample(pw, "Source for DVDs, BluRay, and Videos", "mediafiles", new String[] { "mediamask", "DBV" });
+		addSourceExample(pw, "Source for Just TV Recordings", "expression", new String[] { "expression",
+				"phoenix_util_ToArray(phoenix_util_RemoveAll(GetMediaFiles(\"T\"), GetMediaFiles(\"TL\")))" });
+		addSourceExample(pw, "RSS Source for Youtube Trailers, as TV", "rss", new String[] { "feedurl",
+				"http://gdata.youtube.com/feeds/api/videos?alt=rss&q=trailer" }, new String[] { "mediatype", "TV" }, new String[] {
+				"label", "Youtube - Trailers" });
 		pw.flush();
 	}
-	
+
 	private void addSourceExample(PrintWriter pw, String heading, String id, String[]... options) {
 		pw.printf("== Example: %s ==\n", heading);
 		pw.printf("{{{\n<source name=\"%s\">\n", id);
@@ -67,30 +74,29 @@ public class VFSDocumentationGenerator {
 	private void addExample(PrintWriter pw, String heading, String type, String id, String value, String[]... options) {
 		pw.printf("== Example: %s ==\n", heading);
 		pw.printf("{{{\n<%s by=\"%s\"", type, id);
-		if (value!=null) {
+		if (value != null) {
 			pw.printf(" value=\"%s\"", value);
 		}
-		if (options==null||options.length==0) {
+		if (options == null || options.length == 0) {
 			pw.println("/>\n}}}\n");
-			
+
 		} else {
 			pw.println(">");
-		
+
 			for (String[] opts : options) {
 				pw.printf("   <option name=\"%s\" value=\"%s\"/>\n", opts[0], opts[1]);
 			}
-			
+
 			pw.printf("</%s>\n}}}\n", type);
 		}
 	}
 
-	private void printSection(String label, List<BaseConfigurable> groups,
-			PrintWriter pw) {
-		pw.println("= "+label+" =");
-		for (BaseConfigurable f: groups) {
-			BaseConfigurable g = (BaseConfigurable) ((Factory)f).create(null);
-			pw.printf("  * %s\n", ((HasName)g).getName(), ((HasLabel)g).getLabel());
-			for (String s: g.getOptionNames()) {
+	private void printSection(String label, List<BaseConfigurable> groups, PrintWriter pw) {
+		pw.println("= " + label + " =");
+		for (BaseConfigurable f : groups) {
+			BaseConfigurable g = (BaseConfigurable) ((Factory) f).create(null);
+			pw.printf("  * %s\n", ((HasName) g).getName(), ((HasLabel) g).getLabel());
+			for (String s : g.getOptionNames()) {
 				printOption(g, s, pw);
 			}
 			pw.println();
@@ -104,8 +110,8 @@ public class VFSDocumentationGenerator {
 		if (c.isList()) {
 			defVal = c.value().getValue();
 			List<ListValue> list = c.getListValues();
-			if (list!=null&&list.size()>0) {
-				for (ListValue lv: list) {
+			if (list != null && list.size() > 0) {
+				for (ListValue lv : list) {
 					if (lv.getValue().equals(defVal)) {
 						pw.printf("      * *%s* (_%s_)\n", lv.getValue(), lv.getName());
 					} else {
@@ -117,7 +123,7 @@ public class VFSDocumentationGenerator {
 	}
 
 	public static void main(String args[]) throws IOException {
-		//InitPhoenix.init(true, true);
+		// InitPhoenix.init(true, true);
 		VFSDocumentationGenerator g = new VFSDocumentationGenerator();
 		g.generate(Phoenix.getInstance().getVFSManager(), new PrintWriter(System.out));
 		System.out.flush();

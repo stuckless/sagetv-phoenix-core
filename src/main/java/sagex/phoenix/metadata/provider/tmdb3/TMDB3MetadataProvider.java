@@ -98,11 +98,10 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 
 		int tid = movie.getId();
 
-		if (tid==0 || StringUtils.isEmpty(movie.getTitle())) {
+		if (tid == 0 || StringUtils.isEmpty(movie.getTitle())) {
 			throw new MetadataException("Metadata Failed for " + movie.getId());
 		}
-		
-		
+
 		md.setDescription(movie.getOverview());
 
 		List<Genre> genres = movie.getGenres();
@@ -120,17 +119,17 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 		md.setMediaTitle(movie.getTitle());
 		md.setOriginalAirDate(DateUtils.parseDate(movie.getReleaseDate()));
 		md.setRunningTime(movie.getRuntime() * 60 * 1000);
-		
+
 		TmdbResultsList<Trailer> results = getMovieTrailers(tmdb, tid, config.getLanguage());
 		if (results == null || results.getTotalResults() == 0) {
 			results = getMovieTrailers(tmdb, tid, null);
 		}
-		
+
 		List<Trailer> trailers = null;
-		if (results!=null) {
+		if (results != null) {
 			trailers = results.getResults();
 		}
-				
+
 		if (trailers != null && trailers.size() > 0) {
 			for (Trailer t : trailers) {
 				// look for youtube, HD, trailers
@@ -156,11 +155,11 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 
 		List<Person> cast = null;
 		TmdbResultsList<Person> castResults = getMovieCasts(tmdb, tid, config.getLanguage());
-		if (castResults==null || castResults.getTotalResults()==0) {
+		if (castResults == null || castResults.getTotalResults() == 0) {
 			castResults = getMovieCasts(tmdb, tid, null);
 		}
-		
-		if (castResults!=null) {
+
+		if (castResults != null) {
 			cast = castResults.getResults();
 		}
 		if (cast != null) {
@@ -206,7 +205,8 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 	private TmdbResultsList<Person> getMovieCasts(TheMovieDbApi tmdb2, int tid, String language) {
 		try {
 			return tmdb2.getMovieCasts(tid, language);
-		} catch (Throwable t) {}
+		} catch (Throwable t) {
+		}
 		return null;
 	}
 
@@ -219,13 +219,14 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 	}
 
 	protected void processArt(IMetadata md, TmdbResultsList<Artwork> results) {
-		if (results==null) {
+		if (results == null) {
 			return;
 		}
-		
+
 		List<Artwork> tmdbResultsList = results.getResults();
-		if (tmdbResultsList==null) return;
-		
+		if (tmdbResultsList == null)
+			return;
+
 		Collections.sort(tmdbResultsList, Collections.reverseOrder(new Comparator<Artwork>() {
 			@Override
 			public int compare(Artwork o1, Artwork o2) {
@@ -307,8 +308,9 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 
 	private void updateReleaseInfo(IMetadata md, MovieDb movie, String country) throws MovieDbException {
 		TmdbResultsList<ReleaseInfo> results = tmdb.getMovieReleaseInfo(movie.getId(), config.getLanguage());
-		if (results==null) return;
-		
+		if (results == null)
+			return;
+
 		List<ReleaseInfo> relInfo = results.getResults();
 		if (relInfo != null) {
 			for (ReleaseInfo ri : relInfo) {
@@ -358,8 +360,8 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 		// parse
 		List<IMetadataSearchResult> results = new ArrayList<IMetadataSearchResult>();
 
-		TmdbResultsList<MovieDb> movies = tmdb.searchMovie(q.get(Field.QUERY), NumberUtils.toInt(q.get(Field.YEAR)), config.getLanguage(),
-				config.getIncludeAdult(), 0);
+		TmdbResultsList<MovieDb> movies = tmdb.searchMovie(q.get(Field.QUERY), NumberUtils.toInt(q.get(Field.YEAR)),
+				config.getLanguage(), config.getIncludeAdult(), 0);
 		if (movies != null) {
 			for (MovieDb m : movies.getResults()) {
 				addMovie(q, m, results);

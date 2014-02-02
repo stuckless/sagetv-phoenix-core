@@ -22,10 +22,10 @@ import sagex.remote.json.JSONObject;
 
 public class ViewStateSerializer {
 	private Logger log = Logger.getLogger(ViewStateSerializer.class);
-	
+
 	/**
-	 * Stores the current state of the view to the given name.   A view can have multiple states, and they
-	 * can be applied using the loadState method.
+	 * Stores the current state of the view to the given name. A view can have
+	 * multiple states, and they can be applied using the loadState method.
 	 * 
 	 * @param name
 	 * @param folder
@@ -34,13 +34,13 @@ public class ViewStateSerializer {
 	public void saveState(String name, ViewFolder folder) throws IOException {
 		getState(folder);
 	}
-	
+
 	/**
 	 * Returns the current state of the view.
 	 * 
 	 * @param folder
 	 * @return
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public String getState(ViewFolder folder) throws IOException {
 		JSONObject viewState = new JSONObject();
@@ -48,9 +48,9 @@ public class ViewStateSerializer {
 			ViewFactory fact = folder.getViewFactory();
 			viewState.put("view", fact.getName());
 			JSONArray presentations = new JSONArray();
-			if (fact.getViewPresentations().size()>0) {
+			if (fact.getViewPresentations().size() > 0) {
 				List<ViewPresentation> list = new ArrayList<ViewPresentation>(fact.getViewPresentations());
-				for (int i=0;i<list.size();i++) {
+				for (int i = 0; i < list.size(); i++) {
 					presentations.put(serializePresentation(list.get(i)));
 				}
 			}
@@ -60,17 +60,18 @@ public class ViewStateSerializer {
 		}
 		return viewState.toString();
 	}
-	
+
 	/**
 	 * Loads a named state for the view.
+	 * 
 	 * @param name
 	 * @param folder
 	 * @throws IOException
 	 */
 	public void loadState(String name, ViewFolder folder) throws IOException {
-		
+
 	}
-	
+
 	/**
 	 * Applies the given state, as created with getState to the view.
 	 * 
@@ -82,8 +83,8 @@ public class ViewStateSerializer {
 			JSONObject jo = new JSONObject(state);
 			ViewFactory f = folder.getViewFactory();
 			JSONArray presArr = jo.optJSONArray("presentations");
-			if (presArr!=null) {
-				for (int i=0; i<presArr.length();i++) {
+			if (presArr != null) {
+				for (int i = 0; i < presArr.length(); i++) {
 					applyPresentation(i, presArr.getJSONObject(i), f);
 				}
 			}
@@ -92,40 +93,43 @@ public class ViewStateSerializer {
 			log.warn("Failed to apply state: " + state);
 		}
 	}
-	
+
 	private void applyPresentation(int i, JSONObject state, ViewFactory f) {
 		ViewPresentation vp = f.getViewPresentation(i);
-		if (vp!=null) {
+		if (vp != null) {
 			applyPresentationState("filter", state.optJSONArray("filters"), vp.getFilters());
 			applyPresentationState("sorter", state.optJSONArray("sorters"), vp.getSorters());
 			applyPresentationState("grouper", state.optJSONArray("groupers"), vp.getGroupers());
 		}
 	}
-	
+
 	private void applyPresentationState(String name, JSONArray set, List<? extends BaseConfigurable> config) {
-		if (set==null || set.length()==0 || config==null || config.size() == 0 || set.length() != config.size()) {
-			log.warn("Unable to apply '"+name+"' state since state and current configuration does not match; set " + ((set==null)?"is null":"size " + set.length()) + "; config " + ((config==null)?"is null":"size " + config.size()));
+		if (set == null || set.length() == 0 || config == null || config.size() == 0 || set.length() != config.size()) {
+			log.warn("Unable to apply '" + name + "' state since state and current configuration does not match; set "
+					+ ((set == null) ? "is null" : "size " + set.length()) + "; config "
+					+ ((config == null) ? "is null" : "size " + config.size()));
 			return;
 		}
-		//log.info("name: " + name + " size: " + set.length());
-		for (int i=0;i<set.length();i++) {
+		// log.info("name: " + name + " size: " + set.length());
+		for (int i = 0; i < set.length(); i++) {
 			BaseConfigurable bc = config.get(i);
 			JSONObject state = set.optJSONObject(i);
-			if (state!=null) {
-				//log.info("Applying State: " + name + " for " + state);
+			if (state != null) {
+				// log.info("Applying State: " + name + " for " + state);
 				applyOptions(state.optJSONArray("options"), bc);
 			}
 		}
 	}
 
 	private void applyOptions(JSONArray options, BaseConfigurable bc) {
-		if (options==null || bc == null) return;
-		for (int i=0;i<options.length();i++) {
+		if (options == null || bc == null)
+			return;
+		for (int i = 0; i < options.length(); i++) {
 			JSONObject jo = options.optJSONObject(i);
-			if (jo!=null) {
+			if (jo != null) {
 				ConfigurableOption co = bc.getOption(jo.optString("name"));
-				if (co!=null) {
-					//log.info("setting option: " + jo);
+				if (co != null) {
+					// log.info("setting option: " + jo);
 					co.value().setValue(jo.optString("value"));
 					bc.setChanged(true);
 				}
@@ -135,23 +139,23 @@ public class ViewStateSerializer {
 
 	private JSONObject serializePresentation(ViewPresentation vp) throws JSONException {
 		JSONObject jo = new JSONObject();
-		if (vp.getSorters().size()>0) {
+		if (vp.getSorters().size() > 0) {
 			JSONArray arr = new JSONArray();
-			for (Sorter s: vp.getSorters()) {
+			for (Sorter s : vp.getSorters()) {
 				arr.put(serializeConfigurable(s));
 			}
 			jo.put("sorters", arr);
 		}
-		if (vp.getFilters().size()>0) {
+		if (vp.getFilters().size() > 0) {
 			JSONArray arr = new JSONArray();
-			for (Filter s: vp.getFilters()) {
+			for (Filter s : vp.getFilters()) {
 				arr.put(serializeConfigurable(s));
 			}
 			jo.put("filters", arr);
 		}
-		if (vp.getGroupers().size()>0) {
+		if (vp.getGroupers().size() > 0) {
 			JSONArray arr = new JSONArray();
-			for (Grouper s: vp.getGroupers()) {
+			for (Grouper s : vp.getGroupers()) {
 				arr.put(serializeConfigurable(s));
 			}
 			jo.put("groupers", arr);
@@ -161,11 +165,12 @@ public class ViewStateSerializer {
 
 	private JSONObject serializeConfigurable(BaseConfigurable conf) throws JSONException {
 		JSONObject jo = new JSONObject();
-		jo.put("name", ((HasName)conf).getName());
+		jo.put("name", ((HasName) conf).getName());
 		JSONArray optArr = new JSONArray();
 		jo.put("options", optArr);
-		for (String s: conf.getOptionNames()) {
-			if ("name".equals(s)) continue;
+		for (String s : conf.getOptionNames()) {
+			if ("name".equals(s))
+				continue;
 			ConfigurableOption co = conf.getOption(s);
 			if (!StringUtils.isEmpty(co.value().getValue())) {
 				JSONObject opt = new JSONObject();
@@ -176,5 +181,5 @@ public class ViewStateSerializer {
 		}
 		return jo;
 	}
-	
+
 }

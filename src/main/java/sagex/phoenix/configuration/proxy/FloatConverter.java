@@ -10,6 +10,6 @@ public class FloatConverter implements FieldConverter<Float> {
 
 	@Override
 	public String toString(Float in) {
-		return in==null?null:String.valueOf(in);
+		return in == null ? null : String.valueOf(in);
 	}
 }

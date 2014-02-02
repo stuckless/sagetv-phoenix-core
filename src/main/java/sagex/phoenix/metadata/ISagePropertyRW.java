@@ -78,164 +78,190 @@ import sagex.phoenix.metadata.proxy.SageProperty;
  * 
  */
 public interface ISagePropertyRW extends ISageMetadata {
-    @SageProperty("Title")
-    public String getRelativePathWithTitle();
-    @SageProperty("Title")
-    public void setRelativePathWithTitle(String title);
-    
-    @SageProperty("EpisodeName")
-    public String getEpisodeName();
-    @SageProperty("EpisodeName")
-    public void setEpisodeName(String name);
-    
-    @SageProperty("Album")
-    public String getAlbum();
-    @SageProperty("Album")
-    public void setAlbum(String album);
-    
-    @SageProperty(value="Genre", listFactory="sagex.phoenix.metadata.proxy.GenrePropertyListFactory")
-    public List<String> getGenres();
-    
-    @SageProperty("GenreID")
-    public String getGenreID();
-    @SageProperty("GenreID")
-    public void setGenreID(String genreId);
-    
-    @SageProperty("Description")
-    public String getDescription();
-    @SageProperty("Description")
-    public void setDescription(String desc);
-    
-    @SageProperty("Year")
-    public int getYear();
-    @SageProperty("Year")
-    public void setYear(int year);
-    
-    @SageProperty("Language")
-    public String getLanguage();
-    @SageProperty("Language")
-    public void setLanguage(String lang);
-    
-    /**
-     * Rated in the MPAA Rating
-     * G, PG, PG-13, R, NC-17, AO and NR (AO is adults only and NR is not rated).
-     * 
-     * @return
-     */
-    @SageProperty("Rated")
-    public String getRated();
-    /**
-     * Rated in the MPAA Rating
-     * G, PG, PG-13, R, NC-17, AO and NR (AO is adults only and NR is not rated).
-     * 
-     * @return
-     */
-    @SageProperty("Rated")
-    public void setRated(String rated);
+	@SageProperty("Title")
+	public String getRelativePathWithTitle();
 
-    /**
-     * ParentalRating is the TV rating
-     * TVY, TVY7, TVG, TVPG, TV14 and TVM
-     * @return
-     */
-    @SageProperty("ParentalRating")
-    public String getParentalRating();
-    /**
-     * ParentalRating is the TV rating
-     * TVY, TVY7, TVG, TVPG, TV14 and TVM
-     * @return
-     */
-    @SageProperty("ParentalRating")
-    public void setParentalRating(String rated);
+	@SageProperty("Title")
+	public void setRelativePathWithTitle(String title);
 
-    
-    @SageProperty("RunningTime")
-    public long getRunningTime();
-    @SageProperty("RunningTime")
-    public void setRunningTime(long time);
-    
-    @SageProperty("OriginalAirDate")
-    public Date getOriginalAirDate();
-    @SageProperty("OriginalAirDate")
-    public void setOriginalAirDate(Date date);
-    
-    @SageProperty("ExtendedRatings")
-    public String getExtendedRatings();
-    @SageProperty("ExtendedRatings")
-    public void setExtendedRatings(String ratings);
-    
-    @SageProperty("Misc")
-    public String getMisc();
-    @SageProperty("Misc")
-    public void setMisc(String misc);
-    
-    @SageProperty("PartNumber")
-    public int getPartNumber();
-    @SageProperty("PartNumber")
-    public void setPartNumber(int part);
-    
-    @SageProperty("TotalParts")
-    public int getTotalParts();
-    @SageProperty("TotalParts")
-    public void setTotalParts(int parts);
-    
-    @SageProperty("HDTV")
-    public boolean isHDTV();
-    @SageProperty("HDTV")
-    public void setHDTV(boolean hdtv);
-    
-    @SageProperty("CC")
-    public boolean isCC();
-    @SageProperty("CC")
-    public void setCC(boolean cc);
-    
-    @SageProperty("Stereo")
-    public boolean getStereo();
-    @SageProperty("Stereo")
-    public void setStereo(boolean stereo);
-    
-    @SageProperty("Subtitled")
-    public boolean isSubtitled();
-    @SageProperty("Subtitled")
-    public void setSubtitled(boolean subs);
-    
-    @SageProperty("Premiere")
-    public boolean getPremiere();
-    @SageProperty("Premiere")
-    public void setPremiere(boolean prem);
-    
-    @SageProperty("SeasonPremiere")
-    public boolean isSeasonPremiere();
-    @SageProperty("SeasonPremiere")
-    public void setSeasonPremiere(boolean prem);
-    
-    @SageProperty("SeriesPremiere")
-    public boolean isSeriesPremiere();
-    @SageProperty("SeriesPremiere")
-    public void setSeriesPremiere(boolean prem);
-    
-    @SageProperty("ChannelPremiere")
-    public boolean isChannelPremiere();
-    @SageProperty("ChannelPremiere")
-    public void setChannelPremiere(boolean prem);
-    
-    @SageProperty("SeasonFinal")
-    public boolean isSeasonFinal();
-    @SageProperty("SeasonFinal")
-    public void setSeasonFinal(boolean fin);
-    
-    @SageProperty("SeriesFinale")
-    public boolean isSeriesFinale();
-    @SageProperty("SeriesFinale")
-    public void setSeriesFinale(boolean fin);
+	@SageProperty("EpisodeName")
+	public String getEpisodeName();
 
-    @SageProperty("SAP")
-    public boolean isSAP();
-    @SageProperty("SAP")
-    public void setSAP(boolean sap);
+	@SageProperty("EpisodeName")
+	public void setEpisodeName(String name);
 
-    @SageProperty("ExternalID")
-    public String getExternalID();
-    @SageProperty(value="ExternalID", allowNULL=false)
-    public void setExternalID(String id);
+	@SageProperty("Album")
+	public String getAlbum();
+
+	@SageProperty("Album")
+	public void setAlbum(String album);
+
+	@SageProperty(value = "Genre", listFactory = "sagex.phoenix.metadata.proxy.GenrePropertyListFactory")
+	public List<String> getGenres();
+
+	@SageProperty("GenreID")
+	public String getGenreID();
+
+	@SageProperty("GenreID")
+	public void setGenreID(String genreId);
+
+	@SageProperty("Description")
+	public String getDescription();
+
+	@SageProperty("Description")
+	public void setDescription(String desc);
+
+	@SageProperty("Year")
+	public int getYear();
+
+	@SageProperty("Year")
+	public void setYear(int year);
+
+	@SageProperty("Language")
+	public String getLanguage();
+
+	@SageProperty("Language")
+	public void setLanguage(String lang);
+
+	/**
+	 * Rated in the MPAA Rating G, PG, PG-13, R, NC-17, AO and NR (AO is adults
+	 * only and NR is not rated).
+	 * 
+	 * @return
+	 */
+	@SageProperty("Rated")
+	public String getRated();
+
+	/**
+	 * Rated in the MPAA Rating G, PG, PG-13, R, NC-17, AO and NR (AO is adults
+	 * only and NR is not rated).
+	 * 
+	 * @return
+	 */
+	@SageProperty("Rated")
+	public void setRated(String rated);
+
+	/**
+	 * ParentalRating is the TV rating TVY, TVY7, TVG, TVPG, TV14 and TVM
+	 * 
+	 * @return
+	 */
+	@SageProperty("ParentalRating")
+	public String getParentalRating();
+
+	/**
+	 * ParentalRating is the TV rating TVY, TVY7, TVG, TVPG, TV14 and TVM
+	 * 
+	 * @return
+	 */
+	@SageProperty("ParentalRating")
+	public void setParentalRating(String rated);
+
+	@SageProperty("RunningTime")
+	public long getRunningTime();
+
+	@SageProperty("RunningTime")
+	public void setRunningTime(long time);
+
+	@SageProperty("OriginalAirDate")
+	public Date getOriginalAirDate();
+
+	@SageProperty("OriginalAirDate")
+	public void setOriginalAirDate(Date date);
+
+	@SageProperty("ExtendedRatings")
+	public String getExtendedRatings();
+
+	@SageProperty("ExtendedRatings")
+	public void setExtendedRatings(String ratings);
+
+	@SageProperty("Misc")
+	public String getMisc();
+
+	@SageProperty("Misc")
+	public void setMisc(String misc);
+
+	@SageProperty("PartNumber")
+	public int getPartNumber();
+
+	@SageProperty("PartNumber")
+	public void setPartNumber(int part);
+
+	@SageProperty("TotalParts")
+	public int getTotalParts();
+
+	@SageProperty("TotalParts")
+	public void setTotalParts(int parts);
+
+	@SageProperty("HDTV")
+	public boolean isHDTV();
+
+	@SageProperty("HDTV")
+	public void setHDTV(boolean hdtv);
+
+	@SageProperty("CC")
+	public boolean isCC();
+
+	@SageProperty("CC")
+	public void setCC(boolean cc);
+
+	@SageProperty("Stereo")
+	public boolean getStereo();
+
+	@SageProperty("Stereo")
+	public void setStereo(boolean stereo);
+
+	@SageProperty("Subtitled")
+	public boolean isSubtitled();
+
+	@SageProperty("Subtitled")
+	public void setSubtitled(boolean subs);
+
+	@SageProperty("Premiere")
+	public boolean getPremiere();
+
+	@SageProperty("Premiere")
+	public void setPremiere(boolean prem);
+
+	@SageProperty("SeasonPremiere")
+	public boolean isSeasonPremiere();
+
+	@SageProperty("SeasonPremiere")
+	public void setSeasonPremiere(boolean prem);
+
+	@SageProperty("SeriesPremiere")
+	public boolean isSeriesPremiere();
+
+	@SageProperty("SeriesPremiere")
+	public void setSeriesPremiere(boolean prem);
+
+	@SageProperty("ChannelPremiere")
+	public boolean isChannelPremiere();
+
+	@SageProperty("ChannelPremiere")
+	public void setChannelPremiere(boolean prem);
+
+	@SageProperty("SeasonFinal")
+	public boolean isSeasonFinal();
+
+	@SageProperty("SeasonFinal")
+	public void setSeasonFinal(boolean fin);
+
+	@SageProperty("SeriesFinale")
+	public boolean isSeriesFinale();
+
+	@SageProperty("SeriesFinale")
+	public void setSeriesFinale(boolean fin);
+
+	@SageProperty("SAP")
+	public boolean isSAP();
+
+	@SageProperty("SAP")
+	public void setSAP(boolean sap);
+
+	@SageProperty("ExternalID")
+	public String getExternalID();
+
+	@SageProperty(value = "ExternalID", allowNULL = false)
+	public void setExternalID(String id);
 }

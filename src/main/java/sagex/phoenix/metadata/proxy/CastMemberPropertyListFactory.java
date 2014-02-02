@@ -12,12 +12,14 @@ public class CastMemberPropertyListFactory extends StringPropertyListFactory {
 
 	@Override
 	public Object decode(String item) {
-		if (item==null) return null;
+		if (item == null)
+			return null;
 		String parts[] = item.split("\\s*--\\s*");
-		if (parts==null||parts.length==0) return null;
+		if (parts == null || parts.length == 0)
+			return null;
 		CastMember cm = new CastMember();
 		cm.setName(parts[0]);
-		if (parts.length>1 && !StringUtils.isEmpty(parts[1])) {
+		if (parts.length > 1 && !StringUtils.isEmpty(parts[1])) {
 			cm.setRole(parts[1]);
 		}
 		return cm;
@@ -25,7 +27,8 @@ public class CastMemberPropertyListFactory extends StringPropertyListFactory {
 
 	@Override
 	public String encode(Object item) {
-		if (item==null) return "";
+		if (item == null)
+			return "";
 		ICastMember cm = (ICastMember) item;
 		if (StringUtils.isEmpty(cm.getRole())) {
 			return cm.getName();

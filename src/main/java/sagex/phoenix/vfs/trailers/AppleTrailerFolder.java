@@ -18,14 +18,15 @@ import sagex.remote.json.JSONObject;
 
 public class AppleTrailerFolder extends VirtualMediaFolder {
 	private String url = null;
+
 	public AppleTrailerFolder(String title, String url) {
 		super(title);
-		this.url=url;
+		this.url = url;
 	}
 
 	public AppleTrailerFolder(IMediaFolder parent, String title, String url) {
 		super(parent, title);
-		this.url=url;
+		this.url = url;
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class AppleTrailerFolder extends VirtualMediaFolder {
 			is = new URL(url).openStream();
 			JSONArray ja = new JSONArray(IOUtils.toString(is, "UTF-8"));
 			int len = ja.length();
-			for (int i=0;i<len;i++) {
+			for (int i = 0; i < len; i++) {
 				JSONObject jo = ja.getJSONObject(i);
 				if (!StringUtils.isEmpty(jo.optString("title"))) {
 					children2.add(new AppleTrailerItem(this, jo));
@@ -52,7 +53,7 @@ public class AppleTrailerFolder extends VirtualMediaFolder {
 		} catch (Throwable t) {
 			log.warn("Programmer Error while processing url: " + url, t);
 		} finally {
-			if (is!=null) {
+			if (is != null) {
 				try {
 					is.close();
 				} catch (IOException e) {

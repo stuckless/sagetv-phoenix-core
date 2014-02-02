@@ -14,27 +14,27 @@ import sagex.phoenix.vfs.views.ViewFolder;
 
 public class OnlineVideosLinkCreator {
 	private boolean fetchMetadata = false;
-	
+
 	public OnlineVideosLinkCreator(boolean fetchMetadata) {
-		this.fetchMetadata=fetchMetadata;
+		this.fetchMetadata = fetchMetadata;
 	}
-	
+
 	public void makeOfflineLinks(IMediaFolder folder, File destDir) {
 		processFolder(folder, destDir);
 	}
 
 	private void processItem(IMediaResource r, File destDir) {
 		if (r instanceof IMediaFolder) {
-			processFolder((IMediaFolder)r, destDir);
+			processFolder((IMediaFolder) r, destDir);
 		} else {
-			processFile((IMediaFile)r, destDir);
+			processFile((IMediaFile) r, destDir);
 		}
 	}
 
 	private void processFile(IMediaFile file, File destDir) {
 		String phoenixUrl = "phoenix://";
 		if (file.getParent() instanceof ViewFolder) {
-			phoenixUrl += ((ViewFolder)file.getParent()).getViewFactory().getName();
+			phoenixUrl += ((ViewFolder) file.getParent()).getViewFactory().getName();
 		} else {
 			phoenixUrl += "#";
 		}
@@ -43,19 +43,20 @@ public class OnlineVideosLinkCreator {
 			phoenixUrl += ("?url=" + UrlUtil.encode(file.getMetadata().getMediaUrl()));
 		}
 		FileUtils.mkdirsQuietly(destDir);
-		
+
 		String filename = null;
 		if (isTV(file)) {
 			filename = createTVFilename(file);
 		} else {
 			filename = createMoviename(file);
 		}
-		
+
 		File outFile = new File(destDir, createFilename(filename) + ".mp4");
 		System.out.println("Creating: " + outFile.getAbsolutePath());
 		try {
-			if (outFile.exists()) return;
-			
+			if (outFile.exists())
+				return;
+
 			if (!outFile.createNewFile()) {
 				throw new Exception("Can't create file");
 			}
@@ -67,7 +68,7 @@ public class OnlineVideosLinkCreator {
 	private String createMoviename(IMediaFile file) {
 		String title = null;
 		IMetadata md = file.getMetadata();
-		if (md.getYear()>0) {
+		if (md.getYear() > 0) {
 			title = String.format("%s (%s)", file.getTitle(), md.getYear());
 		} else {
 			title = file.getTitle();
@@ -78,8 +79,9 @@ public class OnlineVideosLinkCreator {
 	private String createTVFilename(IMediaFile file) {
 		String title = null;
 		IMetadata md = file.getMetadata();
-		if (md.getEpisodeNumber()>0) {
-			title = String.format("%s S%02dE%02d %s", file.getTitle(), md.getSeasonNumber(), md.getEpisodeNumber(), md.getEpisodeName());
+		if (md.getEpisodeNumber() > 0) {
+			title = String.format("%s S%02dE%02d %s", file.getTitle(), md.getSeasonNumber(), md.getEpisodeNumber(),
+					md.getEpisodeName());
 		} else {
 			title = String.format("%s -- %s", file.getTitle(), md.getEpisodeName());
 		}
@@ -87,20 +89,20 @@ public class OnlineVideosLinkCreator {
 	}
 
 	private boolean isTV(IMediaFile file) {
-		if (file.getMetadata().getEpisodeNumber()>0) {
+		if (file.getMetadata().getEpisodeNumber() > 0) {
 			return true;
 		}
-		
-		if (file.getParent()!=null) {
+
+		if (file.getParent() != null) {
 			return file.getParent().getTitle().toLowerCase().startsWith("season");
 		}
-		
+
 		return false;
 	}
 
 	private void processFolder(IMediaFolder folder, File destDir) {
 		destDir = new File(destDir, createFilename(folder.getTitle()));
-		for (IMediaResource r: folder) {
+		for (IMediaResource r : folder) {
 			processItem(r, destDir);
 		}
 	}

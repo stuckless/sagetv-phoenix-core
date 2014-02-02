@@ -52,22 +52,23 @@ public class TMDB3DetailParserTest {
 		assertEquals(1, results.size());
 		verifyMetadata(provider.getMetaData(results.get(0)));
 	}
-	
+
 	@Test
 	public void testSearch() throws MetadataException {
 		TMDB3MetadataProvider provider = (TMDB3MetadataProvider) Phoenix.getInstance().getMetadataManager().getProvider("tmdb3");
 		assertNotNull("TMDB3 is not registered.", provider);
 
 		SearchQuery q = new SearchQuery(MediaType.MOVIE, "Iron Man 2", "2010");
-		// set the title in the QUERY fields, since providers look in the QUERY field
+		// set the title in the QUERY fields, since providers look in the QUERY
+		// field
 		q.set(Field.QUERY, "Iron Man 2");
 		List<IMetadataSearchResult> results = provider.search(q);
-		assertTrue(results.size()>0);
-		
-		for (IMetadataSearchResult r: results) {
-			System.out.printf("RESULT: %s; %s; %s\n", r.getTitle(), r.getYear(), r.getScore() );
+		assertTrue(results.size() > 0);
+
+		for (IMetadataSearchResult r : results) {
+			System.out.printf("RESULT: %s; %s; %s\n", r.getTitle(), r.getYear(), r.getScore());
 		}
-		
+
 		// Iron Man 2 should be first result
 		IMetadataSearchResult sr = results.get(0);
 		assertEquals("10138", sr.getId());
@@ -75,7 +76,7 @@ public class TMDB3DetailParserTest {
 		assertEquals(MediaType.MOVIE, sr.getMediaType());
 		assertEquals("Iron Man 2", sr.getTitle());
 		assertEquals("2010", String.valueOf(sr.getYear()));
-		assertTrue(sr.getScore()>.9);
+		assertTrue(sr.getScore() > .9);
 	}
 
 	public void verifyMetadata(IMetadata md) {

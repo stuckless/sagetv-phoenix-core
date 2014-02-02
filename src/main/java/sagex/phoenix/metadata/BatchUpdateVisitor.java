@@ -1,6 +1,5 @@
 package sagex.phoenix.metadata;
 
-
 import java.util.Map;
 
 import sagex.phoenix.progress.IProgressMonitor;
@@ -13,10 +12,11 @@ import sagex.phoenix.vfs.IMediaResourceVisitor;
  * batch updates each mediafile with the given set of metadata properties
  * 
  * @author sean
- *
+ * 
  */
 public class BatchUpdateVisitor implements IMediaResourceVisitor {
 	private Map<String, String> props;
+
 	public BatchUpdateVisitor(Map<String, String> props) {
 		this.props = props;
 	}

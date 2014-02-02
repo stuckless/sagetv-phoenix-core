@@ -5,24 +5,27 @@ import sagex.phoenix.configuration.proxy.AGroup;
 import sagex.phoenix.configuration.proxy.FieldProxy;
 import sagex.phoenix.configuration.proxy.GroupProxy;
 
-@AGroup(label="Media Configuration", path = "phoenix/media", description = "Common media related options")
+@AGroup(label = "Media Configuration", path = "phoenix/media", description = "Common media related options")
 public class MediaConfiguration extends GroupProxy {
-    @AField(label="Recording Title Mask", description = "Title mask used by GetFormattedTitle when the media type is a Recording")
-    private FieldProxy<String> recordingTitleMask = new FieldProxy<String>("${Title} - ${EpisodeName}");
+	@AField(label = "Recording Title Mask", description = "Title mask used by GetFormattedTitle when the media type is a Recording")
+	private FieldProxy<String> recordingTitleMask = new FieldProxy<String>("${Title} - ${EpisodeName}");
 
-    @AField(label="TV Title Mask", description = "Title mask used by GetFormattedTitle when the media type is a TV file")
-    private FieldProxy<String> tvTitleMask = new FieldProxy<String>("${Title} - S${SeasonNumber:java.text.DecimalFormat:00}E${EpisodeNumber:java.text.DecimalFormat:00} - ${EpisodeName}");
+	@AField(label = "TV Title Mask", description = "Title mask used by GetFormattedTitle when the media type is a TV file")
+	private FieldProxy<String> tvTitleMask = new FieldProxy<String>(
+			"${Title} - S${SeasonNumber:java.text.DecimalFormat:00}E${EpisodeNumber:java.text.DecimalFormat:00} - ${EpisodeName}");
 
-    @AField(label="TV Title Mask (Multi CD)", description = "Title mask used by GetFormattedTitle when the media type is a TV file with multiple discs")
-    private FieldProxy<String> tvTitleMaskMultiCD = new FieldProxy<String>("${Title} (${Year}) - Disc ${DiscNumber:java.text.DecimalFormat:00}");
+	@AField(label = "TV Title Mask (Multi CD)", description = "Title mask used by GetFormattedTitle when the media type is a TV file with multiple discs")
+	private FieldProxy<String> tvTitleMaskMultiCD = new FieldProxy<String>(
+			"${Title} (${Year}) - Disc ${DiscNumber:java.text.DecimalFormat:00}");
 
-    @AField(label="Movie Title Mask", description = "Title mask used by GetFormattedTitle when the media type is a Movie File")
-    private FieldProxy<String> movieTitleMask = new FieldProxy<String>("${EpisodeName} (${Year})");
+	@AField(label = "Movie Title Mask", description = "Title mask used by GetFormattedTitle when the media type is a Movie File")
+	private FieldProxy<String> movieTitleMask = new FieldProxy<String>("${EpisodeName} (${Year})");
 
-    @AField(label="Movie Title Mask (Multi CD)", description = "Title mask used by GetFormattedTitle when the media type is a Movie File with multiple discs")
-    private FieldProxy<String> movieTitleMaskMultiCD = new FieldProxy<String>("${EpisodeName} (${Year}) - Disc ${DiscNumber:java.text.DecimalFormat:00}");
+	@AField(label = "Movie Title Mask (Multi CD)", description = "Title mask used by GetFormattedTitle when the media type is a Movie File with multiple discs")
+	private FieldProxy<String> movieTitleMaskMultiCD = new FieldProxy<String>(
+			"${EpisodeName} (${Year}) - Disc ${DiscNumber:java.text.DecimalFormat:00}");
 
-    public String getRecordingTitleMask() {
+	public String getRecordingTitleMask() {
 		return recordingTitleMask.get();
 	}
 
@@ -62,9 +65,8 @@ public class MediaConfiguration extends GroupProxy {
 		this.movieTitleMaskMultiCD.set(movieTitleMaskMultiCD);
 	}
 
-    
-    public MediaConfiguration() {
-        super();
-        init();
-    }
+	public MediaConfiguration() {
+		super();
+		init();
+	}
 }

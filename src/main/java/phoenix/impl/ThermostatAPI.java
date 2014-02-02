@@ -1,6 +1,5 @@
 package phoenix.impl;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -206,8 +205,10 @@ public class ThermostatAPI {
 		return api.getLastUpdated();
 	}
 
-	/** 
-	 * Returns the Target Temp formatted to 1 decimal and with the Units appended, ie, "22.5 C"
+	/**
+	 * Returns the Target Temp formatted to 1 decimal and with the Units
+	 * appended, ie, "22.5 C"
+	 * 
 	 * @param devStatus
 	 * @return
 	 */
@@ -218,8 +219,10 @@ public class ThermostatAPI {
 		return String.format("%.1f %s", devStatus.getTargetTemp(), devStatus.getTempUnits());
 	}
 
-	/** 
-	 * Returns the Current Temp formatted to 1 decimal and with the Units appended, ie, "22.5 C"
+	/**
+	 * Returns the Current Temp formatted to 1 decimal and with the Units
+	 * appended, ie, "22.5 C"
+	 * 
 	 * @param devStatus
 	 * @return
 	 */
@@ -232,7 +235,7 @@ public class ThermostatAPI {
 
 	/**
 	 * Gets the formatted Humidity
-	 *  
+	 * 
 	 * @param devStatus
 	 * @return
 	 */

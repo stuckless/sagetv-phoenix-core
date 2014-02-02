@@ -15,8 +15,10 @@ public class CustomFile extends VirtualMediaFile {
 	public static final String FIELD_CUSTOM_TYPE = "CustomType";
 	public static final String FIELD_MEDIA_OBJECT = "MediaObject";
 	private String objectRef = null;
+
 	public CustomFile(CustomFolder parent, Object record) {
-		super(parent, UserRecordAPI.GetUserRecordData(record, FIELD_ID), record, UserRecordAPI.GetUserRecordData(record, FieldName.Title));
+		super(parent, UserRecordAPI.GetUserRecordData(record, FIELD_ID), record, UserRecordAPI.GetUserRecordData(record,
+				FieldName.Title));
 		objectRef = UserRecordAPI.GetUserRecordData(record, FIELD_MEDIA_OBJECT);
 	}
 
@@ -34,7 +36,7 @@ public class CustomFile extends VirtualMediaFile {
 	@Override
 	public boolean isType(int type) {
 		if (type == MediaResourceType.ONLINE.value()) {
-			if (objectRef!=null && objectRef.startsWith("http")) {
+			if (objectRef != null && objectRef.startsWith("http")) {
 				return true;
 			}
 		}

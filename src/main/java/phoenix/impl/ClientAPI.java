@@ -19,7 +19,8 @@ import sagex.phoenix.tools.annotation.API;
 import sagex.phoenix.util.PropertiesUtils;
 
 /**
- * Manages the extender names as configured in the Sage.properties sagex/uicontexts/ entries
+ * Manages the extender names as configured in the Sage.properties
+ * sagex/uicontexts/ entries
  * 
  * @author sean
  */
@@ -58,7 +59,8 @@ public class ClientAPI {
 	 * null. The key is the client id (/IP:PORT) or UI Contenxt Name.
 	 * 
 	 * @return
-	 * @deprecated Client Names are stored in Sage.properties under sagex/uicontexts
+	 * @deprecated Client Names are stored in Sage.properties under
+	 *             sagex/uicontexts
 	 */
 	public Map LoadWebServerExtenderNames() {
 		Properties clientNames = new Properties();
@@ -69,8 +71,7 @@ public class ClientAPI {
 			log.info("Loading Remote copy of the extender properties...");
 			// load read-only copy from the server
 			try {
-				PropertiesUtils.load(clientNames,
-						new ByteArrayInputStream(data.getBytes()));
+				PropertiesUtils.load(clientNames, new ByteArrayInputStream(data.getBytes()));
 			} catch (IOException e) {
 				log.warn("Failed to load the remote properties");
 			}
@@ -124,21 +125,23 @@ public class ClientAPI {
 			return;
 		Configuration.RemoveServerProperty(getContextKeyName(ctx));
 	}
-	
+
 	private String getContextKeyName(String extender) {
-		return SAGEX_CONTEXTS+"/"+extender+"/name";
+		return SAGEX_CONTEXTS + "/" + extender + "/name";
 	}
 
 	/**
-	 * Returns the configured Extender names from the Sage.propertues sagex/uicontexts
+	 * Returns the configured Extender names from the Sage.propertues
+	 * sagex/uicontexts
+	 * 
 	 * @return
 	 */
 	public Map GetExtenderNames() {
-		Map<String,String> names = new HashMap<String, String>();
-		//names.putAll(LoadWebServerExtenderNames());
+		Map<String, String> names = new HashMap<String, String>();
+		// names.putAll(LoadWebServerExtenderNames());
 		String keys[] = Configuration.GetServerSubpropertiesThatAreBranches(SAGEX_CONTEXTS);
 		if (keys != null) {
-			for (String k: keys) {
+			for (String k : keys) {
 				String name = Configuration.GetServerProperty(getContextKeyName(k), null);
 				if (!StringUtils.isEmpty(name)) {
 					names.put(k, name);

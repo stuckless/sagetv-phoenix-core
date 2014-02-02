@@ -24,10 +24,8 @@ import sagex.phoenix.vfs.impl.FileResourceFactory;
 public class SageVirtualFilesystemMediaFolder extends VirtualMediaFolder {
 	private String types;
 
-	public SageVirtualFilesystemMediaFolder(IMediaFolder parent, File dir,
-			String types) {
-		super(parent, dir.getName(), dir, StringUtils.isEmpty(dir.getName()) ? String
-				.valueOf(dir) : dir.getName(), true);
+	public SageVirtualFilesystemMediaFolder(IMediaFolder parent, File dir, String types) {
+		super(parent, dir.getName(), dir, StringUtils.isEmpty(dir.getName()) ? String.valueOf(dir) : dir.getName(), true);
 		this.types = types;
 	}
 
@@ -44,9 +42,7 @@ public class SageVirtualFilesystemMediaFolder extends VirtualMediaFolder {
 	public void populateChildren(List<IMediaResource> children) {
 		File dir = (File) getMediaObject();
 		if (dir != null) {
-			log.debug(
-					"Initializing Sage Media for Dir: " + dir.getAbsolutePath()
-							+ "; Types: " + types);
+			log.debug("Initializing Sage Media for Dir: " + dir.getAbsolutePath() + "; Types: " + types);
 			Object files[] = null;
 			if (types == null) {
 				files = MediaFileAPI.GetMediaFiles();
@@ -57,8 +53,7 @@ public class SageVirtualFilesystemMediaFolder extends VirtualMediaFolder {
 			String path = dir.getAbsolutePath() + File.separator;
 
 			if (files == null || files.length == 0) {
-				log.warn(
-						"No Children for: " + getTitle() + "; types: " + types);
+				log.warn("No Children for: " + getTitle() + "; types: " + types);
 				return;
 			}
 
@@ -75,48 +70,35 @@ public class SageVirtualFilesystemMediaFolder extends VirtualMediaFolder {
 					String subpath = path2.substring(offset);
 					String parts[] = StringUtils.split(subpath, File.separator);
 					if (parts.length == 1) {
-						addSageMediaFile(children,
-								MediaFileAPI.GetMediaFileForFilePath(new File(
-										dir, parts[0])));
+						addSageMediaFile(children, MediaFileAPI.GetMediaFileForFilePath(new File(dir, parts[0])));
 					} else if (parts.length > 1) {
 						File special = new File(dir, parts[0]);
 						if (FileResourceFactory.isDVD(special)) {
-							addSageMediaFile(
-									children,
-									MediaFileAPI
-											.GetMediaFileForFilePath(FileResourceFactory
-													.resolveDVD(special)));
+							addSageMediaFile(children,
+									MediaFileAPI.GetMediaFileForFilePath(FileResourceFactory.resolveDVD(special)));
 							continue;
 						}
 						if (FileResourceFactory.isBluRay(special)) {
-							addSageMediaFile(
-									children,
-									MediaFileAPI
-											.GetMediaFileForFilePath(FileResourceFactory
-													.resolveBluRay(special)));
+							addSageMediaFile(children,
+									MediaFileAPI.GetMediaFileForFilePath(FileResourceFactory.resolveBluRay(special)));
 							continue;
 						}
 
 						if (getSageFolder(children, special) == null) {
-							children.add(new SageVirtualFilesystemMediaFolder(
-									this, special, types));
+							children.add(new SageVirtualFilesystemMediaFolder(this, special, types));
 						}
 					} else {
-						log.debug(
-								"Failed to split parts for: " + subpath
-										+ "; using: " + File.separator);
+						log.debug("Failed to split parts for: " + subpath + "; using: " + File.separator);
 					}
 				}
 			}
 		}
 	}
 
-	private SageVirtualFilesystemMediaFolder getSageFolder(
-			List<IMediaResource> children, File file) {
+	private SageVirtualFilesystemMediaFolder getSageFolder(List<IMediaResource> children, File file) {
 		for (IMediaResource r : children) {
 			if (r instanceof SageVirtualFilesystemMediaFolder) {
-				if (file
-						.equals(((SageVirtualFilesystemMediaFolder) r).getDir())) {
+				if (file.equals(((SageVirtualFilesystemMediaFolder) r).getDir())) {
 					return (SageVirtualFilesystemMediaFolder) r;
 				}
 			}

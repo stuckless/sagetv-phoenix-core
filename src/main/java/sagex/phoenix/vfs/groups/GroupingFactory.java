@@ -6,14 +6,14 @@ import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.Factory;
 
 public class GroupingFactory extends Factory<Grouper> {
-    private Grouper grouper = null;
+	private Grouper grouper = null;
 
-    public GroupingFactory(String klass) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-    	this(((Class<IGrouper>) Class.forName(klass)).newInstance());
-    }
+	public GroupingFactory(String klass) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
+		this(((Class<IGrouper>) Class.forName(klass)).newInstance());
+	}
 
-    public GroupingFactory(IGrouper grouper) {
-    	this.grouper = new Grouper(grouper);
+	public GroupingFactory(IGrouper grouper) {
+		this.grouper = new Grouper(grouper);
 	}
 
 	public Grouper create(Set<ConfigurableOption> configurableOptions) {
@@ -29,6 +29,6 @@ public class GroupingFactory extends Factory<Grouper> {
 		newGrouper.configure(configurableOptions);
 		newGrouper.setTags(getTags());
 		return newGrouper;
-    }
-	
+	}
+
 }

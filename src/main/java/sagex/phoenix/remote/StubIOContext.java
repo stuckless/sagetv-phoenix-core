@@ -2,10 +2,13 @@ package sagex.phoenix.remote;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.output.ByteArrayOutputStream;
+
 /**
  * Stub IO Context used for testing
  * 
@@ -14,7 +17,8 @@ import org.apache.commons.io.output.ByteArrayOutputStream;
 public class StubIOContext implements IOContext {
 	private ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	private Map<String, String> params = new HashMap<String, String>();
-	
+	private PrintWriter writer = new PrintWriter(new OutputStreamWriter(baos));
+
 	public StubIOContext() {
 	}
 
@@ -36,7 +40,7 @@ public class StubIOContext implements IOContext {
 	public OutputStream getOutputStream() {
 		return baos;
 	}
-	
+
 	public String getBuffer() {
 		return new String(baos.toByteArray());
 	}
@@ -44,5 +48,14 @@ public class StubIOContext implements IOContext {
 	@Override
 	public void sendError(int code, String message) {
 		System.out.println("ERROR: " + code + "; " + message);
+	}
+
+	@Override
+	public void setEncoding(String charEncoding) {
+	}
+
+	@Override
+	public PrintWriter getWriter() throws IOException {
+		return writer;
 	}
 }

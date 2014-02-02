@@ -3,9 +3,9 @@
 *.jar
 *.war
 *.ear
+.classpath
 /bin
 build.properties
-.classpath
 userdata/
 logs/
 cache/

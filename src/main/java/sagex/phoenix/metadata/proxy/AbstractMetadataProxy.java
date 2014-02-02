@@ -20,8 +20,7 @@ import sagex.util.TypesUtil;
  * @author seans
  */
 @SuppressWarnings("unchecked")
-public abstract class AbstractMetadataProxy implements InvocationHandler,
-		IPropertyListChangedListener, ISageMetadata {
+public abstract class AbstractMetadataProxy implements InvocationHandler, IPropertyListChangedListener, ISageMetadata {
 	protected Logger log = Logger.getLogger(this.getClass());
 
 	private Map<String, PropertyList> lists = new HashMap<String, PropertyList>();
@@ -29,8 +28,7 @@ public abstract class AbstractMetadataProxy implements InvocationHandler,
 	protected AbstractMetadataProxy() {
 	}
 
-	public Object invoke(Object proxy, Method method, Object[] args)
-			throws Throwable {
+	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 		if ("toString".equals(method.getName())) {
 			return toString();
 		} else if ("isSet".equals(method.getName())) {
@@ -39,12 +37,12 @@ public abstract class AbstractMetadataProxy implements InvocationHandler,
 			clear((SageProperty) args[0]);
 			return null;
 		} else if ("set".equals(method.getName())) {
-			set((SageProperty) args[0], (String)args[1]);
+			set((SageProperty) args[0], (String) args[1]);
 			return null;
 		} else if ("get".equals(method.getName())) {
 			return get((SageProperty) args[0]);
 		}
-		
+
 		SageProperty md = method.getAnnotation(SageProperty.class);
 		if (md == null) {
 			log.warn("Missing MD annotation on method: " + method.getName());
@@ -63,16 +61,13 @@ public abstract class AbstractMetadataProxy implements InvocationHandler,
 				if (p == null) {
 					try {
 						// create the list
-						IPropertyListFactory factory = (IPropertyListFactory) Class
-								.forName(md.listFactory()).newInstance();
+						IPropertyListFactory factory = (IPropertyListFactory) Class.forName(md.listFactory()).newInstance();
 						p = factory.toList(get(md));
 						p.addListChangedListener(this);
 						p.setProperty(md);
 						lists.put(md.value(), p);
 					} catch (Throwable t) {
-						log.error(
-								"Failed to create ListFactory for List Property: "
-										+ md.value(), t);
+						log.error("Failed to create ListFactory for List Property: " + md.value(), t);
 						throw t;
 					}
 				}
@@ -134,17 +129,19 @@ public abstract class AbstractMetadataProxy implements InvocationHandler,
 	public String toString() {
 		return this.getClass().getName();
 	}
-	
+
 	private void set(SageProperty prop, Object value) {
-		String setVal=null;
+		String setVal = null;
 		if (value != null) {
-			setVal =  TypesUtil.toString(value);
+			setVal = TypesUtil.toString(value);
 		}
-		if (setVal==null) setVal = "";
-		
+		if (setVal == null)
+			setVal = "";
+
 		if (!prop.allowNULL() && StringUtils.isEmpty(setVal)) {
 			if (!StringUtils.isEmpty(get(prop))) {
-				RuntimeException re = new RuntimeException("Canot Set Null value for Sage Property: " + prop.value() +"; Skipping Field");
+				RuntimeException re = new RuntimeException("Canot Set Null value for Sage Property: " + prop.value()
+						+ "; Skipping Field");
 				log.warn("Can't NULL to metadata field: " + prop.value(), re);
 			}
 		}

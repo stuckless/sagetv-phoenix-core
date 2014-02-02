@@ -15,7 +15,7 @@ public class MovieScraperManager extends ScraperManager {
 	@Override
 	public void loadConfigurations() {
 		super.loadConfigurations();
-		
+
 		// now add in our default scraper
 		addScraper(ConfigurationType.System, new DefaultMovieFilenameScraper());
 	}

@@ -4,10 +4,10 @@ import sagex.phoenix.homecontrol.themostat.IDevice;
 
 public class NestDevice implements IDevice {
 	protected String id, name;
-	
+
 	public NestDevice(String id, String name) {
-		this.id=id;
-		this.name=name;
+		this.id = id;
+		this.name = name;
 	}
 
 	@Override

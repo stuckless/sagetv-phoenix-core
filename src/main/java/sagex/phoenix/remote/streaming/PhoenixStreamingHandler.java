@@ -1,6 +1,5 @@
 package sagex.phoenix.remote.streaming;
 
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -30,22 +29,22 @@ import com.google.gson.GsonBuilder;
 
 public class PhoenixStreamingHandler implements SageHandler {
 	@Override
-	public void handleRequest(String[] args, HttpServletRequest req, HttpServletResponse resp) throws ServletException,	IOException {
+	public void handleRequest(String[] args, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
-			if (args.length<4) {
+			if (args.length < 4) {
 				help(resp);
 				return;
 			}
-			
+
 			// args[] is /sagex[0]/streaming[1]/action[2]/clientid[3]/extra[4]
 			String action = args[2];
 			String clientid = args[3];
 			if ("files".equalsIgnoreCase(action)) {
-				if (args.length<5) {
+				if (args.length < 5) {
 					help(resp);
 					return;
 				}
-				
+
 				sendFile(req, resp, clientid, args[4]);
 			} else if ("request".equalsIgnoreCase(action)) {
 				createMediaRequest(clientid, req, resp);
@@ -67,10 +66,10 @@ public class PhoenixStreamingHandler implements SageHandler {
 			sendJson(req, resp, data);
 		}
 	}
-	
+
 	Map<String, Object> createError(String message, Throwable t) {
 		Map<String, Object> data = new HashMap<String, Object>();
-		if (t==null) {
+		if (t == null) {
 			data.put("error", message);
 		} else {
 			data.put("errorMessage", message);
@@ -78,18 +77,20 @@ public class PhoenixStreamingHandler implements SageHandler {
 		}
 		return data;
 	}
-	
+
 	private void createMediaRequest(String clientid, HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		MediaRequest mreq = new MediaRequest();
 		String baseUrl = req.getRequestURL().substring(0, req.getRequestURL().indexOf("/request/")) + "/files/" + clientid + "/";
 		mreq.setBaseUrl(baseUrl);
 		mreq.setClientId(clientid);
 		mreq.setMediaId(req.getParameter("mediafile"));
-		mreq.setOutputDir(Phoenix.getInstance().getMediaStreamer().getConfig().getServerConfig().getTempDir() + File.separator + clientid);
-		File[] files = MediaFileAPI.GetSegmentFiles(MediaFileAPI.GetMediaFileForID(NumberUtils.toInt(req.getParameter("mediafile"))));
-		if (files!=null && files.length>0) {
+		mreq.setOutputDir(Phoenix.getInstance().getMediaStreamer().getConfig().getServerConfig().getTempDir() + File.separator
+				+ clientid);
+		File[] files = MediaFileAPI
+				.GetSegmentFiles(MediaFileAPI.GetMediaFileForID(NumberUtils.toInt(req.getParameter("mediafile"))));
+		if (files != null && files.length > 0) {
 			List<String> paths = new ArrayList<String>();
-			for (File f: files) {
+			for (File f : files) {
 				paths.add(f.getAbsolutePath());
 			}
 			mreq.setSources(paths.toArray(new String[] {}));
@@ -102,18 +103,18 @@ public class PhoenixStreamingHandler implements SageHandler {
 		mreq.setNetwork(req.getParameter("network"));
 		mreq.setRequestingGenericStreamer(MediaRequest.Encoders.script.name().equals(req.getParameter("encoder")));
 		final MediaResponse mresp = Phoenix.getInstance().getMediaStreamer().createRequest(mreq);
-		
+
 		if (!StringUtils.isEmpty(mresp.getShortErrorMessage())) {
 			sendJson(req, resp, createError(mresp.getShortErrorMessage(), null));
 			return;
 		}
-		
-		if (mresp.getControlInfo()==null || StringUtils.isEmpty(mresp.getControlInfo().getMediaUrl())) {
+
+		if (mresp.getControlInfo() == null || StringUtils.isEmpty(mresp.getControlInfo().getMediaUrl())) {
 			sendJson(req, resp, createError("Missing Media URL in reply", null));
 			return;
 		}
-		
-		if (mresp.getControlInfo().getLockFile()!=null) {
+
+		if (mresp.getControlInfo().getLockFile() != null) {
 			final File file = new File(mresp.getControlInfo().getLockFile());
 			WaitFor wait = new WaitFor() {
 				@Override
@@ -121,19 +122,20 @@ public class PhoenixStreamingHandler implements SageHandler {
 					return file.exists();
 				}
 			};
-			wait.waitFor(Phoenix.getInstance().getMediaStreamer().getConfig().getServerConfig().getWaitTimeout()*1000, 200);
+			wait.waitFor(Phoenix.getInstance().getMediaStreamer().getConfig().getServerConfig().getWaitTimeout() * 1000, 200);
 			if (!wait.isDoneWaiting()) {
 				Phoenix.getInstance().getMediaStreamer().abortProcess(clientid);
 				sendJson(req, resp, createError("Timedout waiting for stream to be created", null));
 				return;
 			}
 		}
-		
+
 		sendJson(req, resp, mresp);
 	}
 
 	public void sendFile(HttpServletRequest req, HttpServletResponse resp, String client, String filename) {
-		File f = new File(Phoenix.getInstance().getMediaStreamer().getConfig().getServerConfig().getTempDir(), client + java.io.File.separator + filename);
+		File f = new File(Phoenix.getInstance().getMediaStreamer().getConfig().getServerConfig().getTempDir(), client
+				+ java.io.File.separator + filename);
 		try {
 			if (!f.exists()) {
 				resp.sendError(404, "No Such File: " + f.getAbsolutePath());
@@ -162,17 +164,16 @@ public class PhoenixStreamingHandler implements SageHandler {
 		createGson(req).toJson(reply, pw);
 		pw.flush();
 	}
-	
+
 	public static Gson createGson(HttpServletRequest req) {
 		GsonBuilder b = new GsonBuilder();
-				
-		if (req.getParameter("_prettyprint")!=null) {
+
+		if (req.getParameter("_prettyprint") != null) {
 			b.setPrettyPrinting();
 		}
-		
+
 		return b.create();
 	}
-
 
 	private void help(HttpServletResponse resp) throws IOException {
 		PrintWriter w = resp.getWriter();

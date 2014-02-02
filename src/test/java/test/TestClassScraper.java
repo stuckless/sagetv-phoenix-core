@@ -1,4 +1,5 @@
 package test;
+
 import sagex.phoenix.metadata.search.IFilenameScraper;
 import sagex.phoenix.metadata.search.SearchQuery;
 import sagex.phoenix.metadata.search.SearchQuery.Field;

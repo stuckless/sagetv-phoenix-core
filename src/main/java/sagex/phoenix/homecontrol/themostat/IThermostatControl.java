@@ -7,7 +7,7 @@ import java.util.List;
  * 
  * 
  * @author seans
- *
+ * 
  */
 public interface IThermostatControl {
 	/**
@@ -16,21 +16,23 @@ public interface IThermostatControl {
 	 * @return
 	 */
 	public List<IDevice> getDevices();
-	
+
 	/**
 	 * Returns the current device status (temp, humidity, etc)
+	 * 
 	 * @param device
 	 * @return
 	 */
 	public IDeviceStatus getDeviceStatus(IDevice device);
-	
+
 	/**
 	 * Gets the Device for given device id
+	 * 
 	 * @param id
 	 * @return
 	 */
 	public IDevice getDeviceForId(String id);
-	
+
 	/**
 	 * Sets a new target temperature for a device
 	 * 
@@ -38,22 +40,26 @@ public interface IThermostatControl {
 	 * @param temp
 	 */
 	public void setTargetTemp(IDevice device, float temp);
+
 	/**
 	 * Mode is 'heat', 'cool', 'heatcool' or 'off'
+	 * 
 	 * @param mode
 	 */
 	public void setMode(IDevice device, String mode);
-	
+
 	/**
-	 * Returns the last error message that set since the last update.  Will be null if there are no errors.
+	 * Returns the last error message that set since the last update. Will be
+	 * null if there are no errors.
+	 * 
 	 * @return
 	 */
 	public String getLastMessage();
-	
+
 	/**
 	 * Returns the date/time of the last sucessful update
+	 * 
 	 * @return
 	 */
 	public long getLastUpdated();
 }
-

@@ -1,6 +1,7 @@
 package sagex.phoenix.metadata.provider.tmdb3;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
@@ -26,7 +27,7 @@ public class TMDB3MetadataProviderTest {
 		try {
 			IMetadata md = ((HasFindByIMDBID) provider).getMetadataForIMDBId("tt0303387");
 			// null metadata replies are fine
-			if (md!=null) {
+			if (md != null) {
 				System.out.println("Movie: " + md.getMediaTitle());
 			}
 		} catch (Exception e) {

@@ -8,6 +8,6 @@ public class ObjectConverter implements FieldConverter<Object> {
 
 	@Override
 	public String toString(Object in) {
-		return in==null?null:String.valueOf(in);
+		return in == null ? null : String.valueOf(in);
 	}
 }

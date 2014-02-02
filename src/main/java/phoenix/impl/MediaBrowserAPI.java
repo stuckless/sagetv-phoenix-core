@@ -26,7 +26,6 @@ import sagex.phoenix.util.ElapsedTimer;
 import sagex.phoenix.util.FileUtils;
 import sagex.phoenix.vfs.CombinedMediaFolder;
 import sagex.phoenix.vfs.DecoratedMediaFile;
-import sagex.phoenix.vfs.DecoratedMediaFolder;
 import sagex.phoenix.vfs.HasPlayableUrl;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaFolder;
@@ -76,8 +75,7 @@ public class MediaBrowserAPI {
 		if (folder instanceof ViewFolder) {
 			return (ViewFolder) folder;
 		} else if (folder instanceof IMediaFolder) {
-			return new ViewFolder(new ViewFactory(), 0, null,
-					(IMediaFolder) folder);
+			return new ViewFolder(new ViewFactory(), 0, null, (IMediaFolder) folder);
 		} else if (folder instanceof String) {
 			return phoenix.umb.CreateView((String) folder, null);
 		} else {
@@ -107,7 +105,7 @@ public class MediaBrowserAPI {
 	public IMediaFolder GetMediaAsFolder(List sageObjects, String label) {
 		return new MediaFilesMediaFolder(null, sageObjects.toArray(), label);
 	}
-	
+
 	/**
 	 * Given the SageTV media mask, return the resulting media items as a
 	 * folder. The media mask is defined in the sagetv api for
@@ -124,8 +122,7 @@ public class MediaBrowserAPI {
 		if (mediaMask == null) {
 			return GetMediaAsFolder(MediaFileAPI.GetMediaFiles("DBVL"), label);
 		} else {
-			return GetMediaAsFolder(MediaFileAPI.GetMediaFiles(mediaMask),
-					label);
+			return GetMediaAsFolder(MediaFileAPI.GetMediaFiles(mediaMask), label);
 		}
 	}
 
@@ -141,50 +138,24 @@ public class MediaBrowserAPI {
 	 * play it. Currently, it does not do this.
 	 * 
 	 * 
-	 * THIS IS FOR MY OWN REFERENCE Keyboard shortcuts...
-	 * F5 = Page Up
-F6 = Page Down
-F7 = Page Left
-F8 = Page Right
-{Up} = Up
-{Down} = Down
-{Left} = Left
-{Right}=Right
-{Home} = Home/Main Menu
-{PageUp} = Channel Up/Page Up
-{PageDown} = Channel Down/Page Down
-{ctrl} left arrow = Left/Volume Down
-{ctrl} right arrow = Right/Volume Up
-{ctrl} up arrow = Up/Channel Up
-{ctrl} down arrow = Down/Channel Down
-{ctrl} A Skip Bkwd/Page Left
-{ctrl} D Play
-{ctrl} E Volume Down
-{ctrl} F = Skip Fwd/Page Right
-{ctrl} G = Time Scroll
-{ctrl} I = Info
-{ctrl} J = Don't Like
-{ctrl} K = Favorite
-{ctrl} M = Play Faster
-{ctrl} N = Play Slower
-{ctrl} O = Options
-{ctrl} R = Volume Up
-{ctrl} S = Pause
-{ctrl} V = TV
-{ctrl} w = Watched
-{ctrl} X = Guide
-{ctrl} Y = Record
-{ctrl} Z = Power
-{ctrl}{shift} F = Full Screen/Windows Screen
-{ctrl}{shift} S = Play/Pause
-{ctrl}{shift} M = Mute
-{pause] = Pause
-{alt}F4 = Exit/Close Program
+	 * THIS IS FOR MY OWN REFERENCE Keyboard shortcuts... F5 = Page Up F6 = Page
+	 * Down F7 = Page Left F8 = Page Right {Up} = Up {Down} = Down {Left} = Left
+	 * {Right}=Right {Home} = Home/Main Menu {PageUp} = Channel Up/Page Up
+	 * {PageDown} = Channel Down/Page Down {ctrl} left arrow = Left/Volume Down
+	 * {ctrl} right arrow = Right/Volume Up {ctrl} up arrow = Up/Channel Up
+	 * {ctrl} down arrow = Down/Channel Down {ctrl} A Skip Bkwd/Page Left {ctrl}
+	 * D Play {ctrl} E Volume Down {ctrl} F = Skip Fwd/Page Right {ctrl} G =
+	 * Time Scroll {ctrl} I = Info {ctrl} J = Don't Like {ctrl} K = Favorite
+	 * {ctrl} M = Play Faster {ctrl} N = Play Slower {ctrl} O = Options {ctrl} R
+	 * = Volume Up {ctrl} S = Pause {ctrl} V = TV {ctrl} w = Watched {ctrl} X =
+	 * Guide {ctrl} Y = Record {ctrl} Z = Power {ctrl}{shift} F = Full
+	 * Screen/Windows Screen {ctrl}{shift} S = Play/Pause {ctrl}{shift} M = Mute
+	 * {pause] = Pause {alt}F4 = Exit/Close Program
 	 * 
 	 * 
 	 * CTRL+G seems to do a STOP
 	 * 
-
+	 * 
 	 * 
 	 * @param file
 	 *            - Sage MediaFile, {@link IMediaFile}, {@link IMediaFolder} or
@@ -192,8 +163,7 @@ F8 = Page Right
 	 * @param uiContext
 	 */
 	public boolean Play(Object file, String uiContext) {
-		log.info("PlayMediaFile called for: " + file + "; Context: "
-				+ uiContext);
+		log.info("PlayMediaFile called for: " + file + "; Context: " + uiContext);
 		if (uiContext == null) {
 			uiContext = Global.GetUIContextName();
 			log.info("No UI Context... discovered: " + uiContext);
@@ -207,7 +177,7 @@ F8 = Page Right
 
 			if (file instanceof HasPlayableUrl) {
 				// create online video player
-				OnlineVideoPlayer ovp = new OnlineVideoPlayer(ctx, (IMediaFile)file);
+				OnlineVideoPlayer ovp = new OnlineVideoPlayer(ctx, (IMediaFile) file);
 				return ovp.play();
 			} else {
 				return playSageFile(ctx, getSageItem(file));
@@ -216,7 +186,7 @@ F8 = Page Right
 			log.info("Building a dynamic playlist for folder: " + file);
 			// create a playlist, and play it.
 			Object plist = PlaylistAPI.GetNowPlayingList(ctx);
-			
+
 			// remove current items
 			while (PlaylistAPI.GetNumberOfPlaylistItems(ctx, plist) > 0) {
 				PlaylistAPI.RemovePlaylistItemAt(ctx, plist, 0);
@@ -227,19 +197,19 @@ F8 = Page Right
 				Object o = getSageItem(r);
 				if (o != null) {
 					if (o instanceof DecoratedMediaFile) {
-						// folders created on the fly (via GetMediaAsFolder()) end up here.
-						// the sage playlist needs a Sage MediaFile, and won't work if it's populated
+						// folders created on the fly (via GetMediaAsFolder())
+						// end up here.
+						// the sage playlist needs a Sage MediaFile, and won't
+						// work if it's populated
 						// with anything else.
-						Object p =  ((DecoratedMediaFile) o).getMediaObject();
+						Object p = ((DecoratedMediaFile) o).getMediaObject();
 						log.debug("adding " + p + " to playlist");
 						PlaylistAPI.AddToPlaylist(ctx, plist, p);
-					}
-					else {
+					} else {
 						log.debug("adding " + o + " to playlist");
 						PlaylistAPI.AddToPlaylist(ctx, plist, o);
 					}
-				}
-				else {
+				} else {
 					log.debug("couldn't add " + r + " to playlist - getSageItem() returned null");
 				}
 			}
@@ -298,8 +268,7 @@ F8 = Page Right
 	 */
 	public ViewFolder CreateView(String view, Object options) {
 		try {
-			return (ViewFolder) Phoenix.getInstance().getVFSManager()
-					.getVFSViewFactory().getFactory(view)
+			return (ViewFolder) Phoenix.getInstance().getVFSManager().getVFSViewFactory().getFactory(view)
 					.create(getSetOptions(options));
 		} catch (Exception e) {
 			log.warn("Failed to create View: " + view, e);
@@ -311,9 +280,8 @@ F8 = Page Right
 		if (file == null) {
 			return false;
 		}
-		
-		log.info("Playing SageTV MediaFile: " + file + " on UI Context: " + ctx
-				+ "; Title: " + MediaFileAPI.GetMediaTitle(file));
+
+		log.info("Playing SageTV MediaFile: " + file + " on UI Context: " + ctx + "; Title: " + MediaFileAPI.GetMediaTitle(file));
 
 		Object watching = MediaPlayerAPI.Watch(ctx, file);
 		log.info("Is Watching: " + watching);
@@ -330,9 +298,7 @@ F8 = Page Right
 	 * @return
 	 */
 	public boolean IsPlayable(Object file) {
-		boolean playable = (file instanceof IMediaFile)
-				|| (file instanceof HasPlayableUrl)
-				|| MediaFileAPI.IsMediaFileObject(file);
+		boolean playable = (file instanceof IMediaFile) || (file instanceof HasPlayableUrl) || MediaFileAPI.IsMediaFileObject(file);
 		log.debug("IsPlayable: " + file + "; " + playable);
 		return playable;
 	}
@@ -415,10 +381,8 @@ F8 = Page Right
 	 *            SageTV media mask (B D V T M P L)
 	 * @return
 	 */
-	public IMediaFolder GetSageSourcesMediaFolder(boolean combine,
-			String mediaMask) {
-		return new CombinedMediaFolder(new SageSourcesMediaFolder(mediaMask,
-				mediaMask), combine);
+	public IMediaFolder GetSageSourcesMediaFolder(boolean combine, String mediaMask) {
+		return new CombinedMediaFolder(new SageSourcesMediaFolder(mediaMask, mediaMask), combine);
 	}
 
 	/**
@@ -457,30 +421,32 @@ F8 = Page Right
 
 	/**
 	 * @param keywords
-	 * @param type one of Airings, MediaFiles, TVFiles
-	 * @param options json object map of options
+	 * @param type
+	 *            one of Airings, MediaFiles, TVFiles
+	 * @param options
+	 *            json object map of options
 	 * @return
 	 */
-    public IMediaFolder Search(String keywords, String type, Map options) {
-    	Search s = new Search();
-    	s.setSearchString(keywords);
-    	s.setSearchType(type);
-    	
-    	if (options!=null) {
-    		String fields[] = (String[]) options.get("fields");
-    		if (fields!=null) {
-    			s.setFields(fields);
-    		}
-    	}
-    	
-    	try {
+	public IMediaFolder Search(String keywords, String type, Map options) {
+		Search s = new Search();
+		s.setSearchString(keywords);
+		s.setSearchType(type);
+
+		if (options != null) {
+			String fields[] = (String[]) options.get("fields");
+			if (fields != null) {
+				s.setFields(fields);
+			}
+		}
+
+		try {
 			Object results[] = (Object[]) s.doSearch();
 			return new MediaFilesMediaFolder(null, results, keywords);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    	return null;
-    }
+		return null;
+	}
 
 	/**
 	 * Performs a quick search against the video media files
@@ -491,11 +457,9 @@ F8 = Page Right
 	public IMediaFolder SearchMediaFiles(String search) {
 		ElapsedTimer timer = new ElapsedTimer();
 		try {
-			IMediaFolder folder = GetMediaAsFolder(
-					MediaFileAPI.GetMediaFiles("DBVT"), search);
+			IMediaFolder folder = GetMediaAsFolder(MediaFileAPI.GetMediaFiles("DBVT"), search);
 			SearchVisitor sv = new SearchVisitor(search);
-			folder.accept(sv, NullProgressMonitor.INSTANCE,
-					IMediaResource.DEEP_UNLIMITED);
+			folder.accept(sv, NullProgressMonitor.INSTANCE, IMediaResource.DEEP_UNLIMITED);
 
 			VirtualMediaFolder vmf = new VirtualMediaFolder(search);
 			for (IMediaResource r : sv.getFiles()) {
@@ -503,12 +467,10 @@ F8 = Page Right
 			}
 
 			if (vmf.getChildren().size() > 0) {
-				log.info(String.format(
-						"Search for '%s' returned %s results in %sms", search,
-						vmf.getChildren().size(), timer.delta()));
+				log.info(String.format("Search for '%s' returned %s results in %sms", search, vmf.getChildren().size(),
+						timer.delta()));
 			} else {
-				log.info("Search for '" + search + "' failed in "
-						+ timer.delta() + "ms");
+				log.info("Search for '" + search + "' failed in " + timer.delta() + "ms");
 			}
 			return vmf;
 		} catch (Throwable pe) {
@@ -569,24 +531,25 @@ F8 = Page Right
 	public void CancelPlayback(IMediaFile file) {
 		if (file instanceof HasPlayableUrl) {
 			String url = ((HasPlayableUrl) file).getUrl();
-			File destFile = Phoenix.getInstance().getUserCacheEntry(
-					"onlinevideos", url);
+			File destFile = Phoenix.getInstance().getUserCacheEntry("onlinevideos", url);
 			Global.CancelBackgroundFileDownload(destFile);
 			FileUtils.deleteQuietly(destFile);
 		}
 	}
-	
+
 	/**
-	 * Given the {@link IMediaResource} return the {@link Factory} that created it.
+	 * Given the {@link IMediaResource} return the {@link Factory} that created
+	 * it.
 	 * 
 	 * @param res
 	 * @return
 	 */
 	public String GetFactoryId(IMediaResource res) {
-		if (res==null) return null;
+		if (res == null)
+			return null;
 		if (res instanceof ViewFolder) {
-			return ((ViewFolder)res).getViewFactory().getName();
-		} else if (res.getParent() !=null) {
+			return ((ViewFolder) res).getViewFactory().getName();
+		} else if (res.getParent() != null) {
 			return GetFactoryId(res.getParent());
 		}
 		return null;

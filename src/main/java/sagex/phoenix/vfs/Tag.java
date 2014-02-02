@@ -3,6 +3,7 @@ package sagex.phoenix.vfs;
 public class Tag {
 	private String tag;
 	private String label;
+
 	public String getTag() {
 		return tag;
 	}
@@ -27,11 +28,11 @@ public class Tag {
 		this.visible = visible;
 	}
 
-	private boolean visible=true;
-	
+	private boolean visible = true;
+
 	public Tag(String tag, String label, boolean visible) {
-		this.tag=tag;
-		this.label=label;
-		this.visible=visible;
+		this.tag = tag;
+		this.label = label;
+		this.visible = visible;
 	}
 }

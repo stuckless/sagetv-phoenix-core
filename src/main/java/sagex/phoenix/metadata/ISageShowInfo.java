@@ -11,48 +11,48 @@ import sagex.phoenix.metadata.proxy.SageProperty;
  * @author seans
  */
 public interface ISageShowInfo extends ISageMetadata {
-    @SageProperty(value="Actor", listFactory="sagex.phoenix.metadata.proxy.CastMemberPropertyListFactory")
-    public List<ICastMember> getActors();
-    
-    @SageProperty("Category")
-    public String getCategory();
+	@SageProperty(value = "Actor", listFactory = "sagex.phoenix.metadata.proxy.CastMemberPropertyListFactory")
+	public List<ICastMember> getActors();
 
-    @SageProperty("Category")
-    public void setCategory(String cat);
-    
-    @SageProperty("SubCategory")
-    public String getSubCategory();
+	@SageProperty("Category")
+	public String getCategory();
 
-    @SageProperty("SubCategory")
-    public void setSubCategory(String cat);
+	@SageProperty("Category")
+	public void setCategory(String cat);
 
-    @SageProperty("Title")
-    public String getTitle();
+	@SageProperty("SubCategory")
+	public String getSubCategory();
 
-    @SageProperty("Title")
-    public void setTitle(String title);
-    
-    @SageProperty("Description")
-    public String getDescription();
+	@SageProperty("SubCategory")
+	public void setSubCategory(String cat);
 
-    @SageProperty("Description")
-    public void setDescription(String description);
+	@SageProperty("Title")
+	public String getTitle();
 
-    @SageProperty("OriginalAirDate")
-    public Date getOriginalAirDate();
+	@SageProperty("Title")
+	public void setTitle(String title);
 
-    @SageProperty("OriginalAirDate")
-    public void setOriginalAirDate(Date date);
+	@SageProperty("Description")
+	public String getDescription();
 
-    @SageProperty("TimeSlot")
-    public Date getTimeSlot();
+	@SageProperty("Description")
+	public void setDescription(String description);
 
-    @SageProperty("TimeSlot")
-    public void setTimeSlot(Date time);
-    
-    @SageProperty("Network")
-    public String getNetwork();
+	@SageProperty("OriginalAirDate")
+	public Date getOriginalAirDate();
 
-    @SageProperty("Network")
-    public void setNetwork(String network);
+	@SageProperty("OriginalAirDate")
+	public void setOriginalAirDate(Date date);
+
+	@SageProperty("TimeSlot")
+	public Date getTimeSlot();
+
+	@SageProperty("TimeSlot")
+	public void setTimeSlot(Date time);
+
+	@SageProperty("Network")
+	public String getNetwork();
+
+	@SageProperty("Network")
+	public void setNetwork(String network);
 }

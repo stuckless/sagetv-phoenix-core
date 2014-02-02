@@ -10,5 +10,7 @@ public class LoginResponse {
 	public String user;
 	public URLs urls;
 	public Limits limits;
-	public LoginResponse () {}
+
+	public LoginResponse() {
+	}
 }

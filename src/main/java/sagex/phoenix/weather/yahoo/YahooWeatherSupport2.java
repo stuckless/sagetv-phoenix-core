@@ -25,8 +25,7 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
 
 	private String error;
 
-	private WeatherConfiguration config = GroupProxy
-			.get(WeatherConfiguration.class);
+	private WeatherConfiguration config = GroupProxy.get(WeatherConfiguration.class);
 
 	private String locationName;
 
@@ -45,50 +44,51 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
 	@Override
 	public boolean update() {
 		error = null;
-		
+
 		if (!isConfigured()) {
 			error = "Please configure the Yahoo Weather WOEID for your location";
 			return false;
 		}
-		
+
 		if (shouldUpdate()) {
-//			String units = null;
-//			if (getUnits() == Units.Metric) {
-//				units = "c";
-//			} else {
-//				units = "f";
-//			}
-			
+			// String units = null;
+			// if (getUnits() == Units.Metric) {
+			// units = "c";
+			// } else {
+			// units = "f";
+			// }
+
 			String woeid = config.getYahooWOEID();
-			
+
 			// http://weather.yahooapis.com/forecastrss?w=24223981&u=c
-                        String rssUrl = "http://weather.yahooapis.com/forecastrss?w=" + woeid;
-			//String rssUrl = "http://weather.yahooapis.com/forecastrss?w=" + woeid + "&u=" + units;
-                        if (getUnits().equals(Units.Metric)){
-                            rssUrl = rssUrl + "&u=c";
-                        }else{
-                            rssUrl = rssUrl + "&u=f";
-                        }
+			String rssUrl = "http://weather.yahooapis.com/forecastrss?w=" + woeid;
+			// String rssUrl = "http://weather.yahooapis.com/forecastrss?w=" +
+			// woeid + "&u=" + units;
+			if (getUnits().equals(Units.Metric)) {
+				rssUrl = rssUrl + "&u=c";
+			} else {
+				rssUrl = rssUrl + "&u=f";
+			}
 			log.info("Getting Yahoo Weather for " + rssUrl);
 			try {
 				YahooWeatherHandler handler = new YahooWeatherHandler();
 				RSSParser.parseXmlFile(new URL(rssUrl), handler, false);
 				lastUpdated = new Date(System.currentTimeMillis());
-				ttl=handler.getTtl();
-				
+				ttl = handler.getTtl();
+
 				currentForecast = handler.getCurrent();
-				longRangeForecast  = handler.getDays();
-				
+				longRangeForecast = handler.getDays();
+
 				locationName = handler.getCity();
-                                recordedDate = handler.getRecordedDate();
-				
+				recordedDate = handler.getRecordedDate();
+
 				return true;
 			} catch (Exception e) {
 				error = "Yahoo weather update failed";
 				log.error("Failed to update weather for " + rssUrl, e);
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -96,7 +96,7 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
 	public boolean setLocation(String postalOrZip) {
 		error = null;
 		boolean configured = false;
-                lastUpdated = null;
+		lastUpdated = null;
 		// convert zip to woeid
 		try {
 			config.setLocation(postalOrZip);
@@ -105,8 +105,7 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
 					+ postalOrZip + "'%20limit%201";
 			SAXReader reader = new SAXReader();
 			Document document = reader.read(url);
-			String woeid = document.getRootElement().element("results")
-					.element("place").element("woeid").getText();
+			String woeid = document.getRootElement().element("results").element("place").element("woeid").getText();
 
 			if (woeid != null) {
 				config.setYahooWOEID(woeid);
@@ -129,7 +128,7 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
 
 	@Override
 	public void removeLocation() {
-                locationName = "";
+		locationName = "";
 		config.setLocation(null);
 	}
 
@@ -145,7 +144,7 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
 		} else {
 			config.setUnits("s");
 		}
-                lastUpdated = null;
+		lastUpdated = null;
 	}
 
 	@Override
@@ -186,10 +185,10 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
 		return lastUpdated;
 	}
 
-        @Override
-        public Date getRecordedDate() {
-            return recordedDate;
-        }
+	@Override
+	public Date getRecordedDate() {
+		return recordedDate;
+	}
 
 	@Override
 	public boolean hasError() {
@@ -207,7 +206,7 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
 		long later = lastUpdated.getTime() + (ttl * 60 * 1000);
 		if (System.currentTimeMillis() > later)
 			return true;
-                log.debug("shouldUpdate: Not time to perform an update. Last update at '" + lastUpdated + "'");
+		log.debug("shouldUpdate: Not time to perform an update. Last update at '" + lastUpdated + "'");
 		return false;
 	}
 }

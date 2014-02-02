@@ -99,12 +99,16 @@ public class NielmIMDBMetaDataProvider extends MetadataProvider {
 			for (Role r : list) {
 				MediaSearchResult vsr = new MediaSearchResult();
 				String title = r.getName().getName();
-				if (title==null) continue;
-				title=title.toLowerCase();
-				if (title.contains("(tv series")) continue;
-				if (title.contains("(tv episode")) continue;
-				if (title.contains("(video game)")) continue;
-				
+				if (title == null)
+					continue;
+				title = title.toLowerCase();
+				if (title.contains("(tv series"))
+					continue;
+				if (title.contains("(tv episode"))
+					continue;
+				if (title.contains("(video game)"))
+					continue;
+
 				// System.out.println(r.getName().getName());
 				updateTitleAndYear(vsr, r);
 				vsr.setScore(Similarity.getInstance().compareStrings(arg, vsr.getTitle()));
@@ -114,7 +118,8 @@ public class NielmIMDBMetaDataProvider extends MetadataProvider {
 					// set the imdb url as the ID for this result.
 					// that will enable us to find it later
 					String url = ((ImdbWebObjectRef) objRef).getImdbRef();
-					if (url==null) continue;
+					if (url == null)
+						continue;
 					if (!url.startsWith("http")) {
 						url = getIMDBPrefixUrl() + url;
 					}

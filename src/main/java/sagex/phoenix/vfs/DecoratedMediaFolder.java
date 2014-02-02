@@ -13,22 +13,22 @@ import sagex.phoenix.util.Hints;
  * Folder Implementation that "decorates" an underlying folder.
  * 
  * @author seans
- *
+ * 
  */
 public class DecoratedMediaFolder implements IMediaFolder {
 	protected Logger log = Logger.getLogger(this.getClass());
-	
+
 	// original folder being "viewed"
-    protected IMediaFolder originalFolder = null;
+	protected IMediaFolder originalFolder = null;
 
-    // tells the view to reapply it's view settings, since the children have changed
+	// tells the view to reapply it's view settings, since the children have
+	// changed
 	protected boolean changed = true;
-	
-	// current list of decorated children
-    protected List<IMediaResource> decoratedChildren;
 
-    
-    public String getId() {
+	// current list of decorated children
+	protected List<IMediaResource> decoratedChildren;
+
+	public String getId() {
 		return originalFolder.getId();
 	}
 
@@ -47,7 +47,7 @@ public class DecoratedMediaFolder implements IMediaFolder {
 	public boolean isLibraryFile() {
 		return originalFolder.isLibraryFile();
 	}
-        
+
 	public boolean isWatched() {
 		return originalFolder.isWatched();
 	}
@@ -66,112 +66,115 @@ public class DecoratedMediaFolder implements IMediaFolder {
 
 	public void accept(IMediaResourceVisitor visitor, IProgressMonitor monitor, int deep) {
 		boolean visitChildren = visitor.visit(this, monitor);
-		if (visitChildren && deep>=0) {
+		if (visitChildren && deep >= 0) {
 			for (IMediaResource r : getChildren()) {
-				r.accept(visitor, monitor, deep-1);
-				if (monitor!=null && monitor.isCancelled()) break;
+				r.accept(visitor, monitor, deep - 1);
+				if (monitor != null && monitor.isCancelled())
+					break;
 			}
 		}
 	}
 
-    public DecoratedMediaFolder(IMediaFolder decorate) {
-        this.originalFolder=decorate;
-    }
-    
-    public int compareTo(IMediaResource o) {
-    	if (o instanceof DecoratedMediaFolder) {
-    		return originalFolder.compareTo(((DecoratedMediaFolder) o).getUndecoratedFolder());
-    	} else {
-    		return -1;
-    	}
-    }
-    
-    public List<IMediaResource> getChildren() {
-        if (changed) {
-            changed=false;
-            if (decoratedChildren!=null) {
-                releaseChildren(decoratedChildren);
-            }
-            decoratedChildren = decorate(originalFolder.getChildren());
-        }
-        
-        return getDecoratedChildren();
-    }
-    
-    protected void releaseChildren(List<IMediaResource> oldChildren) {
-    }
+	public DecoratedMediaFolder(IMediaFolder decorate) {
+		this.originalFolder = decorate;
+	}
 
-    protected List<IMediaResource> decorate(List<IMediaResource> originalChildren) {
-        return originalChildren;
-    }
-    
-    protected void addMediaResource(IMediaResource res) {
-        // NPE bug when called before the children has been decorated
-        // getDecoratedChildren().add(res);
-        originalFolder.getChildren().add(res);
-    }
+	public int compareTo(IMediaResource o) {
+		if (o instanceof DecoratedMediaFolder) {
+			return originalFolder.compareTo(((DecoratedMediaFolder) o).getUndecoratedFolder());
+		} else {
+			return -1;
+		}
+	}
 
-    protected List<IMediaResource> getDecoratedChildren() {
-        return decoratedChildren;
-    }
-    
-    public IMediaFolder getParent() {
-        return originalFolder.getParent();
-    }
-    
-    public Object getThumbnail() {
-        return originalFolder.getThumbnail();
-    }
-    
-    public String getTitle() {
-        return originalFolder.getTitle();
-    }
-    
-    public IMediaFolder getUndecoratedFolder() {
-        return originalFolder;
-    }
+	public List<IMediaResource> getChildren() {
+		if (changed) {
+			changed = false;
+			if (decoratedChildren != null) {
+				releaseChildren(decoratedChildren);
+			}
+			decoratedChildren = decorate(originalFolder.getChildren());
+		}
 
-    public Iterator<IMediaResource> iterator() {
-        return getChildren().iterator();
-    }
-    
-    public void setChanged() {
-        this.changed=true;
-    }
+		return getDecoratedChildren();
+	}
 
-    public boolean isType(int type) {
-        return originalFolder.isType(type);
-    }
+	protected void releaseChildren(List<IMediaResource> oldChildren) {
+	}
 
-    public IMediaResource getChild(String name) {
-        if (name==null) return null;
-        
-        for (IMediaResource res : getChildren()) {
-            if (name.equals(res.getTitle())) return res;
-        }
-        
-        return null;
-    }
-    
-    public String toString() {
-        return "DecoratedFolder[" + getTitle() +"]";
-    }
+	protected List<IMediaResource> decorate(List<IMediaResource> originalChildren) {
+		return originalChildren;
+	}
 
-    public boolean delete(Hints hints) {
-        return originalFolder.delete(hints);
-    }
+	protected void addMediaResource(IMediaResource res) {
+		// NPE bug when called before the children has been decorated
+		// getDecoratedChildren().add(res);
+		originalFolder.getChildren().add(res);
+	}
 
-    public boolean exists() {
-        return originalFolder.exists();
-    }
+	protected List<IMediaResource> getDecoratedChildren() {
+		return decoratedChildren;
+	}
 
-    public long lastModified() {
-        return originalFolder.lastModified();
-    }
+	public IMediaFolder getParent() {
+		return originalFolder.getParent();
+	}
 
-    public void touch(long time) {
-        originalFolder.touch(time);
-    }
+	public Object getThumbnail() {
+		return originalFolder.getThumbnail();
+	}
+
+	public String getTitle() {
+		return originalFolder.getTitle();
+	}
+
+	public IMediaFolder getUndecoratedFolder() {
+		return originalFolder;
+	}
+
+	public Iterator<IMediaResource> iterator() {
+		return getChildren().iterator();
+	}
+
+	public void setChanged() {
+		this.changed = true;
+	}
+
+	public boolean isType(int type) {
+		return originalFolder.isType(type);
+	}
+
+	public IMediaResource getChild(String name) {
+		if (name == null)
+			return null;
+
+		for (IMediaResource res : getChildren()) {
+			if (name.equals(res.getTitle()))
+				return res;
+		}
+
+		return null;
+	}
+
+	public String toString() {
+		return "DecoratedFolder[" + getTitle() + "]";
+	}
+
+	public boolean delete(Hints hints) {
+		return originalFolder.delete(hints);
+	}
+
+	public boolean exists() {
+		return originalFolder.exists();
+	}
+
+	public long lastModified() {
+		return originalFolder.lastModified();
+	}
+
+	public void touch(long time) {
+		originalFolder.touch(time);
+	}
 
 	@Override
 	public void setLibraryFile(boolean library) {
@@ -217,7 +220,7 @@ public class DecoratedMediaFolder implements IMediaFolder {
 		String other = StringUtils.substringAfter(path, "/");
 
 		IMediaResource childRes = getChild(child);
-		if (childRes==null) {
+		if (childRes == null) {
 			// doesn't matter the path, we didn't find anything
 			return null;
 		}
@@ -225,7 +228,7 @@ public class DecoratedMediaFolder implements IMediaFolder {
 		if (StringUtils.isEmpty(other)) {
 			return childRes;
 		}
-		
+
 		if (!(childRes instanceof IMediaFolder)) {
 			// we found a child but there is still an extra path, but we are not
 			// a folder
@@ -234,11 +237,11 @@ public class DecoratedMediaFolder implements IMediaFolder {
 
 		return ((IMediaFolder) childRes).findChild(other);
 	}
-	
+
 	public String getPath() {
-		return (getParent()==null?"":getParent().getPath()) + "/" + getTitle();
+		return (getParent() == null ? "" : getParent().getPath()) + "/" + getTitle();
 	}
-	
+
 	@Override
 	public IMediaResource getChildById(String id) {
 		if (id == null)
@@ -255,16 +258,16 @@ public class DecoratedMediaFolder implements IMediaFolder {
 	@Override
 	public boolean removeChild(IMediaResource child) {
 		if (child instanceof DecoratedMediaFile) {
-			originalFolder.removeChild(((DecoratedMediaFile)child).getDecoratedItem());
+			originalFolder.removeChild(((DecoratedMediaFile) child).getDecoratedItem());
 		} else {
 			originalFolder.removeChild(child);
 		}
-		
+
 		boolean decor = decoratedChildren.remove(child);
-		
-		if (decoratedChildren.size()==0) {
+
+		if (decoratedChildren.size() == 0) {
 			// we have no children, remove ourself from parent
-			if (getParent()!=null) {
+			if (getParent() != null) {
 				getParent().removeChild(this);
 			}
 		}

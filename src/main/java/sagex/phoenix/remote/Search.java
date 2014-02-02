@@ -20,7 +20,7 @@ import sagex.api.FavoriteAPI;
 import sagex.api.Utility;
 
 /**
- * Direct copy of Nielm's Search but modified to use Sagex apis 
+ * Direct copy of Nielm's Search but modified to use Sagex apis
  */
 public class Search {
 	protected static String charset = "UTF-8";

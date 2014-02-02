@@ -8,8 +8,9 @@ import org.apache.commons.lang.math.NumberUtils;
 import sagex.api.SeriesInfoAPI;
 
 /**
- * Wraps the Sage SeriesInfo to provide a Read-Only {@link ISeriesInfo} implementation
- *  
+ * Wraps the Sage SeriesInfo to provide a Read-Only {@link ISeriesInfo}
+ * implementation
+ * 
  * @author seans
  */
 public class SageSeriesInfo implements ISeriesInfo {
@@ -17,13 +18,13 @@ public class SageSeriesInfo implements ISeriesInfo {
 	public static final String CUSTOM_ContentRating = "ContentRating";
 	public static final String CUSTOM_Runtime = "Runtime";
 	public static final String CUSTOM_Zap2It = "Zap2ItID";
-	
+
 	private Object seriesInfo = null;
 	private List<String> genres = null;
 	private List<ICastMember> cast = null;
-	
+
 	public SageSeriesInfo(Object seriesInfo) {
-		this.seriesInfo=seriesInfo;
+		this.seriesInfo = seriesInfo;
 	}
 
 	/*
@@ -32,7 +33,7 @@ public class SageSeriesInfo implements ISeriesInfo {
 	public Object getObject() {
 		return seriesInfo;
 	}
-	
+
 	@Override
 	public String getAirDOW() {
 		return SeriesInfoAPI.GetSeriesDayOfWeek(seriesInfo);
@@ -48,8 +49,8 @@ public class SageSeriesInfo implements ISeriesInfo {
 		if (cast == null) {
 			cast = new ArrayList<ICastMember>();
 			int chars = SeriesInfoAPI.GetNumberOfCharactersInSeries(seriesInfo);
-			if (chars>0) {
-				for (int i=0;i<chars;i++) {
+			if (chars > 0) {
+				for (int i = 0; i < chars; i++) {
 					CastMember cm = new CastMember();
 					cm.setName(SeriesInfoAPI.GetSeriesActor(seriesInfo, i));
 					cm.setRole(SeriesInfoAPI.GetSeriesCharacter(seriesInfo, i));
@@ -77,14 +78,14 @@ public class SageSeriesInfo implements ISeriesInfo {
 
 	@Override
 	public List<String> getGenres() {
-		if (genres==null) {
-			genres=new ArrayList<String>();
+		if (genres == null) {
+			genres = new ArrayList<String>();
 			String cat = SeriesInfoAPI.GetSeriesCategory(seriesInfo);
-			if (cat!=null) {
+			if (cat != null) {
 				genres.add(cat);
 			}
 			cat = SeriesInfoAPI.GetSeriesSubCategory(seriesInfo);
-			if (cat!=null) {
+			if (cat != null) {
 				genres.add(cat);
 			}
 		}

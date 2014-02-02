@@ -33,56 +33,64 @@ public class TVDBSeriesParser {
 
 	public TVDBSeriesParser(String seriesId) {
 		this.seriesId = seriesId;
-		
+
 		if (seriesId == null) {
 			throw new RuntimeException("Can't get series info without a Series Id, and series id was null.");
 		}
-		
+
 		config = GroupProxy.get(TVDBConfiguration.class);
 	}
 
 	private String getValue(Element e, String node) {
-		Node n = e.element(node);;
+		Node n = e.element(node);
+		;
 		if (n == null)
 			return null;
 		return n.getText();
 	}
 
-//    private void addSeriesInfo(IMetadata md) throws Exception {
-//        DocumentBuilder parser = factory.newDocumentBuilder();
-//        String seriesUrl = MessageFormat.format(SERIES_URL, TVDBMetadataProvider.getApiKey(), result.getId(), config.getLanguage());
-//        log.info("TVDB Series: " + seriesUrl);
-//        
-//        IUrl url = UrlFactory.newUrl(seriesUrl);
-//        Document doc = parser.parse(url.getInputStream(null, true));
-//
-//        Element series = DOMUtils.getElementByTagName(doc.getDocumentElement(), "Series");
-//        md.setRated(DOMUtils.getElementValue(series, "ContentRating"));
-//        md.setOriginalAirDate(DateUtils.parseDate(DOMUtils.getElementValue(series, "FirstAired")));
-//        md.setYear(DateUtils.parseYear(DOMUtils.getElementValue(series, "FirstAired")));
-//
-//        String genres = DOMUtils.getElementValue(series, "Genre");
-//        if (!StringUtils.isEmpty(genres)) {
-//            for (String g : genres.split("[,\\|]")) {
-//                if (!StringUtils.isEmpty(g)) {
-//                    md.getGenres().add(g.trim());
-//                }
-//            }
-//        }
-//
-//        md.setDescription(DOMUtils.getElementValue(series, "Overview"));
-//        md.setUserRating(MetadataSearchUtil.parseUserRating(DOMUtils.getElementValue(series, "Rating")));
-//        md.setRunningTime(MetadataSearchUtil.convertTimeToMillissecondsForSage(DOMUtils.getElementValue(series, "Runtime")));
-//        // fix title, unquote, and then parse the title if it's Title (year)
-//        Pair<String, String> pair = ParserUtils.parseTitleAndDateInBrackets(sagex.phoenix.util.StringUtils.unquote(DOMUtils.getElementValue(series, "SeriesName")));
-//        md.setMediaTitle(pair.first());
-//        
-//        // TV has the show title in the relative path field
-//        md.setRelativePathWithTitle(pair.first());
-//        md.setRated(DOMUtils.getElementValue(series, "ContentRating"));
-//    }
+	// private void addSeriesInfo(IMetadata md) throws Exception {
+	// DocumentBuilder parser = factory.newDocumentBuilder();
+	// String seriesUrl = MessageFormat.format(SERIES_URL,
+	// TVDBMetadataProvider.getApiKey(), result.getId(), config.getLanguage());
+	// log.info("TVDB Series: " + seriesUrl);
+	//
+	// IUrl url = UrlFactory.newUrl(seriesUrl);
+	// Document doc = parser.parse(url.getInputStream(null, true));
+	//
+	// Element series = DOMUtils.getElementByTagName(doc.getDocumentElement(),
+	// "Series");
+	// md.setRated(DOMUtils.getElementValue(series, "ContentRating"));
+	// md.setOriginalAirDate(DateUtils.parseDate(DOMUtils.getElementValue(series,
+	// "FirstAired")));
+	// md.setYear(DateUtils.parseYear(DOMUtils.getElementValue(series,
+	// "FirstAired")));
+	//
+	// String genres = DOMUtils.getElementValue(series, "Genre");
+	// if (!StringUtils.isEmpty(genres)) {
+	// for (String g : genres.split("[,\\|]")) {
+	// if (!StringUtils.isEmpty(g)) {
+	// md.getGenres().add(g.trim());
+	// }
+	// }
+	// }
+	//
+	// md.setDescription(DOMUtils.getElementValue(series, "Overview"));
+	// md.setUserRating(MetadataSearchUtil.parseUserRating(DOMUtils.getElementValue(series,
+	// "Rating")));
+	// md.setRunningTime(MetadataSearchUtil.convertTimeToMillissecondsForSage(DOMUtils.getElementValue(series,
+	// "Runtime")));
+	// // fix title, unquote, and then parse the title if it's Title (year)
+	// Pair<String, String> pair =
+	// ParserUtils.parseTitleAndDateInBrackets(sagex.phoenix.util.StringUtils.unquote(DOMUtils.getElementValue(series,
+	// "SeriesName")));
+	// md.setMediaTitle(pair.first());
+	//
+	// // TV has the show title in the relative path field
+	// md.setRelativePathWithTitle(pair.first());
+	// md.setRated(DOMUtils.getElementValue(series, "ContentRating"));
+	// }
 
-	
 	public ISeriesInfo getSeriesInfo() throws MetadataException {
 		String seriesUrl = MessageFormat.format(SERIES_URL, TVDBMetadataProvider.getApiKey(), seriesId, config.getLanguage());
 		log.info("TVDB Series: " + seriesUrl);
@@ -121,7 +129,7 @@ public class TVDBSeriesParser {
 
 			// external information for lookup later, if needed
 			sinfo.setRuntime(MetadataSearchUtil.convertTimeToMillissecondsForSage(getValue(series, "Runtime")));
-			
+
 			// actors
 			addActors(sinfo);
 

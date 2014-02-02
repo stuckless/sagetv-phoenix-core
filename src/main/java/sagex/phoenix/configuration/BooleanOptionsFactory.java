@@ -7,7 +7,7 @@ package sagex.phoenix.configuration;
  */
 public class BooleanOptionsFactory extends StaticOptionsFactory {
 	public static final BooleanOptionsFactory DEFAULT_BOOLEAN_FACTORY = new BooleanOptionsFactory();
-	
+
 	public BooleanOptionsFactory() {
 		addOption("True", "true");
 		addOption("False", "false");
@@ -15,7 +15,8 @@ public class BooleanOptionsFactory extends StaticOptionsFactory {
 
 	@Override
 	public void addOption(String name, String value) {
-		if (getOptions(null).size()>1) throw new UnsupportedOperationException("Can't add any more options to Boolean list");
+		if (getOptions(null).size() > 1)
+			throw new UnsupportedOperationException("Can't add any more options to Boolean list");
 		super.addOption(name, value);
 	}
 }

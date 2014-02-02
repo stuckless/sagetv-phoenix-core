@@ -35,7 +35,7 @@ public class TheMovieDBSearchParser {
 	private SearchQuery query;
 	private MetadataConfiguration cfg = GroupProxy.get(MetadataConfiguration.class);
 	private String searchTitle = null;
-	
+
 	private TheMovieDBMetadataProvider provider;
 
 	private static class ScoredTitle {
@@ -84,7 +84,7 @@ public class TheMovieDBSearchParser {
 		if (results.size() == 0) {
 			log.warn("TMDB Search for " + query + " returned no results.");
 		}
-		
+
 		Collections.sort(results, ScoredSearchResultSorter.INSTANCE);
 		return results;
 	}

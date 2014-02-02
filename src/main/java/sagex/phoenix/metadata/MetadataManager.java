@@ -56,11 +56,10 @@ import sagex.phoenix.vfs.util.PathUtils;
  */
 public class MetadataManager extends SystemConfigurationFileManager implements
 		SystemConfigurationFileManager.ConfigurationFileVisitor {
-	
+
 	private static final String AUTO_IMPORT_AS_RECORDINGS_KEY = "enable_converting_imported_videos_to_tv_recordings";
-	
-	private MetadataConfiguration config = GroupProxy
-			.get(MetadataConfiguration.class);
+
+	private MetadataConfiguration config = GroupProxy.get(MetadataConfiguration.class);
 	private Map<String, IMetadataProvider> metadataProviders = new TreeMap<String, IMetadataProvider>();
 
 	List<SystemConfigurationFileManager> configurations = new ArrayList<SystemConfigurationFileManager>();
@@ -68,13 +67,11 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 	private EntityResolver dtdResolver;
 
 	public MetadataManager(File systemDir, File userDir) {
-		super(systemDir, userDir, new SuffixFileFilter(".xml",
-				IOCase.INSENSITIVE));
-		
+		super(systemDir, userDir, new SuffixFileFilter(".xml", IOCase.INSENSITIVE));
+
 		this.dtd = new File(systemDir, "metadata.dtd");
 		dtdResolver = new EntityResolver() {
-			public InputSource resolveEntity(String publicId, String systemId)
-					throws SAXException, IOException {
+			public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
 				return new InputSource(new FileInputStream(dtd));
 			}
 		};
@@ -90,14 +87,14 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 	 */
 	public List<IMetadataProvider> getProviders(MediaType type) {
 		List<IMetadataProvider> prov = new ArrayList<IMetadataProvider>();
-		
+
 		if (type == MediaType.TV) {
 			prov.add(metadataProviders.get("tvdb"));
-		} else if (type==MediaType.MOVIE) {
+		} else if (type == MediaType.MOVIE) {
 			prov.add(metadataProviders.get("tmdb"));
 		}
-		
-		if (prov.size()==0) {
+
+		if (prov.size() == 0) {
 			for (IMetadataProvider p : metadataProviders.values()) {
 				for (MediaType t : p.getInfo().getSupportedSearchTypes()) {
 					if (t.equals(type)) {
@@ -107,7 +104,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 				}
 			}
 		}
-		
+
 		return prov;
 	}
 
@@ -126,11 +123,9 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 	 * @param provider
 	 */
 	public void addMetaDataProvider(IMetadataProvider provider) {
-		IMetadataProvider prov = metadataProviders.put(provider.getInfo()
-				.getId(), provider);
+		IMetadataProvider prov = metadataProviders.put(provider.getInfo().getId(), provider);
 		if (prov != null) {
-			log.warn("Provider: " + prov.getInfo() + " has been replaced with "
-					+ provider.getInfo());
+			log.warn("Provider: " + prov.getInfo() + " has been replaced with " + provider.getInfo());
 		}
 	}
 
@@ -189,8 +184,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 	 * @param query
 	 * @return
 	 */
-	public boolean canProviderAcceptQuery(IMetadataProvider provider,
-			SearchQuery query) {
+	public boolean canProviderAcceptQuery(IMetadataProvider provider, SearchQuery query) {
 		if (provider.getInfo().getSupportedSearchTypes() == null)
 			return true;
 
@@ -220,8 +214,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 		} else if (query.getMediaType() == MediaType.MUSIC) {
 			providerId = config.getMusicProviders();
 		} else {
-			log.info("No providers registered for type: "
-					+ query.getMediaType());
+			log.info("No providers registered for type: " + query.getMediaType());
 		}
 		return providerId;
 	}
@@ -235,8 +228,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 	 * @throws Exception
 	 *             if there was error performing the search
 	 */
-	public List<IMetadataSearchResult> search(SearchQuery query)
-			throws MetadataException {
+	public List<IMetadataSearchResult> search(SearchQuery query) throws MetadataException {
 		return search(getProviderForQuery(query), query);
 	}
 
@@ -252,11 +244,9 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 	 * @throws Exception
 	 *             if the search cannot be performed
 	 */
-	public List<IMetadataSearchResult> search(String id, SearchQuery query)
-			throws MetadataException {
+	public List<IMetadataSearchResult> search(String id, SearchQuery query) throws MetadataException {
 		if (id == null) {
-			throw new MetadataException("No Metadata Provider was specified",
-					query);
+			throw new MetadataException("No Metadata Provider was specified", query);
 		}
 
 		log.info("search(): " + id + "; " + query);
@@ -267,11 +257,8 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 		}
 
 		if (providers.size() == 0) {
-			log.warn("No metadata providers: " + providers
-					+ " registered.  Query was: " + query);
-			throw new MetadataException(
-					"Unable to create a list of valid providers for "
-							+ providers, query);
+			log.warn("No metadata providers: " + providers + " registered.  Query was: " + query);
+			throw new MetadataException("Unable to create a list of valid providers for " + providers, query);
 		}
 
 		SocketTimeoutException timeoutException = null;
@@ -283,11 +270,12 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 				}
 				log.info("Searching: " + query.get(Field.QUERY) + " using " + p);
 				List<IMetadataSearchResult> curResults = p.search(query);
-				if (curResults!=null) {
+				if (curResults != null) {
 					results.addAll(curResults);
 					if (MetadataSearchUtil.isGoodSearch(curResults)) {
 						// break since we have a good results
-						// TODO: have an option to allow the search to continue for
+						// TODO: have an option to allow the search to continue
+						// for
 						// all providers
 						break;
 					}
@@ -296,15 +284,13 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 				// search failed, so let's use the clean title for searching
 				// only search the clean title, if it's different than our QUERY
 				String q = query.get(Field.QUERY);
-				if (!q.equals(query.get(Field.CLEAN_TITLE))
-						&& !StringUtils.isEmpty(query.get(Field.CLEAN_TITLE))) {
+				if (!q.equals(query.get(Field.CLEAN_TITLE)) && !StringUtils.isEmpty(query.get(Field.CLEAN_TITLE))) {
 					query.set(Field.QUERY, query.get(Field.CLEAN_TITLE));
-					log.info("Searching Using Cleaned Title: "
-							+ query.get(Field.QUERY) + " using " + p);
+					log.info("Searching Using Cleaned Title: " + query.get(Field.QUERY) + " using " + p);
 					curResults = p.search(query);
-					if (curResults!=null) {
+					if (curResults != null) {
 						results.addAll(curResults);
-	
+
 						if (MetadataSearchUtil.isGoodSearch(curResults)) {
 							break;
 						}
@@ -315,14 +301,13 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 				if (e instanceof SocketTimeoutException) {
 					timeoutException = (SocketTimeoutException) e;
 				} else {
-					log.warn("Search Failed for: " + query + " using provider " + p
-						+ "; Message: " + e.getMessage(), e);
+					log.warn("Search Failed for: " + query + " using provider " + p + "; Message: " + e.getMessage(), e);
 				}
 			}
 		}
 
 		if (results.size() == 0) {
-			if (timeoutException!=null) {
+			if (timeoutException != null) {
 				throw new MetadataException("Search Timed out for " + query, query, timeoutException);
 			} else {
 				throw new MetadataException("Search Failed for " + query, query);
@@ -352,14 +337,12 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 	 * @throws Exception
 	 *             if the metadata cannot be fetched
 	 */
-	public IMetadata getMetdata(IMetadataSearchResult result)
-			throws MetadataException {
+	public IMetadata getMetdata(IMetadataSearchResult result) throws MetadataException {
 		log.info("Fetching Metadata for " + result);
 		IMetadataProvider prov = getProvider(result.getProviderId());
 		if (prov == null) {
 			log.warn("Result does not contain valid provider id: " + result);
-			throw new MetadataException("Invalid Search Result: " + result,
-					result);
+			throw new MetadataException("Invalid Search Result: " + result, result);
 		}
 
 		IMetadata md = prov.getMetaData(result);
@@ -367,48 +350,38 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 		// have the metadata, now see if we need to get fanart
 		if (config.isFanartEnabled()) {
 			String fid = prov.getInfo().getFanartProviderId();
-			if (!StringUtils.isEmpty(fid)
-					&& !fid.equals(prov.getInfo().getId())) {
+			if (!StringUtils.isEmpty(fid) && !fid.equals(prov.getInfo().getId())) {
 				IMetadataProvider fanprov = getProvider(fid);
 				if (fanprov == null) {
 					log.warn("Invalid fanart provider id: " + fid);
 				} else {
-					log.info("Fetching Fanart from alternate source: "
-							+ fanprov + " for result: " + result);
-					if (!StringUtils.isEmpty(md.getIMDBID())
-							&& fanprov instanceof HasFindByIMDBID) {
-						IMetadata mdFan = ((HasFindByIMDBID) fanprov)
-								.getMetadataForIMDBId(md.getIMDBID());
+					log.info("Fetching Fanart from alternate source: " + fanprov + " for result: " + result);
+					if (!StringUtils.isEmpty(md.getIMDBID()) && fanprov instanceof HasFindByIMDBID) {
+						IMetadata mdFan = ((HasFindByIMDBID) fanprov).getMetadataForIMDBId(md.getIMDBID());
 						if (mdFan != null) {
 							md.getFanart().addAll(mdFan.getFanart());
 						} else {
-							log.warn("No Fanart for " + result + " using "
-									+ fid);
+							log.warn("No Fanart for " + result + " using " + fid);
 						}
 					} else {
 						try {
-							SearchQuery q = new SearchQuery(
-									result.getMediaType(), result.getTitle(),
-									String.valueOf(result.getYear()));
+							SearchQuery q = new SearchQuery(result.getMediaType(), result.getTitle(), String.valueOf(result
+									.getYear()));
 							List<IMetadataSearchResult> results = search(fid, q);
-							IMetadataSearchResult fanRes = MetadataSearchUtil
-									.getBestResultForQuery(results, q);
+							IMetadataSearchResult fanRes = MetadataSearchUtil.getBestResultForQuery(results, q);
 							if (fanRes == null) {
-								throw new Exception(
-										"Fanart Search return nothing");
+								throw new Exception("Fanart Search return nothing");
 							}
 							IMetadata fanMD = getMetdata(fanRes);
 							md.getFanart().addAll(fanMD.getFanart());
 						} catch (Exception e) {
-							log.warn("Failed to get Fanart for result: "
-									+ result, e);
+							log.warn("Failed to get Fanart for result: " + result, e);
 						}
 					}
 				}
 			} else {
 				log.info("Skipping Fanart since "
-						+ ((StringUtils.isEmpty(fid) ? "Fanart Provider is empty"
-								: "We are the fanart provider")));
+						+ ((StringUtils.isEmpty(fid) ? "Fanart Provider is empty" : "We are the fanart provider")));
 			}
 		} else {
 			log.info("Fanart is disabled, so no fetching of fanart artificats.");
@@ -430,17 +403,13 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 	 * @throws Exception
 	 *             if the metadata cannot be fetched
 	 */
-	public IMetadata getMetdata(List<IMetadataSearchResult> results,
-			SearchQuery query) throws MetadataException {
-		IMetadataSearchResult result = MetadataSearchUtil
-				.getBestResultForQuery(results, query);
+	public IMetadata getMetdata(List<IMetadataSearchResult> results, SearchQuery query) throws MetadataException {
+		IMetadataSearchResult result = MetadataSearchUtil.getBestResultForQuery(results, query);
 		if (result == null) {
 			if (log.isDebugEnabled()) {
-				log.debug("Couldn't find a valid match for results for list: "
-						+ results);
+				log.debug("Couldn't find a valid match for results for list: " + results);
 			}
-			throw new MetadataException("Metadata lookup failed for "
-					+ ((query == null) ? "?" : query.get(Field.QUERY)), query);
+			throw new MetadataException("Metadata lookup failed for " + ((query == null) ? "?" : query.get(Field.QUERY)), query);
 		}
 		return getMetdata(result);
 	}
@@ -454,11 +423,9 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 	 * @param options
 	 * @throws IOException
 	 */
-	public void updateMetadata(IMediaFile file, IMetadata data, Hints options)
-			throws MetadataException {
+	public void updateMetadata(IMediaFile file, IMetadata data, Hints options) throws MetadataException {
 		if (data == null) {
-			throw new MetadataException("No metadata for: " + file, null, file,
-					null, null);
+			throw new MetadataException("No metadata for: " + file, null, file, null, null);
 		}
 
 		if (options == null) {
@@ -477,19 +444,15 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 		try {
 			if (options.getBooleanValue(MetadataHints.UPDATE_FANART, true)) {
 				if (config.isFanartEnabled()) {
-					log.info("Saving Phoenix Fanart for " + file + "; Hints: "
-							+ options);
+					log.info("Saving Phoenix Fanart for " + file + "; Hints: " + options);
 					File dir = new File(config.getFanartCentralFolder());
 					if (!dir.exists()) {
 						if (!dir.mkdirs()) {
-							throw new MetadataException(
-									"Unable to create Fanart Central Folder: "
-											+ dir);
+							throw new MetadataException("Unable to create Fanart Central Folder: " + dir);
 						}
 					}
 					FanartStorage fanart = new FanartStorage();
-					fanart.saveFanart(file, data.getMediaTitle(), data,
-							options, config.getFanartCentralFolder());
+					fanart.saveFanart(file, data.getMediaTitle(), data, options, config.getFanartCentralFolder());
 				} else {
 					if (file.exists()) {
 						log.info("Saving Local Fanart for " + file);
@@ -499,9 +462,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 				}
 			}
 		} catch (Throwable t) {
-			log.warn(
-					"Some or all fanart was not saved due to some unkown problem",
-					t);
+			log.warn("Some or all fanart was not saved due to some unkown problem", t);
 		}
 	}
 
@@ -513,8 +474,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 	 * @param options
 	 * @throws Exception
 	 */
-	public void automaticUpdate(IMediaFile file, Hints options)
-			throws MetadataException {
+	public void automaticUpdate(IMediaFile file, Hints options) throws MetadataException {
 		SearchQuery query = createQuery(file, options);
 		automaticUpdate(getProviderForQuery(query), file, query, options);
 	}
@@ -528,8 +488,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 	 * @param options
 	 * @throws Exception
 	 */
-	public void automaticUpdate(IMediaFile file, SearchQuery query,
-			Hints options) throws MetadataException {
+	public void automaticUpdate(IMediaFile file, SearchQuery query, Hints options) throws MetadataException {
 		automaticUpdate(getProviderForQuery(query), file, query, options);
 	}
 
@@ -546,11 +505,11 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 	 * @param options
 	 *            {@link IMetadataOptions} any persistence options
 	 */
-	public void automaticUpdate(String id, IMediaFile file, SearchQuery query,
-			Hints options) throws MetadataException {
-		
-		//new SearcTask(query).then(new GetMetadataTask(query).then(update(file, options)));
-		
+	public void automaticUpdate(String id, IMediaFile file, SearchQuery query, Hints options) throws MetadataException {
+
+		// new SearcTask(query).then(new
+		// GetMetadataTask(query).then(update(file, options)));
+
 		updateMetadata(file, getMetdata(search(id, query), query), options);
 	}
 
@@ -572,10 +531,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 			accept = !isExcluded(file);
 		}
 
-		if (accept
-				&& options != null
-				&& options.getBooleanValue(
-						MetadataHints.SCAN_MISSING_METADATA_ONLY, true)) {
+		if (accept && options != null && options.getBooleanValue(MetadataHints.SCAN_MISSING_METADATA_ONLY, true)) {
 			MissingMetadataFilter missing = new MissingMetadataFilter();
 			accept = missing.accept(file);
 		}
@@ -611,8 +567,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 	 */
 	public Hints getDefaultMetadataOptions() {
 		Hints options = new Hints();
-		options.setBooleanHint(MetadataHints.IMPORT_TV_AS_RECORDING,
-				config.getImportTVAsRecordings());
+		options.setBooleanHint(MetadataHints.IMPORT_TV_AS_RECORDING, config.getImportTVAsRecordings());
 		options.setBooleanHint(MetadataHints.SCAN_MISSING_METADATA_ONLY, true);
 		options.setBooleanHint(MetadataHints.SCAN_SUBFOLDERS, true);
 		options.setBooleanHint(MetadataHints.UPDATE_FANART, true);
@@ -644,22 +599,18 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 			String showId = md.getExternalID();
 			if (file.isType(MediaResourceType.TV.value())) {
 				if (md.getDiscNumber() > 0) {
+					showId = createShowId("EP", String.format("EPmt%sS%02dD%02d", md.getMediaProviderDataID(),
+							md.getSeasonNumber(), md.getDiscNumber()));
+				} else {
 					showId = createShowId(
 							"EP",
-							String.format("EPmt%sS%02dD%02d",
-									md.getMediaProviderDataID(),
-									md.getSeasonNumber(), md.getDiscNumber()));
-				} else {
-					showId = createShowId("EP", String.format(
-							"EPmt%sS%02dE%02d", md.getMediaProviderDataID(),
-							md.getSeasonNumber(), md.getEpisodeNumber()));
+							String.format("EPmt%sS%02dE%02d", md.getMediaProviderDataID(), md.getSeasonNumber(),
+									md.getEpisodeNumber()));
 				}
 			} else if (file.isType(MediaResourceType.ANY_VIDEO.value())) {
-				showId = createShowId("MV", String.format("MVmt%sD%02d",
-						md.getMediaProviderDataID(), md.getDiscNumber()));
+				showId = createShowId("MV", String.format("MVmt%sD%02d", md.getMediaProviderDataID(), md.getDiscNumber()));
 			} else {
-				log.warn("Can't Import Media as Recording; Invalid Type: "
-						+ file);
+				log.warn("Can't Import Media as Recording; Invalid Type: " + file);
 				return false;
 			}
 
@@ -676,8 +627,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 			// now check to see if this show id is in use...
 			Object sagemf = ShowAPI.GetShowForExternalID(showId);
 			if (sagemf != null) {
-				log.warn("Cannot import recording, since the showid already exists: "
-						+ showId + ": " + file);
+				log.warn("Cannot import recording, since the showid already exists: " + showId + ": " + file);
 				return false;
 			}
 
@@ -694,9 +644,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 
 			return true;
 		} catch (Throwable t) {
-			log.warn(
-					"Failed to import media item as tv for some unknown reason!",
-					t);
+			log.warn("Failed to import media item as tv for some unknown reason!", t);
 			return false;
 		}
 	}
@@ -716,8 +664,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 		try {
 			Configuration.SetServerProperty(AUTO_IMPORT_AS_RECORDINGS_KEY, "false");
 			if (!file.isType(MediaResourceType.RECORDING.value())) {
-				log.warn("Skipping unimport operation, since file is not a recording: "
-						+ file);
+				log.warn("Skipping unimport operation, since file is not a recording: " + file);
 				return null;
 			}
 
@@ -733,12 +680,10 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 			}
 
 			// if there is a .properties file, then remove it
-			File props = FanartUtil.resolvePropertiesFile(PathUtils
-					.getFirstFile(file));
+			File props = FanartUtil.resolvePropertiesFile(PathUtils.getFirstFile(file));
 			if (props != null && props.exists()) {
 				if (!props.delete()) {
-					log.warn("Can't remove the old properties file for media file, so we can't unimport this media item: "
-							+ file);
+					log.warn("Can't remove the old properties file for media file, so we can't unimport this media item: " + file);
 					return null;
 				}
 			}
@@ -773,8 +718,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 	 * @return
 	 */
 	private String createShowId(String prefix, String preferredId) {
-		if (preferredId != null
-				&& ShowAPI.GetShowForExternalID(preferredId) == null) {
+		if (preferredId != null && ShowAPI.GetShowForExternalID(preferredId) == null) {
 			// this is ok, doesn't exist
 			return preferredId;
 		}
@@ -784,10 +728,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 			// keep gen'd EPGID less than 12 chars
 			// SEANS: Taken from nielm's xmlinfo... I'm guessing there is a 12
 			// char limit, so i won't mess with it
-			id = prefix
-					+ "mt"
-					+ Integer
-							.toHexString((int) (java.lang.Math.random() * 0xFFFFFFF));
+			id = prefix + "mt" + Integer.toHexString((int) (java.lang.Math.random() * 0xFFFFFFF));
 		} while (ShowAPI.GetShowForExternalID(id) != null);
 
 		return id;
@@ -825,13 +766,11 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 	@Override
 	public void visitConfigurationFile(ConfigurationType type, File file) {
 		log.info("Loading Metadata Provider: " + file);
-		MetadataProviderBuilder builder = new MetadataProviderBuilder(
-				file.getAbsolutePath());
+		MetadataProviderBuilder builder = new MetadataProviderBuilder(file.getAbsolutePath());
 		try {
 			XMLReader reader = XMLReaderFactory.createXMLReader();
 			try {
-				reader.setFeature("http://xml.org/sax/features/validation",
-						true);
+				reader.setFeature("http://xml.org/sax/features/validation", true);
 			} catch (SAXException e) {
 				log.warn("Cannot activate validation.", e);
 			}
@@ -841,15 +780,13 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 			reader.parse(new InputSource(new FileInputStream(file)));
 			IMetadataProvider p = builder.getProvider();
 			if (p == null) {
-				throw new IOException("Failed to parse provider for file "
-						+ file);
+				throw new IOException("Failed to parse provider for file " + file);
 			}
 
 			// do not allow overriding of core
 			if (metadataProviders.containsKey(p.getInfo().getId())) {
-				throw new IOException(
-						"Not allowed to override system providers, please use a different provider id for file "
-								+ file);
+				throw new IOException("Not allowed to override system providers, please use a different provider id for file "
+						+ file);
 			}
 
 			addMetaDataProvider(p);

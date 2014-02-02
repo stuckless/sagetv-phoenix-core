@@ -34,8 +34,7 @@ public class TextReplacement {
 	 * 
 	 * @author seans
 	 */
-	public static class MapResolver implements
-			IVariableResolver<Map<String, String>> {
+	public static class MapResolver implements IVariableResolver<Map<String, String>> {
 		@Override
 		public String resolve(Map<String, String> relation, String varName) {
 			return relation.get(varName);
@@ -49,8 +48,7 @@ public class TextReplacement {
 	 * Convenience method that wraps the replacements map into a
 	 * {@link MapResolver} and calls replaceVariables.
 	 */
-	public static String replaceVariables(String string,
-			Map<String, String> replacements) {
+	public static String replaceVariables(String string, Map<String, String> replacements) {
 		return replaceVariables(string, replacements, mapResolverInstance);
 	}
 
@@ -89,8 +87,7 @@ public class TextReplacement {
 	 *         substitutions made
 	 * @throws Exception
 	 */
-	public static <T> String replaceVariables(String string, T relation,
-			IVariableResolver<T> replacements) {
+	public static <T> String replaceVariables(String string, T relation, IVariableResolver<T> replacements) {
 		return replaceVariables(string, relation, replacements, 0);
 	}
 
@@ -103,8 +100,7 @@ public class TextReplacement {
 	 * @param sanity
 	 * @return
 	 */
-	private static <T> String replaceVariables(String string, T relation,
-			IVariableResolver<T> replacements, int sanity) {
+	private static <T> String replaceVariables(String string, T relation, IVariableResolver<T> replacements, int sanity) {
 		if (sanity > 20)
 			return string;
 
@@ -140,13 +136,8 @@ public class TextReplacement {
 								value = formatter.format(o);
 							}
 						} catch (ParseException pe) {
-							log.warn(
-									"Could not format value because it was not parsable by the configured formatter."
-											+ " Value: "
-											+ value
-											+ " Formatter: "
-											+ formatClassName
-											+ " Format: " + format, pe);
+							log.warn("Could not format value because it was not parsable by the configured formatter." + " Value: "
+									+ value + " Formatter: " + formatClassName + " Format: " + format, pe);
 						}
 					}
 				}
@@ -179,22 +170,16 @@ public class TextReplacement {
 		try {
 			Class<?> c = Class.forName(formatClassName);
 			if (Format.class.isAssignableFrom(c)) {
-				Class<? extends Format> formatClass = c
-						.asSubclass(Format.class);
-				Constructor<? extends Format> constructor = formatClass
-						.getConstructor(String.class);
+				Class<? extends Format> formatClass = c.asSubclass(Format.class);
+				Constructor<? extends Format> constructor = formatClass.getConstructor(String.class);
 				formatter = constructor.newInstance(format);
 			}
 		} catch (ClassNotFoundException cnfe) {
 			cnfe.printStackTrace();
-			log.error(
-					"Could not instantiate Format Object because the class name is invalid: "
-							+ formatClassName, cnfe);
+			log.error("Could not instantiate Format Object because the class name is invalid: " + formatClassName, cnfe);
 		} catch (NoSuchMethodException nsme) {
 			nsme.printStackTrace();
-			log.error(
-					"Invalid Format Class.  Instance of java.text.Format doesn't have a (String) constructor.",
-					nsme);
+			log.error("Invalid Format Class.  Instance of java.text.Format doesn't have a (String) constructor.", nsme);
 		} catch (InvocationTargetException ite) {
 			ite.printStackTrace();
 

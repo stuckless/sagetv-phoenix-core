@@ -7,18 +7,18 @@ import sagex.phoenix.configuration.proxy.AGroup;
 import sagex.phoenix.configuration.proxy.FieldProxy;
 import sagex.phoenix.configuration.proxy.GroupProxy;
 
-@AGroup(label="Nest Configuration", path = "phoenix/homecontrol/nest", description = "Nest Thermostat Configuration")
+@AGroup(label = "Nest Configuration", path = "phoenix/homecontrol/nest", description = "Nest Thermostat Configuration")
 public class NestConfiguration extends GroupProxy {
-    @AField(label="Username", description = "Nest username", scope=ConfigScope.SERVER)
-    private FieldProxy<String> username = new FieldProxy<String>("");
+	@AField(label = "Username", description = "Nest username", scope = ConfigScope.SERVER)
+	private FieldProxy<String> username = new FieldProxy<String>("");
 
-    @AField(label="Password", description = "Nest Password", scope=ConfigScope.SERVER, type=ConfigType.PASSWORD)
-    private FieldProxy<String> password = new FieldProxy<String>("");
+	@AField(label = "Password", description = "Nest Password", scope = ConfigScope.SERVER, type = ConfigType.PASSWORD)
+	private FieldProxy<String> password = new FieldProxy<String>("");
 
-    public NestConfiguration() {
-        super();
-        init();
-    }
+	public NestConfiguration() {
+		super();
+		init();
+	}
 
 	public String getUsername() {
 		return username.get();

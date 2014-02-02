@@ -6,8 +6,9 @@ import sagex.phoenix.vfs.IMediaResourceVisitor;
 
 public class TouchVisitor implements IMediaResourceVisitor {
 	private long time = 0;
+
 	public TouchVisitor(long time) {
-		this.time=time;
+		this.time = time;
 	}
 
 	@Override

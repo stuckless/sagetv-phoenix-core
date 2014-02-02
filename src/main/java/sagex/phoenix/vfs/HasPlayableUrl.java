@@ -1,5 +1,5 @@
 package sagex.phoenix.vfs;
 
 public interface HasPlayableUrl {
-    public String getUrl();
+	public String getUrl();
 }

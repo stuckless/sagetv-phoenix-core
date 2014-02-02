@@ -19,8 +19,7 @@ import sagex.phoenix.util.TimerUtil;
 public class PhoenixBetaAPI {
 	public boolean UpdatePhoenix() {
 		final UIContext ctx = UIContext.getCurrentContext();
-		Loggers.LOG.info("Checking for phoenix updates on client "
-				+ ctx.getName());
+		Loggers.LOG.info("Checking for phoenix updates on client " + ctx.getName());
 
 		TimerUtil.runOnce(0, new TimerTask() {
 			@Override
@@ -64,8 +63,7 @@ public class PhoenixBetaAPI {
 
 					if (error)
 						return;
-					Loggers.LOG
-							.info("Downloaded new manifest... checking for updates...");
+					Loggers.LOG.info("Downloaded new manifest... checking for updates...");
 					PluginAPI.RefreshAvailablePlugins(ctx);
 
 					dlg.update("Checking for updated Phoenix plugin...");
@@ -81,16 +79,15 @@ public class PhoenixBetaAPI {
 						dlg.update("No Update Required.");
 					} else {
 						dlg.update("Installing Updated Phoenix Plugin...");
-						Timer timer = TimerUtil.scheduleRepeating(500, 300,
-								new TimerTask() {
-									@Override
-									public void run() {
-										String msg = PluginAPI.GetPluginProgress(ctx);
-										if (!StringUtils.isEmpty(msg)) {
-											dlg.update(msg);
-										}
-									}
-								});
+						Timer timer = TimerUtil.scheduleRepeating(500, 300, new TimerTask() {
+							@Override
+							public void run() {
+								String msg = PluginAPI.GetPluginProgress(ctx);
+								if (!StringUtils.isEmpty(msg)) {
+									dlg.update(msg);
+								}
+							}
+						});
 
 						// this better block
 						String msg = PluginAPI.InstallPlugin(ctx, phoenix);
@@ -100,8 +97,8 @@ public class PhoenixBetaAPI {
 					}
 				} finally {
 					Loggers.LOG.info("Phoenix update complete.");
-					//TimerUtil.sleep(1000);
-					//dlg.close();
+					// TimerUtil.sleep(1000);
+					// dlg.close();
 				}
 			}
 		});

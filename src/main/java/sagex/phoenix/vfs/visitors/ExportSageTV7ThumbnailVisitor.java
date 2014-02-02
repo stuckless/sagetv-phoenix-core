@@ -15,7 +15,7 @@ public class ExportSageTV7ThumbnailVisitor extends FileVisitor {
 	public boolean visitFile(IMediaFile res, IProgressMonitor monitor) {
 		if (res.isType(MediaResourceType.ANY_VIDEO.value())) {
 			monitor.setTaskName(res.getTitle());
-			
+
 			Sage7ThumbnailPersistence p = new Sage7ThumbnailPersistence();
 			try {
 				p.storeMetadata(res, res.getMetadata(), null);
@@ -23,7 +23,7 @@ public class ExportSageTV7ThumbnailVisitor extends FileVisitor {
 				log.warn("Failed to create Sage7 Thumbnail for " + res.getTitle(), e);
 				monitor.setTaskName("Failed: " + res.getTitle());
 			}
-			
+
 			monitor.worked(1);
 		}
 		return true;

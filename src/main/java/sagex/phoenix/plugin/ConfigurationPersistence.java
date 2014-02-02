@@ -7,7 +7,7 @@ import sagex.plugin.IPropertyPersistence;
  * {@link IPropertyPersistence} that uses Phoenix configuration system
  * 
  * @author sean
- *
+ * 
  */
 public class ConfigurationPersistence implements IPropertyPersistence {
 	@Override

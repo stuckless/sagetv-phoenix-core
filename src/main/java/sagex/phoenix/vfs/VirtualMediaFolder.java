@@ -9,8 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.util.Hints;
 
-public class VirtualMediaFolder extends AbstractMediaResource implements
-		IMediaFolder {
+public class VirtualMediaFolder extends AbstractMediaResource implements IMediaFolder {
 	private boolean changed = true;
 
 	public boolean isChanged() {
@@ -33,13 +32,11 @@ public class VirtualMediaFolder extends AbstractMediaResource implements
 		this(parent, title, null, title);
 	}
 
-	public VirtualMediaFolder(IMediaFolder parent, String id, Object resource,
-			String title) {
+	public VirtualMediaFolder(IMediaFolder parent, String id, Object resource, String title) {
 		this(parent, id, resource, title, true);
 	}
 
-	public VirtualMediaFolder(IMediaFolder parent, String id, Object resource,
-			String title, boolean thumbnailFromChild) {
+	public VirtualMediaFolder(IMediaFolder parent, String id, Object resource, String title, boolean thumbnailFromChild) {
 		super(parent, id, resource, title);
 		this.thumbnailFromChild = thumbnailFromChild;
 	}
@@ -71,9 +68,10 @@ public class VirtualMediaFolder extends AbstractMediaResource implements
 
 	/**
 	 * Sub-Classes can override this method, which will be called whenever the
-	 * children need to be re-created.  You only need to override this method IF
+	 * children need to be re-created. You only need to override this method IF
 	 * you don't want your children loaded into an ArrayList, otherwise, simply
-	 * override the populateChildren() method, and add your children to that list.
+	 * override the populateChildren() method, and add your children to that
+	 * list.
 	 */
 	protected void createChildren() {
 		setChildren(new ArrayList<IMediaResource>());
@@ -129,8 +127,8 @@ public class VirtualMediaFolder extends AbstractMediaResource implements
 		for (IMediaResource r : files) {
 			r.delete(hints);
 		}
-		
-		if (getParent()!=null) {
+
+		if (getParent() != null) {
 			getParent().removeChild(this);
 		}
 		return true;
@@ -173,8 +171,7 @@ public class VirtualMediaFolder extends AbstractMediaResource implements
 	}
 
 	@Override
-	public void accept(IMediaResourceVisitor visitor, IProgressMonitor monitor,
-			int deep) {
+	public void accept(IMediaResourceVisitor visitor, IProgressMonitor monitor, int deep) {
 		super.accept(visitor, monitor, deep);
 
 		if (deep >= 0) {
@@ -212,7 +209,7 @@ public class VirtualMediaFolder extends AbstractMediaResource implements
 
 		return ((IMediaFolder) childRes).findChild(other);
 	}
-	
+
 	@Override
 	public IMediaResource getChildById(String id) {
 		if (id == null)
@@ -229,7 +226,7 @@ public class VirtualMediaFolder extends AbstractMediaResource implements
 	@Override
 	public boolean removeChild(IMediaResource child) {
 		boolean removed = getChildren().remove(child);
-		if (getParent()!=null && getChildren().size()==0) {
+		if (getParent() != null && getChildren().size() == 0) {
 			// remove this empty folder from it's parent
 			getParent().removeChild(this);
 		}

@@ -5,14 +5,14 @@ import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.IMediaResourceVisitor;
 
 public class CountResourceVisitor implements IMediaResourceVisitor {
-    private int count = 0;
+	private int count = 0;
 
-    public boolean visit(IMediaResource resource, IProgressMonitor mon) {
-        count++;
-        return true;
-    }
+	public boolean visit(IMediaResource resource, IProgressMonitor mon) {
+		count++;
+		return true;
+	}
 
-    public int getCount() {
-        return count;
-    }
+	public int getCount() {
+		return count;
+	}
 }

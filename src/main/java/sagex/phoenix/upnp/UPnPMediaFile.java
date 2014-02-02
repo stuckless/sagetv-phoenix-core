@@ -9,7 +9,6 @@ import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.MediaResourceType;
 import sagex.phoenix.vfs.VirtualOnlineMediaFile;
 
-
 public class UPnPMediaFile extends VirtualOnlineMediaFile implements HasPlayableUrl {
 	public UPnPMediaFile(IMediaFolder parent, Service service, Item i) {
 		super(parent, i.getId(), i, i.getTitle());
@@ -34,7 +33,7 @@ public class UPnPMediaFile extends VirtualOnlineMediaFile implements HasPlayable
 	protected IMetadata createMetadata() {
 		return new UPnPMetadata(this);
 	}
-	
+
 	@Override
 	public String getUrl() {
 		return getMetadata().getMediaUrl();

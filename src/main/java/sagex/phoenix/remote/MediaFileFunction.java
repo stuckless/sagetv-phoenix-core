@@ -15,7 +15,7 @@ public class MediaFileFunction implements Function<String, IMediaFile> {
 	public IMediaFile apply(String in) {
 		int sageid = NumberUtils.toInt(in);
 		Object mf = MediaFileAPI.GetMediaFileForID(sageid);
-		if (mf!=null) {
+		if (mf != null) {
 			return new SageMediaFile(null, mf);
 		}
 		return null;

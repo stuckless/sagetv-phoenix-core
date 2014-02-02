@@ -19,11 +19,13 @@ import sagex.phoenix.vfs.sage.SageMediaFile;
 
 public class CustomFolder extends VirtualMediaFolder {
 	public static final String FIELD_TITLE = FieldName.Title;
-	
-	private static enum Type {SAGE, FILE, OTHER};
-	
+
+	private static enum Type {
+		SAGE, FILE, OTHER
+	};
+
 	public static final String CustomFolderPrefix = "phoenix.vfs.custom.";
-	
+
 	public CustomFolder(CustomFolders parent, String table, String title) {
 		super(parent, CustomFolderPrefix + table, CustomFolderPrefix + table, title, false);
 	}
@@ -31,13 +33,13 @@ public class CustomFolder extends VirtualMediaFolder {
 	@Override
 	protected void populateChildren(List<IMediaResource> list) {
 		Object records[] = UserRecordAPI.GetAllUserRecords(getId());
-		if (records!=null&&records.length>0) {
-			for (Object rec: records) {
+		if (records != null && records.length > 0) {
+			for (Object rec : records) {
 				String type = UserRecordAPI.GetUserRecordData(rec, CustomFile.FIELD_CUSTOM_TYPE);
 				String id = UserRecordAPI.GetUserRecordData(rec, CustomFile.FIELD_ID);
 				if (Type.SAGE.name().equals(type)) {
-					Object file = phoenix.media.GetSageMediaFile(NumberUtils.toInt(id,-1));
-					if (file!=null) {
+					Object file = phoenix.media.GetSageMediaFile(NumberUtils.toInt(id, -1));
+					if (file != null) {
 						list.add(new SageMediaFile(this, file));
 					} else {
 						UserRecordAPI.DeleteUserRecord(rec);
@@ -59,14 +61,15 @@ public class CustomFolder extends VirtualMediaFolder {
 
 	@Override
 	public void addMediaResource(IMediaResource res) {
-		if (res instanceof IMediaFolder) throw new UnsupportedOperationException("Cannot add Folders to a Custom Folder");
-		
+		if (res instanceof IMediaFolder)
+			throw new UnsupportedOperationException("Cannot add Folders to a Custom Folder");
+
 		// this forces the children to load, before adding this child.
 		// otherwise we may be dupes
 		getChildren();
-		
+
 		Object userrecord = getRecord(res.getId());
-		if (userrecord==null) {
+		if (userrecord == null) {
 			Type type = Type.OTHER;
 			if (res instanceof SageMediaFile) {
 				type = Type.SAGE;
@@ -84,15 +87,15 @@ public class CustomFolder extends VirtualMediaFolder {
 				UserRecordAPI.SetUserRecordData(userrecord, CustomFile.FIELD_MEDIA_OBJECT, String.valueOf(res.getMediaObject()));
 				CustomFile file = new CustomFile(this, userrecord);
 				try {
-					MetadataUtil.copyMetadata(((IMediaFile)res).getMetadata(), file.getMetadata());
+					MetadataUtil.copyMetadata(((IMediaFile) res).getMetadata(), file.getMetadata());
 				} catch (Exception e) {
 					log.warn("Failed to copy metadata for custom file", e);
 				}
-				res=file;
+				res = file;
 			}
 			UserRecordAPI.SetUserRecordData(userrecord, CustomFile.FIELD_CUSTOM_TYPE, type.name());
 		}
-		
+
 		super.addMediaResource(res);
 	}
 
@@ -104,7 +107,7 @@ public class CustomFolder extends VirtualMediaFolder {
 	public boolean delete(Hints hints) {
 		UserRecordAPI.DeleteAllUserRecords(getId());
 		setChanged(true);
-		if (getParent()!=null) {
+		if (getParent() != null) {
 			getParent().removeChild(this);
 		}
 		return true;

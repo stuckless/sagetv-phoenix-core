@@ -1,6 +1,5 @@
 package sagex.phoenix.vfs.ov;
 
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +12,12 @@ import sagex.phoenix.common.SystemConfigurationFileManager.ConfigurationFileVisi
 import sagex.phoenix.util.PhoenixManagedScriptEngineProxy;
 import sagex.phoenix.vfs.ov.youtube.YoutubeUrlResolver;
 
-public class OnlineVideosUrlResolverManager extends
-		SystemConfigurationFileManager implements ConfigurationFileVisitor {
+public class OnlineVideosUrlResolverManager extends SystemConfigurationFileManager implements ConfigurationFileVisitor {
 
-	private List<IUrlResolver> resolvers = new ArrayList<IUrlResolver>(); 
-	
+	private List<IUrlResolver> resolvers = new ArrayList<IUrlResolver>();
+
 	public OnlineVideosUrlResolverManager(File systemDir, File userDir) {
-		super(systemDir, userDir, new WildcardFileFilter(new String[] {"*.java","*.groovy","*.py"}, IOCase.INSENSITIVE));
+		super(systemDir, userDir, new WildcardFileFilter(new String[] { "*.java", "*.groovy", "*.py" }, IOCase.INSENSITIVE));
 	}
 
 	@Override

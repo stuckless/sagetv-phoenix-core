@@ -4,7 +4,7 @@ public class Fragment extends Menu {
 	private String parentMenu = null;
 	private String insertAfter = null;
 	private String insertBefore = null;
-	
+
 	public Fragment(Menu parent) {
 		super(parent);
 	}

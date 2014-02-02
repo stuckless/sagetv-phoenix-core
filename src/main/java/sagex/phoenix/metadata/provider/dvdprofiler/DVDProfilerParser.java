@@ -40,15 +40,15 @@ public class DVDProfilerParser {
 
 	public IMetadata getMetaData() {
 		metadata = MetadataProxy.newInstance();
-		
+
 		// we only support movies
 		metadata.setMediaType(MediaType.MOVIE.sageValue());
-		
+
 		addCastMembers(metadata);
 		// metadata.setAspectRatio(getAspectRatio());
 		// metadata.setCompany(getCompany());
 		addGenres();
-		//metadata.setParentalRating(getMPAARating());
+		// metadata.setParentalRating(getMPAARating());
 		metadata.setRated(getMPAARating());
 		metadata.setDescription(getPlot());
 		metadata.setOriginalAirDate(DateUtils.parseDate(getReleaseDate()));
@@ -66,7 +66,7 @@ public class DVDProfilerParser {
 		// }
 
 		setTitle(metadata, getTitle());
-		
+
 		// metadata.setUserRating(MetadataUtil.parseUserRating(getUserRating()));
 		metadata.setYear(getYear());
 
@@ -75,13 +75,14 @@ public class DVDProfilerParser {
 		return metadata;
 	}
 
-    public void setTitle(IMetadata md, String title) {
-    	if (title==null) return;
-    	title=title.trim();
-    	title = StringUtils.unquote(title);    	
-    	md.setEpisodeName(title);
-    	md.setMediaTitle(title);
-    }
+	public void setTitle(IMetadata md, String title) {
+		if (title == null)
+			return;
+		title = title.trim();
+		title = StringUtils.unquote(title);
+		md.setEpisodeName(title);
+		md.setMediaTitle(title);
+	}
 
 	private void addCastMembers(IMetadata md) {
 		addActors(md);
@@ -106,7 +107,6 @@ public class DVDProfilerParser {
 
 	public void addActors(IMetadata md) {
 		@SuppressWarnings("unchecked")
-		
 		List nl = node.element("Actors").elements("Actor");
 		for (int i = 0; i < nl.size(); i++) {
 			Element e = (Element) nl.get(i);
@@ -159,12 +159,12 @@ public class DVDProfilerParser {
 		if (!f.exists()) {
 			f = new File(provider.getImagesDir(), id + type + "." + ImageUtil.EXT_PNG);
 		}
-		
+
 		if (!f.exists()) {
-			log.warn("Missing Cover for Movie: " + id + "; " + id + "("+getTitle()+")");
+			log.warn("Missing Cover for Movie: " + id + "; " + id + "(" + getTitle() + ")");
 			return null;
 		}
-		
+
 		try {
 			String uri = f.toURI().toURL().toExternalForm();
 			MediaArt ma = new MediaArt();
@@ -172,9 +172,9 @@ public class DVDProfilerParser {
 			ma.setType(MediaArtifactType.POSTER);
 			return ma;
 		} catch (MalformedURLException e) {
-			log.error("Failed to create url for thumbnail on movie: " + id + ": " +id + "(" +getTitle()+")");
+			log.error("Failed to create url for thumbnail on movie: " + id + ": " + id + "(" + getTitle() + ")");
 		}
-		
+
 		return null;
 	}
 

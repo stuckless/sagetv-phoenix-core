@@ -45,8 +45,7 @@ public class XmlMetadataParser extends BaseBuilder {
 	}
 
 	@Override
-	public void startElement(String uri, String localName, String name,
-			Attributes attributes) throws SAXException {
+	public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
 		if (name.equals("configuration")) {
 			// this is a unique application id... each configuration metadata
 			// must tell us to which application it belongs
@@ -62,13 +61,10 @@ public class XmlMetadataParser extends BaseBuilder {
 				try {
 					// if the <group> has a class attribute then create the
 					// group using the GroupParser from classes.
-					g.addElement(GroupParser.parseGroup(Class
-							.forName(attributes.getValue("class"))));
-					log.debug("Added Metadata Group: " + g.getId()
-							+ " From Class: " + attributes.getValue("class"));
+					g.addElement(GroupParser.parseGroup(Class.forName(attributes.getValue("class"))));
+					log.debug("Added Metadata Group: " + g.getId() + " From Class: " + attributes.getValue("class"));
 				} catch (Throwable t) {
-					log.error("Failed to Create a Group from Class: "
-							+ attributes.getValue("class"), t);
+					log.error("Failed to Create a Group from Class: " + attributes.getValue("class"), t);
 				}
 				return;
 			}
@@ -77,8 +73,7 @@ public class XmlMetadataParser extends BaseBuilder {
 			// group paths are optional
 			// if the group has a key/id/path then append that to all of its
 			// elements.
-			if (g == null || g.getId() == null
-					|| g.getElementType() == IConfigurationElement.APPLICATION) {
+			if (g == null || g.getId() == null || g.getElementType() == IConfigurationElement.APPLICATION) {
 				gr.setId(attributes.getValue("path"));
 			} else {
 				gr.setId(g.getId() + "/" + attributes.getValue("path"));
@@ -99,36 +94,31 @@ public class XmlMetadataParser extends BaseBuilder {
 				g.addElement(gr);
 			g = gr;
 			descState = DescriptionState.READ_GROUP;
-			log.debug("Added Metadata Group: " + g.getId() + "; "
-					+ g.getLabel());
+			log.debug("Added Metadata Group: " + g.getId() + "; " + g.getLabel());
 			return;
 		} else if (name.equals("field")) {
 			el = new Field();
 			// if the group has a key/id/path then append that to all of its
 			// elements.
 			if (attributes.getValue("key") == null && attributes.getValue("fullkey") == null) {
-				throw new SAXException("Missing Field Key for Group: "
-						+ g.getId() + "; Application: " + app.getId());
+				throw new SAXException("Missing Field Key for Group: " + g.getId() + "; Application: " + app.getId());
 			}
-			
+
 			if (attributes.getValue("fullkey") != null) {
 				el.setId(attributes.getValue("fullkey"));
-			}
-			else {			
+			} else {
 				if (g.getId() != null) {
 					el.setId(g.getId() + "/" + attributes.getValue("key"));
-				} 
-				else {
+				} else {
 					el.setId(attributes.getValue("key"));
 				}
 			}
-			
+
 			el.setLabel(attributes.getValue("label"));
 			el.setDefaultValue(attributes.getValue("defaultValue"));
 			el.setIsVisible(XmlUtil.attr(attributes, "visible", "true"));
 			el.setListSeparator(attributes.getValue("listSeparator"));
-			el.setType(ConfigType.toConfigType(XmlUtil.attr(attributes, "type",
-					ConfigType.TEXT.name())));
+			el.setType(ConfigType.toConfigType(XmlUtil.attr(attributes, "type", ConfigType.TEXT.name())));
 			String hints = XmlUtil.attr(attributes, "hints", null);
 			if (hints != null) {
 				String hts[] = hints.split("\\s*,\\s*");
@@ -145,11 +135,9 @@ public class XmlMetadataParser extends BaseBuilder {
 			if (!StringUtils.isEmpty(expr)) {
 				el.setOptionFactory(new SageExpressionOptionFactory(expr));
 			} else {
-				String className = XmlUtil.attr(attributes, "class",
-						StaticOptionsFactory.class.getName());
+				String className = XmlUtil.attr(attributes, "class", StaticOptionsFactory.class.getName());
 				try {
-					IOptionFactory fact = (IOptionFactory) Class.forName(
-							className).newInstance();
+					IOptionFactory fact = (IOptionFactory) Class.forName(className).newInstance();
 					el.setOptionFactory(fact);
 				} catch (InstantiationException e) {
 					error("Can't create Options Class " + className);
@@ -169,9 +157,7 @@ public class XmlMetadataParser extends BaseBuilder {
 						int r1 = NumberUtils.toInt(ranges[0]);
 						int r2 = NumberUtils.toInt(ranges[1]);
 						for (int i = r1; i <= r2; i++) {
-							((StaticOptionsFactory) el.getOptionFactory())
-									.addOption(String.valueOf(i),
-											String.valueOf(i));
+							((StaticOptionsFactory) el.getOptionFactory()).addOption(String.valueOf(i), String.valueOf(i));
 						}
 					}
 				}
@@ -197,13 +183,10 @@ public class XmlMetadataParser extends BaseBuilder {
 				el.setOptionFactory(fact);
 			}
 			if (!(fact instanceof StaticOptionsFactory)) {
-				error("Can't add options to factory "
-						+ fact.getClass().getName());
+				error("Can't add options to factory " + fact.getClass().getName());
 			}
-			((StaticOptionsFactory) fact).addOption(
-					XmlUtil.attr(attributes, "name", null),
-					XmlUtil.attr(attributes, "value",
-							XmlUtil.attr(attributes, "name", null)));
+			((StaticOptionsFactory) fact).addOption(XmlUtil.attr(attributes, "name", null),
+					XmlUtil.attr(attributes, "value", XmlUtil.attr(attributes, "name", null)));
 		} else if ("eval".equals(name)) {
 			// do nothing
 		} else if ("description".equals(name)) {
@@ -214,8 +197,7 @@ public class XmlMetadataParser extends BaseBuilder {
 	}
 
 	@Override
-	public void endElement(String uri, String localName, String name)
-			throws SAXException {
+	public void endElement(String uri, String localName, String name) throws SAXException {
 		if (name.equals("group")) {
 			if (g.getParent() != null) {
 				g = (Group) g.getParent();
@@ -233,13 +215,11 @@ public class XmlMetadataParser extends BaseBuilder {
 			descState = DescriptionState.NONE;
 		} else if (name.equals("option")) {
 			String val = getData();
-			if (val != null && el != null
-					&& el.getOptionFactory() instanceof StaticOptionsFactory) {
+			if (val != null && el != null && el.getOptionFactory() instanceof StaticOptionsFactory) {
 				val = val.trim();
 				if (val.length() > 0 && el.getOptions().size() > 0) {
 					// update the last option with this value
-					el.getOptions().get(el.getOptions().size() - 1)
-							.setValue(data);
+					el.getOptions().get(el.getOptions().size() - 1).setValue(data);
 				}
 			}
 		} else if ("eval".equals(name)) {

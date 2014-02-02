@@ -17,34 +17,43 @@ import sagex.phoenix.util.var.DynamicVariable;
 public class ConfigurableOption implements Cloneable, Comparable<ConfigurableOption> {
 	public static class ListValue implements Cloneable {
 		public ListValue(String name, String value) {
-			this.name=name;
-			this.value=value;
+			this.name = name;
+			this.value = value;
 		}
-		
+
 		private String name;
 		private String value;
+
 		public String getName() {
 			return name;
 		}
+
 		public void setName(String name) {
 			this.name = name;
 		}
+
 		public String getValue() {
 			return value;
 		}
+
 		public void setValue(String value) {
 			this.value = value;
 		}
-		
+
 		@Override
 		public Object clone() throws CloneNotSupportedException {
 			return super.clone();
 		}
 	}
-	
-	public enum DataType { string, bool, integer, directory }
-	public enum ListSelection { single, multi }
-	
+
+	public enum DataType {
+		string, bool, integer, directory
+	}
+
+	public enum ListSelection {
+		single, multi
+	}
+
 	private String name;
 	private String label;
 	private DataType dataType;
@@ -53,7 +62,7 @@ public class ConfigurableOption implements Cloneable, Comparable<ConfigurableOpt
 
 	private DynamicVariable<Object> value = new DynamicVariable<Object>(Object.class);
 	private List<ListValue> listValues;
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -66,6 +75,7 @@ public class ConfigurableOption implements Cloneable, Comparable<ConfigurableOpt
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -104,70 +114,84 @@ public class ConfigurableOption implements Cloneable, Comparable<ConfigurableOpt
 			return false;
 		return true;
 	}
+
 	@Override
 	public String toString() {
 		return "FactoryOption [" + (dataType != null ? "dataType=" + dataType + ", " : "") + "isList=" + isList + ", "
-				+ (listSelection != null ? "listSelection=" + listSelection + ", " : "") + (listValues != null ? "listValues=" + listValues + ", " : "")
-				+ (name != null ? "name=" + name + ", " : "") + (value != null ? "value=" + value : "") + "]";
+				+ (listSelection != null ? "listSelection=" + listSelection + ", " : "")
+				+ (listValues != null ? "listValues=" + listValues + ", " : "") + (name != null ? "name=" + name + ", " : "")
+				+ (value != null ? "value=" + value : "") + "]";
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public DynamicVariable<Object> value() {
 		return value;
 	}
-	
+
 	public DataType getDataType() {
 		return dataType;
 	}
+
 	public void setDataType(DataType dataType) {
 		this.dataType = dataType;
 	}
+
 	public boolean isList() {
 		return isList;
 	}
+
 	public void setList(boolean isList) {
 		this.isList = isList;
 	}
+
 	public ListSelection getListSelection() {
 		return listSelection;
 	}
+
 	public void setListSelection(ListSelection listSelection) {
 		this.listSelection = listSelection;
 	}
+
 	public List<ListValue> getListValues() {
 		return listValues;
 	}
+
 	public void setListValues(List<ListValue> listValues) {
 		this.listValues = listValues;
 	}
-	
+
 	public ConfigurableOption(String name) {
 		super();
 		this.name = name;
 	}
+
 	public ConfigurableOption(String name, String label, String value, DataType dataType) {
 		super();
 		this.name = name;
-		this.label=label;
+		this.label = label;
 		this.value.setValue(value);
 		this.dataType = dataType;
 	}
-	public ConfigurableOption(String name, String label, String value, DataType dataType, boolean isList, ListSelection listSelection, List<ListValue> listValues) {
+
+	public ConfigurableOption(String name, String label, String value, DataType dataType, boolean isList,
+			ListSelection listSelection, List<ListValue> listValues) {
 		super();
 		this.name = name;
-		this.label=label;
+		this.label = label;
 		this.value.setValue(value);
 		this.dataType = dataType;
 		this.isList = isList;
 		this.listSelection = listSelection;
 		this.listValues = listValues;
 	}
-	
+
 	/**
 	 * Create a new Configuration option
 	 * 
@@ -177,90 +201,99 @@ public class ConfigurableOption implements Cloneable, Comparable<ConfigurableOpt
 	 * @param dataType
 	 * @param isList
 	 * @param listSelection
-	 * @param listValues List in the format "Key1:Label1,Key2:Label2,..."
+	 * @param listValues
+	 *            List in the format "Key1:Label1,Key2:Label2,..."
 	 */
-	public ConfigurableOption(String name, String label, String value, DataType dataType, boolean isList, ListSelection listSelection, String listValues) {
-		this(name, label,value, dataType, isList, listSelection, convertToList(listValues));
+	public ConfigurableOption(String name, String label, String value, DataType dataType, boolean isList,
+			ListSelection listSelection, String listValues) {
+		this(name, label, value, dataType, isList, listSelection, convertToList(listValues));
 	}
-	
+
 	public ConfigurableOption(String name, String value) {
 		this(name, null, value, null);
 	}
-	
+
 	private static List<ListValue> convertToList(String values) {
 		List<ListValue> list = new ArrayList<ListValue>();
-		if (values==null) {
+		if (values == null) {
 			return list;
 		}
-		
+
 		String varr[] = values.split("\\s*,\\s*");
-		for (String v: varr) {
+		for (String v : varr) {
 			String nvp[] = v.split("\\s*:\\s*");
 			ListValue lv = null;
-			if (nvp.length>1) {
-				lv =new ListValue(nvp[1], nvp[0]);
+			if (nvp.length > 1) {
+				lv = new ListValue(nvp[1], nvp[0]);
 			} else {
-				lv =new ListValue(nvp[0], nvp[0]);
+				lv = new ListValue(nvp[0], nvp[0]);
 			}
 			list.add(lv);
 		}
 		return list;
 	}
-	
+
 	public String getLabel() {
 		return label;
 	}
-	
+
 	public void setLabel(String label) {
 		this.label = label;
 	}
-	
+
 	public String getString(String defValue) {
-		Object v =value.get();
-		if (v==null) return defValue;
+		Object v = value.get();
+		if (v == null)
+			return defValue;
 		return String.valueOf(v);
 	}
-	
+
 	public int getInt(int defValue) {
 		Object v = value.get();
-		if (v==null) return defValue;
+		if (v == null)
+			return defValue;
 		return NumberUtils.toInt(String.valueOf(v));
 	}
 
 	public boolean getBoolean(boolean defValue) {
 		Object v = value.get();
-		if (v==null) return defValue;
+		if (v == null)
+			return defValue;
 		return BooleanUtils.toBoolean(String.valueOf(v));
 	}
 
 	public float getFloat(float defValue) {
 		Object v = value.get();
-		if (v==null) return defValue;
+		if (v == null)
+			return defValue;
 		return NumberUtils.toFloat(String.valueOf(v));
 	}
 
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		ArrayList<ListValue> newList=null;
-		if (listValues!=null) {
+		ArrayList<ListValue> newList = null;
+		if (listValues != null) {
 			newList = new ArrayList<ListValue>();
-			for (ListValue lv: listValues) {
+			for (ListValue lv : listValues) {
 				newList.add((ListValue) lv.clone());
 			}
 		}
-		
-		//return new ConfigurableOption(name, label, value.getValue(), dataType, isList, listSelection, newList);
+
+		// return new ConfigurableOption(name, label, value.getValue(),
+		// dataType, isList, listSelection, newList);
 		ConfigurableOption co = (ConfigurableOption) super.clone();
 		co.value = new DynamicVariable<Object>(value.getType(), value.getValue());
 		co.listValues = newList;
 		return co;
 	}
+
 	@Override
 	public int compareTo(ConfigurableOption o) {
-		if (this.name==null) return -1;
+		if (this.name == null)
+			return -1;
 		return this.name.compareTo(o.name);
 	}
-	
+
 	public void updateFrom(ConfigurableOption newOption) {
 		if (StringUtils.isEmpty(newOption.getLabel())) {
 			this.setLabel(newOption.getLabel());

@@ -1,6 +1,5 @@
 package sagex.phoenix.configuration;
 
-
 import java.util.List;
 
 import sagex.UIContext;
@@ -14,7 +13,7 @@ import sagex.phoenix.util.NamedValue;
  */
 public class SageExpressionOptionFactory implements IOptionFactory {
 	String expression = null;
-	
+
 	public SageExpressionOptionFactory(String expression) {
 		this.expression = expression;
 	}

@@ -18,7 +18,7 @@ public class GenericCommandMediaProcess extends MediaProcess {
 		public static final String control_media_url = "media_url";
 		public static final String control_media_file = "media_file";
 	}
-	
+
 	public static interface Env {
 		public static final String BASE_URL = "PMS_BASE_URL";
 		public static final String CLIENT_ID = "PMS_CLIENT_ID";
@@ -26,11 +26,11 @@ public class GenericCommandMediaProcess extends MediaProcess {
 		public static final String PLAYLIST_FILE = "PMS_PLAYLIST_FILE";
 		public static final String CONTROL_FILE = "PMS_CONTROL_FILE";
 		public static final String CLIENT_NETWORK = "PMS_CLIENT_NETWORK";
-		public static final String PROFILE_NAME="PMS_PROFILE_NAME";
+		public static final String PROFILE_NAME = "PMS_PROFILE_NAME";
 		public static final String CLIENT_SCREEN = "PMS_CLIENT_SCREEN";
 		public static final String OUTPUT_DIR = "PMS_OUTPUT_DIR";
 	}
-	
+
 	public GenericCommandMediaProcess(MediaStreamerManager manager, MediaRequest req) {
 		super(manager, req);
 	}
@@ -38,10 +38,10 @@ public class GenericCommandMediaProcess extends MediaProcess {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static void putEnv(Map map, String name, String value) {
 		if (!StringUtils.isEmpty(value)) {
-			map.put(name,value);
+			map.put(name, value);
 		}
 	}
-	
+
 	@Override
 	public synchronized void start() throws Exception {
 		MediaStreamerConfig config = mediaManager.getConfig();
@@ -49,18 +49,18 @@ public class GenericCommandMediaProcess extends MediaProcess {
 		mediaManager.log("Generic Media Process Manager starting using command/script: " + scrptName);
 		List<String> cmd = new ArrayList<String>();
 		cmd.add(scrptName);
-		
+
 		// add in the file(s)
-		for (String f: getRequest().getSources()) {
+		for (String f : getRequest().getSources()) {
 			cmd.add(f);
 		}
-		
+
 		mediaManager.log("Generic Command: " + Arrays.toString(cmd.toArray()));
-		
+
 		ProcessBuilder pb = new ProcessBuilder(cmd);
 		pb.redirectErrorStream(true);
 		pb.redirectOutput(Redirect.to(getOutputLogFile()));
-		
+
 		pb.directory(new File(getRequest().getOutputDir()));
 		Map<String, String> env = pb.environment();
 		putEnv(env, Env.BASE_URL, getRequest().getBaseUrl());
@@ -72,12 +72,12 @@ public class GenericCommandMediaProcess extends MediaProcess {
 		putEnv(env, Env.CLIENT_SCREEN, getRequest().getClientScreen());
 		putEnv(env, Env.PROFILE_NAME, getRequest().getProfile());
 		putEnv(env, Env.OUTPUT_DIR, getRequest().getOutputDir());
-		
+
 		process = pb.start();
-		
+
 		controlInfo.setMediaUrl(getIndexUrl());
 		controlInfo.setLockFile(getIndexFile());
-		
+
 		File f = new File(getControlFile());
 		if (f.exists()) {
 			Properties props = new Properties();
@@ -87,7 +87,7 @@ public class GenericCommandMediaProcess extends MediaProcess {
 				controlInfo.setLockFile(props.getProperty(Prop.control_media_file));
 			}
 		}
-		
+
 		mediaManager.log("Generic Process Started");
 	}
 
@@ -98,7 +98,7 @@ public class GenericCommandMediaProcess extends MediaProcess {
 	private File getOutputLogFile() {
 		return new File(getRequest().getOutputDir(), getRequest().getMediaId() + ".out.log");
 	}
-	
+
 	private String getIndexFile() {
 		return new File(getRequest().getOutputDir(), getRequest().getMediaId() + ".m3u8").getAbsolutePath();
 	}
@@ -109,17 +109,18 @@ public class GenericCommandMediaProcess extends MediaProcess {
 
 	@Override
 	public void abort() {
-		// when we about, we call the command again, with DESTROY as the first arg
+		// when we about, we call the command again, with DESTROY as the first
+		// arg
 		MediaStreamerConfig config = mediaManager.getConfig();
 		String scrptName = config.getScriptConfig().getCommand();
 		List<String> cmd = new ArrayList<String>();
 		cmd.add(scrptName);
 		cmd.add("DESTROY");
-		
+
 		ProcessBuilder pb = new ProcessBuilder(cmd);
 		pb.redirectErrorStream(true);
 		pb.redirectOutput(Redirect.to(getOutputLogFile()));
-		
+
 		pb.directory(new File(getRequest().getOutputDir()));
 		Map<String, String> env = pb.environment();
 		env.put(Env.BASE_URL, getRequest().getBaseUrl());
@@ -127,13 +128,13 @@ public class GenericCommandMediaProcess extends MediaProcess {
 		env.put(Env.MEDIA_ID, getRequest().getMediaId());
 		env.put(Env.PLAYLIST_FILE, getIndexFile());
 		env.put(Env.CONTROL_FILE, getControlFile());
-		
+
 		try {
 			process = pb.start();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		mediaManager.log("Generic Process Destroyed");
 	}
 }

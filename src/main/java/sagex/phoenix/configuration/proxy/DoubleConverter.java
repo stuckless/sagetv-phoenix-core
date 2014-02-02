@@ -10,6 +10,6 @@ public class DoubleConverter implements FieldConverter<Double> {
 
 	@Override
 	public String toString(Double in) {
-		return in==null?null:String.valueOf(in);
+		return in == null ? null : String.valueOf(in);
 	}
 }

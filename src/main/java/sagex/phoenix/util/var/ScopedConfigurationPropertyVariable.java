@@ -1,25 +1,25 @@
 package sagex.phoenix.util.var;
 
-
-
 /**
- * Variable that is bound to a configuration property.  Any sets are automatically reflected in the
- * property.
+ * Variable that is bound to a configuration property. Any sets are
+ * automatically reflected in the property.
  * 
  * @author seans
- *
+ * 
  * @param <T>
  */
 public class ScopedConfigurationPropertyVariable<T> extends Variable<T> {
-	public static enum Scope {Client, User, Server}
+	public static enum Scope {
+		Client, User, Server
+	}
 
 	private Scope scope;
 	private String key;
-	
+
 	public ScopedConfigurationPropertyVariable(Scope scope, String key, Class<T> type) {
 		super(type);
-		this.scope=scope;
-		this.key=key;
+		this.scope = scope;
+		this.key = key;
 	}
 
 	@Override
@@ -38,11 +38,11 @@ public class ScopedConfigurationPropertyVariable<T> extends Variable<T> {
 		// default return
 		return getConverter().toType(null);
 	}
-	
+
 	@Override
 	public void set(T value) {
 		String val = getConverter().toString(value);
-		
+
 		switch (scope) {
 		case Client:
 			phoenix.config.SetProperty(key, val);

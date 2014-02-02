@@ -29,14 +29,14 @@ public class NeilmIMDBMetaDataParser {
 
 	private IMetadata metadata = null;
 	private IMetadataProvider provider;
-	
+
 	private MetadataConfiguration mdConfig = GroupProxy.get(MetadataConfiguration.class);
 
 	public NeilmIMDBMetaDataParser(IMetadataProvider prov, ImdbWebBackend db, DbTitleObject data) {
 		this.data = data;
 		this.db = db;
 		this.provider = prov;
-		
+
 	}
 
 	public IMetadata getMetaData() {
@@ -55,12 +55,13 @@ public class NeilmIMDBMetaDataParser {
 				}
 			}
 
-			metadata.setRated(Phoenix.getInstance().getRatingsManager().getRating(MediaType.MOVIE, MetadataSearchUtil.parseMPAARating(data.getMPAArating())));
+			metadata.setRated(Phoenix.getInstance().getRatingsManager()
+					.getRating(MediaType.MOVIE, MetadataSearchUtil.parseMPAARating(data.getMPAArating())));
 			metadata.setExtendedRatings(data.getMPAArating());
 			metadata.setDescription(data.getSummaries());
 			metadata.setOriginalAirDate(DateUtils.parseDate(data.getAiringDate()));
 			try {
-				metadata.setRunningTime(data.getDuration()*60*1000);
+				metadata.setRunningTime(data.getDuration() * 60 * 1000);
 			} catch (Throwable t) {
 				Loggers.METADATA.warn("Failed to get Runtime information from IMDB", t);
 			}
@@ -81,7 +82,7 @@ public class NeilmIMDBMetaDataParser {
 				metadata.setTrivia(data.getTrivia());
 				metadata.setQuotes(data.getQuotes());
 			}
-			
+
 			metadata.setTagLine(data.getTagLines());
 		}
 		return metadata;
@@ -90,24 +91,23 @@ public class NeilmIMDBMetaDataParser {
 	public void updateCastMembers() {
 		Vector<Role> cast = data.getCast();
 		if (cast != null && cast.size() > 0) {
-			for (Role role: cast) {
+			for (Role role : cast) {
 				metadata.getActors().add(new CastMember(role.getName().getName(), role.getPart()));
 			}
 		}
-		
+
 		cast = data.getOriginators();
 		if (cast != null && cast.size() > 0) {
-			for (Role role: cast) {
+			for (Role role : cast) {
 				String part = role.getPart();
-				if (part==null) continue;
-				part=part.trim();
-				if ("(Directed by)".equalsIgnoreCase(part) ||
-					"directed".equalsIgnoreCase(part)	) {
+				if (part == null)
+					continue;
+				part = part.trim();
+				if ("(Directed by)".equalsIgnoreCase(part) || "directed".equalsIgnoreCase(part)) {
 					metadata.getDirectors().add(new CastMember(role.getName().getName(), null));
-				} else if ("(Writing credits)".equalsIgnoreCase(part)||
-						   "Writer".equalsIgnoreCase(part)||
-						   "Writing".equalsIgnoreCase(part)) {
-					metadata.getWriters().add(new CastMember(role.getName().getName(),null));
+				} else if ("(Writing credits)".equalsIgnoreCase(part) || "Writer".equalsIgnoreCase(part)
+						|| "Writing".equalsIgnoreCase(part)) {
+					metadata.getWriters().add(new CastMember(role.getName().getName(), null));
 				} else if ("producer".equalsIgnoreCase(part)) {
 					metadata.getProducers().add(new CastMember(role.getName().getName(), null));
 				} else if ("choreographer".equalsIgnoreCase(part)) {
@@ -115,6 +115,6 @@ public class NeilmIMDBMetaDataParser {
 				}
 			}
 		}
-		
+
 	}
 }

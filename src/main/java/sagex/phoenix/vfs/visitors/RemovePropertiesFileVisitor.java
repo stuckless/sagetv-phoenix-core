@@ -8,7 +8,8 @@ import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.util.PathUtils;
 
 /**
- * Physically removed .properties file that as associated with each given media file
+ * Physically removed .properties file that as associated with each given media
+ * file
  * 
  * @author seans
  */
@@ -19,7 +20,7 @@ public class RemovePropertiesFileVisitor extends FileVisitor {
 	@Override
 	public boolean visitFile(IMediaFile res, IProgressMonitor monitor) {
 		File file = FanartUtil.resolvePropertiesFile(PathUtils.getFirstFile(res));
-		if (file !=null && file.exists()) {
+		if (file != null && file.exists()) {
 			if (file.delete()) {
 				incrementAffected();
 			}
