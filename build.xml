@@ -29,7 +29,7 @@
 	<property name="tools.dir" location="${build.dir}/tools/" />
 
 	<property name="name" value="phoenix" />
-	<property name="version" value="2.5.11" />
+	<property name="version" value="2.5.12" />
 	<property name="jarname" value="${name}.jar" />
 	
 	<!--<property name="createJAVADOC" value="true"/> -->

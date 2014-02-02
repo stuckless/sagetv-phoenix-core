@@ -99,6 +99,9 @@
   </Package>
   
   <ReleaseNotes>
+2.5.12
+* Fixed JSON encoding issue in the Phoenix Remote APIs
+
 2.5.5
 * Weather updates by Jusjoken
 
