@@ -99,7 +99,7 @@ public class WeatherAPI2 {
 		codeMap.put(38, "Scattered Thunderstorms");
 		codeMap.put(39, "Scattered Thunderstorms");
 		codeMap.put(40, "Scattered Showers");
-		codeMap.put(41, "Heavy Snow");
+		codeMap.put(41, "Snow");
 		codeMap.put(42, "Scattered Snow Showers");
 		codeMap.put(43, "Heavy Snow");
 		codeMap.put(44, "Partly Cloudy");
