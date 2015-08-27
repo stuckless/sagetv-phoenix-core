@@ -1,0 +1,31 @@
+plugins {
+	id "com.jfrog.bintray" version "1.3.1"
+}
+
+bintray {
+	user = 'stuckless'
+	key = '60baaaeb974be346702a0441e6a35ba4e09fa8b5'
+	filesSpec {
+		from 'target/dist/packages/'
+		into 'phoenix'
+	}
+	dryRun = false //Whether to run this as dry-run, without deploying
+	publish = true //If version should be auto published after an upload
+	pkg {
+		repo = 'sagetv-plugins'
+		name = 'phoenix'
+		userOrg = 'opensagetv'
+		desc = 'Phoenix Plugin for SageTV'
+		licenses = ['Apache-2.0']
+		vcsUrl = 'https://github.com/stuckless/sagetv-phoenix-core'
+		labels = ['sagetv', 'phoenix', 'sagetv-plugin']
+		publicDownloadNumbers = true
+		//attributes= ['a': ['ay1', 'ay2'], 'b': ['bee'], c: 'cee'] //Optional package-level attributes
+		version {
+			name = '2.5.13'
+			desc = 'Phoenix API'
+			vcsTag = '2.5.13'
+			//attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
+		}
+	}
+}

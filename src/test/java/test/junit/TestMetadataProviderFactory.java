@@ -30,8 +30,6 @@ import sagex.phoenix.metadata.MediaArtifactType;
 import sagex.phoenix.metadata.MediaType;
 import sagex.phoenix.metadata.MetadataException;
 import sagex.phoenix.metadata.MetadataManager;
-import sagex.phoenix.metadata.provider.dvdprofiler.DVDProfilerConfiguration;
-import sagex.phoenix.metadata.provider.mymovies.MyMoviesConfiguration;
 import sagex.phoenix.metadata.search.HasIMDBID;
 import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.metadata.search.SearchQuery;
@@ -101,140 +99,7 @@ public class TestMetadataProviderFactory {
 		}
 	}
 
-	@Test
-	public void testDVDProfilerLookup() throws Exception {
-		ISageAPIProvider sageapi = SageAPI.getProvider();
-		try {
-			SageAPI.setProvider(new StubSageAPI());
-			DVDProfilerConfiguration cfg = GroupProxy.get(DVDProfilerConfiguration.class);
-			cfg.setXmlFile("src/test/java/test/junit/dvdprofiler/Collection.xml");
-			cfg.setImageDir("src/test/java/test/junit/dvdprofiler/");
 
-			System.out.println("Dvd File: " + cfg.getXmlFile());
-
-			SearchQuery query = new SearchQuery(MediaType.MOVIE, "A Night at the Roxbury", "1999");
-			List<IMetadataSearchResult> results = mgr.search("dvdprofiler", query);
-			assertTrue("Search for A Night at the roxbury return nothing!", results.size() > 0);
-
-			// ensure we get roxbury
-			IMetadataSearchResult result = MetadataSearchUtil.getBestResultForQuery(results, query);
-			assertEquals("097363359470", result.getId());
-			assertEquals("dvdprofiler", result.getProviderId());
-			assertEquals(MediaType.MOVIE, result.getMediaType());
-			assertEquals(1999, result.getYear());
-			assertEquals("Night at the Roxbury", result.getTitle());
-			assertEquals("097363359470", result.getUrl());
-
-			// get the metadata, validate it
-			IMetadata md = mgr.getMetdata(result);
-			assertEquals(43, md.getActors().size());
-			assertEquals("Will Ferrell", md.getActors().get(0).getName());
-			assertEquals("Steve Butabi", md.getActors().get(0).getRole());
-
-			assertNotNull(md.getDescription());
-			assertEquals(1, md.getDirectors().size());
-			assertEquals("Night at the Roxbury", md.getEpisodeName());
-
-			assertTrue(md.getFanart().size() > 0); // should have more than just
-													// a poster
-
-			assertEquals(1, md.getGenres().size());
-			assertEquals("Comedy", md.getGenres().get(0));
-
-			assertEquals("097363359470", md.getMediaProviderDataID());
-			assertEquals("dvdprofiler", md.getMediaProviderID());
-			assertEquals("Night at the Roxbury", md.getMediaTitle());
-			assertEquals(MediaType.MOVIE.sageValue(), md.getMediaType());
-			assertEquals(DateUtils.parseDate("1999-04-20").getTime(), md.getOriginalAirDate().getTime());
-			assertEquals("PG-13", md.getRated());
-			assertNull(md.getExtendedRatings());
-			assertEquals(MetadataSearchUtil.convertTimeToMillissecondsForSage("82"), md.getRunningTime());
-			assertEquals("Night at the Roxbury", md.getEpisodeName());
-			assertNull(md.getRelativePathWithTitle());
-			// dvd profile does not have user ratings
-			// assertTrue("Invalid User Rating: " + md.getUserRating(),
-			// md.getUserRating() > 0);
-			assertTrue(md.getWriters().size() > 0);
-			assertEquals(1999, md.getYear());
-
-			assertTrue(md.getFanart().size() > 0);
-			IMediaArt ma = md.getFanart().get(0);
-			assertEquals("097363359470f.png", new File(ma.getDownloadUrl()).getName());
-			assertEquals(MediaArtifactType.POSTER, ma.getType());
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		} finally {
-			SageAPI.setProvider(sageapi);
-		}
-
-	}
-
-	@Test
-	public void testMyMoviesLookup() throws Exception {
-		ISageAPIProvider sageapi = SageAPI.getProvider();
-		try {
-			SageAPI.setProvider(new StubSageAPI());
-			MyMoviesConfiguration cfg = GroupProxy.get(MyMoviesConfiguration.class);
-			cfg.setXmlFile("src/test/java/test/junit/mymovies/Titles.xml");
-
-			SearchQuery query = new SearchQuery(MediaType.MOVIE, "Harry Potter and the Sorcerer's Stone", "1999");
-			List<IMetadataSearchResult> results = mgr.search("mymovies", query);
-			assertTrue("Search for Harry Potter return nothing!", results.size() > 0);
-
-			// ensure we get roxbury
-			IMetadataSearchResult result = MetadataSearchUtil.getBestResultForQuery(results, query);
-			assertEquals("5", result.getId());
-			assertEquals("mymovies", result.getProviderId());
-			assertEquals(MediaType.MOVIE, result.getMediaType());
-			assertEquals(2002, result.getYear());
-			assertEquals("Harry Potter and the Sorcerer's Stone", result.getTitle());
-			assertEquals("5", result.getUrl());
-			assertEquals("tt0241527", ((HasIMDBID) result).getIMDBId());
-
-			// get the metadata, validate it
-			IMetadata md = mgr.getMetdata(result);
-			assertTrue(md.getActors().size() > 10);
-			assertEquals("Nina Young", md.getActors().get(0).getName());
-			assertEquals("The Grey Lady", md.getActors().get(0).getRole());
-
-			assertNotNull(md.getDescription());
-			assertTrue(md.getDirectors().size() > 0);
-			assertEquals("Harry Potter and the Sorcerer's Stone", md.getEpisodeName());
-
-			assertTrue(md.getFanart().size() > 0); // should have more than just
-													// a poster
-
-			assertTrue(md.getGenres().size() > 0);
-			assertEquals("Adventure", md.getGenres().get(0));
-
-			assertEquals("5", md.getMediaProviderDataID());
-			assertEquals("mymovies", md.getMediaProviderID());
-			assertEquals("tt0241527", md.getIMDBID());
-
-			assertEquals("Harry Potter and the Sorcerer's Stone", md.getMediaTitle());
-			assertEquals(MediaType.MOVIE.sageValue(), md.getMediaType());
-			assertEquals(DateUtils.parseDate("5/28/2002").getTime(), md.getOriginalAirDate().getTime());
-			assertEquals("PG", md.getRated());
-			assertNotNull(md.getExtendedRatings());
-			assertEquals(MetadataSearchUtil.convertTimeToMillissecondsForSage("152"), md.getRunningTime());
-			assertEquals("Harry Potter and the Sorcerer's Stone", md.getEpisodeName());
-			assertNull(md.getRelativePathWithTitle());
-
-			// my movies does not have user ratings
-			// assertTrue("Invalid User Rating: " + md.getUserRating(),
-			// md.getUserRating() > 0);
-			// apparently, I don't have writers
-			// assertTrue(md.getWriters().size() > 0);
-			assertEquals(2002, md.getYear());
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		} finally {
-			SageAPI.setProvider(sageapi);
-		}
-
-	}
 
 	@Deprecated
 	@Test

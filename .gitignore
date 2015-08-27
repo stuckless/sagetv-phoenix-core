@@ -12,3 +12,4 @@ cache/
 target/
 /lib
 /README.md~
+.gradle

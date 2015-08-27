@@ -3,7 +3,6 @@ package sagex.phoenix.metadata;
 import java.util.Date;
 import java.util.List;
 
-import sagex.phoenix.lucene.annotation.LuceneIndexable;
 import sagex.phoenix.metadata.proxy.SageProperty;
 
 /**
@@ -33,67 +32,51 @@ public interface ISageCustomMetadataRW extends ISageMetadata {
 	 * @return
 	 */
 	@SageProperty("MediaTitle")
-	@LuceneIndexable
 	public String getMediaTitle();
 
 	@SageProperty("MediaTitle")
-	@LuceneIndexable
 	public void setMediaTitle(String title);
 
 	@SageProperty("MediaType")
-	@LuceneIndexable
 	public String getMediaType();
 
 	@SageProperty("MediaType")
-	@LuceneIndexable
 	public void setMediaType(String type);
 
 	@SageProperty("SeasonNumber")
-	@LuceneIndexable
 	public int getSeasonNumber();
 
 	@SageProperty("SeasonNumber")
-	@LuceneIndexable
 	public void setSeasonNumber(int num);
 
 	@SageProperty("EpisodeNumber")
-	@LuceneIndexable(index = false)
 	public int getEpisodeNumber();
 
 	@SageProperty("EpisodeNumber")
-	@LuceneIndexable(index = false)
 	public void setEpisodeNumber(int num);
 
 	@SageProperty("IMDBID")
-	@LuceneIndexable
 	public String getIMDBID();
 
 	@SageProperty("IMDBID")
-	@LuceneIndexable
 	public void setIMDBID(String id);
 
 	@SageProperty("DiscNumber")
-	@LuceneIndexable(index = false)
 	public int getDiscNumber();
 
 	@SageProperty("DiscNumber")
-	@LuceneIndexable(index = false)
 	public void setDiscNumber(int disc);
 
 	@SageProperty("MediaProviderID")
-	@LuceneIndexable
 	public String getMediaProviderID();
 
 	@SageProperty("MediaProviderID")
-	@LuceneIndexable
 	public void setMediaProviderID(String id);
 
 	@SageProperty("MediaProviderDataID")
-	@LuceneIndexable
 	public String getMediaProviderDataID();
 
 	@SageProperty("MediaProviderDataID")
-	@LuceneIndexable
 	public void setMediaProviderDataID(String id);
 
 	/**
@@ -103,11 +86,9 @@ public interface ISageCustomMetadataRW extends ISageMetadata {
 	 * @return
 	 */
 	@SageProperty("UserRating")
-	@LuceneIndexable
 	public int getUserRating();
 
 	@SageProperty("UserRating")
-	@LuceneIndexable
 	public void setUserRating(int f);
 
 	@SageProperty(value = "Fanart", listFactory = "sagex.phoenix.metadata.proxy.MediaArtPropertyListFactory")

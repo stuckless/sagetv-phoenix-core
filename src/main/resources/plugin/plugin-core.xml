@@ -32,21 +32,19 @@ Phoenix Core Services provides the following services
     <MinVersion>1.6</MinVersion>
   </Dependency>
 
-  <Dependency>
-    <Plugin>lucene-core</Plugin>
-    <MinVersion>3.0.1</MinVersion>
-  </Dependency>
-  
   <PluginType>Standard</PluginType>
 
   <Package>
     <PackageType>System</PackageType>
-    <Location>http://sagephoenix.googlecode.com/files/phoenix-core-@@version@@.zip</Location>
+    <Location>http://dl.bintray.com/opensagetv/sagetv-plugins/phoenix/phoenix-core-@@version@@.zip</Location>
     <MD5>@@system-checksum@@</MD5>
   </Package>
   
   <ImplementationClass>sagex.phoenix.plugin.PhoenixPlugin</ImplementationClass>
   <ReleaseNotes>
+2.5.13
+* Removed Lucene support (and DVDProfiler and MyMovies)
+  
 2.5.5
 * Weather updates by Jusjoken
 
