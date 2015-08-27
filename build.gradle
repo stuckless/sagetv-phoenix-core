@@ -4,7 +4,7 @@ plugins {
 
 bintray {
 	user = 'stuckless'
-	key = '60baaaeb974be346702a0441e6a35ba4e09fa8b5'
+	key = 'API_KEY'
 	filesSpec {
 		from 'target/dist/packages/'
 		into 'phoenix'
