@@ -380,6 +380,36 @@ public class TestMetadataProviderFactory {
 		assertTrue(md.getWriters().size() > 0);
 		assertEquals(2010, md.getYear());
 	}
+	
+	@Test
+	public void testTVDBApostrope() throws Exception {
+		SearchQuery query = new SearchQuery(MediaType.TV, "South Park", null);
+		query.set(Field.PROVIDER, "tvdb");
+		//query.set(Field.ID, "75897");
+		query.set(Field.QUERY, "South Park");
+		query.set(Field.SEASON, "19");
+		query.set(Field.EPISODE, "4");
+
+		List<IMetadataSearchResult> results = mgr.search("tmdb", query);
+		for (IMetadataSearchResult r : results) {
+			System.out.println("Result: " + r);
+		}
+		
+		// ensure we get iron man
+		IMetadataSearchResult result = MetadataSearchUtil.getBestResultForQuery(results, query);
+//		assertEquals("10138", result.getId());
+//		assertEquals("tmdb", result.getProviderId());
+//		assertEquals(MediaType.MOVIE, result.getMediaType());
+//		assertEquals(2010, result.getYear());
+//		assertEquals("Iron Man 2", result.getTitle());
+		
+		
+		IMetadata md = mgr.getMetdata(result);
+		System.out.println(md.getMediaTitle());
+		System.out.println(md.getEpisodeName());
+		System.out.println(md.getDescription());		
+	}
+	
 
 	@Test
 	public void testTMDBLookupWithSpecialCharacters() throws Exception {

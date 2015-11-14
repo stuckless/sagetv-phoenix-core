@@ -45,12 +45,16 @@ public class InitPhoenix {
 			}
 		});
 
+		try {
 		FileUtils.copyDirectory(new File("../PhoenixUI/STVs/Phoenix/vfs"), new File(baseDir, "STVs/Phoenix/vfs"), new FileFilter() {
 			public boolean accept(File pathname) {
 				System.out.println("Copy: " + pathname);
 				return !(pathname.getName().startsWith("."));
 			}
 		});
+		} catch (Throwable t) {
+			t.printStackTrace();
+		}
 
 		System.out.println("Initializing Phoneix with testing dir: " + baseDir.getAbsolutePath());
 		System.setProperty("phoenix/sagetvHomeDir", baseDir.getAbsolutePath());
