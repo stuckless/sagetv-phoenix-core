@@ -66,7 +66,8 @@ public class FactoryRegistry<F extends Factory<?>> {
 
 		for (String s : tags) {
 			for (F f : factories.values()) {
-				if ((f.isVisible() || includeInvisible) && (f.getTags().size() == 0 || f.hasTag(s))) {
+				//if ((f.isVisible() || includeInvisible) && (f.getTags().size() == 0 || f.hasTag(s))) {
+				if ((f.isVisible() || includeInvisible) && (f.hasTag(s))) {
 					set.add(f);
 				}
 			}

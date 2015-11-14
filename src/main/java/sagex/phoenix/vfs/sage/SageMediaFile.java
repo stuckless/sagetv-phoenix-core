@@ -235,10 +235,14 @@ public class SageMediaFile extends VirtualMediaFile implements IMediaFile {
 		} else if (rtype == MediaResourceType.ONLINE) {
 			// sage media files are not "online" videos
 			return false;
+		} else if (rtype == MediaResourceType.DUMMY) {
+			return false;
+		} else if (rtype == MediaResourceType.MISSINGTV) {
+			return false;
 		} else if (super.isType(type)) {
 			return true;
 		} else {
-			log.warn("isType(" + rtype + "[" + type + "]" + ") is unhandled.");
+			log.debug("isType(" + rtype + "[" + type + "]" + ") is unhandled.");
 			return false;
 		}
 	}
