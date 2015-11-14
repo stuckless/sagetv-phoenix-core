@@ -279,7 +279,7 @@ public class MediaAPI {
 		}
 
 		if (mediaFile != null) {
-			log.warn("Failed to Create IMediaFile object from " + mediaFile);
+			log.debug("Failed to Create IMediaFile object from " + mediaFile);
 		}
 		return null;
 	}
@@ -347,6 +347,17 @@ public class MediaAPI {
 	 */
 	public boolean IsDummyVideo(Object file) {
 		return IsMediaType(file, MediaResourceType.DUMMY.name());
+	}
+
+	/**
+	 * Returns true if the media file is a Missing TV item, ie, cannot be played,
+	 * just a placeholder for one or more missing TV Episodes.
+	 * 
+	 * @param file
+	 * @return
+	 */
+	public boolean IsMissingTV(Object file) {
+		return IsMediaType(file, MediaResourceType.MISSINGTV.name());
 	}
 
 	/**

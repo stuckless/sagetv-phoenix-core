@@ -8,7 +8,7 @@ public enum MediaResourceType {
 			13), EPG_AIRING(14), // means, there is not "real" mediafile
 									// associated with this, it's simply an EPG
 									// item
-	HOME_MOVIE(15), DUMMY(99); // means, the node is informational, ie not a
+	HOME_MOVIE(15), MISSINGTV(98), DUMMY(99); // means, the node is informational, ie not a
 								// real anything;
 
 	private int intValue;

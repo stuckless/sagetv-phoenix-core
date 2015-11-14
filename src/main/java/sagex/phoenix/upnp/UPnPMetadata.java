@@ -829,4 +829,16 @@ public class UPnPMetadata implements IMetadata {
 	@Override
 	public void setTagLine(String tagline) {
 	}
+
+	@Override
+	public int getEpisodeCount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setEpisodeCount(int count) {
+		// TODO Auto-generated method stub
+		
+	}
 }

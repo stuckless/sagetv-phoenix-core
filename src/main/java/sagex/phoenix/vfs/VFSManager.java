@@ -279,7 +279,7 @@ public class VFSManager extends SystemConfigurationFileManager implements System
 		if (Phoenix.isStandalone())
 			return;
 
-		String dlurl = "http://sagephoenix.googlecode.com/svn/trunk/PhoenixUI/STVs/Phoenix/vfs/x-vfs.xml";
+		String dlurl = "https://raw.githubusercontent.com/stuckless/sagetv-phoenix-core/master/STVs/Phoenix/vfs/x-vfs.xml";
 		File masterXml = new File(Phoenix.getInstance().getVFSManager().getSystemFiles().getDir(), "x-vfs.xml");
 		log.info("Checking for core Phoenix Views: " + masterXml);
 		if (!masterXml.exists() || masterXml.length() == 0) {

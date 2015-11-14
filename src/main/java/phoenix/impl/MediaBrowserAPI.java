@@ -30,6 +30,7 @@ import sagex.phoenix.vfs.HasPlayableUrl;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
+import sagex.phoenix.vfs.MediaResourceType;
 import sagex.phoenix.vfs.VirtualMediaFolder;
 import sagex.phoenix.vfs.sage.MediaFilesMediaFolder;
 import sagex.phoenix.vfs.sage.SageSourcesMediaFolder;
@@ -298,6 +299,16 @@ public class MediaBrowserAPI {
 	 * @return
 	 */
 	public boolean IsPlayable(Object file) {
+		if (file instanceof IMediaFile) {
+			IMediaFile IMF = (IMediaFile) file;
+			if (IMF.isType(MediaResourceType.DUMMY.value())) {
+				log.debug("IsPlayable: " + file + "; not playable for type : MISSINGTV");
+				return false;
+			} else if (IMF.isType(MediaResourceType.MISSINGTV.value())) {
+				log.debug("IsPlayable: " + file + "; not playable for type : DUMMY");
+				return false;
+			}
+		}
 		boolean playable = (file instanceof IMediaFile) || (file instanceof HasPlayableUrl) || MediaFileAPI.IsMediaFileObject(file);
 		log.debug("IsPlayable: " + file + "; " + playable);
 		return playable;
