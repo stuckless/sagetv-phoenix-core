@@ -26,7 +26,6 @@
 
    <sources>
       <item name="tvmediafiles" label="Sage TV Media Files" class="sagex.phoenix.vfs.sources.TVMediaFilesSourceFactory">
-          <option name="combine" label="Combine Sources" datatype="boolean"/>
       </item>
       
       <item name="expression" label="Sage Expression" class="sagex.phoenix.vfs.sources.SageExpressionSourceFactory">
@@ -687,6 +686,31 @@
          They are all set to visible="false"
          These are all variations on the primary views, with different filters and sortings added
       -->
+      
+      <view name="phoenix.view.util.missingEpisodes" label="Missing TV Episodes" flat="true" visible="false">
+			<description>Missing TV Episodes, Grouped by Show Then Season Then Episode</description>
+			<tag value="gemstone"/>
+			<tag value="gemsource"/>
+			<source name="tvmediafiles">
+				<option name="combine" value="false"/>
+			</source>
+            <filter by="missingtv" value="true" scope="include"/>
+
+			<presentation level="1">
+				<group by="show">
+					<option name="prune-single-item-groups" value="false"/>
+					<option name="empty-foldername" value="No Series"/>
+				</group>
+				<sort by="title">
+					<option name="ignore-all" value="true"/>
+				</sort>
+			</presentation>		
+			
+			<presentation level="2">
+				<sort by="seasonepisode"/>
+			</presentation>
+      </view>		
+      
       <view name="phoenix.view.util.todaysrecordings" label="Todays Recordings" flat="true" visible="false">
          <description>Recordings sorted by recording date, limited to todays date</description>
          <view-source name="phoenix.view.primary.scheduledrecordings"/>

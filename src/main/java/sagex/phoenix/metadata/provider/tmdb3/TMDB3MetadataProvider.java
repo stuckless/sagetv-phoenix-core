@@ -34,18 +34,22 @@ import sagex.phoenix.util.DateUtils;
 
 import com.omertron.themoviedbapi.MovieDbException;
 import com.omertron.themoviedbapi.TheMovieDbApi;
-import com.omertron.themoviedbapi.model.AlternativeTitle;
-import com.omertron.themoviedbapi.model.Artwork;
-import com.omertron.themoviedbapi.model.ArtworkType;
+import com.omertron.themoviedbapi.model.media.AlternativeTitle;
+import com.omertron.themoviedbapi.model.media.MediaCreditList;
+import com.omertron.themoviedbapi.model.artwork.Artwork;
+import com.omertron.themoviedbapi.model.credits.MediaCreditCast;
+import com.omertron.themoviedbapi.model.credits.MediaCreditCrew;
+import com.omertron.themoviedbapi.enumeration.ArtworkType;
+import com.omertron.themoviedbapi.enumeration.SearchType;
 import com.omertron.themoviedbapi.model.Genre;
-import com.omertron.themoviedbapi.model.MovieDb;
-import com.omertron.themoviedbapi.model.Person;
-import com.omertron.themoviedbapi.model.ReleaseInfo;
-import com.omertron.themoviedbapi.model.Trailer;
-import com.omertron.themoviedbapi.results.TmdbResultsList;
+import com.omertron.themoviedbapi.model.movie.MovieInfo;
+import com.omertron.themoviedbapi.model.movie.ReleaseInfo;
+import com.omertron.themoviedbapi.results.ResultList;
+import com.omertron.themoviedbapi.model.media.Video;
 
 /**
- * TheMovieDB Provider using themoviedb api v3
+ * TheMovieDB Provider using themoviedb api v4
+ *  - KEB - modified 11/30/2015 to use TMDB v4.1
  */
 public class TMDB3MetadataProvider extends MetadataProvider implements HasFindByIMDBID {
 	private Logger log = Logger.getLogger(this.getClass());
@@ -69,7 +73,7 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 		try {
 			tmdb = new TheMovieDbApi(getApiKey());
 		} catch (Throwable t) {
-			log.error("Failed to create The Movie DB v3 Provider", t);
+			log.error("Failed to create The Movie DB v4 Provider", t);
 			throw new RuntimeException(t);
 		}
 		config = GroupProxy.get(TMDB3Configuration.class);
@@ -93,7 +97,7 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 		}
 	}
 
-	protected IMetadata createMetadata(MovieDb movie) throws MetadataException, MovieDbException {
+	protected IMetadata createMetadata(MovieInfo movie) throws MetadataException, MovieDbException {
 		IMetadata md = MetadataProxy.newInstance();
 
 		int tid = movie.getId();
@@ -120,21 +124,23 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 		md.setOriginalAirDate(DateUtils.parseDate(movie.getReleaseDate()));
 		md.setRunningTime(movie.getRuntime() * 60 * 1000);
 
-		TmdbResultsList<Trailer> results = getMovieTrailers(tmdb, tid, config.getLanguage());
+		ResultList<Video> results = getMovieTrailers(tmdb, tid, config.getLanguage());
 		if (results == null || results.getTotalResults() == 0) {
 			results = getMovieTrailers(tmdb, tid, null);
 		}
 
-		List<Trailer> trailers = null;
+		List<Video> trailers = null;
 		if (results != null) {
 			trailers = results.getResults();
 		}
 
 		if (trailers != null && trailers.size() > 0) {
-			for (Trailer t : trailers) {
+			for (Video t : trailers) {
 				// look for youtube, HD, trailers
-				if ("youtube".equalsIgnoreCase(t.getWebsite()) && "HD".equalsIgnoreCase(t.getSize())
-						&& !StringUtils.isEmpty(t.getSource())) {
+				
+				//if ("youtube".equalsIgnoreCase(t.getWebsite()) && "HD".equalsIgnoreCase(t.getSize())
+				if ("youtube".equalsIgnoreCase(t.getSite()) && "HD".equalsIgnoreCase(t.getType())
+						&& !StringUtils.isEmpty(t.getKey())) {
 					setYoutubeTrailer(md, t);
 					break;
 				}
@@ -142,8 +148,9 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 
 			// not trailer, so look for youtube, non HD
 			if (StringUtils.isEmpty(md.getTrailerUrl())) {
-				for (Trailer t : trailers) {
-					if ("youtube".equalsIgnoreCase(t.getWebsite()) && !StringUtils.isEmpty(t.getSource())) {
+				for (Video t : trailers) {
+					//if ("youtube".equalsIgnoreCase(t.getWebsite()) && !StringUtils.isEmpty(t.getSource())) {
+					if ("youtube".equalsIgnoreCase(t.getSite()) && !StringUtils.isEmpty(t.getKey())) {
 						setYoutubeTrailer(md, t);
 						break;
 					}
@@ -153,23 +160,30 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 
 		md.setTagLine(movie.getTagline());
 
-		List<Person> cast = null;
-		TmdbResultsList<Person> castResults = getMovieCasts(tmdb, tid, config.getLanguage());
-		if (castResults == null || castResults.getTotalResults() == 0) {
+		List<MediaCreditCast> cast = null;
+		List<MediaCreditCrew> crew = null;
+		MediaCreditList castResults = getMovieCasts(tmdb, tid, config.getLanguage());
+		if (castResults == null || castResults.getCast().size() == 0) {
 			castResults = getMovieCasts(tmdb, tid, null);
 		}
 
 		if (castResults != null) {
-			cast = castResults.getResults();
+			cast = castResults.getCast();
+			crew = castResults.getCrew();
 		}
+		//add all the cast members
 		if (cast != null) {
-			for (Person p : cast) {
+			for (MediaCreditCast p : cast) {
+				md.getActors().add(new CastMember(p.getName(), p.getCharacter()));
+			}
+		}
+		//add all the other jobs of the crew
+		if (cast != null) {
+			for (MediaCreditCrew p : crew) {
 				String job = p.getJob();
 				if (job == null)
 					continue;
-				if ("actor".equalsIgnoreCase(job)) {
-					md.getActors().add(new CastMember(p.getName(), p.getCharacter()));
-				} else if ("director".equalsIgnoreCase(job)) {
+				if ("director".equalsIgnoreCase(job)) {
 					md.getDirectors().add(new CastMember(p.getName(), null));
 				} else if ("producer".equalsIgnoreCase(job)) {
 					md.getProducers().add(new CastMember(p.getName(), null));
@@ -194,31 +208,31 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 		return md;
 	}
 
-	private TmdbResultsList<Artwork> getMovieImages(TheMovieDbApi tmdb2, int tid, Object object) {
+	private ResultList<Artwork> getMovieImages(TheMovieDbApi tmdb2, int tid, Object object) {
 		try {
-			return tmdb.getMovieImages(tid, null);
+			return tmdb2.getMovieImages(tid, null);
 		} catch (Throwable t) {
 			return null;
 		}
 	}
 
-	private TmdbResultsList<Person> getMovieCasts(TheMovieDbApi tmdb2, int tid, String language) {
+	private MediaCreditList getMovieCasts(TheMovieDbApi tmdb2, int tid, String language) {
 		try {
-			return tmdb2.getMovieCasts(tid, language);
+			return tmdb2.getMovieCredits(tid);
 		} catch (Throwable t) {
 		}
 		return null;
 	}
 
-	private TmdbResultsList<Trailer> getMovieTrailers(TheMovieDbApi tmdb2, int tid, String language) {
+	private ResultList<Video> getMovieTrailers(TheMovieDbApi tmdb2, int tid, String language) {
 		try {
-			return tmdb2.getMovieTrailers(tid, language);
+			return tmdb2.getMovieVideos(tid, language);
 		} catch (Throwable t) {
 			return null;
 		}
 	}
 
-	protected void processArt(IMetadata md, TmdbResultsList<Artwork> results) {
+	protected void processArt(IMetadata md, ResultList<Artwork> results) {
 		if (results == null) {
 			return;
 		}
@@ -299,15 +313,15 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 		}
 	}
 
-	private void setYoutubeTrailer(IMetadata md, Trailer t) {
-		if (t.getSource() != null && t.getSource().startsWith("http")) {
-			md.setTrailerUrl(t.getSource());
+	private void setYoutubeTrailer(IMetadata md, Video t) {
+		if (t.getKey() != null && t.getKey().startsWith("http")) {
+			md.setTrailerUrl(t.getKey());
 		}
-		md.setTrailerUrl("http://www.youtube.com/watch?v=" + t.getSource());
+		md.setTrailerUrl("http://www.youtube.com/watch?v=" + t.getKey());
 	}
 
-	private void updateReleaseInfo(IMetadata md, MovieDb movie, String country) throws MovieDbException {
-		TmdbResultsList<ReleaseInfo> results = tmdb.getMovieReleaseInfo(movie.getId(), config.getLanguage());
+	private void updateReleaseInfo(IMetadata md, MovieInfo movie, String country) throws MovieDbException {
+		ResultList<ReleaseInfo> results = tmdb.getMovieReleaseInfo(movie.getId(), config.getLanguage());
 		if (results == null)
 			return;
 
@@ -360,10 +374,9 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 		// parse
 		List<IMetadataSearchResult> results = new ArrayList<IMetadataSearchResult>();
 
-		TmdbResultsList<MovieDb> movies = tmdb.searchMovie(q.get(Field.QUERY), NumberUtils.toInt(q.get(Field.YEAR)),
-				config.getLanguage(), config.getIncludeAdult(), 0);
+		ResultList<MovieInfo> movies = tmdb.searchMovie(q.get(Field.QUERY), 0, config.getLanguage(), config.getIncludeAdult(), NumberUtils.toInt(q.get(Field.YEAR)),0 ,SearchType.PHRASE);
 		if (movies != null) {
-			for (MovieDb m : movies.getResults()) {
+			for (MovieInfo m : movies.getResults()) {
 				addMovie(q, m, results);
 			}
 			Collections.sort(results, ScoredSearchResultSorter.INSTANCE);
@@ -373,9 +386,9 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 		// if not, then try again, without a language, and see if that helps
 		if (!MetadataSearchUtil.isGoodSearch(results)) {
 			results.clear();
-			movies = tmdb.searchMovie(q.get(Field.QUERY), NumberUtils.toInt(q.get(Field.YEAR)), null, config.getIncludeAdult(), 0);
+			movies = tmdb.searchMovie(q.get(Field.QUERY), 0, null, config.getIncludeAdult(), NumberUtils.toInt(q.get(Field.YEAR)),0 ,SearchType.PHRASE);
 			if (movies != null) {
-				for (MovieDb m : movies.getResults()) {
+				for (MovieInfo m : movies.getResults()) {
 					addMovie(q, m, results);
 				}
 				Collections.sort(results, ScoredSearchResultSorter.INSTANCE);
@@ -385,7 +398,7 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 		return results;
 	}
 
-	protected void addMovie(SearchQuery query, MovieDb movie, List<IMetadataSearchResult> results) {
+	protected void addMovie(SearchQuery query, MovieInfo movie, List<IMetadataSearchResult> results) {
 		if (StringUtils.isEmpty(movie.getTitle())) {
 			return;
 		}
@@ -405,7 +418,7 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
 				log.debug("Looking for alternate Titles");
 				List<ScoredTitle> scoredTitles = new LinkedList<ScoredTitle>();
 
-				TmdbResultsList<AlternativeTitle> titles;
+				ResultList<AlternativeTitle> titles;
 				try {
 					titles = tmdb.getMovieAlternativeTitles(movie.getId(), null);
 					if (titles != null) {

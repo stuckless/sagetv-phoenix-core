@@ -64,6 +64,9 @@ public class MetadataConfiguration extends GroupProxy {
 	@AField(label = "Use System Messages for Failed Lookups", description = "When an automated lookup fails, it can register a SageTV system message about the failure.", scope = ConfigScope.SERVER)
 	private FieldProxy<Boolean> enableSystemMessagesForFailures = new FieldProxy<Boolean>(false);
 
+	@AField(label = "Use System Messages for Missing Episodes", description = "When a media scan is completed, it will check for missing TV episodes and then register a SageTV system message with the missing episode information.", scope = ConfigScope.SERVER)
+	private FieldProxy<Boolean> enableSystemMessagesForTVEpisodeGaps = new FieldProxy<Boolean>(false);
+
 	@AField(label = "Preserve Original Metadata for Recordings", description = "When updating metadata, do not update/overwrite metadata on Sage Recordings", scope = ConfigScope.SERVER)
 	private FieldProxy<Boolean> preserverRecordingMetadata = new FieldProxy<Boolean>(true);
 
@@ -215,6 +218,15 @@ public class MetadataConfiguration extends GroupProxy {
 
 	public boolean getPreserverRecordingMetadata() {
 		return preserverRecordingMetadata.get();
+	}
+	
+	
+	public void setEnableSystemMessagesForTVEpisodeGaps(boolean enableSystemMessagesForTVEpisodeGaps) {
+		this.enableSystemMessagesForTVEpisodeGaps.set(enableSystemMessagesForTVEpisodeGaps);
+	}
+
+	public boolean getEnableSystemMessagesForTVEpisodeGaps() {
+		return enableSystemMessagesForTVEpisodeGaps.get();
 	}
 
 	public void setEnableSystemMessagesForFailures(boolean enableSystemMessagesForFailures) {

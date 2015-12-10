@@ -1,5 +1,11 @@
 package sagex.phoenix.vfs;
 
+import java.util.Date;
+
+import com.omertron.thetvdbapi.model.Episode;
+
+import sagex.phoenix.util.DateUtils;
+
 /**
  * A Virtual TV media file to represent a missing Episode from a specific Show,
  * Season and Episode number
@@ -11,35 +17,20 @@ public class TVVirtualMediaFile extends VirtualMediaFile {
 	private String series;
 	private int season;
 	private int episode;
-	private int endepisode;
 	private String episodeName;
 	private String description;
-	private boolean combine;
 	private IMediaResource refIMR;
+	private Episode episodeInfo;
+	private Date episodeOAD;
 	
-	public TVVirtualMediaFile(IMediaFolder parent, IMediaResource refIMR, String series, int season, int episode) {
+	public TVVirtualMediaFile(IMediaFolder parent, IMediaResource refIMR, String series, int season, int episode, Episode episodeInfo) {
 		super(parent, series + "S" + season + "E" + episode, series, series);
 		this.refIMR = refIMR;
 		this.series = series;
 		this.season = season;
 		this.episode = episode;
-		this.endepisode = 0;
-		this.combine = false;
-		createEpisodeInfo();
-		//set the metadata for the tv virtual media file
-		createMediaFile();
-	}
-
-	//use this constructor if you are combining adjacent episodes
-	public TVVirtualMediaFile(IMediaFolder parent, IMediaResource refIMR, String series, int season, int startepisode, int endepisode) {
-		super(parent, series + "S" + season + "E" + startepisode + "-" + endepisode, series, series);
-		this.refIMR = refIMR;
-		this.series = series;
-		this.season = season;
-		this.episode = startepisode;
-		this.endepisode = endepisode;
-		this.combine = true;
-		createEpisodeInfo();
+		this.episodeInfo = episodeInfo;
+		createEpisodeDetails();
 		//set the metadata for the tv virtual media file
 		createMediaFile();
 	}
@@ -58,13 +49,18 @@ public class TVVirtualMediaFile extends VirtualMediaFile {
 		return super.isType(type);
 	}	
 	
-	protected void createEpisodeInfo() {
-		if (combine){
-			this.episodeName = "Missing Episodes: " + episode + "-" + endepisode;
-			this.description = "This is a virtual episode record as these episodes have been identified as missing.";
-		}else{
+	protected void createEpisodeDetails() {
+		if (this.episodeInfo==null){
+			//use default info
 			this.episodeName = "Missing Episode: " + episode;
-			this.description = "This is a virtual episode record as the episode(s) has been identified as missing.";
+			this.description = "This is a virtual episode record as the episode has been identified as missing.";
+			this.episodeOAD = phoenix.metadata.GetOriginalAirDate(this.refIMR); 
+		}else{
+			//use the info from the passed in TVDB record
+			this.episodeName = "Missing: " + this.episodeInfo.getEpisodeName();
+			this.description = "Missing Episode: " + this.episodeInfo.getOverview();
+			//convert the OAD string
+			this.episodeOAD = DateUtils.parseDate(this.episodeInfo.getFirstAired()); 
 		}
 		return;
 	}
@@ -76,7 +72,7 @@ public class TVVirtualMediaFile extends VirtualMediaFile {
 		this.getMetadata().setMediaTitle(this.series);
 		this.getMetadata().setMediaType("TV");
 		this.getMetadata().setDescription(this.description);
-		this.getMetadata().setOriginalAirDate(phoenix.metadata.GetOriginalAirDate(this.refIMR));
+		this.getMetadata().setOriginalAirDate(this.episodeOAD);
 		return;
 	}
 	

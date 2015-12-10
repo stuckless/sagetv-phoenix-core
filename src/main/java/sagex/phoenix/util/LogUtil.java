@@ -33,6 +33,10 @@ public class LogUtil {
 		}
 	}
 
+	public static void logTVEpisodeGapReview(String logInfo) {
+		Loggers.LOG.info("INFO; TVEpisodeGapReview; " + logInfo);
+	}
+
 	public static void logMetadataUpdatedError(IMediaFile file, Throwable e) {
 		Loggers.METADATA.warn("ERROR; " + getFileString(file) + "; " + e.getMessage());
 

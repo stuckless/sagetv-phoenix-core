@@ -21,4 +21,8 @@ public class SystemMessageID {
      */
 	public static final int PHOENIX_GENERAL_ERROR = 10200;
 
+	/**
+     * {@value}
+     */
+	public static final int PHOENIX_MISSING_EPISODES = 10300;
 }
