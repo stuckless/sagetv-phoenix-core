@@ -119,11 +119,11 @@
 		</unzip>
 
 		<!-- get cling (upnp support) -->
-		<get src="http://4thline.org/m2/org/seamless/seamless-util/1.0-SNAPSHOT/seamless-util-1.0-20111129.053811-2.jar" dest="lib/seamless-util-1.0.jar" usetimestamp="true"/>
-		<get src="http://4thline.org/m2/org/seamless/seamless-http/1.0-SNAPSHOT/seamless-http-1.0-20111129.053936-2.jar" dest="lib/seamless-http-1.0.jar" usetimestamp="true"/>
-		<get src="http://4thline.org/m2/org/seamless/seamless-xml/1.0-SNAPSHOT/seamless-xml-1.0-20111129.053837-2.jar" dest="lib/seamless-xml-1.0.jar" usetimestamp="true"/>
-		<get src="http://4thline.org/m2/org/fourthline/cling/cling-core/2.0-SNAPSHOT/cling-core-2.0-20111017.171724-1.jar" dest="lib/cling-core-2.0.jar" usetimestamp="true"/>
-		<get src="http://4thline.org/m2/org/fourthline/cling/cling-support/2.0-SNAPSHOT/cling-support-2.0-20111017.171832-1.jar" dest="lib/cling-support-2.0.jar" usetimestamp="true"/>
+		<get src="http://4thline.org/m2/org/seamless/seamless-util/1.1.0/seamless-util-1.1.0.jar" dest="lib/seamless-util-1.1.0.jar" usetimestamp="true"/>
+		<get src="http://4thline.org/m2/org/seamless/seamless-http/1.1.0/seamless-http-1.1.0.jar" dest="lib/seamless-http-1.1.0.jar" usetimestamp="true"/>
+		<get src="http://4thline.org/m2/org/seamless/seamless-xml/1.1.0/seamless-xml-1.1.0.jar" dest="lib/seamless-xml-1.1.0.jar" usetimestamp="true"/>
+		<get src="http://4thline.org/m2/org/fourthline/cling/cling-core/2.0.1/cling-core-2.0.1.jar" dest="lib/cling-core-2.0.1.jar" usetimestamp="true"/>
+		<get src="http://4thline.org/m2/org/fourthline/cling/cling-support/2.0.1/cling-support-2.0.1.jar" dest="lib/cling-support-2.0.1.jar" usetimestamp="true"/>
 
     </target>
 	<!-- END IVY DEPENDENDCY MANAGER -->
@@ -257,7 +257,7 @@
 
 			
 				var cpfile=new File(basedir, ".classpath");
-			    println('Creating classpath file ' + cpfile.getAbsolutePath());
+			    System.out.println('Creating classpath file ' + cpfile.getAbsolutePath());
 				var os = new FileWriter(cpfile);
 				os.write(cp,0,cp.length);
 				os.flush();
@@ -501,6 +501,7 @@
 
 	
 	<target name="generate-phoenix-api" description="Regenerates the Phoenix API">
+		<mkdir dir="${user.home}/.ant/lib"/>
 		<get dest="${user.home}/.ant/lib/phoenix-api-generator-ant-task.jar" src="http://sagephoenix.googlecode.com/files/phoenix-api-generator-ant-task-v2.jar" usetimestamp="true"/>
 		<taskdef classname="phoenix.apibuilder.ant.APIBuilderTask" name="phoenix-createapi">
 			<classpath>
