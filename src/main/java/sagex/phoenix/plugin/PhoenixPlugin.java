@@ -45,6 +45,8 @@ import sagex.phoenix.util.LogUtil;
 import sagex.phoenix.util.Loggers;
 import sagex.phoenix.util.PropertiesUtils;
 import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaFolder;
+import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.filters.HomeVideosConfiguration;
 import sagex.phoenix.vfs.filters.HomeVideosFilter;
 import sagex.phoenix.vfs.sage.SageMediaFile;
@@ -70,6 +72,44 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 		super(registry);
 	}
 
+	@SageEvent(value = SageEvents.ImportingCompleted, background = true)
+	public void importingCompleted(@SuppressWarnings("rawtypes") Map vars) {
+		checkForMissingEpisodes();
+	}
+	
+	//if the system level configuration options is enabled we will check for missing episodes
+	private void checkForMissingEpisodes(){
+		if (config.getEnableSystemMessagesForTVEpisodeGaps()) {
+			String BaseView = "phoenix.view.util.missingEpisodes"; 
+			IMediaFolder folder = phoenix.umb.CreateView(BaseView);
+			if (folder.getChildren().isEmpty()){
+				LogUtil.logTVEpisodeGapReview("Missing episode review found NO missing episodes");
+				return;
+			}
+			for (IMediaResource show : folder.getChildren()) {
+				//first level is the show
+				StringBuilder sb = new StringBuilder();
+				for (IMediaResource episode : phoenix.media.GetChildren(show)) {
+					sb.append("S").append(phoenix.metadata.GetSeasonNumber(episode));
+					sb.append("E").append(phoenix.metadata.GetEpisodeNumber(episode)).append(";");
+					if (phoenix.media.GetChildren(show).size()<=7){
+						sb.append(phoenix.metadata.GetEpisodeName(episode));
+						sb.append("\n");
+					}
+				}
+				//raise an event for each show that has missing episodes
+				Phoenix.getInstance()
+				.getEventBus()
+				.fireEvent(
+						PhoenixEventID.SystemMessageEvent,
+						SageSystemMessageListener.createEvent(SystemMessageID.PHOENIX_MISSING_EPISODES,
+								SageSystemMessageListener.INFO, "Missing Episodes: " + show.getTitle() ,
+								sb.toString(), null), false);
+				LogUtil.logTVEpisodeGapReview("System message created for missing episodes for show: " + show.getTitle());
+			}
+		}
+	}
+	
 	@SageEvent(value = SageEvents.MediaFileImported, background = true)
 	public void mediaFileImported(@SuppressWarnings("rawtypes") Map vars) {
 		if (config != null && config.isAutomatedFanartEnabled()) {
