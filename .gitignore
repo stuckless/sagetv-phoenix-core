@@ -13,3 +13,4 @@ target/
 /lib
 /README.md~
 .gradle
+/SageTVPluginsDev_phoenix.xml
