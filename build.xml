@@ -81,15 +81,8 @@
 		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path" />
 	</target>
 
-	<target name="resolve" description="retrieve dependencies with ivy">
+	<target name="resolve" description="retrieve dependencies with ivy" depends="configure-dependencies">
         <ivy:retrieve />
-		
-		<!-- get sagex-api -->
-		<get src="${sagex-api.zip}" dest="lib/sagex.zip" usetimestamp="true" />
-		<unzip dest="lib" src="lib/sagex.zip">
-			<patternset includes="*.jar"/>
-			<mapper type="flatten"/>
-		</unzip>
 		
 		<!-- get google weather -->
 		<get src="http://download.sage.tv/plugins/Opus4/GoogleWeather/GoogleWeather_2_0_1.zip" dest="lib/googleweather.zip" usetimestamp="true" />
@@ -98,37 +91,10 @@
 			<mapper type="flatten"/>
 		</unzip>
 
-		<!-- get nielm's sageimdb jar -->
-		<get src="http://download.sage.tv/plugins/JREkiwi/nielm_sageimdb/nielm_sageimdb_1.8.5.zip" dest="lib/sageimdb.zip" usetimestamp="true" />
-		<unzip dest="lib" src="lib/sageimdb.zip">
-			<patternset includes="*.jar"/>
-			<mapper type="flatten"/>
-		</unzip>
-
-		<get src="http://downloads.sourceforge.net/project/sageplugins/sageutls/1.4.2/plugin/nielm-sageutls-jars-1.4.2.zip?use_mirror=" dest="lib/sageutils.zip" usetimestamp="true" />
-		<unzip dest="lib" src="lib/sageutils.zip">
-			<patternset includes="*.jar"/>
-			<mapper type="flatten"/>
-		</unzip>
-
-		<!-- The Move DB Support Jar -->
-		<get src="https://sagephoenix.googlecode.com/files/themoviedb-3.0.1.zip" dest="lib/themoviedb.zip" usetimestamp="true" />
-		<unzip dest="lib" src="lib/themoviedb.zip">
-			<patternset includes="*.jar"/>
-			<mapper type="flatten"/>
-		</unzip>
-
-		<!-- get cling (upnp support) -->
-		<get src="http://4thline.org/m2/org/seamless/seamless-util/1.1.0/seamless-util-1.1.0.jar" dest="lib/seamless-util-1.1.0.jar" usetimestamp="true"/>
-		<get src="http://4thline.org/m2/org/seamless/seamless-http/1.1.0/seamless-http-1.1.0.jar" dest="lib/seamless-http-1.1.0.jar" usetimestamp="true"/>
-		<get src="http://4thline.org/m2/org/seamless/seamless-xml/1.1.0/seamless-xml-1.1.0.jar" dest="lib/seamless-xml-1.1.0.jar" usetimestamp="true"/>
-		<get src="http://4thline.org/m2/org/fourthline/cling/cling-core/2.0.1/cling-core-2.0.1.jar" dest="lib/cling-core-2.0.1.jar" usetimestamp="true"/>
-		<get src="http://4thline.org/m2/org/fourthline/cling/cling-support/2.0.1/cling-support-2.0.1.jar" dest="lib/cling-support-2.0.1.jar" usetimestamp="true"/>
-
     </target>
 	<!-- END IVY DEPENDENDCY MANAGER -->
 
-	<target name="configure" description="Configures the eclipse classpath" depends="clean,init-ivy,resolve">
+	<target name="configure" description="Configures the eclipse classpath" depends="init-ivy,resolve">
 		<script language="javascript"><![CDATA[
 			importClass(java.io.File);
 			importClass(java.io.FileReader);
@@ -209,12 +175,11 @@
 			}
 
 			function configure() {
-				var baseprop = project.getProperty('basedir');
-			    var basedir = new File(baseprop);
-			
-				var props = loadProps();
-			
-				var alllibs = new Array();
+      var alllibs = new Array();
+      var props = loadProps();
+      var baseprop = project.getProperty('basedir');
+      var basedir = new File(baseprop);
+			/*
 			    var sageFile = getFile(System.getProperty('sage.jar.provided', 'Sage.jar'));
 			    if (sageFile==null) {
 					alert('Phoenix needs to know where your Sage.jar is located.  Press ok to continue.', 'Configure');
@@ -227,7 +192,8 @@
 					alllibs.push(sageFile);
 					props.setProperty("sage.jar", sageFile.getAbsolutePath());
 				}
-				
+				*/
+			
 				var libdir = new File(basedir, 'lib');
 				var files = libdir.listFiles();
 				if (files==null) {
@@ -435,6 +401,44 @@
 		<copy todir="${sage.home}/DeveloperPlugins/" failonerror="false">
 			<fileset dir="${dist.dir}/packages/"/>
 		</copy>
+	</target>
+	
+	<target name="configure-dependencies" description="Fetch the SageTV dependencies for this project">
+		<mkdir dir="target/extlibs/"/>
+    <delete>
+      <fileset dir="target/extlibs/">
+        <include name="*.*"/>
+      </fileset>
+    </delete>
+		
+		<get dest="target/extlibs/sagex.plugin.resolver-1.3.jar"
+		  src="https://dl.bintray.com/opensagetv/maven/sagex.plugin.resolver/sagex.plugin.resolver/1.3/sagex.plugin.resolver-1.3.jar"/>
+    <get dest="target/extlibs/dom4j-1.6.1.jar"
+      src="http://central.maven.org/maven2/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar"/>
+		<taskdef classname="sagex.plugin.resolver.ant.SageDependencies" name="sagetvdeps">
+      <classpath>
+            <fileset dir="target/extlibs/">
+              <include name="**/*.jar"/>
+            </fileset>
+      </classpath>
+    </taskdef>
+
+		<delete>
+		  <fileset dir="lib">
+		    <include name="*.*"/>
+		  </fileset>
+		</delete>
+		
+		<!-- find and download all plugin depenedencies for this plugin -->
+		<sagetvdeps downloadsagejar="true" 
+			jardir="lib" 
+			pluginname="phoenix-core" 
+			extrajars="http://download.sage.tv/plugins/Opus4/GoogleWeather/GoogleWeather_2_0_1.zip"
+		  devpluginsxml="SageTVPluginsDev_phoenix.xml"
+		/>
+		
+		<!-- Phoenix will be downloaded as a dependency, so remove it -->
+		<delete file="lib/phoenix.jar" failonerror="false"></delete>
 	</target>
 	
 	<target name="publish-googlecode" description="Upload build to Google Code">
