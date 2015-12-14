@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -79,9 +80,20 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 	
 	//if the system level configuration options is enabled we will check for missing episodes
 	private void checkForMissingEpisodes(){
+		checkForMissingEpisodes(null, null);
+	}
+	private void checkForMissingEpisodes(String seriesID, String seasonNum){
 		if (config.getEnableSystemMessagesForTVEpisodeGaps()) {
-			String BaseView = "phoenix.view.util.missingEpisodes"; 
-			IMediaFolder folder = phoenix.umb.CreateView(BaseView);
+			String BaseView = "phoenix.view.util.missingEpisodes";
+			Map<String,Object> viewOptions = new HashMap<String,Object>();
+			IMediaFolder folder = null;
+			if (seriesID==null){
+				folder = phoenix.umb.CreateView(BaseView);
+			}else{
+				viewOptions.put("seriesID", seriesID);
+				viewOptions.put("seasonNum", seasonNum);
+				folder = phoenix.umb.CreateView(BaseView, viewOptions);
+			}
 			if (folder.getChildren().isEmpty()){
 				LogUtil.logTVEpisodeGapReview("Missing episode review found NO missing episodes");
 				return;
@@ -180,6 +192,12 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 			SageMediaFile smf = new SageMediaFile(null, mediaFile);
 			LogUtil.logAutoUpdate("RECORDING", smf);
 			updateMetadata(smf, true);
+			//see if this is a TV item and if so check for missing episodes
+			if(MediaFileAPI.IsTVFile(mediaFile)){
+				String seriesID = phoenix.metadata.GetMediaProviderDataID(smf);
+				Integer seasonNum = phoenix.metadata.GetSeasonNumber(smf);
+				checkForMissingEpisodes(seriesID, seasonNum.toString());
+			}
 		}
 	}
 

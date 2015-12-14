@@ -26,6 +26,8 @@
 
    <sources>
       <item name="tvmediafiles" label="Sage TV Media Files" class="sagex.phoenix.vfs.sources.TVMediaFilesSourceFactory">
+         <option name="seriesID" label="Series ID"/>
+         <option name="seasonNum" label="Season Number"/>
       </item>
       
       <item name="expression" label="Sage Expression" class="sagex.phoenix.vfs.sources.SageExpressionSourceFactory">
@@ -689,10 +691,7 @@
       
       <view name="phoenix.view.util.missingEpisodes" label="Missing TV Episodes" flat="true" visible="false">
 			<description>Missing TV Episodes, Grouped by Show Then Season Then Episode</description>
-			<tag value="gemstone"/>
-			<tag value="gemsource"/>
 			<source name="tvmediafiles">
-				<option name="combine" value="false"/>
 			</source>
             <filter by="missingtv" value="true" scope="include"/>
 
