@@ -2,12 +2,12 @@ package test.junit.lib;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 import sagex.phoenix.vfs.impl.FileCleaner;
 
 public class FilesTestCase extends TestCase {
-
 	public FilesTestCase() {
 		super();
 	}
@@ -17,32 +17,11 @@ public class FilesTestCase extends TestCase {
 	}
 
 	public static File makeFile(String path) {
-		File f = new File("target/junit/");
-		f = new File(f, path);
-		f.getParentFile().mkdirs();
-		try {
-			f.createNewFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		assertEquals("can't create file: " + f.getAbsolutePath(), true, f.exists());
-		return f;
+        return TestUtil.makeFile(path, true);
 	}
 
 	public static File makeDir(String path) {
-		File f = new File("target/junit/");
-		f = new File(f, path);
-		f.mkdirs();
-		assertEquals("can't create dir: " + f.getAbsolutePath(), true, f.exists() && f.isDirectory());
-		return f;
-	}
-
-	public static File getFile(String path) {
-		File f = new File("target/junit/");
-		f = new File(f, path);
-		assertEquals("Missing File: " + f.getAbsolutePath(), true, f.exists());
-		return f;
+        return TestUtil.makeDir(path);
 	}
 
 	public void testFileDelete() {

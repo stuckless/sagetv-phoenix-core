@@ -99,7 +99,7 @@ public class TMDB3DetailParserTest {
 		assertEquals("Iron Man 2", md.getEpisodeName());
 
 		assertTrue(md.getGenres().size() > 0);
-		assertEquals("Action", md.getGenres().get(0));
+		assertEquals("Adventure", md.getGenres().get(0));
 
 		assertEquals("tt1228705", md.getIMDBID());
 		assertEquals("10138", md.getMediaProviderDataID());

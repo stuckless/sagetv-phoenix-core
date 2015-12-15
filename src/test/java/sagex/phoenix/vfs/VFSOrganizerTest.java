@@ -22,6 +22,7 @@ public class VFSOrganizerTest {
 	@Test
 	public void testOrganizing() throws Exception {
 		VFSOrganizer o = new VFSOrganizer(Phoenix.getInstance().getVFSDir());
+		System.out.println("VFSDIR: " + Phoenix.getInstance().getVFSDir().getAbsolutePath());
 		o.organize(getReader("x-vfs.xml"), "x-vfs-1.xml");
 
 		assertEquals(27, o.filters.size());

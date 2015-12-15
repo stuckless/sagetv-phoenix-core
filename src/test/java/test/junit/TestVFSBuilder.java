@@ -251,7 +251,7 @@ public class TestVFSBuilder {
 	@Test
 	public void testParsingSingleView() {
 		VFSManager m = Phoenix.getInstance().getVFSManager();
-		m.visitConfigurationFile(ConfigurationType.System, new File("src/test/java/test/junit/TestVFS.xml"));
+		m.visitConfigurationFile(ConfigurationType.System, new File("../../src/test/java/test/junit/TestVFS.xml"));
 		ViewFactory x = m.getVFSViewFactory().getFactory("seansrecordings");
 		assertNotNull(x);
 	}
@@ -291,7 +291,7 @@ public class TestVFSBuilder {
 		setResordings();
 
 		VFSManager m = Phoenix.getInstance().getVFSManager();
-		m.visitConfigurationFile(ConfigurationType.System, new File("src/test/java/test/junit/TestVFS.xml"));
+		m.visitConfigurationFile(ConfigurationType.System, new File("../../src/test/java/test/junit/TestVFS.xml"));
 		ViewFactory x = m.getVFSViewFactory().getFactory("seansrecordings");
 		assertNotNull(x);
 		ViewFolder view = x.create(null);
@@ -320,7 +320,7 @@ public class TestVFSBuilder {
 	public void testHasTagOnSorter() throws IOException {
 		VFSManager m = Phoenix.getInstance().getVFSManager();
 		m.clear();
-		m.visitConfigurationFile(ConfigurationType.System, new File("src/test/java/test/junit/TestVFS.xml"));
+		m.visitConfigurationFile(ConfigurationType.System, new File("../../src/test/java/test/junit/TestVFS.xml"));
 
 		Sorter s = phoenix.umb.CreateSorter("MySort");
 		assertNotNull(s);

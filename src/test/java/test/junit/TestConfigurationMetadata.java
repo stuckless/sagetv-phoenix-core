@@ -44,8 +44,8 @@ public class TestConfigurationMetadata {
 
 	@Test
 	public void testDirectoryLoader() throws Exception {
-		ConfigurationMetadataManager cmm = new ConfigurationMetadataManager(new File("src/main/STVs/Phoenix/Configuration"),
-				new File("target/testing/userdata/Phoenix/Configuration"));
+		ConfigurationMetadataManager cmm = new ConfigurationMetadataManager(new File("../../src/main/STVs/Phoenix/Configuration"),
+				new File("../../target/testing/userdata/Phoenix/Configuration"));
 		cmm.loadConfigurations();
 		assertNotNull("Failed to create ConfigurationMetadataManager", cmm);
 		assertNotNull("ConfigurationMetadataManager didn't load metadta", cmm.getMetadata());
@@ -57,8 +57,8 @@ public class TestConfigurationMetadata {
 
 	@Test
 	public void testXmlMetadata() throws Exception {
-		ConfigurationMetadataManager cmm = new ConfigurationMetadataManager(new File("src/main/STVs/Phoenix/Configuration"),
-				new File("target/testing/userdata/Phoenix/Configuration"));
+		ConfigurationMetadataManager cmm = new ConfigurationMetadataManager(new File("../../src/main/STVs/Phoenix/Configuration"),
+				new File("../../target/testing/userdata/Phoenix/Configuration"));
 		cmm.loadConfigurations();
 		assertNotNull("Failed to create ConfigurationMetadataManager", cmm);
 		assertNotNull("ConfigurationMetadataManager didn't load metadta", cmm.getMetadata());
@@ -132,8 +132,8 @@ public class TestConfigurationMetadata {
 
 	@Test
 	public void testConfigurationProvider() throws Exception {
-		ConfigurationMetadataManager cmm = new ConfigurationMetadataManager(new File("src/main/STVs/Phoenix/Configuration"),
-				new File("src/test/java/test/junit/cm/"));
+		ConfigurationMetadataManager cmm = new ConfigurationMetadataManager(new File("../../src/main/STVs/Phoenix/Configuration"),
+				new File("../../src/test/java/test/junit/cm/"));
 		cmm.loadConfigurations();
 
 		ConfigurationManager cm = new ConfigurationManager(cmm, new SageConfigurationProvider());
@@ -280,7 +280,7 @@ public class TestConfigurationMetadata {
 																															 */);
 
 		XmlMetadataParser mp = new XmlMetadataParser();
-		Group g = mp.parseMetadata(new FileInputStream(new File("src/test/java/test/junit/cm/test-config.xml")));
+		Group g = mp.parseMetadata(new FileInputStream(new File("../../src/test/java/test/junit/cm/test-config.xml")));
 		assertEquals(3, g.getChildCount());
 
 		Group g1 = (Group) g.getChild(0);
@@ -417,7 +417,7 @@ public class TestConfigurationMetadata {
 		stub.overrideAPI("GetUIContextName", null); // consider overriding api;
 
 		XmlMetadataParser mp = new XmlMetadataParser();
-		Group g = mp.parseMetadata(new FileInputStream(new File("src/test/java/test/junit/cm/test-config.xml")));
+		Group g = mp.parseMetadata(new FileInputStream(new File("../../src/test/java/test/junit/cm/test-config.xml")));
 		// add this to phoenix, so that we can use the toggle api
 		Phoenix.getInstance().getConfigurationMetadataManager().addMetadata(g);
 

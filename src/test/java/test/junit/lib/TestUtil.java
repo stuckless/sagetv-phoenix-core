@@ -9,6 +9,19 @@ import junit.framework.TestCase;
 import sagex.phoenix.image.ImageUtil;
 
 public class TestUtil extends TestCase {
+    // verify that we are in the right testing directory
+	static {
+        try {
+            File f = new File(".").getCanonicalFile();
+            if ("testing".equals(f.getName())) {
+                throw new RuntimeException("Testing Working dir should be target/testing/ but instead is " + f.getAbsolutePath());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
 	public static void delete(File dir) {
 		if (dir.isDirectory()) {
 			File[] files = dir.listFiles();
@@ -21,7 +34,7 @@ public class TestUtil extends TestCase {
 	}
 
 	public static File makeDir(String dir) {
-		File f = new File("target/junit", dir);
+		File f = new File("../../target/junit", dir);
 		f.mkdirs();
 		assertTrue("Failed to create dir!", f.exists());
 		return f;
@@ -32,7 +45,7 @@ public class TestUtil extends TestCase {
 	}
 
 	public static File makeFile(String file, boolean createDirs) {
-		File f = new File("target/junit", file);
+		File f = new File("../../target/junit", file);
 		try {
 			if (f.exists())
 				f.delete();
@@ -58,12 +71,6 @@ public class TestUtil extends TestCase {
 			e.printStackTrace();
 			fail("failed to write to file: " + f.getAbsolutePath());
 		}
-	}
-
-	public File getFile(String file) {
-		File f = new File("test/junit", file);
-		assertTrue("FileNotFound!", f.exists());
-		return f;
 	}
 
 	public static void verifyImageSize(BufferedImage bi, int width, int height) {

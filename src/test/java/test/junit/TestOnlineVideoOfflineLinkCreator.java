@@ -46,6 +46,6 @@ public class TestOnlineVideoOfflineLinkCreator {
 		view.setName("myview");
 
 		OnlineVideosLinkCreator linkCreator = new OnlineVideosLinkCreator(false);
-		linkCreator.makeOfflineLinks(view.create(null), new File("target/junit/OFFLINE_VIDEOS"));
+		linkCreator.makeOfflineLinks(view.create(null), new File("../../target/junit/OFFLINE_VIDEOS"));
 	}
 }

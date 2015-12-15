@@ -28,7 +28,7 @@ public class TestMusicMapper {
 
 	@Test
 	public void testMusicMaper() {
-		String url = new File("src/test/java/test/junit/hot-100.xml").toURI().toString();
+		String url = new File("../../src/test/java/test/junit/hot-100.xml").toURI().toString();
 
 		XmlSourceFactory factory = new XmlSourceFactory();
 		factory.setOptionValue("feedurl", url);

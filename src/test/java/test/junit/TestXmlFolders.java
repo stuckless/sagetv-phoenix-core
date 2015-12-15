@@ -27,7 +27,7 @@ public class TestXmlFolders {
 
 	@Test
 	public void testRSSFeed() {
-		String url = new File("src/test/java/test/junit/newtrailers.rss").toURI().toString();
+		String url = new File("../../src/test/java/test/junit/newtrailers.rss").toURI().toString();
 		XmlOptions options = new XmlOptions();
 		options.setFeedUrl(url);
 		options.setRegex(FieldName.MediaTitle, "([^-]+)");
@@ -46,7 +46,7 @@ public class TestXmlFolders {
 
 	@Test
 	public void testRSSFeedFactory() {
-		String url = new File("src/test/java/test/junit/newtrailers.rss").toURI().toString();
+		String url = new File("../../src/test/java/test/junit/newtrailers.rss").toURI().toString();
 
 		RSSFeedFactory factory = new RSSFeedFactory();
 		factory.setOptionValue("feedurl", url);
@@ -63,7 +63,7 @@ public class TestXmlFolders {
 
 	@Test
 	public void testAtomFeed() {
-		String url = new File("src/test/java/test/junit/apple-atomfeed.xml").toURI().toString();
+		String url = new File("../../src/test/java/test/junit/apple-atomfeed.xml").toURI().toString();
 		XmlOptions options = new XmlOptions();
 		options.setFeedUrl(url);
 		options.setItemElement("entry");
@@ -85,7 +85,7 @@ public class TestXmlFolders {
 
 	@Test
 	public void testAtomFeedFactory() {
-		String url = new File("src/test/java/test/junit/apple-atomfeed.xml").toURI().toString();
+		String url = new File("../../src/test/java/test/junit/apple-atomfeed.xml").toURI().toString();
 
 		RSSFeedFactory factory = new RSSFeedFactory();
 		factory.setOptionValue("feedurl", url);
@@ -103,7 +103,7 @@ public class TestXmlFolders {
 
 	@Test
 	public void testMusicRSSFeed() {
-		String url = new File("src/test/java/test/junit/hot-100.xml").toURI().toString();
+		String url = new File("../../src/test/java/test/junit/hot-100.xml").toURI().toString();
 		XmlOptions options = new XmlOptions();
 		options.setFeedUrl(url);
 		options.setMediaType("Music");
@@ -122,7 +122,7 @@ public class TestXmlFolders {
 
 	@Test
 	public void testMusicRSSFeed2() {
-		String url = new File("src/test/java/test/junit/hot-100.xml").toURI().toString();
+		String url = new File("../../src/test/java/test/junit/hot-100.xml").toURI().toString();
 		XmlOptions options = new XmlOptions();
 		options.setFeedUrl(url);
 		options.setMediaType("Music");
@@ -142,7 +142,7 @@ public class TestXmlFolders {
 
 	@Test
 	public void testMusicRSSFeedViaFactory() {
-		String url = new File("src/test/java/test/junit/hot-100.xml").toURI().toString();
+		String url = new File("../../src/test/java/test/junit/hot-100.xml").toURI().toString();
 
 		XmlSourceFactory factory = new XmlSourceFactory();
 		factory.setOptionValue("feedurl", url);
@@ -163,7 +163,7 @@ public class TestXmlFolders {
 	public void testItunesRSSViaXmlFactory() {
 		// http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topMovies/xml
 		// http://trailers.apple.com/trailers/home/rss/newtrailers.rss
-		String url = new File("src/test/java/test/junit/itunes-topmovies.rss.xml").toURI().toString();
+		String url = new File("../../src/test/java/test/junit/itunes-topmovies.rss.xml").toURI().toString();
 
 		XmlSourceFactory factory = new XmlSourceFactory();
 		factory.setOptionValue("feedurl", url);
@@ -188,7 +188,7 @@ public class TestXmlFolders {
 	public void testItunesRSSViaRSSFactory() {
 		// http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topMovies/xml
 		// http://trailers.apple.com/trailers/home/rss/newtrailers.rss
-		String url = new File("src/test/java/test/junit/itunes-topmovies.rss.xml").toURI().toString();
+		String url = new File("../../src/test/java/test/junit/itunes-topmovies.rss.xml").toURI().toString();
 
 		RSSFeedFactory factory = new RSSFeedFactory();
 		factory.setOptionValue("feedurl", url);

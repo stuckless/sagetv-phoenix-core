@@ -32,29 +32,22 @@ public class InitPhoenix {
 
 		BasicConfigurator.configure();
 		System.out.println("Copying Phoenix Configuration to Testing Area...");
-		File baseDir = new File("target/testing/");
+		File baseDir = new File("."); // test runner should put us into target/testing
 
 		if (deleteOld) {
-			FileUtils.deleteDirectory(baseDir);
+			if ("testing".equals(baseDir.getCanonicalFile().getName())) {
+				FileUtils.cleanDirectory(baseDir);
+			} else {
+				throw new RuntimeException("Trying clean baseDir that is not the testing dir: " + baseDir.getAbsolutePath());
+			}
 		}
 
-		FileUtils.copyDirectory(new File("src/main/STVs"), new File(baseDir, "STVs"), new FileFilter() {
+		FileUtils.copyDirectory(new File("../../src/plugins/phoenix-core/STVs"), new File(baseDir, "STVs"), new FileFilter() {
 			public boolean accept(File pathname) {
 				System.out.println("Copy: " + pathname);
 				return !(pathname.getName().startsWith("."));
 			}
 		});
-
-		try {
-		FileUtils.copyDirectory(new File("../PhoenixUI/STVs/Phoenix/vfs"), new File(baseDir, "STVs/Phoenix/vfs"), new FileFilter() {
-			public boolean accept(File pathname) {
-				System.out.println("Copy: " + pathname);
-				return !(pathname.getName().startsWith("."));
-			}
-		});
-		} catch (Throwable t) {
-			t.printStackTrace();
-		}
 
 		System.out.println("Initializing Phoneix with testing dir: " + baseDir.getAbsolutePath());
 		System.setProperty("phoenix/sagetvHomeDir", baseDir.getAbsolutePath());

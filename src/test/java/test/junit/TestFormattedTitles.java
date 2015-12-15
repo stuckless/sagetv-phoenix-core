@@ -21,7 +21,7 @@ public class TestFormattedTitles {
 
 	@Test
 	public void testFormattedTVTitles() {
-		IMediaFile mf = (IMediaFile) FileResourceFactory.createResource(new File("target/junit/testing/House S01E01.avi"));
+		IMediaFile mf = (IMediaFile) FileResourceFactory.createResource(new File("../../target/junit/testing/House S01E01.avi"));
 		IMetadata md = mf.getMetadata();
 		md.setMediaType("TV");
 		md.setEpisodeName("Test Episode");
@@ -41,7 +41,7 @@ public class TestFormattedTitles {
 
 	@Test
 	public void testFormattedMoviesTitles() {
-		IMediaFile mf = (IMediaFile) FileResourceFactory.createResource(new File("target/junit/testing/Movie.avi"));
+		IMediaFile mf = (IMediaFile) FileResourceFactory.createResource(new File("../../target/junit/testing/Movie.avi"));
 		IMetadata md = mf.getMetadata();
 		md.setMediaType("Movie");
 		md.setEpisodeName("Test Movie");
@@ -64,7 +64,7 @@ public class TestFormattedTitles {
 
 	@Test
 	public void testFormattedMoviesTitlesWithPath() {
-		IMediaFile mf = (IMediaFile) FileResourceFactory.createResource(new File("target/junit/testing/Movie.avi"));
+		IMediaFile mf = (IMediaFile) FileResourceFactory.createResource(new File("../../target/junit/testing/Movie.avi"));
 		IMetadata md = mf.getMetadata();
 		md.setMediaType("Movie");
 		md.setMediaTitle("Test Movie");

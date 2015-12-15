@@ -65,7 +65,7 @@ public class TestMetadata {
 
 	@Test
 	public void testSageMediaFileMetadata() {
-		Object o = MediaFileAPI.AddMediaFile(new File("target/test/test.avi"), "test");
+		Object o = MediaFileAPI.AddMediaFile(new File("../../target/test/test.avi"), "test");
 		IMetadata md = MetadataUtil.createMetadata(o);
 		assertNotNull("Metadata was null", md);
 		md.setEpisodeName("Hello");

@@ -55,12 +55,12 @@ public class TestFanart {
 		dumpFanartPath(MediaType.TV, MediaArtifactType.POSTER, "House", "/tmp/Fanart/", md);
 		dumpFanartPath(MediaType.MUSIC, MediaArtifactType.BANNER, "Alabama", "/tmp/Fanart/", md);
 
-		File f = new File("src/test/menus/TestMenu.xml");
+		File f = new File("../../src/test/menus/TestMenu.xml");
 		dumpLocalFanartPath(MediaType.TV, MediaArtifactType.POSTER, f);
 		dumpLocalFanartPath(MediaType.TV, MediaArtifactType.BANNER, f);
 		dumpLocalFanartPath(MediaType.TV, MediaArtifactType.BACKGROUND, f);
 
-		f = new File("src/test/menus");
+		f = new File("../../src/test/menus");
 		dumpLocalFanartPath(MediaType.TV, MediaArtifactType.POSTER, f);
 		dumpLocalFanartPath(MediaType.TV, MediaArtifactType.BANNER, f);
 		dumpLocalFanartPath(MediaType.TV, MediaArtifactType.BACKGROUND, f);
