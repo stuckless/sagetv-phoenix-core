@@ -123,6 +123,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 	 * @param provider
 	 */
 	public void addMetaDataProvider(IMetadataProvider provider) {
+		log.debug("Adding Provider: " + provider.getInfo().getId() + "; " + provider);
 		IMetadataProvider prov = metadataProviders.put(provider.getInfo().getId(), provider);
 		if (prov != null) {
 			log.warn("Provider: " + prov.getInfo() + " has been replaced with " + provider.getInfo());
@@ -150,8 +151,10 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 				}
 			}
 		} else {
+			log.debug("Finding Provider for " + providerId);
 			IMetadataProvider provider = getProvider(providerId);
 			if (provider != null) {
+				log.debug("Added Provider for " + providerId + " with Implementation " + provider);
 				provs.add(provider);
 			}
 		}
@@ -170,6 +173,9 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 		// just a normal single id provider
 		IMetadataProvider provider = metadataProviders.get(providerId);
 
+		for (Map.Entry<String, IMetadataProvider> me: metadataProviders.entrySet()) {
+			log.debug("getProvider('"+providerId+"'): " + me.getKey() + " -> " + me.getValue());
+		}
 		if (provider == null) {
 			log.warn("Mising or Unknown Provider: " + providerId);
 		}
@@ -261,6 +267,8 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 			throw new MetadataException("Unable to create a list of valid providers for " + providers, query);
 		}
 
+		log.debug("Can search using " + providers.size() + " providers");
+		
 		SocketTimeoutException timeoutException = null;
 		List<IMetadataSearchResult> results = new ArrayList<IMetadataSearchResult>();
 		for (IMetadataProvider p : providers) {

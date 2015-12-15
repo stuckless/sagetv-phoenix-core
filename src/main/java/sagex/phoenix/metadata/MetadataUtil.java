@@ -545,4 +545,20 @@ public class MetadataUtil {
 		}
 		return null;
 	}
+
+	/**
+	 * Returns true if the Actor is is in the list.
+	 * @param actor
+	 * @param list
+	 * @return
+	 */
+	public static ICastMember getActor(String actor, List<ICastMember> list) {
+		if (actor==null) return null;
+		for (ICastMember cm: list) {
+			if (actor.equalsIgnoreCase(cm.getName())) {
+				return cm;
+			}
+		}
+		return null;
+	}
 }

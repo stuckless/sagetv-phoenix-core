@@ -109,7 +109,11 @@ public class SimpleStubAPI implements ISageAPIProvider {
 		List sig = new ArrayList();
 		if (args != null && args.length > 0) {
 			for (Object a : args) {
-				sig.add(a.getClass());
+				if (a!=null) {
+					sig.add(a.getClass());
+				} else {
+					sig.add(null);
+				}
 			}
 		}
 
@@ -139,7 +143,7 @@ public class SimpleStubAPI implements ISageAPIProvider {
 		StringBuffer sb = new StringBuffer();
 		if (args != null && args.length > 0) {
 			for (Object o : args) {
-				sb.append(o).append(": ").append(o.getClass().getName()).append(", ");
+				sb.append(o).append(": ").append((o!=null)?o.getClass().getName():null).append(", ");
 			}
 		}
 		return sb.toString();

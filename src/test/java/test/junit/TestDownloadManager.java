@@ -31,6 +31,7 @@ public class TestDownloadManager implements DownloadHandler {
 		DownloadManager mgr = new DownloadManager();
 
 		File f1 = new File("target/junit/logo.gif");
+		if (f1.exists()) f1.delete();
 		DownloadItem item = new DownloadItem(new URL("http://www.google.ca/intl/en_ALL/images/logos/images_logo_lg.gif"), f1);
 		item.setHandler(this);
 		assertEquals(mgr.getStatus().threads, 0);

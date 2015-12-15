@@ -25,9 +25,6 @@
    </tags>
 
    <sources>
-      <item name="tvmediafiles" label="Sage TV Media Files" class="sagex.phoenix.vfs.sources.TVMediaFilesSourceFactory">
-      </item>
-      
       <item name="expression" label="Sage Expression" class="sagex.phoenix.vfs.sources.SageExpressionSourceFactory">
          <option name="expression" label="Expression"/>
       </item>
@@ -239,44 +236,7 @@
 
       <item name="mediaresourcetype" label="Media Resource Type" class="sagex.phoenix.vfs.filters.MediaResourceTypeFilter">
          <option name="value" list="true"/>
-      </item>
-      
-      <item name="missingtv" label="MissingTV" class="sagex.phoenix.vfs.filters.MissingTVFilter">
-         <option name="value"/>
-         <tag value="tv"/>
-         <tag value="video"/>
-         <tag value="simple"/>
-      </item>
-		
-      <item name="dontlike" label="DontLike" class="sagex.phoenix.vfs.filters.DontLikeFilter">
-         <option name="value"/>
-         <tag value="tv"/>
-         <tag value="video"/>
-         <tag value="simple"/>
-      </item>
-      <item name="firstrun" label="FirstRun" class="sagex.phoenix.vfs.filters.FirstRunFilter">
-         <option name="value"/>
-         <tag value="tv"/>
-         <tag value="video"/>
-         <tag value="simple"/>
-      </item>
-      <item name="rerun" label="ReRun" class="sagex.phoenix.vfs.filters.ReRunFilter">
-         <option name="value"/>
-         <tag value="tv"/>
-         <tag value="video"/>
-         <tag value="simple"/>
-      </item>
-      <item name="manualrecording" label="ManualRecording" class="sagex.phoenix.vfs.filters.ManualRecordingFilter">
-         <option name="value"/>
-         <tag value="tv"/>
-         <tag value="video"/>
-         <tag value="simple"/>
-      </item>
-      <item name="usercategory" label="UserCategory" class="sagex.phoenix.vfs.filters.UserCategoryFilter">
-         <option name="value"/>
-         <tag value="tv"/>
-         <tag value="video"/>
-         <tag value="simple"/>
+         <tag value="gemstone"/>
       </item>
 
       <item-group name="missingmetadata-ext" label="Missing Metadata extended Filter" mode="and">
@@ -317,10 +277,6 @@
          <filter by="mediatype" value="TV" scope="exclude"/>
          <tag value="video"/>
       </item-group>
-
-      <item-group name="scraped" label="Scraped" mode="and">
-         <filter by="pql" value="ScrapedBy = 'Phoenix'"/>
-      </item-group>	
 
    </filters>
 
@@ -483,12 +439,6 @@
 
       <item name="artist" label="Artist" class="sagex.phoenix.vfs.groups.ArtistGrouper">
          <tag value="music"/>
-         <tag value="simple"/>
-      </item>
-
-      <item name="firstletter2" label="First Letter in Title" class="sagex.phoenix.vfs.groups.FirstLetterTitleGrouper">
-         <tag value="tv"/>
-         <tag value="video" />
          <tag value="simple"/>
       </item>
    </groups>
@@ -686,31 +636,6 @@
          They are all set to visible="false"
          These are all variations on the primary views, with different filters and sortings added
       -->
-      
-      <view name="phoenix.view.util.missingEpisodes" label="Missing TV Episodes" flat="true" visible="false">
-			<description>Missing TV Episodes, Grouped by Show Then Season Then Episode</description>
-			<tag value="gemstone"/>
-			<tag value="gemsource"/>
-			<source name="tvmediafiles">
-				<option name="combine" value="false"/>
-			</source>
-            <filter by="missingtv" value="true" scope="include"/>
-
-			<presentation level="1">
-				<group by="show">
-					<option name="prune-single-item-groups" value="false"/>
-					<option name="empty-foldername" value="No Series"/>
-				</group>
-				<sort by="title">
-					<option name="ignore-all" value="true"/>
-				</sort>
-			</presentation>		
-			
-			<presentation level="2">
-				<sort by="seasonepisode"/>
-			</presentation>
-      </view>		
-      
       <view name="phoenix.view.util.todaysrecordings" label="Todays Recordings" flat="true" visible="false">
          <description>Recordings sorted by recording date, limited to todays date</description>
          <view-source name="phoenix.view.primary.scheduledrecordings"/>
@@ -1190,7 +1115,7 @@
       </view>
 
       <!-- UPNP Views -->
-      <view name="phoenix.view.default.upnpdevices" label="UPnP Devices" visible="prop:server:phoenix/upnp/clientEnabled" flat="false">
+      <view name="phoenix.view.default.upnpdevices" label="UPnP Devices" visible="prop:phoenix/upnp/clientEnabled" flat="false">
          <option name="children-only" value="true"/>
          <tag value="online"/>
          <tag value="upnp"/>

@@ -4,6 +4,7 @@
 *.war
 *.ear
 .classpath
+.project
 /bin
 build.properties
 userdata/
@@ -13,4 +14,5 @@ target/
 /lib
 /README.md~
 .gradle
-/SageTVPluginsDev_phoenix.xml
+.idea/
+build/

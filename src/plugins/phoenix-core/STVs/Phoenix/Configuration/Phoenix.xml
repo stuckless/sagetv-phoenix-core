@@ -14,8 +14,11 @@
 	</group>
 
 	<group class="sagex.phoenix.metadata.MetadataConfiguration"/>
+	<!--
+	DVD Profiler and MyMoves is gone 
 	<group class="sagex.phoenix.metadata.provider.dvdprofiler.DVDProfilerConfiguration"/>
 	<group class="sagex.phoenix.metadata.provider.mymovies.MyMoviesConfiguration"/>
+  -->
 	<group class="sagex.phoenix.metadata.provider.imdb.IMDBConfiguration"/>
 	<group class="sagex.phoenix.metadata.provider.tvdb.TVDBConfiguration"/>
 	<group class="sagex.phoenix.util.url.UrlConfiguration"/>

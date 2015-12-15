@@ -4,7 +4,11 @@ Phoenix Core Services for SageTV
 
 ## Building Phoenix From Source
 * Checkout the code
-* Run ant configure
-* Run ant generate-phoenix-api
-* Refresh the project
+* Run `./gradlew configure`
 
+If using Eclipse
+* Run `./gradlew cleanEclipse eclipse`
+* Import project
+
+If using IntelliJ
+* Open `build.gradle` as project file

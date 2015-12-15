@@ -118,7 +118,7 @@ public class TestConfigurationMetadata {
 		g1.addElement(f);
 
 		cmm.addMetadata(g);
-		assertEquals("ConfigurationMetadata deoesn't have the expected # of groups", 4, cmm.getParentGroups().length);
+		assertEquals("ConfigurationMetadata deoesn't have the expected # of groups", 5, cmm.getParentGroups().length);
 
 		g.visit(new IConfigurationMetadataVisitor() {
 			public void accept(IConfigurationElement el) {
