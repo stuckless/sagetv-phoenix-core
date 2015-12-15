@@ -109,6 +109,9 @@ test.dependsOn testInit
 task processResourcesGwt << {
     // sometimes the ant task is just easier to configure :(
     ant.copy(toDir:"build/resources/main/gwt/src", failonerror:"true") {
+        fileset(dir:"src/main/resourcesGwt/gwt/src/")
+    }
+    ant.copy(toDir:"build/resources/main/gwt/src", failonerror:"true") {
         fileset(dir:"src/main/java/") {
             include (name: "sagex/phoenix/metadata/MetadataException.java" )
             include (name: "sagex/phoenix/metadata/search/SearchQuery.java" )
