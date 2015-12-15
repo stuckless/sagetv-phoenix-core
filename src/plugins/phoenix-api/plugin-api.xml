@@ -1,154 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SageTVPlugin>
-  <Name>Phoenix API</Name>
-  <Identifier>phoenix-api</Identifier>
-  <Description>Phoenix API Extensions for SageTV.  The Phoenix APIs include support Fanart, Dynamic Menus, Custom Views, etc. The API is the foundation for the Phoenix project.</Description>
-  <Author>stuckless,meinmaui,bialio</Author>
-  <CreationDate>2008.10.05</CreationDate>
-  <ModificationDate>@@last-modified@@</ModificationDate>
-  <Version>@@version@@</Version>
-  <ResourcePath>phoenix-api</ResourcePath>
-  <Webpage><![CDATA[http://code.google.com/p/sagephoenix/]]></Webpage>
+    <Name>Phoenix API</Name>
+    <Identifier>phoenix-api</Identifier>
+    <Description>Phoenix API Extensions for SageTV. The Phoenix APIs include support Fanart, Dynamic Menus, Custom
+        Views, etc. The API is the foundation for the Phoenix project.
+    </Description>
+    <Author>stuckless,jusjoken,bialio,meinmaui</Author>
+    <CreationDate>2008.10.05</CreationDate>
+    <ModificationDate>@@last-modified@@</ModificationDate>
+    <Version>@@version@@</Version>
+    <ResourcePath>phoenix-api</ResourcePath>
+    <Webpage><![CDATA[https://github.com/stuckless/sagetv-phoenix-core]]></Webpage>
 
-  <Dependency>
-    <Plugin>sagex-api</Plugin>
-    <MinVersion>7.1.9.15</MinVersion>
-  </Dependency>
+    <Dependency>
+        <Plugin>sagex-api</Plugin>
+        <MinVersion>7.1.9.15</MinVersion>
+    </Dependency>
+    <Dependency>
+        <Plugin>commons-codec</Plugin>
+        <MinVersion>1.9</MinVersion>
+    </Dependency>
+    <Dependency>
+        <Plugin>commons-dbutils</Plugin>
+        <MinVersion>1.3</MinVersion>
+    </Dependency>
+    <Dependency>
+        <Plugin>commons-io</Plugin>
+        <MinVersion>2.4</MinVersion>
+    </Dependency>
+    <Dependency>
+        <Plugin>commons-lang</Plugin>
+        <MinVersion>2.4</MinVersion>
+    </Dependency>
+    <Dependency>
+        <Plugin>log4j</Plugin>
+        <MinVersion>1.2.17</MinVersion>
+    </Dependency>
+    <Dependency>
+        <Plugin>dom4j</Plugin>
+        <MinVersion>1.6.1</MinVersion>
+    </Dependency>
+    <Dependency>
+        <Plugin>gson</Plugin>
+        <MinVersion>1.7.1</MinVersion>
+    </Dependency>
+    <Dependency>
+        <Plugin>jsoup</Plugin>
+        <MinVersion>1.7.1</MinVersion>
+    </Dependency>
+    <Dependency>
+        <Plugin>nielm_sageimdb</Plugin>
+        <MinVersion>1.8.4</MinVersion>
+    </Dependency>
+    <Dependency>
+        <Plugin>themoviedb</Plugin>
+        <MinVersion>4.1.0</MinVersion>
+    </Dependency>
+    <Dependency>
+        <Plugin>thetvdbapi</Plugin>
+        <MinVersion>1.8.0</MinVersion>
+    </Dependency>
+    <Dependency>
+        <Plugin>commons-net</Plugin>
+        <MinVersion>1.4.1</MinVersion>
+    </Dependency>
+    <Dependency>
+        <Plugin>htmlparser</Plugin>
+        <MinVersion>1.6</MinVersion>
+    </Dependency>
 
-  <Dependency>
-    <Plugin>commons-codec</Plugin>
-    <MinVersion>1.3</MinVersion>
-  </Dependency>
+    <PluginType>Library</PluginType>
 
-  <Dependency>
-    <Plugin>commons-dbutils</Plugin>
-    <MinVersion>1.3</MinVersion>
-  </Dependency>
- 
-  <Dependency>
-    <Plugin>commons-io</Plugin>
-    <MinVersion>1.4</MinVersion>
-  </Dependency>
+    <Package>
+        <PackageType>JAR</PackageType>
+        <Location>http://dl.bintray.com/opensagetv/sagetv-plugins/phoenix/phoenix-api-@@version@@.zip</Location>
+        <MD5>@@jar-checksum@@</MD5>
+    </Package>
 
-  <Dependency>
-    <Plugin>commons-lang</Plugin>
-    <MinVersion>2.4</MinVersion>
-  </Dependency>
-
-  <Dependency>
-    <Plugin>log4j</Plugin>
-    <MinVersion>1.2</MinVersion>
-  </Dependency>
-
-  <Dependency>
-    <Plugin>dom4j</Plugin>
-    <MinVersion>1.6.1</MinVersion>
-  </Dependency>
-
-  <Dependency>
-    <Plugin>seamless-util</Plugin>
-    <MinVersion>1.0</MinVersion>
-  </Dependency>
-
-  <Dependency>
-    <Plugin>seamless-http</Plugin>
-    <MinVersion>1.0</MinVersion>
-  </Dependency>
-
-  <Dependency>
-    <Plugin>seamless-xml</Plugin>
-    <MinVersion>1.0</MinVersion>
-  </Dependency>
-
-  <Dependency>
-    <Plugin>cling-core</Plugin>
-    <MinVersion>2.0</MinVersion>
-  </Dependency>
-
-  <Dependency>
-    <Plugin>cling-support</Plugin>
-    <MinVersion>2.0</MinVersion>
-  </Dependency>
-
-  <Dependency>
-    <Plugin>gson</Plugin>
-    <MinVersion>1.7.1</MinVersion>
-  </Dependency>
-
-  <Dependency>
-    <Plugin>jsoup</Plugin>
-    <MinVersion>1.7.1</MinVersion>
-  </Dependency>
-  
-  <Dependency>
-  	<Plugin>nielm_sageimdb</Plugin>
-  	<MinVersion>1.8.4</MinVersion>
-  </Dependency>
- 
-  <Dependency>
-  	<Plugin>themoviedb</Plugin>
-  	<MinVersion>3.0.1</MinVersion>
-  </Dependency>
-  
-  <PluginType>Library</PluginType>
-
-  <Package>
-    <PackageType>JAR</PackageType>
-    <Location>http://dl.bintray.com/opensagetv/sagetv-plugins/phoenix/phoenix-api-@@version@@.zip</Location>
-    <MD5>@@jar-checksum@@</MD5>
-  </Package>
-  
-  <ReleaseNotes>
-2.5.13
-* Removed Lucene
-
-2.5.12
-* Fixed JSON encoding issue in the Phoenix Remote APIs
-
-2.5.5
-* Weather updates by Jusjoken
-
-2.5.4
-* P2 Updates
-* Added Nest themostat APIs
-
-2.5.3
-* Reverted to TMDB for Movie Metadata
-
-2.5.2
-* Added option to fill in missing metadata on recordings, even if preserve metadata is enabled
-* Fixed Content Rating bug in TVDB (was setting MPAA Rating, not TV Rating)
-* Fixed Bug in TVDB whereby Year was getting populated for TV
-
-2.5.0
-* Added IMDB Suppurt using Nielm's IMDB Library
-  + IMDB now supports Quotes and Trivia
-
-* Updated TheMoviedDB support using 3rd party library
-  + TMDB now supports fetching Youtube Trailers
-  + TMDB now supports TagLines
-  + TMDB will now prefer English Fanart (or whatever language you choose)
-  + TMDD will allow you to prioritize fanart by User Rating or Size
-
-2.3.61
-* VFS: Fixed error whereby options were not be picked up the filters in a filter group
-* VFS: Added better VFS organization and caching which allows for updating system level filters and sources
-* Streaming: Added Phoenix Media Streamer for use with Phoenix Android App
-  
-2.3.60
-* Fixed IMDb detail scraper
-
-2.3.58
-* fixed broken imdb searches
-* misc tweaks from jusjoken for Gemstone
-
-2.3.50
-* Added updated weather apis (with help from jusjoken)
-* Updated phoenix rest apis
-* Added upnp client/server support (just libraries and basic vfs browsing)
-
-2.3.45
-* Fixed GetEpisode Bug where it would not find the correct Episode image file
-* Fixed SkinAPI so that it will no long load invalid skins
-  </ReleaseNotes>
+    <ReleaseNotes>
+        2.6
+        * removed upnp support
+        * removed nest support
+        * upgraded tvdb api
+        * upgraded tmdb api
+    </ReleaseNotes>
 </SageTVPlugin>
