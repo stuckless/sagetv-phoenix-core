@@ -1,931 +1,1123 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-	<feed xmlns:im="http://itunes.apple.com/rss" xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
-		<id>http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topMovies/xml</id><title>iTunes Store: Top Movies</title><updated>2011-12-19T15:17:28-07:00</updated><link rel="alternate" type="text/html" href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewTop?id=38&amp;popId=15"/><link rel="self" href="http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topMovies/xml"/><icon>http://phobos.apple.com/favicon.ico</icon><author><name>iTunes Store</name><uri>http://www.apple.com/itunes/</uri></author><rights>Copyright 2008 Apple Inc.</rights>
-		
-			<entry>
-				<updated>2011-12-19T15:17:28-07:00</updated>
-				
-					<id>http://itunes.apple.com/us/movie/the-help/id458062374?uo=2</id>
-				
-					<title>The Help - Tate Taylor</title>
-				
-					<summary>The #1 New York Times bestseller by Kathryn Stockett comes to vivid life through the powerful performances of a phenomenal ensemble cast. Led by Emma Stone, Viola Davis, Octavia Spencer and Bryce Dallas Howard, The Help is an inspirational, courageous and empowering story about very different, extraordinary women in the 1960s South who build an unlikely friendship around a secret writing project — one that breaks society’s rules and puts them all at risk. Filled with poignancy, humor and hope, The Help is a timeless, universal and triumphant story about the ability to create change.</summary>
-				
-					<im:name>The Help</im:name>
-				
-					<link rel="alternate" type="text/html" href="http://itunes.apple.com/us/movie/the-help/id458062374?uo=2"/>
-				
-					<im:contentType term="Movie" label="Movie"/>
-				
-					<category term="Drama" scheme="http://itunes.apple.com/us/genre/movies-drama/id4406?uo=2" label="Drama"/>
-				
-					<link title="Preview" rel="enclosure" type="video/x-m4v" href="http://a1151.v.phobos.apple.com/us/r1000/080/Video/eb/27/f3/mzm.xcbhexre..640x458.h264lc.d2.p.m4v" im:assetType="preview"><im:duration>92133.0</im:duration></link>
-				
-					<im:artist>Tate Taylor</im:artist>
-				
-					<im:price amount="19.99000" currency="USD">$19.99</im:price>
-				
-					<im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
-				
-					<im:image height="60">http://a4.mzstatic.com/us/r1000/072/Video/58/55/90/dj.qfjmihmi.60x60-50.jpg</im:image>
-				
-					<im:image height="60">http://a4.mzstatic.com/us/r1000/072/Video/58/55/90/dj.qfjmihmi.60x60-50.jpg</im:image>
-				
-					<im:image height="170">http://a2.mzstatic.com/us/r1000/072/Video/58/55/90/dj.qfjmihmi.170x170-75.jpg</im:image>
-				
-					<rights>2011 DREAMWORKS II DISTRIBUTION CO., LLC</rights>
-				
-					<im:releaseDate label="August 10, 2011">2011-08-10T00:00:00-07:00</im:releaseDate>
-				
-				
-					<content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
+<feed xmlns:im="http://itunes.apple.com/rss" xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <id>http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topMovies/xml</id>
+    <title>iTunes Store: Top Movies</title>
+    <updated>2011-12-19T15:17:28-07:00</updated>
+    <link rel="alternate" type="text/html"
+          href="http://itunes.apple.com/WebObjects/MZStore.woa/wa/viewTop?id=38&amp;popId=15"/>
+    <link rel="self" href="http://ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topMovies/xml"/>
+    <icon>http://phobos.apple.com/favicon.ico</icon>
+    <author>
+        <name>iTunes Store</name>
+        <uri>http://www.apple.com/itunes/</uri>
+    </author>
+    <rights>Copyright 2008 Apple Inc.</rights>
+
+    <entry>
+        <updated>2011-12-19T15:17:28-07:00</updated>
+
+        <id>http://itunes.apple.com/us/movie/the-help/id458062374?uo=2</id>
+
+        <title>The Help - Tate Taylor</title>
+
+        <summary>The #1 New York Times bestseller by Kathryn Stockett comes to vivid life through the powerful
+            performances of a phenomenal ensemble cast. Led by Emma Stone, Viola Davis, Octavia Spencer and Bryce Dallas
+            Howard, The Help is an inspirational, courageous and empowering story about very different, extraordinary
+            women in the 1960s South who build an unlikely friendship around a secret writing project — one that breaks
+            society’s rules and puts them all at risk. Filled with poignancy, humor and hope, The Help is a timeless,
+            universal and triumphant story about the ability to create change.
+        </summary>
+
+        <im:name>The Help</im:name>
+
+        <link rel="alternate" type="text/html" href="http://itunes.apple.com/us/movie/the-help/id458062374?uo=2"/>
+
+        <im:contentType term="Movie" label="Movie"/>
+
+        <category term="Drama" scheme="http://itunes.apple.com/us/genre/movies-drama/id4406?uo=2" label="Drama"/>
+
+        <link title="Preview" rel="enclosure" type="video/x-m4v"
+              href="http://a1151.v.phobos.apple.com/us/r1000/080/Video/eb/27/f3/mzm.xcbhexre..640x458.h264lc.d2.p.m4v"
+              im:assetType="preview">
+            <im:duration>92133.0</im:duration>
+        </link>
+
+        <im:artist>Tate Taylor</im:artist>
+
+        <im:price amount="19.99000" currency="USD">$19.99</im:price>
+
+        <im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
+
+        <im:image height="60">http://a4.mzstatic.com/us/r1000/072/Video/58/55/90/dj.qfjmihmi.60x60-50.jpg</im:image>
+
+        <im:image height="60">http://a4.mzstatic.com/us/r1000/072/Video/58/55/90/dj.qfjmihmi.60x60-50.jpg</im:image>
+
+        <im:image height="170">http://a2.mzstatic.com/us/r1000/072/Video/58/55/90/dj.qfjmihmi.170x170-75.jpg</im:image>
+
+        <rights>2011 DREAMWORKS II DISTRIBUTION CO., LLC</rights>
+
+        <im:releaseDate label="August 10, 2011">2011-08-10T00:00:00-07:00</im:releaseDate>
+
+
+        <content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
             &lt;table border=&quot;0&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;
-                &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
-                    
-                        &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
-                            &lt;a href=&quot;http://itunes.apple.com/us/movie/the-help/id458062374?uo=2&quot;&gt;&lt;img border=&quot;0&quot; alt=&quot;The Help artwork&quot; src=&quot;http://a2.mzstatic.com/us/r1000/072/Video/58/55/90/dj.qfjmihmi.170x170-75.jpg&quot; /&gt;&lt;/a&gt;
-                        &lt;/td&gt;
-                        &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot; /&gt;&lt;/td&gt;
-                    	&lt;td width=&quot;95%&quot;&gt;
-                    
-                    
-                        &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/the-help/id458062374?uo=2&quot;&gt;The Help&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
-                        
-                        
-                        
-                        
+            &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
 
-                        Tate Taylor
+            &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
+            &lt;a href=&quot;http://itunes.apple.com/us/movie/the-help/id458062374?uo=2&quot;&gt;&lt;img border=&quot;0&quot;
+            alt=&quot;The Help artwork&quot; src=&quot;http://a2.mzstatic.com/us/r1000/072/Video/58/55/90/dj.qfjmihmi.170x170-75.jpg&quot;
+            /&gt;&lt;/a&gt;
+            &lt;/td&gt;
+            &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot;
+            /&gt;&lt;/td&gt;
+            &lt;td width=&quot;95%&quot;&gt;
 
-                       &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
-						
-						 	&lt;br/&gt;
-                            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-drama/id4406?uo=2&quot;&gt;Drama&lt;/a&gt;
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Price:&lt;/b&gt; $19.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Release Date:&lt;/b&gt; August 10, 2011
-                        
-                        &lt;/font&gt;
-                    &lt;/td&gt;
-                &lt;/tr&gt;
+
+            &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/the-help/id458062374?uo=2&quot;&gt;The Help&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
+
+
+            Tate Taylor
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-drama/id4406?uo=2&quot;&gt;Drama&lt;/a&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Price:&lt;/b&gt; $19.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Release Date:&lt;/b&gt; August 10, 2011
+
+            &lt;/font&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
             &lt;/table&gt;
-        &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;The #1 New York Times bestseller by Kathryn Stockett comes to vivid life through the powerful performances of a phenomenal ensemble cast. Led by Emma Stone, Viola Davis, Octavia Spencer and Bryce Dallas Howard, The Help is an inspirational, courageous and empowering story about very different, extraordinary women in the 1960s South who build an unlikely friendship around a secret writing project — one that breaks society’s rules and puts them all at risk. Filled with poignancy, humor and hope, The Help is a timeless, universal and triumphant story about the ability to create change.&lt;/font&gt;&lt;br/&gt;
-            
-            
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169; 2011 DREAMWORKS II DISTRIBUTION CO., LLC&lt;/font&gt;
-	        
-        &lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
-</content>
-				
-			</entry>
-		
-			<entry>
-				<updated>2011-12-19T15:17:28-07:00</updated>
-				
-					<id>http://itunes.apple.com/us/movie/the-hangover-part-ii/id449813480?uo=2</id>
-				
-					<title>The Hangover Part II - Todd Phillips</title>
-				
-					<summary>In &#34;The Hangover Part II,&#34; Phil (Bradley Cooper), Stu (Ed Helms), Alan (Zach Galifianakis) and Doug (Justin Bartha) travel to exotic Thailand for Stu&#39;s wedding. With the memory of Doug&#39;s nearly disastrous bachelor party in Las Vegas still fresh-or at least well-documented-Stu is taking no chances. He has opted for a safe, subdued, pre-wedding trip brunch, with pancakes, coffee...and no alcohol. However, things don&#39;t always go as planned. Two nights before the big day, at a fabulous resort in Thailand, Stu relents. One beer each. In sealed bottles. What could go wrong? What happens in Vegas may stay in Vegas, but what happens in Bangkok can&#39;t even be imagined.</summary>
-				
-					<im:name>The Hangover Part II</im:name>
-				
-					<link rel="alternate" type="text/html" href="http://itunes.apple.com/us/movie/the-hangover-part-ii/id449813480?uo=2"/>
-				
-					<im:contentType term="Movie" label="Movie"/>
-				
-					<category term="Comedy" scheme="http://itunes.apple.com/us/genre/movies-comedy/id4404?uo=2" label="Comedy"/>
-				
-					<link title="Preview" rel="enclosure" type="video/x-m4v" href="http://a957.v.phobos.apple.com/us/r1000/101/Video/89/25/b6/mzm.mrgmptpk..640x478.h264lc.d2.p.m4v" im:assetType="preview"><im:duration>600809.0</im:duration></link>
-				
-					<im:artist>Todd Phillips</im:artist>
-				
-					<im:price amount="14.99000" currency="USD">$14.99</im:price>
-				
-					<im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
-				
-					<im:image height="60">http://a3.mzstatic.com/us/r1000/106/Video/3d/34/4a/mzl.myhroggg.60x60-50.jpg</im:image>
-				
-					<im:image height="60">http://a3.mzstatic.com/us/r1000/106/Video/3d/34/4a/mzl.myhroggg.60x60-50.jpg</im:image>
-				
-					<im:image height="170">http://a1.mzstatic.com/us/r1000/106/Video/3d/34/4a/mzl.myhroggg.170x170-75.jpg</im:image>
-				
-					<rights>2011 Warner Bros. Entertainment Inc. and Legendary Pictures. All Rights Reserved.</rights>
-				
-					<im:releaseDate label="May 26, 2011">2011-05-26T00:00:00-07:00</im:releaseDate>
-				
-				
-					<content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;The
+            #1 New York Times bestseller by Kathryn Stockett comes to vivid life through the powerful performances of a
+            phenomenal ensemble cast. Led by Emma Stone, Viola Davis, Octavia Spencer and Bryce Dallas Howard, The Help
+            is an inspirational, courageous and empowering story about very different, extraordinary women in the 1960s
+            South who build an unlikely friendship around a secret writing project — one that breaks society’s rules and
+            puts them all at risk. Filled with poignancy, humor and hope, The Help is a timeless, universal and
+            triumphant story about the ability to create change.&lt;/font&gt;&lt;br/&gt;
+
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169;
+            2011 DREAMWORKS II DISTRIBUTION CO., LLC&lt;/font&gt;
+
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;/table&gt;
+        </content>
+
+    </entry>
+
+    <entry>
+        <updated>2011-12-19T15:17:28-07:00</updated>
+
+        <id>http://itunes.apple.com/us/movie/the-hangover-part-ii/id449813480?uo=2</id>
+
+        <title>The Hangover Part II - Todd Phillips</title>
+
+        <summary>In &#34;The Hangover Part II,&#34; Phil (Bradley Cooper), Stu (Ed Helms), Alan (Zach Galifianakis) and
+            Doug (Justin Bartha) travel to exotic Thailand for Stu&#39;s wedding. With the memory of Doug&#39;s nearly
+            disastrous bachelor party in Las Vegas still fresh-or at least well-documented-Stu is taking no chances. He
+            has opted for a safe, subdued, pre-wedding trip brunch, with pancakes, coffee...and no alcohol. However,
+            things don&#39;t always go as planned. Two nights before the big day, at a fabulous resort in Thailand, Stu
+            relents. One beer each. In sealed bottles. What could go wrong? What happens in Vegas may stay in Vegas, but
+            what happens in Bangkok can&#39;t even be imagined.
+        </summary>
+
+        <im:name>The Hangover Part II</im:name>
+
+        <link rel="alternate" type="text/html"
+              href="http://itunes.apple.com/us/movie/the-hangover-part-ii/id449813480?uo=2"/>
+
+        <im:contentType term="Movie" label="Movie"/>
+
+        <category term="Comedy" scheme="http://itunes.apple.com/us/genre/movies-comedy/id4404?uo=2" label="Comedy"/>
+
+        <link title="Preview" rel="enclosure" type="video/x-m4v"
+              href="http://a957.v.phobos.apple.com/us/r1000/101/Video/89/25/b6/mzm.mrgmptpk..640x478.h264lc.d2.p.m4v"
+              im:assetType="preview">
+            <im:duration>600809.0</im:duration>
+        </link>
+
+        <im:artist>Todd Phillips</im:artist>
+
+        <im:price amount="14.99000" currency="USD">$14.99</im:price>
+
+        <im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
+
+        <im:image height="60">http://a3.mzstatic.com/us/r1000/106/Video/3d/34/4a/mzl.myhroggg.60x60-50.jpg</im:image>
+
+        <im:image height="60">http://a3.mzstatic.com/us/r1000/106/Video/3d/34/4a/mzl.myhroggg.60x60-50.jpg</im:image>
+
+        <im:image height="170">http://a1.mzstatic.com/us/r1000/106/Video/3d/34/4a/mzl.myhroggg.170x170-75.jpg</im:image>
+
+        <rights>2011 Warner Bros. Entertainment Inc. and Legendary Pictures. All Rights Reserved.</rights>
+
+        <im:releaseDate label="May 26, 2011">2011-05-26T00:00:00-07:00</im:releaseDate>
+
+
+        <content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
             &lt;table border=&quot;0&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;
-                &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
-                    
-                        &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
-                            &lt;a href=&quot;http://itunes.apple.com/us/movie/the-hangover-part-ii/id449813480?uo=2&quot;&gt;&lt;img border=&quot;0&quot; alt=&quot;The Hangover Part II artwork&quot; src=&quot;http://a1.mzstatic.com/us/r1000/106/Video/3d/34/4a/mzl.myhroggg.170x170-75.jpg&quot; /&gt;&lt;/a&gt;
-                        &lt;/td&gt;
-                        &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot; /&gt;&lt;/td&gt;
-                    	&lt;td width=&quot;95%&quot;&gt;
-                    
-                    
-                        &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/the-hangover-part-ii/id449813480?uo=2&quot;&gt;The Hangover Part II&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
-                        
-                        
-                        
-                        
+            &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
 
-                        Todd Phillips
+            &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
+            &lt;a href=&quot;http://itunes.apple.com/us/movie/the-hangover-part-ii/id449813480?uo=2&quot;&gt;&lt;img
+            border=&quot;0&quot; alt=&quot;The Hangover Part II artwork&quot; src=&quot;http://a1.mzstatic.com/us/r1000/106/Video/3d/34/4a/mzl.myhroggg.170x170-75.jpg&quot;
+            /&gt;&lt;/a&gt;
+            &lt;/td&gt;
+            &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot;
+            /&gt;&lt;/td&gt;
+            &lt;td width=&quot;95%&quot;&gt;
 
-                       &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
-						
-						 	&lt;br/&gt;
-                            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-comedy/id4404?uo=2&quot;&gt;Comedy&lt;/a&gt;
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Price:&lt;/b&gt; $14.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Release Date:&lt;/b&gt; May 26, 2011
-                        
-                        &lt;/font&gt;
-                    &lt;/td&gt;
-                &lt;/tr&gt;
+
+            &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/the-hangover-part-ii/id449813480?uo=2&quot;&gt;The
+            Hangover Part II&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
+
+
+            Todd Phillips
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-comedy/id4404?uo=2&quot;&gt;Comedy&lt;/a&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Price:&lt;/b&gt; $14.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Release Date:&lt;/b&gt; May 26, 2011
+
+            &lt;/font&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
             &lt;/table&gt;
-        &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;In &amp;#34;The Hangover Part II,&amp;#34; Phil (Bradley Cooper), Stu (Ed Helms), Alan (Zach Galifianakis) and Doug (Justin Bartha) travel to exotic Thailand for Stu&amp;#39;s wedding. With the memory of Doug&amp;#39;s nearly disastrous bachelor party in Las Vegas still fresh-or at least well-documented-Stu is taking no chances. He has opted for a safe, subdued, pre-wedding trip brunch, with pancakes, coffee...and no alcohol. However, things don&amp;#39;t always go as planned. Two nights before the big day, at a fabulous resort in Thailand, Stu relents. One beer each. In sealed bottles. What could go wrong? What happens in Vegas may stay in Vegas, but what happens in Bangkok can&amp;#39;t even be imagined.&lt;/font&gt;&lt;br/&gt;
-            
-            
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169; 2011 Warner Bros. Entertainment Inc. and Legendary Pictures. All Rights Reserved.&lt;/font&gt;
-	        
-        &lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
-</content>
-				
-			</entry>
-		
-			<entry>
-				<updated>2011-12-19T15:17:28-07:00</updated>
-				
-					<id>http://itunes.apple.com/us/movie/friends-with-benefits/id463104305?uo=2</id>
-				
-					<title>Friends With Benefits - Will Gluck</title>
-				
-					<summary>Dylan (Justin Timberlake) and Jamie (Mila Kunis) think it&#39;s going to be easy to add the simple act of sex to their friendship, despite what Hollywood romantic comedies would have them believe. They soon discover however that getting physical really does always lead to complications.</summary>
-				
-					<im:name>Friends With Benefits</im:name>
-				
-					<link rel="alternate" type="text/html" href="http://itunes.apple.com/us/movie/friends-with-benefits/id463104305?uo=2"/>
-				
-					<im:contentType term="Movie" label="Movie"/>
-				
-					<category term="Comedy" scheme="http://itunes.apple.com/us/genre/movies-comedy/id4404?uo=2" label="Comedy"/>
-				
-					<link title="Preview" rel="enclosure" type="video/x-m4v" href="http://a982.v.phobos.apple.com/us/r1000/091/Video/42/c4/85/mzm.ijsrwpsz..640x354.h264lc.d2.p.m4v" im:assetType="preview"><im:duration>627919.0</im:duration></link>
-				
-					<im:artist>Will Gluck</im:artist>
-				
-					<im:price amount="15.99000" currency="USD">$15.99</im:price>
-				
-					<im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
-				
-					<im:image height="60">http://a1.mzstatic.com/us/r1000/114/Video/e2/63/b2/mzl.eogxenjy.60x60-50.jpg</im:image>
-				
-					<im:image height="60">http://a1.mzstatic.com/us/r1000/114/Video/e2/63/b2/mzl.eogxenjy.60x60-50.jpg</im:image>
-				
-					<im:image height="170">http://a5.mzstatic.com/us/r1000/114/Video/e2/63/b2/mzl.eogxenjy.170x170-75.jpg</im:image>
-				
-					<rights>2011 Screen Gems, Inc. All Rights Reserved.</rights>
-				
-					<im:releaseDate label="July 22, 2011">2011-07-22T00:00:00-07:00</im:releaseDate>
-				
-				
-					<content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;In
+            &amp;#34;The Hangover Part II,&amp;#34; Phil (Bradley Cooper), Stu (Ed Helms), Alan (Zach Galifianakis) and
+            Doug (Justin Bartha) travel to exotic Thailand for Stu&amp;#39;s wedding. With the memory of Doug&amp;#39;s
+            nearly disastrous bachelor party in Las Vegas still fresh-or at least well-documented-Stu is taking no
+            chances. He has opted for a safe, subdued, pre-wedding trip brunch, with pancakes, coffee...and no alcohol.
+            However, things don&amp;#39;t always go as planned. Two nights before the big day, at a fabulous resort in
+            Thailand, Stu relents. One beer each. In sealed bottles. What could go wrong? What happens in Vegas may stay
+            in Vegas, but what happens in Bangkok can&amp;#39;t even be imagined.&lt;/font&gt;&lt;br/&gt;
+
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169;
+            2011 Warner Bros. Entertainment Inc. and Legendary Pictures. All Rights Reserved.&lt;/font&gt;
+
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;/table&gt;
+        </content>
+
+    </entry>
+
+    <entry>
+        <updated>2011-12-19T15:17:28-07:00</updated>
+
+        <id>http://itunes.apple.com/us/movie/friends-with-benefits/id463104305?uo=2</id>
+
+        <title>Friends With Benefits - Will Gluck</title>
+
+        <summary>Dylan (Justin Timberlake) and Jamie (Mila Kunis) think it&#39;s going to be easy to add the simple act
+            of sex to their friendship, despite what Hollywood romantic comedies would have them believe. They soon
+            discover however that getting physical really does always lead to complications.
+        </summary>
+
+        <im:name>Friends With Benefits</im:name>
+
+        <link rel="alternate" type="text/html"
+              href="http://itunes.apple.com/us/movie/friends-with-benefits/id463104305?uo=2"/>
+
+        <im:contentType term="Movie" label="Movie"/>
+
+        <category term="Comedy" scheme="http://itunes.apple.com/us/genre/movies-comedy/id4404?uo=2" label="Comedy"/>
+
+        <link title="Preview" rel="enclosure" type="video/x-m4v"
+              href="http://a982.v.phobos.apple.com/us/r1000/091/Video/42/c4/85/mzm.ijsrwpsz..640x354.h264lc.d2.p.m4v"
+              im:assetType="preview">
+            <im:duration>627919.0</im:duration>
+        </link>
+
+        <im:artist>Will Gluck</im:artist>
+
+        <im:price amount="15.99000" currency="USD">$15.99</im:price>
+
+        <im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
+
+        <im:image height="60">http://a1.mzstatic.com/us/r1000/114/Video/e2/63/b2/mzl.eogxenjy.60x60-50.jpg</im:image>
+
+        <im:image height="60">http://a1.mzstatic.com/us/r1000/114/Video/e2/63/b2/mzl.eogxenjy.60x60-50.jpg</im:image>
+
+        <im:image height="170">http://a5.mzstatic.com/us/r1000/114/Video/e2/63/b2/mzl.eogxenjy.170x170-75.jpg</im:image>
+
+        <rights>2011 Screen Gems, Inc. All Rights Reserved.</rights>
+
+        <im:releaseDate label="July 22, 2011">2011-07-22T00:00:00-07:00</im:releaseDate>
+
+
+        <content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
             &lt;table border=&quot;0&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;
-                &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
-                    
-                        &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
-                            &lt;a href=&quot;http://itunes.apple.com/us/movie/friends-with-benefits/id463104305?uo=2&quot;&gt;&lt;img border=&quot;0&quot; alt=&quot;Friends With Benefits artwork&quot; src=&quot;http://a5.mzstatic.com/us/r1000/114/Video/e2/63/b2/mzl.eogxenjy.170x170-75.jpg&quot; /&gt;&lt;/a&gt;
-                        &lt;/td&gt;
-                        &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot; /&gt;&lt;/td&gt;
-                    	&lt;td width=&quot;95%&quot;&gt;
-                    
-                    
-                        &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/friends-with-benefits/id463104305?uo=2&quot;&gt;Friends With Benefits&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
-                        
-                        
-                        
-                        
+            &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
 
-                        Will Gluck
+            &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
+            &lt;a href=&quot;http://itunes.apple.com/us/movie/friends-with-benefits/id463104305?uo=2&quot;&gt;&lt;img
+            border=&quot;0&quot; alt=&quot;Friends With Benefits artwork&quot; src=&quot;http://a5.mzstatic.com/us/r1000/114/Video/e2/63/b2/mzl.eogxenjy.170x170-75.jpg&quot;
+            /&gt;&lt;/a&gt;
+            &lt;/td&gt;
+            &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot;
+            /&gt;&lt;/td&gt;
+            &lt;td width=&quot;95%&quot;&gt;
 
-                       &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
-						
-						 	&lt;br/&gt;
-                            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-comedy/id4404?uo=2&quot;&gt;Comedy&lt;/a&gt;
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Price:&lt;/b&gt; $15.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Release Date:&lt;/b&gt; July 22, 2011
-                        
-                        &lt;/font&gt;
-                    &lt;/td&gt;
-                &lt;/tr&gt;
+
+            &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/friends-with-benefits/id463104305?uo=2&quot;&gt;Friends
+            With Benefits&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
+
+
+            Will Gluck
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-comedy/id4404?uo=2&quot;&gt;Comedy&lt;/a&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Price:&lt;/b&gt; $15.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Release Date:&lt;/b&gt; July 22, 2011
+
+            &lt;/font&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
             &lt;/table&gt;
-        &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;Dylan (Justin Timberlake) and Jamie (Mila Kunis) think it&amp;#39;s going to be easy to add the simple act of sex to their friendship, despite what Hollywood romantic comedies would have them believe. They soon discover however that getting physical really does always lead to complications.&lt;/font&gt;&lt;br/&gt;
-            
-            
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169; 2011 Screen Gems, Inc. All Rights Reserved.&lt;/font&gt;
-	        
-        &lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
-</content>
-				
-			</entry>
-		
-			<entry>
-				<updated>2011-12-19T15:17:28-07:00</updated>
-				
-					<id>http://itunes.apple.com/us/movie/mr.-poppers-penguins/id452104118?uo=2</id>
-				
-					<title>Mr. Popper&#39;s Penguins - Mark Waters</title>
-				
-					<summary>Chill out with the funniest family comedy of the year! Jim Carrey stars as Tom Popper, a successful businessman who’s clueless when it comes to the really important things in life...until he inherits six “adorable” penguins, each with its own unique personality. Soon Tom’s rambunctious roommates turn his swank New York apartment into a snowy winter wonderland — and the rest of his world upside-down.</summary>
-				
-					<im:name>Mr. Popper&#39;s Penguins</im:name>
-				
-					<link rel="alternate" type="text/html" href="http://itunes.apple.com/us/movie/mr.-poppers-penguins/id452104118?uo=2"/>
-				
-					<im:contentType term="Movie" label="Movie"/>
-				
-					<category term="Kids &amp; Family" scheme="http://itunes.apple.com/us/genre/movies-kids-family/id4410?uo=2" label="Kids &amp; Family"/>
-				
-					<link title="Preview" rel="enclosure" type="video/x-m4v" href="http://a1933.v.phobos.apple.com/us/r1000/083/Video/aa/80/77/mzm.cryefqtn..640x460.h264lc.d2.p.m4v" im:assetType="preview"><im:duration>141850.0</im:duration></link>
-				
-					<im:artist>Mark Waters</im:artist>
-				
-					<im:price amount="14.99000" currency="USD">$14.99</im:price>
-				
-					<im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
-				
-					<im:image height="60">http://a2.mzstatic.com/us/r1000/076/Video/86/83/e3/mzl.ehqmzwhk.60x60-50.jpg</im:image>
-				
-					<im:image height="60">http://a2.mzstatic.com/us/r1000/076/Video/86/83/e3/mzl.ehqmzwhk.60x60-50.jpg</im:image>
-				
-					<im:image height="170">http://a2.mzstatic.com/us/r1000/076/Video/86/83/e3/mzl.ehqmzwhk.170x170-75.jpg</im:image>
-				
-					<rights>2011 Twentieth Century Fox Film Corporation. All Rights Reserved.</rights>
-				
-					<im:releaseDate label="July 17, 2011">2011-07-17T00:00:00-07:00</im:releaseDate>
-				
-				
-					<content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;Dylan
+            (Justin Timberlake) and Jamie (Mila Kunis) think it&amp;#39;s going to be easy to add the simple act of sex
+            to their friendship, despite what Hollywood romantic comedies would have them believe. They soon discover
+            however that getting physical really does always lead to complications.&lt;/font&gt;&lt;br/&gt;
+
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169;
+            2011 Screen Gems, Inc. All Rights Reserved.&lt;/font&gt;
+
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;/table&gt;
+        </content>
+
+    </entry>
+
+    <entry>
+        <updated>2011-12-19T15:17:28-07:00</updated>
+
+        <id>http://itunes.apple.com/us/movie/mr.-poppers-penguins/id452104118?uo=2</id>
+
+        <title>Mr. Popper&#39;s Penguins - Mark Waters</title>
+
+        <summary>Chill out with the funniest family comedy of the year! Jim Carrey stars as Tom Popper, a successful
+            businessman who’s clueless when it comes to the really important things in life...until he inherits six
+            “adorable” penguins, each with its own unique personality. Soon Tom’s rambunctious roommates turn his swank
+            New York apartment into a snowy winter wonderland — and the rest of his world upside-down.
+        </summary>
+
+        <im:name>Mr. Popper&#39;s Penguins</im:name>
+
+        <link rel="alternate" type="text/html"
+              href="http://itunes.apple.com/us/movie/mr.-poppers-penguins/id452104118?uo=2"/>
+
+        <im:contentType term="Movie" label="Movie"/>
+
+        <category term="Kids &amp; Family" scheme="http://itunes.apple.com/us/genre/movies-kids-family/id4410?uo=2"
+                  label="Kids &amp; Family"/>
+
+        <link title="Preview" rel="enclosure" type="video/x-m4v"
+              href="http://a1933.v.phobos.apple.com/us/r1000/083/Video/aa/80/77/mzm.cryefqtn..640x460.h264lc.d2.p.m4v"
+              im:assetType="preview">
+            <im:duration>141850.0</im:duration>
+        </link>
+
+        <im:artist>Mark Waters</im:artist>
+
+        <im:price amount="14.99000" currency="USD">$14.99</im:price>
+
+        <im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
+
+        <im:image height="60">http://a2.mzstatic.com/us/r1000/076/Video/86/83/e3/mzl.ehqmzwhk.60x60-50.jpg</im:image>
+
+        <im:image height="60">http://a2.mzstatic.com/us/r1000/076/Video/86/83/e3/mzl.ehqmzwhk.60x60-50.jpg</im:image>
+
+        <im:image height="170">http://a2.mzstatic.com/us/r1000/076/Video/86/83/e3/mzl.ehqmzwhk.170x170-75.jpg</im:image>
+
+        <rights>2011 Twentieth Century Fox Film Corporation. All Rights Reserved.</rights>
+
+        <im:releaseDate label="July 17, 2011">2011-07-17T00:00:00-07:00</im:releaseDate>
+
+
+        <content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
             &lt;table border=&quot;0&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;
-                &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
-                    
-                        &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
-                            &lt;a href=&quot;http://itunes.apple.com/us/movie/mr.-poppers-penguins/id452104118?uo=2&quot;&gt;&lt;img border=&quot;0&quot; alt=&quot;Mr. Popper's Penguins artwork&quot; src=&quot;http://a2.mzstatic.com/us/r1000/076/Video/86/83/e3/mzl.ehqmzwhk.170x170-75.jpg&quot; /&gt;&lt;/a&gt;
-                        &lt;/td&gt;
-                        &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot; /&gt;&lt;/td&gt;
-                    	&lt;td width=&quot;95%&quot;&gt;
-                    
-                    
-                        &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/mr.-poppers-penguins/id452104118?uo=2&quot;&gt;Mr. Popper's Penguins&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
-                        
-                        
-                        
-                        
+            &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
 
-                        Mark Waters
+            &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
+            &lt;a href=&quot;http://itunes.apple.com/us/movie/mr.-poppers-penguins/id452104118?uo=2&quot;&gt;&lt;img
+            border=&quot;0&quot; alt=&quot;Mr. Popper's Penguins artwork&quot; src=&quot;http://a2.mzstatic.com/us/r1000/076/Video/86/83/e3/mzl.ehqmzwhk.170x170-75.jpg&quot;
+            /&gt;&lt;/a&gt;
+            &lt;/td&gt;
+            &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot;
+            /&gt;&lt;/td&gt;
+            &lt;td width=&quot;95%&quot;&gt;
 
-                       &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
-						
-						 	&lt;br/&gt;
-                            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-kids-family/id4410?uo=2&quot;&gt;Kids &amp; Family&lt;/a&gt;
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Price:&lt;/b&gt; $14.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Release Date:&lt;/b&gt; July 17, 2011
-                        
-                        &lt;/font&gt;
-                    &lt;/td&gt;
-                &lt;/tr&gt;
+
+            &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/mr.-poppers-penguins/id452104118?uo=2&quot;&gt;Mr.
+            Popper's Penguins&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
+
+
+            Mark Waters
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-kids-family/id4410?uo=2&quot;&gt;Kids
+            &amp; Family&lt;/a&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Price:&lt;/b&gt; $14.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Release Date:&lt;/b&gt; July 17, 2011
+
+            &lt;/font&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
             &lt;/table&gt;
-        &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;Chill out with the funniest family comedy of the year! Jim Carrey stars as Tom Popper, a successful businessman who’s clueless when it comes to the really important things in life...until he inherits six “adorable” penguins, each with its own unique personality. Soon Tom’s rambunctious roommates turn his swank New York apartment into a snowy winter wonderland — and the rest of his world upside-down.&lt;/font&gt;&lt;br/&gt;
-            
-            
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169; 2011 Twentieth Century Fox Film Corporation. All Rights Reserved.&lt;/font&gt;
-	        
-        &lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
-</content>
-				
-			</entry>
-		
-			<entry>
-				<updated>2011-12-19T15:17:28-07:00</updated>
-				
-					<id>http://itunes.apple.com/us/movie/cowboys-aliens-extended-edition/id477633049?uo=2</id>
-				
-					<title>Cowboys &amp; Aliens (Extended Edition) - Jon Favreau</title>
-				
-					<summary>Daniel Craig and Harrison Ford star in this action-packed sci-fi western from the director of Iron Man (Jon Favreau). The Extended Version of this epic adventure includes more action not seen in theaters! A stranger (Craig) stumbles into the desert town of Absolution with no memory of his past and a futuristic shackle around his wrist. With the help of mysterious beauty Ella (Wilde) and the iron-fisted Colonel Dolarhyde (Ford), he finds himself leading an unlikely posse of cowboys, outlaws, and Apache warriors against a common enemy from beyond this world.</summary>
-				
-					<im:name>Cowboys &amp; Aliens (Extended Edition)</im:name>
-				
-					<link rel="alternate" type="text/html" href="http://itunes.apple.com/us/movie/cowboys-aliens-extended-edition/id477633049?uo=2"/>
-				
-					<im:contentType term="Movie" label="Movie"/>
-				
-					<category term="Western" scheme="http://itunes.apple.com/us/genre/movies-western/id4418?uo=2" label="Western"/>
-				
-					<link title="Preview" rel="enclosure" type="video/x-m4v" href="http://a1647.v.phobos.apple.com/us/r1000/081/Video/da/ed/78/mzm.kfkuhlwm..640x358.h264lc.d2.p.m4v" im:assetType="preview"><im:duration>82248.0</im:duration></link>
-				
-					<im:artist>Jon Favreau</im:artist>
-				
-					<im:price amount="19.99000" currency="USD">$19.99</im:price>
-				
-					<im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
-				
-					<im:image height="60">http://a2.mzstatic.com/us/r1000/112/Video/49/6d/d9/mzi.fjktdifh.60x60-50.jpg</im:image>
-				
-					<im:image height="60">http://a2.mzstatic.com/us/r1000/112/Video/49/6d/d9/mzi.fjktdifh.60x60-50.jpg</im:image>
-				
-					<im:image height="170">http://a3.mzstatic.com/us/r1000/112/Video/49/6d/d9/mzi.fjktdifh.170x170-75.jpg</im:image>
-				
-					<rights>2011 Universal Studios. All Rights Reserved.</rights>
-				
-					<im:releaseDate label="July 29, 2011">2011-07-29T00:00:00-07:00</im:releaseDate>
-				
-				
-					<content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;Chill
+            out with the funniest family comedy of the year! Jim Carrey stars as Tom Popper, a successful businessman
+            who’s clueless when it comes to the really important things in life...until he inherits six “adorable”
+            penguins, each with its own unique personality. Soon Tom’s rambunctious roommates turn his swank New York
+            apartment into a snowy winter wonderland — and the rest of his world upside-down.&lt;/font&gt;&lt;br/&gt;
+
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169;
+            2011 Twentieth Century Fox Film Corporation. All Rights Reserved.&lt;/font&gt;
+
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;/table&gt;
+        </content>
+
+    </entry>
+
+    <entry>
+        <updated>2011-12-19T15:17:28-07:00</updated>
+
+        <id>http://itunes.apple.com/us/movie/cowboys-aliens-extended-edition/id477633049?uo=2</id>
+
+        <title>Cowboys &amp; Aliens (Extended Edition) - Jon Favreau</title>
+
+        <summary>Daniel Craig and Harrison Ford star in this action-packed sci-fi western from the director of Iron Man
+            (Jon Favreau). The Extended Version of this epic adventure includes more action not seen in theaters! A
+            stranger (Craig) stumbles into the desert town of Absolution with no memory of his past and a futuristic
+            shackle around his wrist. With the help of mysterious beauty Ella (Wilde) and the iron-fisted Colonel
+            Dolarhyde (Ford), he finds himself leading an unlikely posse of cowboys, outlaws, and Apache warriors
+            against a common enemy from beyond this world.
+        </summary>
+
+        <im:name>Cowboys &amp; Aliens (Extended Edition)</im:name>
+
+        <link rel="alternate" type="text/html"
+              href="http://itunes.apple.com/us/movie/cowboys-aliens-extended-edition/id477633049?uo=2"/>
+
+        <im:contentType term="Movie" label="Movie"/>
+
+        <category term="Western" scheme="http://itunes.apple.com/us/genre/movies-western/id4418?uo=2" label="Western"/>
+
+        <link title="Preview" rel="enclosure" type="video/x-m4v"
+              href="http://a1647.v.phobos.apple.com/us/r1000/081/Video/da/ed/78/mzm.kfkuhlwm..640x358.h264lc.d2.p.m4v"
+              im:assetType="preview">
+            <im:duration>82248.0</im:duration>
+        </link>
+
+        <im:artist>Jon Favreau</im:artist>
+
+        <im:price amount="19.99000" currency="USD">$19.99</im:price>
+
+        <im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
+
+        <im:image height="60">http://a2.mzstatic.com/us/r1000/112/Video/49/6d/d9/mzi.fjktdifh.60x60-50.jpg</im:image>
+
+        <im:image height="60">http://a2.mzstatic.com/us/r1000/112/Video/49/6d/d9/mzi.fjktdifh.60x60-50.jpg</im:image>
+
+        <im:image height="170">http://a3.mzstatic.com/us/r1000/112/Video/49/6d/d9/mzi.fjktdifh.170x170-75.jpg</im:image>
+
+        <rights>2011 Universal Studios. All Rights Reserved.</rights>
+
+        <im:releaseDate label="July 29, 2011">2011-07-29T00:00:00-07:00</im:releaseDate>
+
+
+        <content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
             &lt;table border=&quot;0&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;
-                &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
-                    
-                        &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
-                            &lt;a href=&quot;http://itunes.apple.com/us/movie/cowboys-aliens-extended-edition/id477633049?uo=2&quot;&gt;&lt;img border=&quot;0&quot; alt=&quot;Cowboys &amp; Aliens (Extended Edition) artwork&quot; src=&quot;http://a3.mzstatic.com/us/r1000/112/Video/49/6d/d9/mzi.fjktdifh.170x170-75.jpg&quot; /&gt;&lt;/a&gt;
-                        &lt;/td&gt;
-                        &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot; /&gt;&lt;/td&gt;
-                    	&lt;td width=&quot;95%&quot;&gt;
-                    
-                    
-                        &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/cowboys-aliens-extended-edition/id477633049?uo=2&quot;&gt;Cowboys &amp;amp; Aliens (Extended Edition)&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
-                        
-                        
-                        
-                        
+            &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
 
-                        Jon Favreau
+            &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
+            &lt;a href=&quot;http://itunes.apple.com/us/movie/cowboys-aliens-extended-edition/id477633049?uo=2&quot;&gt;&lt;img
+            border=&quot;0&quot; alt=&quot;Cowboys &amp; Aliens (Extended Edition) artwork&quot; src=&quot;http://a3.mzstatic.com/us/r1000/112/Video/49/6d/d9/mzi.fjktdifh.170x170-75.jpg&quot;
+            /&gt;&lt;/a&gt;
+            &lt;/td&gt;
+            &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot;
+            /&gt;&lt;/td&gt;
+            &lt;td width=&quot;95%&quot;&gt;
 
-                       &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
-						
-						 	&lt;br/&gt;
-                            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-western/id4418?uo=2&quot;&gt;Western&lt;/a&gt;
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Price:&lt;/b&gt; $19.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Release Date:&lt;/b&gt; July 29, 2011
-                        
-                        &lt;/font&gt;
-                    &lt;/td&gt;
-                &lt;/tr&gt;
+
+            &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/cowboys-aliens-extended-edition/id477633049?uo=2&quot;&gt;Cowboys
+            &amp;amp; Aliens (Extended Edition)&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
+
+
+            Jon Favreau
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-western/id4418?uo=2&quot;&gt;Western&lt;/a&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Price:&lt;/b&gt; $19.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Release Date:&lt;/b&gt; July 29, 2011
+
+            &lt;/font&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
             &lt;/table&gt;
-        &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;Daniel Craig and Harrison Ford star in this action-packed sci-fi western from the director of Iron Man (Jon Favreau). The Extended Version of this epic adventure includes more action not seen in theaters! A stranger (Craig) stumbles into the desert town of Absolution with no memory of his past and a futuristic shackle around his wrist. With the help of mysterious beauty Ella (Wilde) and the iron-fisted Colonel Dolarhyde (Ford), he finds himself leading an unlikely posse of cowboys, outlaws, and Apache warriors against a common enemy from beyond this world.&lt;/font&gt;&lt;br/&gt;
-            
-            
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169; 2011 Universal Studios. All Rights Reserved.&lt;/font&gt;
-	        
-        &lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
-</content>
-				
-			</entry>
-		
-			<entry>
-				<updated>2011-12-19T15:17:28-07:00</updated>
-				
-					<id>http://itunes.apple.com/us/movie/the-debt/id468990474?uo=2</id>
-				
-					<title>The Debt - John Madden</title>
-				
-					<summary>Academy Award® winner Helen Mirren and two-time Academy Award® nominee Tom Wilkinson star in The Debt, “a pulse-pounding and politically charged suspense thriller.” (Karen Durbin, Elle) In 1966, three Mossad agents were assigned to track down a feared Nazi war criminal hiding in East Berlin, a mission accomplished at great risk and personal cost – or was it? Thirty years later, the suspense builds as shocking news and surprising revelations compel retired team member Rachel Singer (Mirren) to take matters into her own hands. Co-starring Sam Worthington, Jessica Chastain and Ciarán Hinds, it’s the film critics call “an intelligent thriller with superb performances.” (USA Today)</summary>
-				
-					<im:name>The Debt</im:name>
-				
-					<link rel="alternate" type="text/html" href="http://itunes.apple.com/us/movie/the-debt/id468990474?uo=2"/>
-				
-					<im:contentType term="Movie" label="Movie"/>
-				
-					<category term="Drama" scheme="http://itunes.apple.com/us/genre/movies-drama/id4406?uo=2" label="Drama"/>
-				
-					<link title="Preview" rel="enclosure" type="video/x-m4v" href="http://a292.v.phobos.apple.com/us/r1000/074/Video/8a/6f/63/mzm.rbjxfajw..640x362.h264lc.d2.p.m4v" im:assetType="preview"><im:duration>142642.0</im:duration></link>
-				
-					<im:artist>John Madden</im:artist>
-				
-					<im:price amount="19.99000" currency="USD">$19.99</im:price>
-				
-					<im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
-				
-					<im:image height="60">http://a4.mzstatic.com/us/r1000/100/Video/4a/c6/98/mzl.fwgmmhyt.60x60-50.jpg</im:image>
-				
-					<im:image height="60">http://a4.mzstatic.com/us/r1000/100/Video/4a/c6/98/mzl.fwgmmhyt.60x60-50.jpg</im:image>
-				
-					<im:image height="170">http://a1.mzstatic.com/us/r1000/100/Video/4a/c6/98/mzl.fwgmmhyt.170x170-75.jpg</im:image>
-				
-					<rights>2010 Focus Features. All Rights Reserved.</rights>
-				
-					<im:releaseDate label="August 31, 2011">2011-08-31T00:00:00-07:00</im:releaseDate>
-				
-				
-					<content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;Daniel
+            Craig and Harrison Ford star in this action-packed sci-fi western from the director of Iron Man (Jon
+            Favreau). The Extended Version of this epic adventure includes more action not seen in theaters! A stranger
+            (Craig) stumbles into the desert town of Absolution with no memory of his past and a futuristic shackle
+            around his wrist. With the help of mysterious beauty Ella (Wilde) and the iron-fisted Colonel Dolarhyde
+            (Ford), he finds himself leading an unlikely posse of cowboys, outlaws, and Apache warriors against a common
+            enemy from beyond this world.&lt;/font&gt;&lt;br/&gt;
+
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169;
+            2011 Universal Studios. All Rights Reserved.&lt;/font&gt;
+
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;/table&gt;
+        </content>
+
+    </entry>
+
+    <entry>
+        <updated>2011-12-19T15:17:28-07:00</updated>
+
+        <id>http://itunes.apple.com/us/movie/the-debt/id468990474?uo=2</id>
+
+        <title>The Debt - John Madden</title>
+
+        <summary>Academy Award® winner Helen Mirren and two-time Academy Award® nominee Tom Wilkinson star in The Debt,
+            “a pulse-pounding and politically charged suspense thriller.” (Karen Durbin, Elle) In 1966, three Mossad
+            agents were assigned to track down a feared Nazi war criminal hiding in East Berlin, a mission accomplished
+            at great risk and personal cost – or was it? Thirty years later, the suspense builds as shocking news and
+            surprising revelations compel retired team member Rachel Singer (Mirren) to take matters into her own hands.
+            Co-starring Sam Worthington, Jessica Chastain and Ciarán Hinds, it’s the film critics call “an intelligent
+            thriller with superb performances.” (USA Today)
+        </summary>
+
+        <im:name>The Debt</im:name>
+
+        <link rel="alternate" type="text/html" href="http://itunes.apple.com/us/movie/the-debt/id468990474?uo=2"/>
+
+        <im:contentType term="Movie" label="Movie"/>
+
+        <category term="Drama" scheme="http://itunes.apple.com/us/genre/movies-drama/id4406?uo=2" label="Drama"/>
+
+        <link title="Preview" rel="enclosure" type="video/x-m4v"
+              href="http://a292.v.phobos.apple.com/us/r1000/074/Video/8a/6f/63/mzm.rbjxfajw..640x362.h264lc.d2.p.m4v"
+              im:assetType="preview">
+            <im:duration>142642.0</im:duration>
+        </link>
+
+        <im:artist>John Madden</im:artist>
+
+        <im:price amount="19.99000" currency="USD">$19.99</im:price>
+
+        <im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
+
+        <im:image height="60">http://a4.mzstatic.com/us/r1000/100/Video/4a/c6/98/mzl.fwgmmhyt.60x60-50.jpg</im:image>
+
+        <im:image height="60">http://a4.mzstatic.com/us/r1000/100/Video/4a/c6/98/mzl.fwgmmhyt.60x60-50.jpg</im:image>
+
+        <im:image height="170">http://a1.mzstatic.com/us/r1000/100/Video/4a/c6/98/mzl.fwgmmhyt.170x170-75.jpg</im:image>
+
+        <rights>2010 Focus Features. All Rights Reserved.</rights>
+
+        <im:releaseDate label="August 31, 2011">2011-08-31T00:00:00-07:00</im:releaseDate>
+
+
+        <content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
             &lt;table border=&quot;0&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;
-                &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
-                    
-                        &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
-                            &lt;a href=&quot;http://itunes.apple.com/us/movie/the-debt/id468990474?uo=2&quot;&gt;&lt;img border=&quot;0&quot; alt=&quot;The Debt artwork&quot; src=&quot;http://a1.mzstatic.com/us/r1000/100/Video/4a/c6/98/mzl.fwgmmhyt.170x170-75.jpg&quot; /&gt;&lt;/a&gt;
-                        &lt;/td&gt;
-                        &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot; /&gt;&lt;/td&gt;
-                    	&lt;td width=&quot;95%&quot;&gt;
-                    
-                    
-                        &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/the-debt/id468990474?uo=2&quot;&gt;The Debt&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
-                        
-                        
-                        
-                        
+            &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
 
-                        John Madden
+            &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
+            &lt;a href=&quot;http://itunes.apple.com/us/movie/the-debt/id468990474?uo=2&quot;&gt;&lt;img border=&quot;0&quot;
+            alt=&quot;The Debt artwork&quot; src=&quot;http://a1.mzstatic.com/us/r1000/100/Video/4a/c6/98/mzl.fwgmmhyt.170x170-75.jpg&quot;
+            /&gt;&lt;/a&gt;
+            &lt;/td&gt;
+            &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot;
+            /&gt;&lt;/td&gt;
+            &lt;td width=&quot;95%&quot;&gt;
 
-                       &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
-						
-						 	&lt;br/&gt;
-                            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-drama/id4406?uo=2&quot;&gt;Drama&lt;/a&gt;
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Price:&lt;/b&gt; $19.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Release Date:&lt;/b&gt; August 31, 2011
-                        
-                        &lt;/font&gt;
-                    &lt;/td&gt;
-                &lt;/tr&gt;
+
+            &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/the-debt/id468990474?uo=2&quot;&gt;The Debt&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
+
+
+            John Madden
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-drama/id4406?uo=2&quot;&gt;Drama&lt;/a&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Price:&lt;/b&gt; $19.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Release Date:&lt;/b&gt; August 31, 2011
+
+            &lt;/font&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
             &lt;/table&gt;
-        &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;Academy Award® winner Helen Mirren and two-time Academy Award® nominee Tom Wilkinson star in The Debt, “a pulse-pounding and politically charged suspense thriller.” (Karen Durbin, Elle) In 1966, three Mossad agents were assigned to track down a feared Nazi war criminal hiding in East Berlin, a mission accomplished at great risk and personal cost – or was it? Thirty years later, the suspense builds as shocking news and surprising revelations compel retired team member Rachel Singer (Mirren) to take matters into her own hands. Co-starring Sam Worthington, Jessica Chastain and Ciarán Hinds, it’s the film critics call “an intelligent thriller with superb performances.” (USA Today)&lt;/font&gt;&lt;br/&gt;
-            
-            
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169; 2010 Focus Features. All Rights Reserved.&lt;/font&gt;
-	        
-        &lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
-</content>
-				
-			</entry>
-		
-			<entry>
-				<updated>2011-12-19T15:17:28-07:00</updated>
-				
-					<id>http://itunes.apple.com/us/movie/crazy-stupid-love/id457658502?uo=2</id>
-				
-					<title>Crazy, Stupid, Love - Glenn Ficarra &amp; John Requa</title>
-				
-					<summary>At fortysomething, straight-laced Cal Weaver (Steve Carell) is living the dream-good job, nice house, great kids and marriage to his high school sweetheart. But when Cal learns that his wife, Emily (Julianne Moore), has cheated on him and wants a divorce, his &#34;perfect&#34; life quickly unravels. The hapless Cal is taken on as wingman and protégé to handsome, thirtysomething player Jacob Palmer (Ryan Gosling). In an effort to help Cal get over his wife and start living his life, Jacob opens Cal&#39;s eyes to the many options before him: flirty women, manly drinks and a sense of style that can&#39;t be found at Supercuts or The Gap. But despite Cal&#39;s makeover and his many new conquests, the one thing that can&#39;t be made over is his heart, which seems to keep leading him back to where he began.</summary>
-				
-					<im:name>Crazy, Stupid, Love</im:name>
-				
-					<link rel="alternate" type="text/html" href="http://itunes.apple.com/us/movie/crazy-stupid-love/id457658502?uo=2"/>
-				
-					<im:contentType term="Movie" label="Movie"/>
-				
-					<category term="Comedy" scheme="http://itunes.apple.com/us/genre/movies-comedy/id4404?uo=2" label="Comedy"/>
-				
-					<link title="Preview" rel="enclosure" type="video/x-m4v" href="http://a1635.v.phobos.apple.com/us/r1000/068/Video/14/e5/27/mzm.jwgclyud..640x352.h264lc.d2.p.m4v" im:assetType="preview"><im:duration>145353.0</im:duration></link>
-				
-					<im:artist>Glenn Ficarra &amp; John Requa</im:artist>
-				
-					<im:price amount="14.99000" currency="USD">$14.99</im:price>
-				
-					<im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
-				
-					<im:image height="60">http://a4.mzstatic.com/us/r1000/118/Video/3a/df/6f/mzl.brqwcwtl.60x60-50.jpg</im:image>
-				
-					<im:image height="60">http://a4.mzstatic.com/us/r1000/118/Video/3a/df/6f/mzl.brqwcwtl.60x60-50.jpg</im:image>
-				
-					<im:image height="170">http://a4.mzstatic.com/us/r1000/118/Video/3a/df/6f/mzl.brqwcwtl.170x170-75.jpg</im:image>
-				
-					<rights> 2011 Warner Bros. Entertainment Inc.</rights>
-				
-					<im:releaseDate label="July 29, 2011">2011-07-29T00:00:00-07:00</im:releaseDate>
-				
-				
-					<content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;Academy
+            Award® winner Helen Mirren and two-time Academy Award® nominee Tom Wilkinson star in The Debt, “a
+            pulse-pounding and politically charged suspense thriller.” (Karen Durbin, Elle) In 1966, three Mossad agents
+            were assigned to track down a feared Nazi war criminal hiding in East Berlin, a mission accomplished at
+            great risk and personal cost – or was it? Thirty years later, the suspense builds as shocking news and
+            surprising revelations compel retired team member Rachel Singer (Mirren) to take matters into her own hands.
+            Co-starring Sam Worthington, Jessica Chastain and Ciarán Hinds, it’s the film critics call “an intelligent
+            thriller with superb performances.” (USA Today)&lt;/font&gt;&lt;br/&gt;
+
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169;
+            2010 Focus Features. All Rights Reserved.&lt;/font&gt;
+
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;/table&gt;
+        </content>
+
+    </entry>
+
+    <entry>
+        <updated>2011-12-19T15:17:28-07:00</updated>
+
+        <id>http://itunes.apple.com/us/movie/crazy-stupid-love/id457658502?uo=2</id>
+
+        <title>Crazy, Stupid, Love - Glenn Ficarra &amp; John Requa</title>
+
+        <summary>At fortysomething, straight-laced Cal Weaver (Steve Carell) is living the dream-good job, nice house,
+            great kids and marriage to his high school sweetheart. But when Cal learns that his wife, Emily (Julianne
+            Moore), has cheated on him and wants a divorce, his &#34;perfect&#34; life quickly unravels. The hapless Cal
+            is taken on as wingman and protégé to handsome, thirtysomething player Jacob Palmer (Ryan Gosling). In an
+            effort to help Cal get over his wife and start living his life, Jacob opens Cal&#39;s eyes to the many
+            options before him: flirty women, manly drinks and a sense of style that can&#39;t be found at Supercuts or
+            The Gap. But despite Cal&#39;s makeover and his many new conquests, the one thing that can&#39;t be made
+            over is his heart, which seems to keep leading him back to where he began.
+        </summary>
+
+        <im:name>Crazy, Stupid, Love</im:name>
+
+        <link rel="alternate" type="text/html"
+              href="http://itunes.apple.com/us/movie/crazy-stupid-love/id457658502?uo=2"/>
+
+        <im:contentType term="Movie" label="Movie"/>
+
+        <category term="Comedy" scheme="http://itunes.apple.com/us/genre/movies-comedy/id4404?uo=2" label="Comedy"/>
+
+        <link title="Preview" rel="enclosure" type="video/x-m4v"
+              href="http://a1635.v.phobos.apple.com/us/r1000/068/Video/14/e5/27/mzm.jwgclyud..640x352.h264lc.d2.p.m4v"
+              im:assetType="preview">
+            <im:duration>145353.0</im:duration>
+        </link>
+
+        <im:artist>Glenn Ficarra &amp; John Requa</im:artist>
+
+        <im:price amount="14.99000" currency="USD">$14.99</im:price>
+
+        <im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
+
+        <im:image height="60">http://a4.mzstatic.com/us/r1000/118/Video/3a/df/6f/mzl.brqwcwtl.60x60-50.jpg</im:image>
+
+        <im:image height="60">http://a4.mzstatic.com/us/r1000/118/Video/3a/df/6f/mzl.brqwcwtl.60x60-50.jpg</im:image>
+
+        <im:image height="170">http://a4.mzstatic.com/us/r1000/118/Video/3a/df/6f/mzl.brqwcwtl.170x170-75.jpg</im:image>
+
+        <rights>2011 Warner Bros. Entertainment Inc.</rights>
+
+        <im:releaseDate label="July 29, 2011">2011-07-29T00:00:00-07:00</im:releaseDate>
+
+
+        <content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
             &lt;table border=&quot;0&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;
-                &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
-                    
-                        &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
-                            &lt;a href=&quot;http://itunes.apple.com/us/movie/crazy-stupid-love/id457658502?uo=2&quot;&gt;&lt;img border=&quot;0&quot; alt=&quot;Crazy, Stupid, Love artwork&quot; src=&quot;http://a4.mzstatic.com/us/r1000/118/Video/3a/df/6f/mzl.brqwcwtl.170x170-75.jpg&quot; /&gt;&lt;/a&gt;
-                        &lt;/td&gt;
-                        &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot; /&gt;&lt;/td&gt;
-                    	&lt;td width=&quot;95%&quot;&gt;
-                    
-                    
-                        &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/crazy-stupid-love/id457658502?uo=2&quot;&gt;Crazy, Stupid, Love&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
-                        
-                        
-                        
-                        
+            &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
 
-                        Glenn Ficarra &amp;amp; John Requa
+            &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
+            &lt;a href=&quot;http://itunes.apple.com/us/movie/crazy-stupid-love/id457658502?uo=2&quot;&gt;&lt;img
+            border=&quot;0&quot; alt=&quot;Crazy, Stupid, Love artwork&quot; src=&quot;http://a4.mzstatic.com/us/r1000/118/Video/3a/df/6f/mzl.brqwcwtl.170x170-75.jpg&quot;
+            /&gt;&lt;/a&gt;
+            &lt;/td&gt;
+            &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot;
+            /&gt;&lt;/td&gt;
+            &lt;td width=&quot;95%&quot;&gt;
 
-                       &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
-						
-						 	&lt;br/&gt;
-                            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-comedy/id4404?uo=2&quot;&gt;Comedy&lt;/a&gt;
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Price:&lt;/b&gt; $14.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Release Date:&lt;/b&gt; July 29, 2011
-                        
-                        &lt;/font&gt;
-                    &lt;/td&gt;
-                &lt;/tr&gt;
+
+            &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/crazy-stupid-love/id457658502?uo=2&quot;&gt;Crazy,
+            Stupid, Love&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
+
+
+            Glenn Ficarra &amp;amp; John Requa
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-comedy/id4404?uo=2&quot;&gt;Comedy&lt;/a&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Price:&lt;/b&gt; $14.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Release Date:&lt;/b&gt; July 29, 2011
+
+            &lt;/font&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
             &lt;/table&gt;
-        &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;At fortysomething, straight-laced Cal Weaver (Steve Carell) is living the dream-good job, nice house, great kids and marriage to his high school sweetheart. But when Cal learns that his wife, Emily (Julianne Moore), has cheated on him and wants a divorce, his &amp;#34;perfect&amp;#34; life quickly unravels. The hapless Cal is taken on as wingman and protégé to handsome, thirtysomething player Jacob Palmer (Ryan Gosling). In an effort to help Cal get over his wife and start living his life, Jacob opens Cal&amp;#39;s eyes to the many options before him: flirty women, manly drinks and a sense of style that can&amp;#39;t be found at Supercuts or The Gap. But despite Cal&amp;#39;s makeover and his many new conquests, the one thing that can&amp;#39;t be made over is his heart, which seems to keep leading him back to where he began.&lt;/font&gt;&lt;br/&gt;
-            
-            
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169;  2011 Warner Bros. Entertainment Inc.&lt;/font&gt;
-	        
-        &lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
-</content>
-				
-			</entry>
-		
-			<entry>
-				<updated>2011-12-19T15:17:28-07:00</updated>
-				
-					<id>http://itunes.apple.com/us/movie/rise-of-the-planet-of-the-apes/id459928677?uo=2</id>
-				
-					<title>Rise of the Planet of the Apes - Rupert Wyatt</title>
-				
-					<summary>RISE OF THE PLANET OF THE APES is a revolution; an action-packed epic featuring stunning visual effects and creatures unlike anything ever seen before. At the story&#39;s heart is Caesar (Andy Serkis), a chimpanzee who gains human-like intelligence and emotions from an experimental drug. Raised like a child by the drug&#39;s creator (James Franco), Caesar ultimately finds himself taken from the humans he loves and imprisoned. Seeking justice, Caesar assembles a simian army and escapes -- putting man and primate on a collision course that could change the planet forever.</summary>
-				
-					<im:name>Rise of the Planet of the Apes</im:name>
-				
-					<link rel="alternate" type="text/html" href="http://itunes.apple.com/us/movie/rise-of-the-planet-of-the-apes/id459928677?uo=2"/>
-				
-					<im:contentType term="Movie" label="Movie"/>
-				
-					<category term="Action &amp; Adventure" scheme="http://itunes.apple.com/us/genre/movies-action-adventure/id4401?uo=2" label="Action &amp; Adventure"/>
-				
-					<link title="Preview" rel="enclosure" type="video/x-m4v" href="http://a507.v.phobos.apple.com/us/r1000/086/Video/f2/b3/71/mzm.usqdkfml..640x360.h264lc.d2.p.m4v" im:assetType="preview"><im:duration>126960.0</im:duration></link>
-				
-					<im:artist>Rupert Wyatt</im:artist>
-				
-					<im:price amount="14.99000" currency="USD">$14.99</im:price>
-				
-					<im:image height="60">http://a3.mzstatic.com/us/r1000/108/Video/c1/1f/6a/mzl.ulyubjnz.60x60-50.jpg</im:image>
-				
-					<im:image height="60">http://a3.mzstatic.com/us/r1000/108/Video/c1/1f/6a/mzl.ulyubjnz.60x60-50.jpg</im:image>
-				
-					<im:image height="170">http://a2.mzstatic.com/us/r1000/108/Video/c1/1f/6a/mzl.ulyubjnz.170x170-75.jpg</im:image>
-				
-					<rights>2011 Twentieth Century Fox Film Corporation. All rights reserved.</rights>
-				
-					<im:releaseDate label="August 05, 2011">2011-08-05T00:00:00-07:00</im:releaseDate>
-				
-				
-					<content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;At
+            fortysomething, straight-laced Cal Weaver (Steve Carell) is living the dream-good job, nice house, great
+            kids and marriage to his high school sweetheart. But when Cal learns that his wife, Emily (Julianne Moore),
+            has cheated on him and wants a divorce, his &amp;#34;perfect&amp;#34; life quickly unravels. The hapless Cal
+            is taken on as wingman and protégé to handsome, thirtysomething player Jacob Palmer (Ryan Gosling). In an
+            effort to help Cal get over his wife and start living his life, Jacob opens Cal&amp;#39;s eyes to the many
+            options before him: flirty women, manly drinks and a sense of style that can&amp;#39;t be found at Supercuts
+            or The Gap. But despite Cal&amp;#39;s makeover and his many new conquests, the one thing that can&amp;#39;t
+            be made over is his heart, which seems to keep leading him back to where he began.&lt;/font&gt;&lt;br/&gt;
+
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169;
+            2011 Warner Bros. Entertainment Inc.&lt;/font&gt;
+
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;/table&gt;
+        </content>
+
+    </entry>
+
+    <entry>
+        <updated>2011-12-19T15:17:28-07:00</updated>
+
+        <id>http://itunes.apple.com/us/movie/rise-of-the-planet-of-the-apes/id459928677?uo=2</id>
+
+        <title>Rise of the Planet of the Apes - Rupert Wyatt</title>
+
+        <summary>RISE OF THE PLANET OF THE APES is a revolution; an action-packed epic featuring stunning visual effects
+            and creatures unlike anything ever seen before. At the story&#39;s heart is Caesar (Andy Serkis), a
+            chimpanzee who gains human-like intelligence and emotions from an experimental drug. Raised like a child by
+            the drug&#39;s creator (James Franco), Caesar ultimately finds himself taken from the humans he loves and
+            imprisoned. Seeking justice, Caesar assembles a simian army and escapes -- putting man and primate on a
+            collision course that could change the planet forever.
+        </summary>
+
+        <im:name>Rise of the Planet of the Apes</im:name>
+
+        <link rel="alternate" type="text/html"
+              href="http://itunes.apple.com/us/movie/rise-of-the-planet-of-the-apes/id459928677?uo=2"/>
+
+        <im:contentType term="Movie" label="Movie"/>
+
+        <category term="Action &amp; Adventure"
+                  scheme="http://itunes.apple.com/us/genre/movies-action-adventure/id4401?uo=2"
+                  label="Action &amp; Adventure"/>
+
+        <link title="Preview" rel="enclosure" type="video/x-m4v"
+              href="http://a507.v.phobos.apple.com/us/r1000/086/Video/f2/b3/71/mzm.usqdkfml..640x360.h264lc.d2.p.m4v"
+              im:assetType="preview">
+            <im:duration>126960.0</im:duration>
+        </link>
+
+        <im:artist>Rupert Wyatt</im:artist>
+
+        <im:price amount="14.99000" currency="USD">$14.99</im:price>
+
+        <im:image height="60">http://a3.mzstatic.com/us/r1000/108/Video/c1/1f/6a/mzl.ulyubjnz.60x60-50.jpg</im:image>
+
+        <im:image height="60">http://a3.mzstatic.com/us/r1000/108/Video/c1/1f/6a/mzl.ulyubjnz.60x60-50.jpg</im:image>
+
+        <im:image height="170">http://a2.mzstatic.com/us/r1000/108/Video/c1/1f/6a/mzl.ulyubjnz.170x170-75.jpg</im:image>
+
+        <rights>2011 Twentieth Century Fox Film Corporation. All rights reserved.</rights>
+
+        <im:releaseDate label="August 05, 2011">2011-08-05T00:00:00-07:00</im:releaseDate>
+
+
+        <content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
             &lt;table border=&quot;0&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;
-                &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
-                    
-                        &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
-                            &lt;a href=&quot;http://itunes.apple.com/us/movie/rise-of-the-planet-of-the-apes/id459928677?uo=2&quot;&gt;&lt;img border=&quot;0&quot; alt=&quot;Rise of the Planet of the Apes artwork&quot; src=&quot;http://a2.mzstatic.com/us/r1000/108/Video/c1/1f/6a/mzl.ulyubjnz.170x170-75.jpg&quot; /&gt;&lt;/a&gt;
-                        &lt;/td&gt;
-                        &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot; /&gt;&lt;/td&gt;
-                    	&lt;td width=&quot;95%&quot;&gt;
-                    
-                    
-                        &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/rise-of-the-planet-of-the-apes/id459928677?uo=2&quot;&gt;Rise of the Planet of the Apes&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
-                        
-                        
-                        
-                        
+            &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
 
-                        Rupert Wyatt
+            &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
+            &lt;a href=&quot;http://itunes.apple.com/us/movie/rise-of-the-planet-of-the-apes/id459928677?uo=2&quot;&gt;&lt;img
+            border=&quot;0&quot; alt=&quot;Rise of the Planet of the Apes artwork&quot; src=&quot;http://a2.mzstatic.com/us/r1000/108/Video/c1/1f/6a/mzl.ulyubjnz.170x170-75.jpg&quot;
+            /&gt;&lt;/a&gt;
+            &lt;/td&gt;
+            &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot;
+            /&gt;&lt;/td&gt;
+            &lt;td width=&quot;95%&quot;&gt;
 
-                       &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
-						
-						 	&lt;br/&gt;
-                            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-action-adventure/id4401?uo=2&quot;&gt;Action &amp; Adventure&lt;/a&gt;
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Price:&lt;/b&gt; $14.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Release Date:&lt;/b&gt; August 05, 2011
-                        
-                        &lt;/font&gt;
-                    &lt;/td&gt;
-                &lt;/tr&gt;
+
+            &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/rise-of-the-planet-of-the-apes/id459928677?uo=2&quot;&gt;Rise
+            of the Planet of the Apes&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
+
+
+            Rupert Wyatt
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-action-adventure/id4401?uo=2&quot;&gt;Action
+            &amp; Adventure&lt;/a&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Price:&lt;/b&gt; $14.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Release Date:&lt;/b&gt; August 05, 2011
+
+            &lt;/font&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
             &lt;/table&gt;
-        &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;RISE OF THE PLANET OF THE APES is a revolution; an action-packed epic featuring stunning visual effects and creatures unlike anything ever seen before. At the story&amp;#39;s heart is Caesar (Andy Serkis), a chimpanzee who gains human-like intelligence and emotions from an experimental drug. Raised like a child by the drug&amp;#39;s creator (James Franco), Caesar ultimately finds himself taken from the humans he loves and imprisoned. Seeking justice, Caesar assembles a simian army and escapes -- putting man and primate on a collision course that could change the planet forever.&lt;/font&gt;&lt;br/&gt;
-            
-            
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169; 2011 Twentieth Century Fox Film Corporation. All rights reserved.&lt;/font&gt;
-	        
-        &lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
-</content>
-				
-			</entry>
-		
-			<entry>
-				<updated>2011-12-19T15:17:28-07:00</updated>
-				
-					<id>http://itunes.apple.com/us/movie/our-idiot-brother/id476993833?uo=2</id>
-				
-					<title>Our Idiot Brother - Jesse Peretz</title>
-				
-					<summary>Sisters Liz, Miranda (Elizabeth Banks of TV&#39;s 30 ROCK, ZACK &amp; MIRI MAKE A PORNO, ROLE MODELS) and Natalie (Zooey Deschanel of (500) DAYS OF SUMMER, YES MAN, TV&#39;s THE NEW GIRL), have an idiot for a brother. Perennially upbeat Ned (Paul Rudd of I LOVE YOU MAN, DINNER FOR SCHMUCKS, 40-YEAR-OLD VIRGIN), an erstwhile organic farmer, is utterly lacking in common sense. After his girlfriend dumps him and boots him off their farm, Ned turns to his sisters, who once again come to his rescue, each taking a turn housing their troublemaker sibling. Ned&#39;s unfailing commitment to honesty creates more than a few messes in their comfortable routines, but as the sisters&#39; lives begin to unravel, they come to realize that maybe, in his steadfast optimism, Ned isn&#39;t such an idiot after all.</summary>
-				
-					<im:name>Our Idiot Brother</im:name>
-				
-					<link rel="alternate" type="text/html" href="http://itunes.apple.com/us/movie/our-idiot-brother/id476993833?uo=2"/>
-				
-					<im:contentType term="Movie" label="Movie"/>
-				
-					<category term="Comedy" scheme="http://itunes.apple.com/us/genre/movies-comedy/id4404?uo=2" label="Comedy"/>
-				
-					<link title="Preview" rel="enclosure" type="video/x-m4v" href="http://a915.v.phobos.apple.com/us/r1000/110/Video/54/38/42/mzm.sojlvvls..640x460.h264lc.d2.p.m4v" im:assetType="preview"><im:duration>140306.0</im:duration></link>
-				
-					<im:artist>Jesse Peretz</im:artist>
-				
-					<im:price amount="19.99000" currency="USD">$19.99</im:price>
-				
-					<im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
-				
-					<im:image height="60">http://a5.mzstatic.com/us/r1000/099/Video/1e/7a/bc/mzi.yiooemap.60x60-50.jpg</im:image>
-				
-					<im:image height="60">http://a5.mzstatic.com/us/r1000/099/Video/1e/7a/bc/mzi.yiooemap.60x60-50.jpg</im:image>
-				
-					<im:image height="170">http://a1.mzstatic.com/us/r1000/099/Video/1e/7a/bc/mzi.yiooemap.170x170-75.jpg</im:image>
-				
-					<rights>&#169; 2011 Big Beach, LLC.  All Rights Reserved.</rights>
-				
-					<im:releaseDate label="August 26, 2011">2011-08-26T00:00:00-07:00</im:releaseDate>
-				
-				
-					<content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;RISE
+            OF THE PLANET OF THE APES is a revolution; an action-packed epic featuring stunning visual effects and
+            creatures unlike anything ever seen before. At the story&amp;#39;s heart is Caesar (Andy Serkis), a
+            chimpanzee who gains human-like intelligence and emotions from an experimental drug. Raised like a child by
+            the drug&amp;#39;s creator (James Franco), Caesar ultimately finds himself taken from the humans he loves
+            and imprisoned. Seeking justice, Caesar assembles a simian army and escapes -- putting man and primate on a
+            collision course that could change the planet forever.&lt;/font&gt;&lt;br/&gt;
+
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169;
+            2011 Twentieth Century Fox Film Corporation. All rights reserved.&lt;/font&gt;
+
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;/table&gt;
+        </content>
+
+    </entry>
+
+    <entry>
+        <updated>2011-12-19T15:17:28-07:00</updated>
+
+        <id>http://itunes.apple.com/us/movie/our-idiot-brother/id476993833?uo=2</id>
+
+        <title>Our Idiot Brother - Jesse Peretz</title>
+
+        <summary>Sisters Liz, Miranda (Elizabeth Banks of TV&#39;s 30 ROCK, ZACK &amp; MIRI MAKE A PORNO, ROLE MODELS)
+            and Natalie (Zooey Deschanel of (500) DAYS OF SUMMER, YES MAN, TV&#39;s THE NEW GIRL), have an idiot for a
+            brother. Perennially upbeat Ned (Paul Rudd of I LOVE YOU MAN, DINNER FOR SCHMUCKS, 40-YEAR-OLD VIRGIN), an
+            erstwhile organic farmer, is utterly lacking in common sense. After his girlfriend dumps him and boots him
+            off their farm, Ned turns to his sisters, who once again come to his rescue, each taking a turn housing
+            their troublemaker sibling. Ned&#39;s unfailing commitment to honesty creates more than a few messes in
+            their comfortable routines, but as the sisters&#39; lives begin to unravel, they come to realize that maybe,
+            in his steadfast optimism, Ned isn&#39;t such an idiot after all.
+        </summary>
+
+        <im:name>Our Idiot Brother</im:name>
+
+        <link rel="alternate" type="text/html"
+              href="http://itunes.apple.com/us/movie/our-idiot-brother/id476993833?uo=2"/>
+
+        <im:contentType term="Movie" label="Movie"/>
+
+        <category term="Comedy" scheme="http://itunes.apple.com/us/genre/movies-comedy/id4404?uo=2" label="Comedy"/>
+
+        <link title="Preview" rel="enclosure" type="video/x-m4v"
+              href="http://a915.v.phobos.apple.com/us/r1000/110/Video/54/38/42/mzm.sojlvvls..640x460.h264lc.d2.p.m4v"
+              im:assetType="preview">
+            <im:duration>140306.0</im:duration>
+        </link>
+
+        <im:artist>Jesse Peretz</im:artist>
+
+        <im:price amount="19.99000" currency="USD">$19.99</im:price>
+
+        <im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
+
+        <im:image height="60">http://a5.mzstatic.com/us/r1000/099/Video/1e/7a/bc/mzi.yiooemap.60x60-50.jpg</im:image>
+
+        <im:image height="60">http://a5.mzstatic.com/us/r1000/099/Video/1e/7a/bc/mzi.yiooemap.60x60-50.jpg</im:image>
+
+        <im:image height="170">http://a1.mzstatic.com/us/r1000/099/Video/1e/7a/bc/mzi.yiooemap.170x170-75.jpg</im:image>
+
+        <rights>&#169; 2011 Big Beach, LLC. All Rights Reserved.</rights>
+
+        <im:releaseDate label="August 26, 2011">2011-08-26T00:00:00-07:00</im:releaseDate>
+
+
+        <content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
             &lt;table border=&quot;0&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;
-                &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
-                    
-                        &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
-                            &lt;a href=&quot;http://itunes.apple.com/us/movie/our-idiot-brother/id476993833?uo=2&quot;&gt;&lt;img border=&quot;0&quot; alt=&quot;Our Idiot Brother artwork&quot; src=&quot;http://a1.mzstatic.com/us/r1000/099/Video/1e/7a/bc/mzi.yiooemap.170x170-75.jpg&quot; /&gt;&lt;/a&gt;
-                        &lt;/td&gt;
-                        &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot; /&gt;&lt;/td&gt;
-                    	&lt;td width=&quot;95%&quot;&gt;
-                    
-                    
-                        &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/our-idiot-brother/id476993833?uo=2&quot;&gt;Our Idiot Brother&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
-                        
-                        
-                        
-                        
+            &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
 
-                        Jesse Peretz
+            &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
+            &lt;a href=&quot;http://itunes.apple.com/us/movie/our-idiot-brother/id476993833?uo=2&quot;&gt;&lt;img
+            border=&quot;0&quot; alt=&quot;Our Idiot Brother artwork&quot; src=&quot;http://a1.mzstatic.com/us/r1000/099/Video/1e/7a/bc/mzi.yiooemap.170x170-75.jpg&quot;
+            /&gt;&lt;/a&gt;
+            &lt;/td&gt;
+            &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot;
+            /&gt;&lt;/td&gt;
+            &lt;td width=&quot;95%&quot;&gt;
 
-                       &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
-						
-						 	&lt;br/&gt;
-                            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-comedy/id4404?uo=2&quot;&gt;Comedy&lt;/a&gt;
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Price:&lt;/b&gt; $19.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Release Date:&lt;/b&gt; August 26, 2011
-                        
-                        &lt;/font&gt;
-                    &lt;/td&gt;
-                &lt;/tr&gt;
+
+            &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/our-idiot-brother/id476993833?uo=2&quot;&gt;Our
+            Idiot Brother&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
+
+
+            Jesse Peretz
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-comedy/id4404?uo=2&quot;&gt;Comedy&lt;/a&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Price:&lt;/b&gt; $19.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Release Date:&lt;/b&gt; August 26, 2011
+
+            &lt;/font&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
             &lt;/table&gt;
-        &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;Sisters Liz, Miranda (Elizabeth Banks of TV&amp;#39;s 30 ROCK, ZACK &amp;amp; MIRI MAKE A PORNO, ROLE MODELS) and Natalie (Zooey Deschanel of (500) DAYS OF SUMMER, YES MAN, TV&amp;#39;s THE NEW GIRL), have an idiot for a brother. Perennially upbeat Ned (Paul Rudd of I LOVE YOU MAN, DINNER FOR SCHMUCKS, 40-YEAR-OLD VIRGIN), an erstwhile organic farmer, is utterly lacking in common sense. After his girlfriend dumps him and boots him off their farm, Ned turns to his sisters, who once again come to his rescue, each taking a turn housing their troublemaker sibling. Ned&amp;#39;s unfailing commitment to honesty creates more than a few messes in their comfortable routines, but as the sisters&amp;#39; lives begin to unravel, they come to realize that maybe, in his steadfast optimism, Ned isn&amp;#39;t such an idiot after all.&lt;/font&gt;&lt;br/&gt;
-            
-            
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169; © 2011 Big Beach, LLC.  All Rights Reserved.&lt;/font&gt;
-	        
-        &lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
-</content>
-				
-			</entry>
-		
-			<entry>
-				<updated>2011-12-19T15:17:28-07:00</updated>
-				
-					<id>http://itunes.apple.com/us/movie/one-day/id467274159?uo=2</id>
-				
-					<title>One Day - Lone Scherfig</title>
-				
-					<summary>After one day together – July 15th, 1988, their college graduation – Emma Morley (Anne Hathaway) and Dexter Mayhew (Jim Sturgess) begin a friendship that lasts a lifetime. She’s a working-class girl who dreams of making the world a better place. He’s a wealthy charmer who thinks the world is his playground. Somewhere over the next two decades, these two very different people realize that the love they’ve been hoping for has been there for them all along. Directed by Lone Scherfig (An Education) and based on the bestselling novel by David Nicholls, it’s a touching story critics call “a smart and endearing romantic comedy.” (US Weekly)</summary>
-				
-					<im:name>One Day</im:name>
-				
-					<link rel="alternate" type="text/html" href="http://itunes.apple.com/us/movie/one-day/id467274159?uo=2"/>
-				
-					<im:contentType term="Movie" label="Movie"/>
-				
-					<category term="Romance" scheme="http://itunes.apple.com/us/genre/movies-romance/id4412?uo=2" label="Romance"/>
-				
-					<link title="Preview" rel="enclosure" type="video/x-m4v" href="http://a796.v.phobos.apple.com/us/r1000/079/Video/c7/b1/df/mzm.kjxuegnj..640x362.h264lc.d2.p.m4v" im:assetType="preview"><im:duration>142308.0</im:duration></link>
-				
-					<im:artist>Lone Scherfig</im:artist>
-				
-					<im:price amount="19.99000" currency="USD">$19.99</im:price>
-				
-					<im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
-				
-					<im:image height="60">http://a2.mzstatic.com/us/r1000/104/Video/62/ee/63/mzi.jptdleuj.60x60-50.jpg</im:image>
-				
-					<im:image height="60">http://a2.mzstatic.com/us/r1000/104/Video/62/ee/63/mzi.jptdleuj.60x60-50.jpg</im:image>
-				
-					<im:image height="170">http://a5.mzstatic.com/us/r1000/104/Video/62/ee/63/mzi.jptdleuj.170x170-75.jpg</im:image>
-				
-					<rights>2011 Focus Features. All Rights Reserved.</rights>
-				
-					<im:releaseDate label="August 09, 2011">2011-08-09T00:00:00-07:00</im:releaseDate>
-				
-				
-					<content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;Sisters
+            Liz, Miranda (Elizabeth Banks of TV&amp;#39;s 30 ROCK, ZACK &amp;amp; MIRI MAKE A PORNO, ROLE MODELS) and
+            Natalie (Zooey Deschanel of (500) DAYS OF SUMMER, YES MAN, TV&amp;#39;s THE NEW GIRL), have an idiot for a
+            brother. Perennially upbeat Ned (Paul Rudd of I LOVE YOU MAN, DINNER FOR SCHMUCKS, 40-YEAR-OLD VIRGIN), an
+            erstwhile organic farmer, is utterly lacking in common sense. After his girlfriend dumps him and boots him
+            off their farm, Ned turns to his sisters, who once again come to his rescue, each taking a turn housing
+            their troublemaker sibling. Ned&amp;#39;s unfailing commitment to honesty creates more than a few messes in
+            their comfortable routines, but as the sisters&amp;#39; lives begin to unravel, they come to realize that
+            maybe, in his steadfast optimism, Ned isn&amp;#39;t such an idiot after all.&lt;/font&gt;&lt;br/&gt;
+
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169; ©
+            2011 Big Beach, LLC. All Rights Reserved.&lt;/font&gt;
+
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;/table&gt;
+        </content>
+
+    </entry>
+
+    <entry>
+        <updated>2011-12-19T15:17:28-07:00</updated>
+
+        <id>http://itunes.apple.com/us/movie/one-day/id467274159?uo=2</id>
+
+        <title>One Day - Lone Scherfig</title>
+
+        <summary>After one day together – July 15th, 1988, their college graduation – Emma Morley (Anne Hathaway) and
+            Dexter Mayhew (Jim Sturgess) begin a friendship that lasts a lifetime. She’s a working-class girl who dreams
+            of making the world a better place. He’s a wealthy charmer who thinks the world is his playground. Somewhere
+            over the next two decades, these two very different people realize that the love they’ve been hoping for has
+            been there for them all along. Directed by Lone Scherfig (An Education) and based on the bestselling novel
+            by David Nicholls, it’s a touching story critics call “a smart and endearing romantic comedy.” (US Weekly)
+        </summary>
+
+        <im:name>One Day</im:name>
+
+        <link rel="alternate" type="text/html" href="http://itunes.apple.com/us/movie/one-day/id467274159?uo=2"/>
+
+        <im:contentType term="Movie" label="Movie"/>
+
+        <category term="Romance" scheme="http://itunes.apple.com/us/genre/movies-romance/id4412?uo=2" label="Romance"/>
+
+        <link title="Preview" rel="enclosure" type="video/x-m4v"
+              href="http://a796.v.phobos.apple.com/us/r1000/079/Video/c7/b1/df/mzm.kjxuegnj..640x362.h264lc.d2.p.m4v"
+              im:assetType="preview">
+            <im:duration>142308.0</im:duration>
+        </link>
+
+        <im:artist>Lone Scherfig</im:artist>
+
+        <im:price amount="19.99000" currency="USD">$19.99</im:price>
+
+        <im:rentalPrice amount="3.99000" currency="USD">$3.99</im:rentalPrice>
+
+        <im:image height="60">http://a2.mzstatic.com/us/r1000/104/Video/62/ee/63/mzi.jptdleuj.60x60-50.jpg</im:image>
+
+        <im:image height="60">http://a2.mzstatic.com/us/r1000/104/Video/62/ee/63/mzi.jptdleuj.60x60-50.jpg</im:image>
+
+        <im:image height="170">http://a5.mzstatic.com/us/r1000/104/Video/62/ee/63/mzi.jptdleuj.170x170-75.jpg</im:image>
+
+        <rights>2011 Focus Features. All Rights Reserved.</rights>
+
+        <im:releaseDate label="August 09, 2011">2011-08-09T00:00:00-07:00</im:releaseDate>
+
+
+        <content type="html">&lt;table border=&quot;0&quot; width=&quot;100%&quot;&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
             &lt;table border=&quot;0&quot; width=&quot;100%&quot; cellspacing=&quot;0&quot; cellpadding=&quot;0&quot;&gt;
-                &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
-                    
-                        &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
-                            &lt;a href=&quot;http://itunes.apple.com/us/movie/one-day/id467274159?uo=2&quot;&gt;&lt;img border=&quot;0&quot; alt=&quot;One Day artwork&quot; src=&quot;http://a5.mzstatic.com/us/r1000/104/Video/62/ee/63/mzi.jptdleuj.170x170-75.jpg&quot; /&gt;&lt;/a&gt;
-                        &lt;/td&gt;
-                        &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot; /&gt;&lt;/td&gt;
-                    	&lt;td width=&quot;95%&quot;&gt;
-                    
-                    
-                        &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/one-day/id467274159?uo=2&quot;&gt;One Day&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
-                        
-                        
-                        
-                        
+            &lt;tr valign=&quot;top&quot; align=&quot;left&quot;&gt;
 
-                        Lone Scherfig
+            &lt;td align=&quot;center&quot; width=&quot;166&quot; valign=&quot;top&quot;&gt;
+            &lt;a href=&quot;http://itunes.apple.com/us/movie/one-day/id467274159?uo=2&quot;&gt;&lt;img border=&quot;0&quot;
+            alt=&quot;One Day artwork&quot; src=&quot;http://a5.mzstatic.com/us/r1000/104/Video/62/ee/63/mzi.jptdleuj.170x170-75.jpg&quot;
+            /&gt;&lt;/a&gt;
+            &lt;/td&gt;
+            &lt;td width=&quot;10&quot;&gt;&lt;img alt=&quot;&quot; width=&quot;10&quot; height=&quot;1&quot; src=&quot;http://r.mzstatic.com/images/spacer.gif&quot;
+            /&gt;&lt;/td&gt;
+            &lt;td width=&quot;95%&quot;&gt;
 
-                       &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
-						
-						 	&lt;br/&gt;
-                            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-romance/id4412?uo=2&quot;&gt;Romance&lt;/a&gt;
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Price:&lt;/b&gt; $19.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
-                        
-						 	&lt;br/&gt;
-                            &lt;b&gt;Release Date:&lt;/b&gt; August 09, 2011
-                        
-                        &lt;/font&gt;
-                    &lt;/td&gt;
-                &lt;/tr&gt;
+
+            &lt;b&gt;&lt;a href=&quot;http://itunes.apple.com/us/movie/one-day/id467274159?uo=2&quot;&gt;One Day&lt;/a&gt;&lt;/b&gt;&lt;br/&gt;
+
+
+            Lone Scherfig
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Genre:&lt;/b&gt; &lt;a href=&quot;http://itunes.apple.com/us/genre/movies-romance/id4412?uo=2&quot;&gt;Romance&lt;/a&gt;
+
+            &lt;br/&gt;
+            &lt;b&gt;Price:&lt;/b&gt; $19.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Rental Price:&lt;/b&gt; $3.99
+
+            &lt;br/&gt;
+            &lt;b&gt;Release Date:&lt;/b&gt; August 09, 2011
+
+            &lt;/font&gt;
+            &lt;/td&gt;
+            &lt;/tr&gt;
             &lt;/table&gt;
-        &lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-        &lt;td&gt;
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;After one day together – July 15th, 1988, their college graduation – Emma Morley (Anne Hathaway) and Dexter Mayhew (Jim Sturgess) begin a friendship that lasts a lifetime. She’s a working-class girl who dreams of making the world a better place. He’s a wealthy charmer who thinks the world is his playground. Somewhere over the next two decades, these two very different people realize that the love they’ve been hoping for has been there for them all along. Directed by Lone Scherfig (An Education) and based on the bestselling novel by David Nicholls, it’s a touching story critics call “a smart and endearing romantic comedy.” (US Weekly)&lt;/font&gt;&lt;br/&gt;
-            
-            
-            
-                &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169; 2011 Focus Features. All Rights Reserved.&lt;/font&gt;
-	        
-        &lt;/td&gt;
-    &lt;/tr&gt;
-&lt;/table&gt;
-</content>
-				
-			</entry>
-		
-	</feed>
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+            &lt;td&gt;
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt;&lt;br/&gt;After
+            one day together – July 15th, 1988, their college graduation – Emma Morley (Anne Hathaway) and Dexter Mayhew
+            (Jim Sturgess) begin a friendship that lasts a lifetime. She’s a working-class girl who dreams of making the
+            world a better place. He’s a wealthy charmer who thinks the world is his playground. Somewhere over the next
+            two decades, these two very different people realize that the love they’ve been hoping for has been there
+            for them all along. Directed by Lone Scherfig (An Education) and based on the bestselling novel by David
+            Nicholls, it’s a touching story critics call “a smart and endearing romantic comedy.” (US Weekly)&lt;/font&gt;&lt;br/&gt;
+
+
+            &lt;font size=&quot;2&quot; face=&quot;Helvetica,Arial,Geneva,Swiss,SunSans-Regular&quot;&gt; &amp;#169;
+            2011 Focus Features. All Rights Reserved.&lt;/font&gt;
+
+            &lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;/table&gt;
+        </content>
+
+    </entry>
+
+</feed>

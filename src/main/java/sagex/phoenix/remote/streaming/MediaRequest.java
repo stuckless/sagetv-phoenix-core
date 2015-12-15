@@ -4,125 +4,127 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public class MediaRequest implements Serializable {
-	public static enum Profiles {
-		low, normal, hd
-	}
+    public static enum Profiles {
+        low, normal, hd
+    }
 
-	public static enum Networks {
-		mobile, wifi
-	}
+    public static enum Networks {
+        mobile, wifi
+    }
 
-	public static enum Encoders {
-		vlc, script
-	};
+    public static enum Encoders {
+        vlc, script
+    }
 
-	private static final long serialVersionUID = 1L;
+    ;
 
-	protected String clientId;
+    private static final long serialVersionUID = 1L;
 
-	private String[] sources;
+    protected String clientId;
 
-	private String outputDir;
+    private String[] sources;
 
-	private String mediaId;
+    private String outputDir;
 
-	private String baseUrl;
+    private String mediaId;
 
-	private boolean requestingGenericStreamer = false;
+    private String baseUrl;
 
-	private String profile;
+    private boolean requestingGenericStreamer = false;
 
-	private String clientScreen;
+    private String profile;
 
-	private String network;
+    private String clientScreen;
 
-	public MediaRequest() {
-	}
+    private String network;
 
-	public String getClientId() {
-		return clientId;
-	}
+    public MediaRequest() {
+    }
 
-	public void setClientId(String clientId) {
-		this.clientId = clientId;
-	}
+    public String getClientId() {
+        return clientId;
+    }
 
-	public String[] getSources() {
-		return sources;
-	}
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
 
-	public void setSources(String[] sources) {
-		this.sources = sources;
-	}
+    public String[] getSources() {
+        return sources;
+    }
 
-	public void setSingleSource(String source) {
-		this.sources = new String[] { source };
-	}
+    public void setSources(String[] sources) {
+        this.sources = sources;
+    }
 
-	public String getOutputDir() {
-		return outputDir;
-	}
+    public void setSingleSource(String source) {
+        this.sources = new String[]{source};
+    }
 
-	public void setOutputDir(String outputDir) {
-		this.outputDir = outputDir;
-	}
+    public String getOutputDir() {
+        return outputDir;
+    }
 
-	public String getMediaId() {
-		return mediaId;
-	}
+    public void setOutputDir(String outputDir) {
+        this.outputDir = outputDir;
+    }
 
-	public void setMediaId(String mediaId) {
-		this.mediaId = mediaId;
-	}
+    public String getMediaId() {
+        return mediaId;
+    }
 
-	public String getBaseUrl() {
-		return baseUrl;
-	}
+    public void setMediaId(String mediaId) {
+        this.mediaId = mediaId;
+    }
 
-	public void setBaseUrl(String baseUrl) {
-		this.baseUrl = baseUrl;
-	}
+    public String getBaseUrl() {
+        return baseUrl;
+    }
 
-	@Override
-	public String toString() {
-		return "MediaRequest [" + (clientId != null ? "clientId=" + clientId + ", " : "")
-				+ (sources != null ? "sources=" + Arrays.toString(sources) + ", " : "")
-				+ (outputDir != null ? "outputDir=" + outputDir + ", " : "") + (mediaId != null ? "mediaId=" + mediaId + ", " : "")
-				+ (baseUrl != null ? "baseUrl=" + baseUrl + ", " : "") + "requestingGenericStreamer=" + requestingGenericStreamer
-				+ ", " + (profile != null ? "profile=" + profile + ", " : "")
-				+ (clientScreen != null ? "clientScreen=" + clientScreen + ", " : "")
-				+ (network != null ? "network=" + network : "") + "]";
-	}
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
 
-	public boolean isRequestingGenericStreamer() {
-		return requestingGenericStreamer;
-	}
+    @Override
+    public String toString() {
+        return "MediaRequest [" + (clientId != null ? "clientId=" + clientId + ", " : "")
+                + (sources != null ? "sources=" + Arrays.toString(sources) + ", " : "")
+                + (outputDir != null ? "outputDir=" + outputDir + ", " : "") + (mediaId != null ? "mediaId=" + mediaId + ", " : "")
+                + (baseUrl != null ? "baseUrl=" + baseUrl + ", " : "") + "requestingGenericStreamer=" + requestingGenericStreamer
+                + ", " + (profile != null ? "profile=" + profile + ", " : "")
+                + (clientScreen != null ? "clientScreen=" + clientScreen + ", " : "")
+                + (network != null ? "network=" + network : "") + "]";
+    }
 
-	public void setRequestingGenericStreamer(boolean requestingGenericStreamer) {
-		this.requestingGenericStreamer = requestingGenericStreamer;
-	}
+    public boolean isRequestingGenericStreamer() {
+        return requestingGenericStreamer;
+    }
 
-	public void setProfile(String profile) {
-		this.profile = profile;
-	}
+    public void setRequestingGenericStreamer(boolean requestingGenericStreamer) {
+        this.requestingGenericStreamer = requestingGenericStreamer;
+    }
 
-	public void setClientScreen(String screen) {
-		this.clientScreen = screen;
-	}
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
 
-	public void setNetwork(String network) {
-		this.network = network;
-	}
+    public void setClientScreen(String screen) {
+        this.clientScreen = screen;
+    }
 
-	public String getClientScreen() {
-		return clientScreen;
-	}
+    public void setNetwork(String network) {
+        this.network = network;
+    }
 
-	public String getProfile() {
-		return profile;
-	}
+    public String getClientScreen() {
+        return clientScreen;
+    }
 
-	public String getNetwork() {
-		return network;
-	}
+    public String getProfile() {
+        return profile;
+    }
+
+    public String getNetwork() {
+        return network;
+    }
 }

@@ -1,19 +1,7 @@
 package sagex.phoenix.plugin;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-
 import sage.SageTVEventListener;
 import sage.SageTVPluginRegistry;
 import sagex.api.Configuration;
@@ -30,12 +18,7 @@ import sagex.phoenix.event.SageEventBus;
 import sagex.phoenix.event.SageSystemMessageListener;
 import sagex.phoenix.event.SystemMessageID;
 import sagex.phoenix.fanart.FanartUtil;
-import sagex.phoenix.metadata.IMetadata;
-import sagex.phoenix.metadata.ISageCustomMetadataRW;
-import sagex.phoenix.metadata.MetadataConfiguration;
-import sagex.phoenix.metadata.MetadataException;
-import sagex.phoenix.metadata.MetadataHints;
-import sagex.phoenix.metadata.MetadataUtil;
+import sagex.phoenix.metadata.*;
 import sagex.phoenix.task.ITaskOperation;
 import sagex.phoenix.task.ITaskProgressHandler;
 import sagex.phoenix.task.RetryTaskManager;
@@ -51,437 +34,437 @@ import sagex.phoenix.vfs.filters.HomeVideosConfiguration;
 import sagex.phoenix.vfs.filters.HomeVideosFilter;
 import sagex.phoenix.vfs.sage.SageMediaFile;
 import sagex.phoenix.vfs.util.PathUtils;
-import sagex.plugin.AbstractPlugin;
-import sagex.plugin.ButtonClickHandler;
-import sagex.plugin.PluginProperty;
-import sagex.plugin.SageEvent;
-import sagex.plugin.SageEvents;
+import sagex.plugin.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Sage7 Plugin for Phoenix
- * 
+ *
  * @author seans
  */
 public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITaskProgressHandler {
-	private MetadataConfiguration config = null;
-	private RetryTaskManager retryTaskManager = null;
-	private HomeVideosFilter homeVideoFilter = new HomeVideosFilter();
-	private HomeVideosConfiguration homeVideoCfg = null;
+    private MetadataConfiguration config = null;
+    private RetryTaskManager retryTaskManager = null;
+    private HomeVideosFilter homeVideoFilter = new HomeVideosFilter();
+    private HomeVideosConfiguration homeVideoCfg = null;
 
-	public PhoenixPlugin(SageTVPluginRegistry registry) {
-		super(registry);
-	}
+    public PhoenixPlugin(SageTVPluginRegistry registry) {
+        super(registry);
+    }
 
-	@SageEvent(value = SageEvents.ImportingCompleted, background = true)
-	public void importingCompleted(@SuppressWarnings("rawtypes") Map vars) {
-		checkForMissingEpisodes();
-	}
-	
-	//if the system level configuration options is enabled we will check for missing episodes
-	private void checkForMissingEpisodes(){
-		if (config.getEnableSystemMessagesForTVEpisodeGaps()) {
-			String BaseView = "phoenix.view.util.missingEpisodes"; 
-			IMediaFolder folder = phoenix.umb.CreateView(BaseView);
-			if (folder.getChildren().isEmpty()){
-				LogUtil.logTVEpisodeGapReview("Missing episode review found NO missing episodes");
-				return;
-			}
-			for (IMediaResource show : folder.getChildren()) {
-				//first level is the show
-				StringBuilder sb = new StringBuilder();
-				for (IMediaResource episode : phoenix.media.GetChildren(show)) {
-					sb.append("S").append(phoenix.metadata.GetSeasonNumber(episode));
-					sb.append("E").append(phoenix.metadata.GetEpisodeNumber(episode)).append(";");
-					if (phoenix.media.GetChildren(show).size()<=7){
-						sb.append(phoenix.metadata.GetEpisodeName(episode));
-						sb.append("\n");
-					}
-				}
-				//raise an event for each show that has missing episodes
-				Phoenix.getInstance()
-				.getEventBus()
-				.fireEvent(
-						PhoenixEventID.SystemMessageEvent,
-						SageSystemMessageListener.createEvent(SystemMessageID.PHOENIX_MISSING_EPISODES,
-								SageSystemMessageListener.INFO, "Missing Episodes: " + show.getTitle() ,
-								sb.toString(), null), false);
-				LogUtil.logTVEpisodeGapReview("System message created for missing episodes for show: " + show.getTitle());
-			}
-		}
-	}
-	
-	@SageEvent(value = SageEvents.MediaFileImported, background = true)
-	public void mediaFileImported(@SuppressWarnings("rawtypes") Map vars) {
-		if (config != null && config.isAutomatedFanartEnabled()) {
-			Object mediaFile = vars.get("MediaFile");
-			if (mediaFile == null) {
-				log.warn("MediaFileImported was called, but no mediafile was passed");
-				return;
-			}
+    @SageEvent(value = SageEvents.ImportingCompleted, background = true)
+    public void importingCompleted(@SuppressWarnings("rawtypes") Map vars) {
+        checkForMissingEpisodes();
+    }
 
-			if (MediaFileAPI.IsPictureFile(mediaFile)) {
-				// just skip images
-				return;
-			}
+    //if the system level configuration options is enabled we will check for missing episodes
+    private void checkForMissingEpisodes() {
+        if (config.getEnableSystemMessagesForTVEpisodeGaps()) {
+            String BaseView = "phoenix.view.util.missingEpisodes";
+            IMediaFolder folder = phoenix.umb.CreateView(BaseView);
+            if (folder.getChildren().isEmpty()) {
+                LogUtil.logTVEpisodeGapReview("Missing episode review found NO missing episodes");
+                return;
+            }
+            for (IMediaResource show : folder.getChildren()) {
+                //first level is the show
+                StringBuilder sb = new StringBuilder();
+                for (IMediaResource episode : phoenix.media.GetChildren(show)) {
+                    sb.append("S").append(phoenix.metadata.GetSeasonNumber(episode));
+                    sb.append("E").append(phoenix.metadata.GetEpisodeNumber(episode)).append(";");
+                    if (phoenix.media.GetChildren(show).size() <= 7) {
+                        sb.append(phoenix.metadata.GetEpisodeName(episode));
+                        sb.append("\n");
+                    }
+                }
+                //raise an event for each show that has missing episodes
+                Phoenix.getInstance()
+                        .getEventBus()
+                        .fireEvent(
+                                PhoenixEventID.SystemMessageEvent,
+                                SageSystemMessageListener.createEvent(SystemMessageID.PHOENIX_MISSING_EPISODES,
+                                        SageSystemMessageListener.INFO, "Missing Episodes: " + show.getTitle(),
+                                        sb.toString(), null), false);
+                LogUtil.logTVEpisodeGapReview("System message created for missing episodes for show: " + show.getTitle());
+            }
+        }
+    }
 
-			SageMediaFile smf = new SageMediaFile(null, mediaFile);
-			File propFile = FanartUtil.resolvePropertiesFile(PathUtils.getFirstFile(smf));
-			if (propFile != null && propFile.exists()) {
-				// Assume that SageTV has ALREADY updated the metadata, or
-				// something else has.
-				// but check to see if we should see if the watched/library
-				// flags are set.
-				// X- flags are not processed by sagetv's native metadata
-				// parser, so we
-				// update those X- flags from here
-				try {
-					Properties props = PropertiesUtils.load(propFile);
-					if (props.containsKey(IMetadata.XWatched)) {
-						smf.setWatched(BooleanUtils.toBoolean(props.getProperty(IMetadata.XWatched)));
-					}
+    @SageEvent(value = SageEvents.MediaFileImported, background = true)
+    public void mediaFileImported(@SuppressWarnings("rawtypes") Map vars) {
+        if (config != null && config.isAutomatedFanartEnabled()) {
+            Object mediaFile = vars.get("MediaFile");
+            if (mediaFile == null) {
+                log.warn("MediaFileImported was called, but no mediafile was passed");
+                return;
+            }
 
-					if (props.containsKey(IMetadata.XLibraryFile)) {
-						smf.setLibraryFile(BooleanUtils.toBoolean(props.getProperty(IMetadata.XLibraryFile)));
-					}
-				} catch (IOException e) {
-				}
+            if (MediaFileAPI.IsPictureFile(mediaFile)) {
+                // just skip images
+                return;
+            }
 
-				// don't process other metadata
-				return;
-			}
+            SageMediaFile smf = new SageMediaFile(null, mediaFile);
+            File propFile = FanartUtil.resolvePropertiesFile(PathUtils.getFirstFile(smf));
+            if (propFile != null && propFile.exists()) {
+                // Assume that SageTV has ALREADY updated the metadata, or
+                // something else has.
+                // but check to see if we should see if the watched/library
+                // flags are set.
+                // X- flags are not processed by sagetv's native metadata
+                // parser, so we
+                // update those X- flags from here
+                try {
+                    Properties props = PropertiesUtils.load(propFile);
+                    if (props.containsKey(IMetadata.XWatched)) {
+                        smf.setWatched(BooleanUtils.toBoolean(props.getProperty(IMetadata.XWatched)));
+                    }
 
-			// check for home videos
-			if (homeVideoFilter.accept(smf)) {
-				// we have a home video
+                    if (props.containsKey(IMetadata.XLibraryFile)) {
+                        smf.setLibraryFile(BooleanUtils.toBoolean(props.getProperty(IMetadata.XLibraryFile)));
+                    }
+                } catch (IOException e) {
+                }
 
-				if (!StringUtils.isEmpty(homeVideoCfg.getCategory())) {
-					// assign the home video category to this
-					smf.getMetadata().getGenres().add(homeVideoCfg.getCategory());
-				}
+                // don't process other metadata
+                return;
+            }
 
-				return;
-			}
+            // check for home videos
+            if (homeVideoFilter.accept(smf)) {
+                // we have a home video
 
-			// regular file, let's update.
-			LogUtil.logAutoUpdate("MEDIA", smf);
-			updateMetadata(smf, false);
-		}
-	}
+                if (!StringUtils.isEmpty(homeVideoCfg.getCategory())) {
+                    // assign the home video category to this
+                    smf.getMetadata().getGenres().add(homeVideoCfg.getCategory());
+                }
 
-	@SageEvent(value = SageEvents.RecordingCompleted, background = true)
-	public void recordingCompleted(@SuppressWarnings("rawtypes") Map vars) {
-		if (config != null && config.isAutomatedFanartEnabled()) {
-			Object mediaFile = vars.get("MediaFile");
-			if (mediaFile == null) {
-				log.warn("MediaFileImported was called, but no mediafile was passed");
-				return;
-			}
+                return;
+            }
 
-			SageMediaFile smf = new SageMediaFile(null, mediaFile);
-			LogUtil.logAutoUpdate("RECORDING", smf);
-			updateMetadata(smf, true);
-		}
-	}
+            // regular file, let's update.
+            LogUtil.logAutoUpdate("MEDIA", smf);
+            updateMetadata(smf, false);
+        }
+    }
 
-	private void updateMetadata(IMediaFile file, boolean recording) {
-		try {
-			Hints options = Phoenix.getInstance().getMetadataManager().getDefaultMetadataOptions();
-			options.setBooleanHint(MetadataHints.KNOWN_RECORDING, recording);
-			options.setBooleanHint(MetadataHints.AUTOMATIC, true);
+    @SageEvent(value = SageEvents.RecordingCompleted, background = true)
+    public void recordingCompleted(@SuppressWarnings("rawtypes") Map vars) {
+        if (config != null && config.isAutomatedFanartEnabled()) {
+            Object mediaFile = vars.get("MediaFile");
+            if (mediaFile == null) {
+                log.warn("MediaFileImported was called, but no mediafile was passed");
+                return;
+            }
 
-			if (Phoenix.getInstance().getMetadataManager().canScanMediaFile(file, options)) {
-				Phoenix.getInstance().getMetadataManager().automaticUpdate(file, options);
-			} else {
-				LogUtil.logMetadataSkipped(file);
-			}
-		} catch (Exception me) {
-			if (canRetry(me)) {
-				log.info("Automatic Metadata Failed. Will try to requeued for later for " + file);
-				TaskItem ti = new TaskItem();
-				ti.getUserData().put("file", file);
-				ti.getUserData().put("recording", recording);
-				ti.setHandler(this);
-				retryTaskManager.performTask(ti, this);
-			} else {
-				reportFailure(file, me);
-			}
-		}
-	}
+            SageMediaFile smf = new SageMediaFile(null, mediaFile);
+            LogUtil.logAutoUpdate("RECORDING", smf);
+            updateMetadata(smf, true);
+        }
+    }
 
-	private void reportFailure(IMediaFile file, Throwable e) {
-		LogUtil.logMetadataUpdatedError(file, e);
-		if (config.getEnableSystemMessagesForFailures()) {
-			Phoenix.getInstance()
-					.getEventBus()
-					.fireEvent(
-							PhoenixEventID.SystemMessageEvent,
-							SageSystemMessageListener.createEvent(SystemMessageID.AUTOMATIC_METADATA_LOOKUP_FAILED,
-									SageSystemMessageListener.STATUS, "Automatic Metadata Failed: " + file.getTitle(),
-									e.getMessage(), e), false);
-		}
+    private void updateMetadata(IMediaFile file, boolean recording) {
+        try {
+            Hints options = Phoenix.getInstance().getMetadataManager().getDefaultMetadataOptions();
+            options.setBooleanHint(MetadataHints.KNOWN_RECORDING, recording);
+            options.setBooleanHint(MetadataHints.AUTOMATIC, true);
 
-	}
+            if (Phoenix.getInstance().getMetadataManager().canScanMediaFile(file, options)) {
+                Phoenix.getInstance().getMetadataManager().automaticUpdate(file, options);
+            } else {
+                LogUtil.logMetadataSkipped(file);
+            }
+        } catch (Exception me) {
+            if (canRetry(me)) {
+                log.info("Automatic Metadata Failed. Will try to requeued for later for " + file);
+                TaskItem ti = new TaskItem();
+                ti.getUserData().put("file", file);
+                ti.getUserData().put("recording", recording);
+                ti.setHandler(this);
+                retryTaskManager.performTask(ti, this);
+            } else {
+                reportFailure(file, me);
+            }
+        }
+    }
 
-	@SageEvent(value = SageEvents.AllPluginsLoaded, background = false)
-	public void onPluginsLoaded() {
-		log.info("Begin: Phoenix looking for plugins that contribute to the Phoenix Core...");
-		List<HasFileConfigurations> managers = new ArrayList<HasFileConfigurations>();
+    private void reportFailure(IMediaFile file, Throwable e) {
+        LogUtil.logMetadataUpdatedError(file, e);
+        if (config.getEnableSystemMessagesForFailures()) {
+            Phoenix.getInstance()
+                    .getEventBus()
+                    .fireEvent(
+                            PhoenixEventID.SystemMessageEvent,
+                            SageSystemMessageListener.createEvent(SystemMessageID.AUTOMATIC_METADATA_LOOKUP_FAILED,
+                                    SageSystemMessageListener.STATUS, "Automatic Metadata Failed: " + file.getTitle(),
+                                    e.getMessage(), e), false);
+        }
 
-		try {
-			Object[] plugins = PluginAPI.GetAllAvailablePlugins();
-			if (plugins != null && plugins.length > 0) {
-				for (Object plugin : plugins) {
-					File dir = null;
-					String pluginArea = PluginAPI.GetPluginResourcePath(plugin);
-					if (pluginArea != null) {
-						dir = new File(pluginArea);
-					}
-					if (dir == null || !dir.exists()) {
-						dir = new File(new File("plugins"), PluginAPI.GetPluginIdentifier(plugin));
-					}
-					if (dir == null || !dir.exists()) {
-						// skip this plugin, it has nothing to offer
-						continue;
-					}
+    }
 
-					dir = new File(dir, "Phoenix");
-					if (dir == null || !dir.exists()) {
-						// skip this plugin, it has no phoenix contribution
-						continue;
-					}
+    @SageEvent(value = SageEvents.AllPluginsLoaded, background = false)
+    public void onPluginsLoaded() {
+        log.info("Begin: Phoenix looking for plugins that contribute to the Phoenix Core...");
+        List<HasFileConfigurations> managers = new ArrayList<HasFileConfigurations>();
 
-					managePlugin(new File(dir, "Configuration"), Phoenix.getInstance().getConfigurationMetadataManager(), managers);
-					managePlugin(new File(dir, "vfs"), Phoenix.getInstance().getVFSManager(), managers);
-					managePlugin(new File(dir, "Menus"), Phoenix.getInstance().getMenuManager(), managers);
-					managePlugin(new File(dir, "metadata"), Phoenix.getInstance().getMetadataManager(), managers);
-					managePlugin(new File(dir, "Skins"), Phoenix.getInstance().getSkinManager(), managers);
-					managePlugin(new File(dir, "scrapers"), Phoenix.getInstance().getMediaTitlesManager(), managers);
-					managePlugin(new File(dir, "scrapers/xbmc/moviefilenames"), Phoenix.getInstance().getMovieScrapers(), managers);
-					managePlugin(new File(dir, "scrapers/xbmc/tvfilenames"), Phoenix.getInstance().getTVScrapers(), managers);
-				}
-			}
+        try {
+            Object[] plugins = PluginAPI.GetAllAvailablePlugins();
+            if (plugins != null && plugins.length > 0) {
+                for (Object plugin : plugins) {
+                    File dir = null;
+                    String pluginArea = PluginAPI.GetPluginResourcePath(plugin);
+                    if (pluginArea != null) {
+                        dir = new File(pluginArea);
+                    }
+                    if (dir == null || !dir.exists()) {
+                        dir = new File(new File("plugins"), PluginAPI.GetPluginIdentifier(plugin));
+                    }
+                    if (dir == null || !dir.exists()) {
+                        // skip this plugin, it has nothing to offer
+                        continue;
+                    }
 
-			if (managers.size() > 0) {
-				log.info("Begin Reloading some configurations because of plugin contributions");
-				for (HasFileConfigurations m : managers) {
-					m.loadConfigurations();
-				}
-				log.info("End Reloading some configurations because of plugin contributions");
-			}
-		} catch (Throwable t) {
-			log.warn("Phoenix failed to discover additional phoenix enhancements from other plugins", t);
-		} finally {
-			log.info("Reloading Phoenix Services in case Plugins have contributed.");
-			// now that the plugins are loaded, start the services.
-			Phoenix.getInstance().initServices();
-		}
+                    dir = new File(dir, "Phoenix");
+                    if (dir == null || !dir.exists()) {
+                        // skip this plugin, it has no phoenix contribution
+                        continue;
+                    }
 
-		log.info("End: Phoenix looking for plugins that contribute to the Phoenix Core");
-	}
+                    managePlugin(new File(dir, "Configuration"), Phoenix.getInstance().getConfigurationMetadataManager(), managers);
+                    managePlugin(new File(dir, "vfs"), Phoenix.getInstance().getVFSManager(), managers);
+                    managePlugin(new File(dir, "Menus"), Phoenix.getInstance().getMenuManager(), managers);
+                    managePlugin(new File(dir, "metadata"), Phoenix.getInstance().getMetadataManager(), managers);
+                    managePlugin(new File(dir, "Skins"), Phoenix.getInstance().getSkinManager(), managers);
+                    managePlugin(new File(dir, "scrapers"), Phoenix.getInstance().getMediaTitlesManager(), managers);
+                    managePlugin(new File(dir, "scrapers/xbmc/moviefilenames"), Phoenix.getInstance().getMovieScrapers(), managers);
+                    managePlugin(new File(dir, "scrapers/xbmc/tvfilenames"), Phoenix.getInstance().getTVScrapers(), managers);
+                }
+            }
 
-	private void managePlugin(File dir, SystemConfigurationFileManager manager, List<HasFileConfigurations> managers) {
-		if (dir.exists()) {
-			manager.addPluginConfiguration(dir);
-			managers.add(manager);
-		}
-	}
+            if (managers.size() > 0) {
+                log.info("Begin Reloading some configurations because of plugin contributions");
+                for (HasFileConfigurations m : managers) {
+                    m.loadConfigurations();
+                }
+                log.info("End Reloading some configurations because of plugin contributions");
+            }
+        } catch (Throwable t) {
+            log.warn("Phoenix failed to discover additional phoenix enhancements from other plugins", t);
+        } finally {
+            log.info("Reloading Phoenix Services in case Plugins have contributed.");
+            // now that the plugins are loaded, start the services.
+            Phoenix.getInstance().initServices();
+        }
 
-	@Override
-	public void start() {
-		try {
-			log.info("Phoenix Plugin starting...");
-			super.start();
+        log.info("End: Phoenix looking for plugins that contribute to the Phoenix Core");
+    }
 
-			try {
-				log.info("Registering SageTV EventListener in Phoenix...");
-				// bind sagetv event system to phoenix
-				Phoenix.getInstance().getEventBus().setEventBus(new SageEventBus(pluginRegistry));
+    private void managePlugin(File dir, SystemConfigurationFileManager manager, List<HasFileConfigurations> managers) {
+        if (dir.exists()) {
+            manager.addPluginConfiguration(dir);
+            managers.add(manager);
+        }
+    }
 
-				// get the plugin configuration
-				Group el = (Group) Phoenix.getInstance().getConfigurationMetadataManager().findElement("phoenix");
-				PluginConfigurationHelper.addConfiguration(this, el);
-				config = GroupProxy.get(MetadataConfiguration.class);
-				retryTaskManager = new RetryTaskManager(config.getAutomaticRetryCount(), config.getAutomaticRetryThreadCount(),
-						config.getAutomaticRetryDelay());
-				homeVideoCfg = GroupProxy.get(HomeVideosConfiguration.class);
+    @Override
+    public void start() {
+        try {
+            log.info("Phoenix Plugin starting...");
+            super.start();
 
-				// register ourself to listen configuration button events
-				// and dispatch them to the setConfigValue so that it triggers
-				// an button event
-				Phoenix.getInstance().getEventBus().addListener(ConfigurationManager.BUTTON_EVENT, new SageTVEventListener() {
-					@Override
-					public void sageEvent(String evt, Map args) {
-						if (ConfigurationManager.BUTTON_EVENT.equals(evt)) {
-							setConfigValue((String) args.get(ConfigurationManager.EVENT_PROPERTY), "true");
-						}
-					}
-				});
-			} catch (Throwable t) {
-				t.printStackTrace();
-			}
+            try {
+                log.info("Registering SageTV EventListener in Phoenix...");
+                // bind sagetv event system to phoenix
+                Phoenix.getInstance().getEventBus().setEventBus(new SageEventBus(pluginRegistry));
 
-			if (StringUtils.isEmpty((String) phoenix.config.GetServerProperty("phoenix/configured"))) {
-				phoenix.config.SetServerProperty("phoenix/configured", String.valueOf(Calendar.getInstance().getTime().getTime()));
-				try {
-					upgradeFromBMT();
-				} catch (Throwable t) {
-					log.warn("Failed to upgrade BMT to Phoenix", t);
-				}
-			}
-			updateCustomMetadataFields();
-		} catch (Throwable e) {
-			e.printStackTrace();
-			log.warn("Phoenix Plugin failed to start!", e);
-		}
-	}
+                // get the plugin configuration
+                Group el = (Group) Phoenix.getInstance().getConfigurationMetadataManager().findElement("phoenix");
+                PluginConfigurationHelper.addConfiguration(this, el);
+                config = GroupProxy.get(MetadataConfiguration.class);
+                retryTaskManager = new RetryTaskManager(config.getAutomaticRetryCount(), config.getAutomaticRetryThreadCount(),
+                        config.getAutomaticRetryDelay());
+                homeVideoCfg = GroupProxy.get(HomeVideosConfiguration.class);
 
-	public static void updateCustomMetadataFields() {
-		String fieldProp = Configuration.GetServerProperty("custom_metadata_properties", "");
-		String fields[] = fieldProp.split(";");
-		Set<String> fieldList = new TreeSet<String>(Arrays.asList(fields));
+                // register ourself to listen configuration button events
+                // and dispatch them to the setConfigValue so that it triggers
+                // an button event
+                Phoenix.getInstance().getEventBus().addListener(ConfigurationManager.BUTTON_EVENT, new SageTVEventListener() {
+                    @Override
+                    public void sageEvent(String evt, Map args) {
+                        if (ConfigurationManager.BUTTON_EVENT.equals(evt)) {
+                            setConfigValue((String) args.get(ConfigurationManager.EVENT_PROPERTY), "true");
+                        }
+                    }
+                });
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
 
-		// remove al the know props
-		// sean 2010-01-08
-		// disabling this because sagetv apparently adds the fields
-		// automatically
-		// String all[] = MetadataUtil.getPropertyKeys(IMetadata.class);
-		// for (String s : all) {
-		// fieldList.remove(s);
-		// }
+            if (StringUtils.isEmpty((String) phoenix.config.GetServerProperty("phoenix/configured"))) {
+                phoenix.config.SetServerProperty("phoenix/configured", String.valueOf(Calendar.getInstance().getTime().getTime()));
+                try {
+                    upgradeFromBMT();
+                } catch (Throwable t) {
+                    log.warn("Failed to upgrade BMT to Phoenix", t);
+                }
+            }
+            updateCustomMetadataFields();
+        } catch (Throwable e) {
+            e.printStackTrace();
+            log.warn("Phoenix Plugin failed to start!", e);
+        }
+    }
 
-		// add known custom props
-		String custom[] = MetadataUtil.getPropertyKeys(ISageCustomMetadataRW.class);
-		for (String s : custom) {
-			fieldList.add(s);
-		}
+    public static void updateCustomMetadataFields() {
+        String fieldProp = Configuration.GetServerProperty("custom_metadata_properties", "");
+        String fields[] = fieldProp.split(";");
+        Set<String> fieldList = new TreeSet<String>(Arrays.asList(fields));
 
-		fieldProp = StringUtils.join(fieldList, ";");
-		Configuration.SetServerProperty("custom_metadata_properties", fieldProp);
-		Loggers.LOG.info("Setting Custom Metadata Fields: " + fieldProp);
-	}
+        // remove al the know props
+        // sean 2010-01-08
+        // disabling this because sagetv apparently adds the fields
+        // automatically
+        // String all[] = MetadataUtil.getPropertyKeys(IMetadata.class);
+        // for (String s : all) {
+        // fieldList.remove(s);
+        // }
 
-	private void upgradeFromBMT() {
-		boolean autoplugin = false;
+        // add known custom props
+        String custom[] = MetadataUtil.getPropertyKeys(ISageCustomMetadataRW.class);
+        for (String s : custom) {
+            fieldList.add(s);
+        }
 
-		// check if bmt is configured, and if so, then remove it.
-		String plugin = Configuration.GetProperty("mediafile_metadata_parser_plugins", null);
-		if (plugin != null && plugin.contains("org.jdna.sage.MetadataUpdaterPlugin")) {
-			Configuration.SetProperty("mediafile_metadata_parser_plugins", null);
-			autoplugin = true;
-		}
+        fieldProp = StringUtils.join(fieldList, ";");
+        Configuration.SetServerProperty("custom_metadata_properties", fieldProp);
+        Loggers.LOG.info("Setting Custom Metadata Fields: " + fieldProp);
+    }
 
-		plugin = Configuration.GetServerProperty("mediafile_metadata_parser_plugins", null);
-		if (plugin != null && plugin.contains("org.jdna.sage.MetadataUpdaterPlugin")) {
-			Configuration.SetServerProperty("mediafile_metadata_parser_plugins", null);
-			autoplugin = true;
-		}
+    private void upgradeFromBMT() {
+        boolean autoplugin = false;
 
-		if (autoplugin) {
-			MetadataConfiguration config = GroupProxy.get(MetadataConfiguration.class);
-			config.setAutomatedFanartEnabled(true);
-		}
+        // check if bmt is configured, and if so, then remove it.
+        String plugin = Configuration.GetProperty("mediafile_metadata_parser_plugins", null);
+        if (plugin != null && plugin.contains("org.jdna.sage.MetadataUpdaterPlugin")) {
+            Configuration.SetProperty("mediafile_metadata_parser_plugins", null);
+            autoplugin = true;
+        }
 
-		removeFile("STVs/Phoenix/Configuration/ext/bmt.xml");
-		removeFile("STVs/Phoenix/Configuration/ext/log4j.xml");
-		removeFile("STVs/Phoenix/Configuration/ext/Sage.xml");
-		removeFile("STVs/Phoenix/vfs/ext/bmt.xml");
+        plugin = Configuration.GetServerProperty("mediafile_metadata_parser_plugins", null);
+        if (plugin != null && plugin.contains("org.jdna.sage.MetadataUpdaterPlugin")) {
+            Configuration.SetServerProperty("mediafile_metadata_parser_plugins", null);
+            autoplugin = true;
+        }
 
-		// reload configuration metadata and vfs, since it may have changed.
-		Phoenix.getInstance().getConfigurationMetadataManager().loadConfigurations();
-		Phoenix.getInstance().getVFSManager().loadConfigurations();
+        if (autoplugin) {
+            MetadataConfiguration config = GroupProxy.get(MetadataConfiguration.class);
+            config.setAutomatedFanartEnabled(true);
+        }
 
-		// move the media titles, in case it's been created, modified.
-		File titles = new File("scrapers/MediaTitles.xml");
-		File newTitles = new File("STVs/Phoenix/scrapers/MediaTitles.xml");
-		if (titles.exists() && !newTitles.exists()) {
-			try {
-				org.apache.commons.io.FileUtils.moveFile(titles, newTitles);
-			} catch (IOException e) {
-				log.warn("Failed to copy/move the MediaTitles.xml");
-			}
-		}
+        removeFile("STVs/Phoenix/Configuration/ext/bmt.xml");
+        removeFile("STVs/Phoenix/Configuration/ext/log4j.xml");
+        removeFile("STVs/Phoenix/Configuration/ext/Sage.xml");
+        removeFile("STVs/Phoenix/vfs/ext/bmt.xml");
 
-		File scrapers = new File("scrapers");
-		if (scrapers.exists()) {
-			File oldScrapers = new File("scrapers.old");
-			boolean renamed = scrapers.renameTo(oldScrapers);
-			if (!renamed) {
-				log.warn("Failed to rename scraper dir: " + scrapers);
-			}
-		}
+        // reload configuration metadata and vfs, since it may have changed.
+        Phoenix.getInstance().getConfigurationMetadataManager().loadConfigurations();
+        Phoenix.getInstance().getVFSManager().loadConfigurations();
 
-		// send a system message stating that we've upgrade the bmt plugin
-		Phoenix.getInstance()
-				.getEventBus()
-				.fireEvent(
-						PhoenixEventID.SystemMessageEvent,
-						SageSystemMessageListener.createEvent(SystemMessageID.PHOENIX_METADATA, SageSystemMessageListener.INFO,
-								"Batch Metadata Tools updated",
-								"Phoenix Metadata has been installed and the legacy bmt files/plugin have been removed.", null),
-						false);
-	}
+        // move the media titles, in case it's been created, modified.
+        File titles = new File("scrapers/MediaTitles.xml");
+        File newTitles = new File("STVs/Phoenix/scrapers/MediaTitles.xml");
+        if (titles.exists() && !newTitles.exists()) {
+            try {
+                org.apache.commons.io.FileUtils.moveFile(titles, newTitles);
+            } catch (IOException e) {
+                log.warn("Failed to copy/move the MediaTitles.xml");
+            }
+        }
 
-	private void removeFile(String f) {
-		File file = new File(f);
-		if (file.exists()) {
-			if (!file.delete()) {
-				file.deleteOnExit();
-			}
-		}
-	}
+        File scrapers = new File("scrapers");
+        if (scrapers.exists()) {
+            File oldScrapers = new File("scrapers.old");
+            boolean renamed = scrapers.renameTo(oldScrapers);
+            if (!renamed) {
+                log.warn("Failed to rename scraper dir: " + scrapers);
+            }
+        }
 
-	@Override
-	public void onStart(TaskItem item) {
-		// ignore, already logged
-	}
+        // send a system message stating that we've upgrade the bmt plugin
+        Phoenix.getInstance()
+                .getEventBus()
+                .fireEvent(
+                        PhoenixEventID.SystemMessageEvent,
+                        SageSystemMessageListener.createEvent(SystemMessageID.PHOENIX_METADATA, SageSystemMessageListener.INFO,
+                                "Batch Metadata Tools updated",
+                                "Phoenix Metadata has been installed and the legacy bmt files/plugin have been removed.", null),
+                        false);
+    }
 
-	@Override
-	public void onComplete(TaskItem item) {
-		// ignore, it'll be logged when the item is written
-		item.setHandler(null);
-		item.setOperation(null);
-		item.getUserData().clear();
-	}
+    private void removeFile(String f) {
+        File file = new File(f);
+        if (file.exists()) {
+            if (!file.delete()) {
+                file.deleteOnExit();
+            }
+        }
+    }
 
-	@Override
-	public void onError(TaskItem item) {
-		// finally failed, so report the error now
-		reportFailure((IMediaFile) item.getUserData().get("file"), item.getError());
-		item.setHandler(null);
-		item.setOperation(null);
-		item.getUserData().clear();
-	}
+    @Override
+    public void onStart(TaskItem item) {
+        // ignore, already logged
+    }
 
-	@Override
-	public void performAction(TaskItem item) throws Throwable {
-		IMediaFile file = (IMediaFile) item.getUserData().get("file");
-		boolean recording = (Boolean) item.getUserData().get("recording");
-		log.info("Retrying Scan for " + file);
+    @Override
+    public void onComplete(TaskItem item) {
+        // ignore, it'll be logged when the item is written
+        item.setHandler(null);
+        item.setOperation(null);
+        item.getUserData().clear();
+    }
 
-		Hints options = Phoenix.getInstance().getMetadataManager().getDefaultMetadataOptions();
-		options.setBooleanHint(MetadataHints.KNOWN_RECORDING, recording);
-		options.setBooleanHint(MetadataHints.AUTOMATIC, true);
+    @Override
+    public void onError(TaskItem item) {
+        // finally failed, so report the error now
+        reportFailure((IMediaFile) item.getUserData().get("file"), item.getError());
+        item.setHandler(null);
+        item.setOperation(null);
+        item.getUserData().clear();
+    }
 
-		Phoenix.getInstance().getMetadataManager().automaticUpdate(file, options);
-	}
+    @Override
+    public void performAction(TaskItem item) throws Throwable {
+        IMediaFile file = (IMediaFile) item.getUserData().get("file");
+        boolean recording = (Boolean) item.getUserData().get("recording");
+        log.info("Retrying Scan for " + file);
 
-	@Override
-	public boolean canRetry(Throwable t) {
-		if (t != null && t instanceof MetadataException) {
-			return ((MetadataException) t).canRetry();
-		}
-		return false;
-	}
+        Hints options = Phoenix.getInstance().getMetadataManager().getDefaultMetadataOptions();
+        options.setBooleanHint(MetadataHints.KNOWN_RECORDING, recording);
+        options.setBooleanHint(MetadataHints.AUTOMATIC, true);
 
-	public RetryTaskManager getRetryTaskManager() {
-		return retryTaskManager;
-	}
+        Phoenix.getInstance().getMetadataManager().automaticUpdate(file, options);
+    }
 
-	@ButtonClickHandler("phoenix/fanart/rescanFanart")
-	public void rescanCollection() {
-		log.info("Rescanning Missing Metadata items to update fanart and metadata");
-		PluginProperty prop = getPluginPropertyForSetting("phoenix/fanart/rescanFanart");
-		prop.setLabel("Scanning Fanart....");
-		prop.setHelp("A scan is in progress... updateing progress...");
-	}
+    @Override
+    public boolean canRetry(Throwable t) {
+        if (t != null && t instanceof MetadataException) {
+            return ((MetadataException) t).canRetry();
+        }
+        return false;
+    }
+
+    public RetryTaskManager getRetryTaskManager() {
+        return retryTaskManager;
+    }
+
+    @ButtonClickHandler("phoenix/fanart/rescanFanart")
+    public void rescanCollection() {
+        log.info("Rescanning Missing Metadata items to update fanart and metadata");
+        PluginProperty prop = getPluginPropertyForSetting("phoenix/fanart/rescanFanart");
+        prop.setLabel("Scanning Fanart....");
+        prop.setHelp("A scan is in progress... updateing progress...");
+    }
 }

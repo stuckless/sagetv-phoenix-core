@@ -6,18 +6,18 @@ import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 
 public class BDFilter extends Filter {
-	public BDFilter() {
-		super();
-	}
+    public BDFilter() {
+        super();
+    }
 
-	public boolean canAccept(IMediaResource res) {
-		if (res instanceof IMediaFolder)
-			return true;
+    public boolean canAccept(IMediaResource res) {
+        if (res instanceof IMediaFolder)
+            return true;
 
-		if (res instanceof IMediaFile) {
-			return (MediaFileAPI.IsBluRay(res.getMediaObject()));
-		} else {
-			return false;
-		}
-	}
+        if (res instanceof IMediaFile) {
+            return (MediaFileAPI.IsBluRay(res.getMediaObject()));
+        } else {
+            return false;
+        }
+    }
 }

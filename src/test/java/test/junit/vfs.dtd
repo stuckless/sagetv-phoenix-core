@@ -1,71 +1,71 @@
 <!ELEMENT tags (tag+) >
 
-<!ELEMENT tag EMPTY >
-<!ATTLIST tag value CDATA #REQUIRED >
-<!ATTLIST tag label CDATA #IMPLIED >
-<!ATTLIST tag visible CDATA #IMPLIED >
+        <!ELEMENT tag EMPTY >
+        <!ATTLIST tag value CDATA #REQUIRED >
+        <!ATTLIST tag label CDATA #IMPLIED >
+        <!ATTLIST tag visible CDATA #IMPLIED >
 
-<!ELEMENT option (#PCDATA) >
-<!ATTLIST option name CDATA #REQUIRED >
-<!ATTLIST option datatype (int|boolean|string|float|directory) #IMPLIED >
-<!ATTLIST option list (true|false) #IMPLIED >
-<!ATTLIST option list-id CDATA #IMPLIED >
-<!ATTLIST option list-values CDATA #IMPLIED >
-<!ATTLIST option list-selection (single|multi) #IMPLIED >
-<!ATTLIST option label CDATA #IMPLIED >
-<!ATTLIST option value CDATA #IMPLIED >
+        <!ELEMENT option (#PCDATA) >
+        <!ATTLIST option name CDATA #REQUIRED >
+        <!ATTLIST option datatype (int|boolean|string|float|directory) #IMPLIED >
+        <!ATTLIST option list (true|false) #IMPLIED >
+        <!ATTLIST option list-id CDATA #IMPLIED >
+        <!ATTLIST option list-values CDATA #IMPLIED >
+        <!ATTLIST option list-selection (single|multi) #IMPLIED >
+        <!ATTLIST option label CDATA #IMPLIED >
+        <!ATTLIST option value CDATA #IMPLIED >
 
-<!ELEMENT item (option*,tag*) >
-<!ATTLIST item name NMTOKEN #REQUIRED >
-<!ATTLIST item label CDATA #REQUIRED >
-<!ATTLIST item class CDATA #REQUIRED >
-<!ATTLIST item visible CDATA #IMPLIED >
+        <!ELEMENT item (option*,tag*) >
+        <!ATTLIST item name NMTOKEN #REQUIRED >
+        <!ATTLIST item label CDATA #REQUIRED >
+        <!ATTLIST item class CDATA #REQUIRED >
+        <!ATTLIST item visible CDATA #IMPLIED >
 
-<!ELEMENT sources (item+) >
+        <!ELEMENT sources (item+) >
 
-<!ELEMENT filter (option*) >
-<!ATTLIST filter by CDATA #REQUIRED >
-<!ATTLIST filter value CDATA #IMPLIED >
-<!ATTLIST filter scope (include|exclude) #IMPLIED >
+        <!ELEMENT filter (option*) >
+        <!ATTLIST filter by CDATA #REQUIRED >
+        <!ATTLIST filter value CDATA #IMPLIED >
+        <!ATTLIST filter scope (include|exclude) #IMPLIED >
 
-<!ELEMENT item-group (filter+,tag*) >
-<!ATTLIST item-group name NMTOKEN #REQUIRED >
-<!ATTLIST item-group label CDATA #REQUIRED >
-<!ATTLIST item-group mode (and|or) #REQUIRED >
+        <!ELEMENT item-group (filter+,tag*) >
+        <!ATTLIST item-group name NMTOKEN #REQUIRED >
+        <!ATTLIST item-group label CDATA #REQUIRED >
+        <!ATTLIST item-group mode (and|or) #REQUIRED >
 
-<!ELEMENT filters (item+,item-group*) >
+        <!ELEMENT filters (item+,item-group*) >
 
-<!ELEMENT sorts (item+) >
+        <!ELEMENT sorts (item+) >
 
-<!ELEMENT groups (item+) >
+        <!ELEMENT groups (item+) >
 
-<!ELEMENT description (#PCDATA) >
+        <!ELEMENT description (#PCDATA) >
 
-<!ELEMENT source (option*) >
-<!ATTLIST source name CDATA #REQUIRED >
+        <!ELEMENT source (option*) >
+        <!ATTLIST source name CDATA #REQUIRED >
 
-<!ELEMENT group (option*) >
-<!ATTLIST group by CDATA #REQUIRED >
+        <!ELEMENT group (option*) >
+        <!ATTLIST group by CDATA #REQUIRED >
 
-<!ELEMENT sort (option*) >
-<!ATTLIST sort by CDATA #REQUIRED >
+        <!ELEMENT sort (option*) >
+        <!ATTLIST sort by CDATA #REQUIRED >
 
-<!ELEMENT view-source (filter*,group*,sort*) >
-<!ATTLIST view-source name CDATA #REQUIRED >
+        <!ELEMENT view-source (filter*,group*,sort*) >
+        <!ATTLIST view-source name CDATA #REQUIRED >
 
-<!ELEMENT hint EMPTY >
-<!ATTLIST hint value CDATA #REQUIRED >
+        <!ELEMENT hint EMPTY >
+        <!ATTLIST hint value CDATA #REQUIRED >
 
-<!ELEMENT presentation (filter*,group*,sort*,hint*) >
-<!ATTLIST presentation level (1|2|3|4|5|6) #IMPLIED >
+        <!ELEMENT presentation (filter*,group*,sort*,hint*) >
+        <!ATTLIST presentation level (1|2|3|4|5|6) #IMPLIED >
 
-<!ELEMENT view (option?,description?,tag*,source*,view-source*,filter?,presentation*) >
-<!ATTLIST view label CDATA #REQUIRED >
-<!ATTLIST view name CDATA #REQUIRED >
-<!ATTLIST view visible CDATA #IMPLIED >
-<!ATTLIST view flat (true|false) #IMPLIED >
+        <!ELEMENT view (option?,description?,tag*,source*,view-source*,filter?,presentation*) >
+        <!ATTLIST view label CDATA #REQUIRED >
+        <!ATTLIST view name CDATA #REQUIRED >
+        <!ATTLIST view visible CDATA #IMPLIED >
+        <!ATTLIST view flat (true|false) #IMPLIED >
 
-<!ELEMENT views (view+) >
+        <!ELEMENT views (view+) >
 
-<!ELEMENT vfs (tags?,sources?,filters?,sorts?,groups?,views?) >
+        <!ELEMENT vfs (tags?,sources?,filters?,sorts?,groups?,views?) >
 

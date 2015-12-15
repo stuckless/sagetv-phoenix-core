@@ -1,4 +1,4 @@
 <plugin id="phoenix.helloworld1" name="Hello World" version="1.0">
-   <description>Hello World Plugin - Does Nothing</description>
-   
+    <description>Hello World Plugin - Does Nothing</description>
+
 </plugin>

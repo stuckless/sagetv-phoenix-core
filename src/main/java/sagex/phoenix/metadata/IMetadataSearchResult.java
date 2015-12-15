@@ -3,22 +3,22 @@ package sagex.phoenix.metadata;
 import java.util.Map;
 
 public interface IMetadataSearchResult {
-	public Map<String, String> getExtra();
+    public Map<String, String> getExtra();
 
-	public void setProviderId(String id);
+    public void setProviderId(String id);
 
-	public String getProviderId();
+    public String getProviderId();
 
-	public MediaType getMediaType();
+    public MediaType getMediaType();
 
-	public String getTitle();
+    public String getTitle();
 
-	public int getYear();
+    public int getYear();
 
-	public float getScore();
+    public float getScore();
 
-	public String getId();
+    public String getId();
 
-	public String getUrl();
+    public String getUrl();
 
 }

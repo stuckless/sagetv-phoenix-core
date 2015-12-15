@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(java.lang.annotation.ElementType.METHOD)
 public @interface APIMethod {
-	public boolean ignore() default false;
+    public boolean ignore() default false;
 
-	public String body() default "";
+    public String body() default "";
 }

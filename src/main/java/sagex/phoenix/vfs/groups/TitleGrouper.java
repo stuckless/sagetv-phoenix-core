@@ -5,20 +5,20 @@ import sagex.phoenix.vfs.IMediaResource;
 
 public class TitleGrouper implements IGrouper {
 
-	public TitleGrouper() {
-	}
+    public TitleGrouper() {
+    }
 
-	@Override
-	public String getGroupName(IMediaResource res) {
-		String group = null;
-		if (res instanceof IMediaFile) {
-			group = ((IMediaFile) res).getMetadata().getMediaTitle();
-		}
+    @Override
+    public String getGroupName(IMediaResource res) {
+        String group = null;
+        if (res instanceof IMediaFile) {
+            group = ((IMediaFile) res).getMetadata().getMediaTitle();
+        }
 
-		if (group == null || group.isEmpty()) {
-			return res.getTitle();
-		} else {
-			return group;
-		}
-	}
+        if (group == null || group.isEmpty()) {
+            return res.getTitle();
+        } else {
+            return group;
+        }
+    }
 }

@@ -9,24 +9,24 @@ import sagex.phoenix.vfs.util.PathUtils;
 
 public class TestClassScraper implements IFilenameScraper {
 
-	@Override
-	public String getId() {
-		return "testclassscraper";
-	}
+    @Override
+    public String getId() {
+        return "testclassscraper";
+    }
 
-	@Override
-	public int getPriority() {
-		return 1;
-	}
+    @Override
+    public int getPriority() {
+        return 1;
+    }
 
-	@Override
-	public SearchQuery createSearchQuery(IMediaFile file, Hints hints) {
-		if (PathUtils.getLocation(file).contains("ClassTest")) {
-			SearchQuery q = new SearchQuery(hints);
-			q.set(Field.RAW_TITLE, "Test Scraper");
-			q.set(Field.YEAR, "2011");
-		}
-		return null;
-	}
+    @Override
+    public SearchQuery createSearchQuery(IMediaFile file, Hints hints) {
+        if (PathUtils.getLocation(file).contains("ClassTest")) {
+            SearchQuery q = new SearchQuery(hints);
+            q.set(Field.RAW_TITLE, "Test Scraper");
+            q.set(Field.YEAR, "2011");
+        }
+        return null;
+    }
 
 }

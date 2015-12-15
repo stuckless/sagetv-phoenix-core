@@ -1,16 +1,16 @@
 package test;
 
 public class Test<T> {
-	private T t;
+    private T t;
 
-	public Test() {
-	}
+    public Test() {
+    }
 
-	public T getT() {
-		return t;
-	}
+    public T getT() {
+        return t;
+    }
 
-	public void setT(T t) {
-		this.t = t;
-	}
+    public void setT(T t) {
+        this.t = t;
+    }
 }

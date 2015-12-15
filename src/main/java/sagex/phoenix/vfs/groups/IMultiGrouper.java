@@ -1,9 +1,9 @@
 package sagex.phoenix.vfs.groups;
 
-import java.util.List;
-
 import sagex.phoenix.vfs.IMediaResource;
 
+import java.util.List;
+
 public interface IMultiGrouper {
-	public List<String> getGroupNames(IMediaResource res);
+    public List<String> getGroupNames(IMediaResource res);
 }

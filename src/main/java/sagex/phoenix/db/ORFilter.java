@@ -5,20 +5,20 @@ import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.filters.IResourceFilter;
 
 public class ORFilter extends Pair<IResourceFilter, IResourceFilter> implements IResourceFilter {
-	public ORFilter() {
-		super();
-	}
+    public ORFilter() {
+        super();
+    }
 
-	public ORFilter(IResourceFilter first) {
-		super(first, null);
-	}
+    public ORFilter(IResourceFilter first) {
+        super(first, null);
+    }
 
-	@Override
-	public boolean accept(IMediaResource res) {
-		return first().accept(res) || second().accept(res);
-	}
+    @Override
+    public boolean accept(IMediaResource res) {
+        return first().accept(res) || second().accept(res);
+    }
 
-	public String toString() {
-		return "(" + first() + " OR " + second() + ")";
-	}
+    public String toString() {
+        return "(" + first() + " OR " + second() + ")";
+    }
 }

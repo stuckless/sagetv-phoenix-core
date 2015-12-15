@@ -1,33 +1,33 @@
 <!DOCTYPE vfs SYSTEM "vfs.dtd">
 <vfs>
-	<!-- used to test has tag on a sorter -->
-	<sorts>
-		<item label="MySort" name="MySort" class="sagex.phoenix.vfs.sorters.MetadataFieldSorter">
-			<tag value="video"/>
-			<tag value="tv"/>
-			<tag value="music"/>
-		</item>
-	</sorts>
-	
-	
-	<views>
-		<view name="seansrecordings" label="Sean's Recordings">
-			<description>
-				Sean's Recordings
-			</description>
-			<tag value="tv" />
-			<tag value="video" />
-			<source name="expression">
-				<option name="expression">
-					phoenix_util_ToArray(phoenix_util_RemoveAll(GetMediaFiles("T"), GetMediaFiles("TL")))
-				</option>
-			</source>
-			
-			<presentation level="1">
-				<group by="show"/>
-				<sort by="title"/>
-				<hint value="series"/>
-			</presentation>
-		</view>
-	</views>
+    <!-- used to test has tag on a sorter -->
+    <sorts>
+        <item label="MySort" name="MySort" class="sagex.phoenix.vfs.sorters.MetadataFieldSorter">
+            <tag value="video"/>
+            <tag value="tv"/>
+            <tag value="music"/>
+        </item>
+    </sorts>
+
+
+    <views>
+        <view name="seansrecordings" label="Sean's Recordings">
+            <description>
+                Sean's Recordings
+            </description>
+            <tag value="tv"/>
+            <tag value="video"/>
+            <source name="expression">
+                <option name="expression">
+                    phoenix_util_ToArray(phoenix_util_RemoveAll(GetMediaFiles("T"), GetMediaFiles("TL")))
+                </option>
+            </source>
+
+            <presentation level="1">
+                <group by="show"/>
+                <sort by="title"/>
+                <hint value="series"/>
+            </presentation>
+        </view>
+    </views>
 </vfs>

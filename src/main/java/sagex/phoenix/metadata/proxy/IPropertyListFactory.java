@@ -5,16 +5,15 @@ package sagex.phoenix.metadata.proxy;
  * the property serialization and deserialize for sage metadata. A ListFactory
  * implementation should accept the {@link SageProperty} in the constructor that
  * it can have access to the current property if needed.
- * 
+ *
  * @author seans
- * 
  */
 public interface IPropertyListFactory {
-	public String encode(Object item);
+    public String encode(Object item);
 
-	public Object decode(String item);
+    public Object decode(String item);
 
-	public PropertyList toList(String data);
+    public PropertyList toList(String data);
 
-	public String fromList(PropertyList list);
+    public String fromList(PropertyList list);
 }

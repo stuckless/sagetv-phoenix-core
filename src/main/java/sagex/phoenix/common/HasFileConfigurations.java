@@ -1,5 +1,5 @@
 package sagex.phoenix.common;
 
 public interface HasFileConfigurations {
-	public void loadConfigurations();
+    public void loadConfigurations();
 }

@@ -6,19 +6,19 @@ import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 
 public class DVDFilter extends Filter {
-	public DVDFilter() {
-		super();
-	}
+    public DVDFilter() {
+        super();
+    }
 
-	public boolean canAccept(IMediaResource res) {
-		if (res instanceof IMediaFolder)
-			return true;
+    public boolean canAccept(IMediaResource res) {
+        if (res instanceof IMediaFolder)
+            return true;
 
-		if (res instanceof IMediaFile) {
-			Object o = res.getMediaObject();
-			return (MediaFileAPI.IsDVD(o) && !MediaFileAPI.IsBluRay(o));
-		} else {
-			return false;
-		}
-	}
+        if (res instanceof IMediaFile) {
+            Object o = res.getMediaObject();
+            return (MediaFileAPI.IsDVD(o) && !MediaFileAPI.IsBluRay(o));
+        } else {
+            return false;
+        }
+    }
 }

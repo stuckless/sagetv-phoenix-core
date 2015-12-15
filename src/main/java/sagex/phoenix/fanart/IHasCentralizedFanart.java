@@ -1,7 +1,7 @@
 package sagex.phoenix.fanart;
 
 public interface IHasCentralizedFanart {
-	public String GetFanartCentralFolder();
+    public String GetFanartCentralFolder();
 
-	public void SetFanartCentralFolder(String folder);
+    public void SetFanartCentralFolder(String folder);
 }

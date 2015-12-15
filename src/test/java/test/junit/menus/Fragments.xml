@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE menus SYSTEM "menus.dtd">
 <menus>
-	<fragment parentMenu="TestMenu" insertBefore="testStaticHidden">
-		<!-- test insert before -->
-		<menuItem name="mylaunchfirefox" label="Launch Firefox">
-			<exec os="Windows" cmd="C:\Program Files\Mozilla Firefox\firefox.exe" />
-		</menuItem>
-	</fragment>
+    <fragment parentMenu="TestMenu" insertBefore="testStaticHidden">
+        <!-- test insert before -->
+        <menuItem name="mylaunchfirefox" label="Launch Firefox">
+            <exec os="Windows" cmd="C:\Program Files\Mozilla Firefox\firefox.exe"/>
+        </menuItem>
+    </fragment>
 
-	<fragment parentMenu="TestMenu">
-		<!-- test overriding a menu item -->
-		<menuItem name="testexpression" label="Hide Expression"
-			visible="false" />
-	</fragment>
+    <fragment parentMenu="TestMenu">
+        <!-- test overriding a menu item -->
+        <menuItem name="testexpression" label="Hide Expression"
+                  visible="false"/>
+    </fragment>
 
-	<fragment parentMenu="TestMenu" insertAfter="submenu">
-		<!-- test insert after -->
-		<menu name="submenu2" label="Sub Menu2">
-			<menuItem label="Enable Debug Screen Menu Item"
-				visible="${phoenix_config_GetProperty(&quot;phoenix/debug/enableLogging&quot;)==false}">
-				<eval>phoenix_config_SetProperty("phoenix/debug/enableLogging",
-					true)</eval>
-			</menuItem>
+    <fragment parentMenu="TestMenu" insertAfter="submenu">
+        <!-- test insert after -->
+        <menu name="submenu2" label="Sub Menu2">
+            <menuItem label="Enable Debug Screen Menu Item"
+                      visible="${phoenix_config_GetProperty(&quot;phoenix/debug/enableLogging&quot;)==false}">
+                <eval>phoenix_config_SetProperty("phoenix/debug/enableLogging",
+                    true)
+                </eval>
+            </menuItem>
 
-			<menuItem label="Detailed Sage Setup" visible="true">
-				<screen name="Detailed Setup" />
-			</menuItem>
+            <menuItem label="Detailed Sage Setup" visible="true">
+                <screen name="Detailed Setup"/>
+            </menuItem>
 
-			<menuItem label="Online Videos" visible="true" linkedMenu="LinkedMenu">
-				<screen name="Online Video Menu" />
-			</menuItem>
-		</menu>
-	</fragment>
+            <menuItem label="Online Videos" visible="true" linkedMenu="LinkedMenu">
+                <screen name="Online Video Menu"/>
+            </menuItem>
+        </menu>
+    </fragment>
 </menus>

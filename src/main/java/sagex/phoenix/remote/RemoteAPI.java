@@ -1,22 +1,13 @@
 package sagex.phoenix.remote;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-
 import sagex.UIContext;
 import sagex.api.Utility;
 import sagex.phoenix.factory.BaseConfigurable;
@@ -26,229 +17,231 @@ import sagex.phoenix.util.Loggers;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.util.TypesUtil;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Supported conversion functions in args include... uicontext, ref, int,
  * mediafile
- * 
+ *
  * @author sls
  */
 public class RemoteAPI {
-	private static Map<String, Function<String, ?>> functions = new HashMap<String, Function<String, ?>>();
-	static {
-		functions.put("uicontext", new Function<String, UIContext>() {
-			@Override
-			public UIContext apply(String in) {
-				if (StringUtils.isEmpty(in))
-					return UIContext.getCurrentContext();
-				return new UIContext(in);
-			}
-		});
+    private static Map<String, Function<String, ?>> functions = new HashMap<String, Function<String, ?>>();
 
-		functions.put("ref", new ReferenceFunction());
-		functions.put("int", new IntFunction());
-		functions.put("long", new IntFunction());
-		functions.put("double", new DoubleFunction());
-		functions.put("boolean", new BooleanFunction());
-		functions.put("mediafile", new MediaFileFunction());
-		functions.put("airing", new AiringFunction());
-		functions.put("map", new MapFunction());
+    static {
+        functions.put("uicontext", new Function<String, UIContext>() {
+            @Override
+            public UIContext apply(String in) {
+                if (StringUtils.isEmpty(in))
+                    return UIContext.getCurrentContext();
+                return new UIContext(in);
+            }
+        });
 
-		// just return null
-		functions.put("null", new Function<String, String>() {
-			@Override
-			public String apply(String in) {
-				return null;
-			}
-		});
-	}
+        functions.put("ref", new ReferenceFunction());
+        functions.put("int", new IntFunction());
+        functions.put("long", new IntFunction());
+        functions.put("double", new DoubleFunction());
+        functions.put("boolean", new BooleanFunction());
+        functions.put("mediafile", new MediaFileFunction());
+        functions.put("airing", new AiringFunction());
+        functions.put("map", new MapFunction());
 
-	public RemoteAPI() {
-	}
+        // just return null
+        functions.put("null", new Function<String, String>() {
+            @Override
+            public String apply(String in) {
+                return null;
+            }
+        });
+    }
 
-	public void callAPI(Command cmd) throws Exception {
-		encode(cmd, invokeAPI(cmd));
-	}
+    public RemoteAPI() {
+    }
 
-	public void encode(Command cmd, Object in) throws Exception {
-		if (cmd.getEncoder() == Command.Encoder.IMAGE) {
-			try {
-				if (in instanceof File) {
-					writeFile((File) in, cmd);
-				} else if (in instanceof String) {
-					writeFile(new File((String) in), cmd);
-				} else if (Utility.IsMetaImage(in)) {
-					File f = Utility.GetMetaImageSourceFile(in);
-					if (f != null && f.exists()) {
-						writeFile(f, cmd);
-					} else {
-						writeSageImageFile(in, cmd);
-					}
-				} else {
-					cmd.getIOContext().sendError(404, "Unknown Image");
-				}
-			} catch (Exception e) {
-				cmd.getIOContext().sendError(404, e.getMessage());
-			}
-		} else {
-			// default is json encoded
+    public void callAPI(Command cmd) throws Exception {
+        encode(cmd, invokeAPI(cmd));
+    }
 
-			Map<String, Object> reply = new HashMap<String, Object>();
-			reply.put("reply", in);
+    public void encode(Command cmd, Object in) throws Exception {
+        if (cmd.getEncoder() == Command.Encoder.IMAGE) {
+            try {
+                if (in instanceof File) {
+                    writeFile((File) in, cmd);
+                } else if (in instanceof String) {
+                    writeFile(new File((String) in), cmd);
+                } else if (Utility.IsMetaImage(in)) {
+                    File f = Utility.GetMetaImageSourceFile(in);
+                    if (f != null && f.exists()) {
+                        writeFile(f, cmd);
+                    } else {
+                        writeSageImageFile(in, cmd);
+                    }
+                } else {
+                    cmd.getIOContext().sendError(404, "Unknown Image");
+                }
+            } catch (Exception e) {
+                cmd.getIOContext().sendError(404, e.getMessage());
+            }
+        } else {
+            // default is json encoded
 
-			cmd.getIOContext().setEncoding("UTF-8");
-			cmd.getIOContext().writeHeader("Content-Type", "application/json; charset=UTF-8");
+            Map<String, Object> reply = new HashMap<String, Object>();
+            reply.put("reply", in);
 
-			PrintWriter pw = cmd.getIOContext().getWriter();
+            cmd.getIOContext().setEncoding("UTF-8");
+            cmd.getIOContext().writeHeader("Content-Type", "application/json; charset=UTF-8");
 
-			String jsonSer = cmd.getIOContext().getParameter("_jsonser");
+            PrintWriter pw = cmd.getIOContext().getWriter();
 
-			// TODO: jsonSer to JsonSerializer and invoke serializer on the
-			// reply
+            String jsonSer = cmd.getIOContext().getParameter("_jsonser");
 
-			createGson(BooleanUtils.toBoolean(cmd.getIOContext().getParameter("_prettyprint"))).toJson(reply, pw);
-			pw.flush();
-		}
-	}
+            // TODO: jsonSer to JsonSerializer and invoke serializer on the
+            // reply
 
-	public static Gson createGson(boolean prettyPrint) {
-		GsonBuilder b = new GsonBuilder().registerTypeHierarchyAdapter(IMediaResource.class, new MediaResourceSerializer())
-				.registerTypeHierarchyAdapter(BaseConfigurable.class, new BaseConfigurableSerializer())
-				.setExclusionStrategies(new ExclusionStrategy() {
-					@Override
-					public boolean shouldSkipField(FieldAttributes f) {
-						return (f.getName().equals("parent") || f.getName().equals("repository") || f.getName().equals("log"));
-					}
+            createGson(BooleanUtils.toBoolean(cmd.getIOContext().getParameter("_prettyprint"))).toJson(reply, pw);
+            pw.flush();
+        }
+    }
 
-					@Override
-					public boolean shouldSkipClass(Class<?> arg0) {
-						return false;
-					}
-				});
+    public static Gson createGson(boolean prettyPrint) {
+        GsonBuilder b = new GsonBuilder().registerTypeHierarchyAdapter(IMediaResource.class, new MediaResourceSerializer())
+                .registerTypeHierarchyAdapter(BaseConfigurable.class, new BaseConfigurableSerializer())
+                .setExclusionStrategies(new ExclusionStrategy() {
+                    @Override
+                    public boolean shouldSkipField(FieldAttributes f) {
+                        return (f.getName().equals("parent") || f.getName().equals("repository") || f.getName().equals("log"));
+                    }
 
-		if (prettyPrint) {
-			b.setPrettyPrinting();
-		}
+                    @Override
+                    public boolean shouldSkipClass(Class<?> arg0) {
+                        return false;
+                    }
+                });
 
-		return b.create();
-	}
+        if (prettyPrint) {
+            b.setPrettyPrinting();
+        }
 
-	private void writeFile(File in, Command cmd) throws IOException {
-		if (in == null || !in.exists()) {
-			throw new IOException("File Not Found: " + in);
-		}
+        return b.create();
+    }
 
-		String ext = FilenameUtils.getExtension(in.getName());
-		if (ext == null)
-			ext = "jpg";
-		cmd.getIOContext().writeHeader("Content-Type", "image/" + ext);
-		OutputStream os = cmd.getIOContext().getOutputStream();
-		InputStream is = new FileInputStream(in);
-		IOUtils.copyLarge(is, os);
-		is.close();
-		os.flush();
-	}
+    private void writeFile(File in, Command cmd) throws IOException {
+        if (in == null || !in.exists()) {
+            throw new IOException("File Not Found: " + in);
+        }
 
-	public static void writeSageImageFile(Object sageImage, Command cmd) throws IOException {
-		if (sageImage == null) {
-			throw new FileNotFoundException("No Image");
-		}
-		// SEAN: Should block until the image is loaded
-		Utility.LoadImage(sageImage);
+        String ext = FilenameUtils.getExtension(in.getName());
+        if (ext == null)
+            ext = "jpg";
+        cmd.getIOContext().writeHeader("Content-Type", "image/" + ext);
+        OutputStream os = cmd.getIOContext().getOutputStream();
+        InputStream is = new FileInputStream(in);
+        IOUtils.copyLarge(is, os);
+        is.close();
+        os.flush();
+    }
 
-		BufferedImage img = Utility.GetImageAsBufferedImage(sageImage);
-		if (img == null)
-			throw new FileNotFoundException("Unable to get BufferedImage: " + sageImage);
-		cmd.getIOContext().writeHeader("Content-Type", ImageUtil.DEFAULT_IMAGE_MIME_TYPE);
-		OutputStream os = cmd.getIOContext().getOutputStream();
-		ImageUtil.writeImage(img, ImageUtil.DEFAULT_IMAGE_FORMAT, os);
-		os.flush();
-	}
+    public static void writeSageImageFile(Object sageImage, Command cmd) throws IOException {
+        if (sageImage == null) {
+            throw new FileNotFoundException("No Image");
+        }
+        // SEAN: Should block until the image is loaded
+        Utility.LoadImage(sageImage);
 
-	public Map explain(Command cmd) throws Exception {
-		Class cl = Class.forName(cmd.getClassName());
+        BufferedImage img = Utility.GetImageAsBufferedImage(sageImage);
+        if (img == null)
+            throw new FileNotFoundException("Unable to get BufferedImage: " + sageImage);
+        cmd.getIOContext().writeHeader("Content-Type", ImageUtil.DEFAULT_IMAGE_MIME_TYPE);
+        OutputStream os = cmd.getIOContext().getOutputStream();
+        ImageUtil.writeImage(img, ImageUtil.DEFAULT_IMAGE_FORMAT, os);
+        os.flush();
+    }
 
-		Method method = getMethod(cl, cmd);
-		Object args[] = new Object[method.getParameterTypes().length];
+    public Map explain(Command cmd) throws Exception {
+        Class cl = Class.forName(cmd.getClassName());
 
-		for (int i = 0; i < args.length; i++) {
-			args[i] = resolveArg(method.getParameterTypes()[i], cmd.getArgs().get(i));
-		}
+        Method method = getMethod(cl, cmd);
+        Object args[] = new Object[method.getParameterTypes().length];
 
-		Map exp = new HashMap();
-		exp.put("class", cl);
-		exp.put("method", method);
-		exp.put("args", args);
-		return exp;
-	}
+        for (int i = 0; i < args.length; i++) {
+            args[i] = resolveArg(method.getParameterTypes()[i], cmd.getArgs().get(i));
+        }
 
-	public Object invokeAPI(Command cmd) throws Exception {
-		Class cl = Class.forName(cmd.getClassName());
+        Map exp = new HashMap();
+        exp.put("class", cl);
+        exp.put("method", method);
+        exp.put("args", args);
+        return exp;
+    }
 
-		Method method = getMethod(cl, cmd);
-		Object args[] = new Object[method.getParameterTypes().length];
+    public Object invokeAPI(Command cmd) throws Exception {
+        Class cl = Class.forName(cmd.getClassName());
 
-		for (int i = 0; i < args.length; i++) {
-			args[i] = resolveArg(method.getParameterTypes()[i], cmd.getArgs().get(i));
-		}
+        Method method = getMethod(cl, cmd);
+        Object args[] = new Object[method.getParameterTypes().length];
 
-		// set the UI Context if passed
-		if (cmd.getContext() != null) {
-			UIContext.setCurrentContext(cmd.getContext());
-		}
+        for (int i = 0; i < args.length; i++) {
+            args[i] = resolveArg(method.getParameterTypes()[i], cmd.getArgs().get(i));
+        }
 
-		// now call the api
-		Object val = method.invoke(null, args);
-		if (val != null) {
-			// the caller has asked use to hold a reference for this value
-			if (cmd.getReferenceName() != null) {
-				RemoteContext.get().addReference(cmd.getReferenceName(), val, cmd.getReferenceExpiry());
-			}
-		}
-		return val;
-	}
+        // set the UI Context if passed
+        if (cmd.getContext() != null) {
+            UIContext.setCurrentContext(cmd.getContext());
+        }
 
-	private Object resolveArg(Class<?> argType, String argValue) {
-		int pos = argValue.indexOf(":");
-		if (pos != -1) {
-			String func = argValue.substring(0, pos);
-			if (pos + 1 < argValue.length()) {
-				String other = argValue.substring(pos + 1);
-				Function<String, ?> f = functions.get(func);
-				if (f != null) {
-					return f.apply(other);
-				} else {
-					Loggers.LOG.warn("No Function for [" + func + "]");
-				}
-			}
-		}
+        // now call the api
+        Object val = method.invoke(null, args);
+        if (val != null) {
+            // the caller has asked use to hold a reference for this value
+            if (cmd.getReferenceName() != null) {
+                RemoteContext.get().addReference(cmd.getReferenceName(), val, cmd.getReferenceExpiry());
+            }
+        }
+        return val;
+    }
 
-		return TypesUtil.fromString(argValue, argType);
-	}
+    private Object resolveArg(Class<?> argType, String argValue) {
+        int pos = argValue.indexOf(":");
+        if (pos != -1) {
+            String func = argValue.substring(0, pos);
+            if (pos + 1 < argValue.length()) {
+                String other = argValue.substring(pos + 1);
+                Function<String, ?> f = functions.get(func);
+                if (f != null) {
+                    return f.apply(other);
+                } else {
+                    Loggers.LOG.warn("No Function for [" + func + "]");
+                }
+            }
+        }
 
-	private Method getMethod(Class cl, Command cmd) throws Exception {
-		Method reply = null;
+        return TypesUtil.fromString(argValue, argType);
+    }
 
-		if (cmd.getSignature() != null) {
-			return cl.getMethod(cmd.getMethodName(), cmd.getSignature());
-		}
+    private Method getMethod(Class cl, Command cmd) throws Exception {
+        Method reply = null;
 
-		for (Method m : cl.getMethods()) {
-			if (m.getName().equals(cmd.getMethodName())) {
-				if (m.getParameterTypes().length == cmd.getArgs().size()) {
-					if (reply != null)
-						throw new Exception("Ambiguous API Reference.  Don't know which one to call for: " + cmd);
-					reply = m;
-				}
-			}
-		}
-		if (reply == null) {
-			throw new Exception("Unknown API Method " + cmd.getMethodName() + " for API " + cmd.getClassName());
-		}
-		return reply;
-	}
+        if (cmd.getSignature() != null) {
+            return cl.getMethod(cmd.getMethodName(), cmd.getSignature());
+        }
+
+        for (Method m : cl.getMethods()) {
+            if (m.getName().equals(cmd.getMethodName())) {
+                if (m.getParameterTypes().length == cmd.getArgs().size()) {
+                    if (reply != null)
+                        throw new Exception("Ambiguous API Reference.  Don't know which one to call for: " + cmd);
+                    reply = m;
+                }
+            }
+        }
+        if (reply == null) {
+            throw new Exception("Unknown API Method " + cmd.getMethodName() + " for API " + cmd.getClassName());
+        }
+        return reply;
+    }
 }

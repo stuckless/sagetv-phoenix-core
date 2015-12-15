@@ -1,105 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration id="test" label="Test Configuration">
-	<description>Test Configuration</description>
+    <description>Test Configuration</description>
 
-	<!-- All the basics -->
-	<group path="test1" label="Test1">
-		<description>Test1 Settings</description>
-		
-		<field key="field1" label="Field 1" defaultValue="false" type="boolean" scope="user">
-			<description>Field 1 Description</description>
-		</field>
+    <!-- All the basics -->
+    <group path="test1" label="Test1">
+        <description>Test1 Settings</description>
 
-		<field key="field2" label="Field 2" defaultValue="Value2" type="button">
-			<description>Field 2 Description</description>
-			<eval>DebugLog("Button Action")</eval>
-		</field>
+        <field key="field1" label="Field 1" defaultValue="false" type="boolean" scope="user">
+            <description>Field 1 Description</description>
+        </field>
 
-		<field key="field3" label="Field 3" defaultValue="3" type="choice" scope="client">
-			<description>Field 3 Description</description>
-			<options>
-				<option name="One">1</option>
-				<option name="Two" value="2"/>
-				<option name="Three" value="3"/>
-				<option name="Four" value="4"/>
-			</options>
-		</field>
+        <field key="field2" label="Field 2" defaultValue="Value2" type="button">
+            <description>Field 2 Description</description>
+            <eval>DebugLog("Button Action")</eval>
+        </field>
 
-		<field key="field4" label="Field 4" defaultValue="/Value4/Directory" type="directory">
-			<description>Field 4 Description</description>
-		</field>
+        <field key="field3" label="Field 3" defaultValue="3" type="choice" scope="client">
+            <description>Field 3 Description</description>
+            <options>
+                <option name="One">1</option>
+                <option name="Two" value="2"/>
+                <option name="Three" value="3"/>
+                <option name="Four" value="4"/>
+            </options>
+        </field>
 
-		<field key="field5" label="Field 5" defaultValue="Value5.txt" type="file">
-			<description>Field 5 Description</description>
-		</field>
+        <field key="field4" label="Field 4" defaultValue="/Value4/Directory" type="directory">
+            <description>Field 4 Description</description>
+        </field>
 
-		<field key="field6" label="Field 6" defaultValue="Value6" type="integer">
-			<description>Field 6 Description</description>
-		</field>
+        <field key="field5" label="Field 5" defaultValue="Value5.txt" type="file">
+            <description>Field 5 Description</description>
+        </field>
 
-		<field key="field7" label="Field 7" defaultValue="2;4" type="multichoice" listSeparator=";" scope="server">
-			<description>Field 7 Description</description>
-			<option name="One">1</option>
-			<option name="Two" value="2"/>
-			<option name="Three" value="3"/>
-			<option name="Four" value="4"/>
-		</field>
+        <field key="field6" label="Field 6" defaultValue="Value6" type="integer">
+            <description>Field 6 Description</description>
+        </field>
 
-		<field key="field8" label="Field 8" defaultValue="Value8" type="password">
-			<description>Field 8 Description</description>
-		</field>
+        <field key="field7" label="Field 7" defaultValue="2;4" type="multichoice" listSeparator=";" scope="server">
+            <description>Field 7 Description</description>
+            <option name="One">1</option>
+            <option name="Two" value="2"/>
+            <option name="Three" value="3"/>
+            <option name="Four" value="4"/>
+        </field>
 
-		<field key="field9" label="Field 9" defaultValue="Value9" type="text">
-			<description>Field 9 Description</description>
-		</field>
-	</group>
+        <field key="field8" label="Field 8" defaultValue="Value8" type="password">
+            <description>Field 8 Description</description>
+        </field>
 
-	<!-- All variants -->
-	<group path="test2" label="Test2">
-		<description>Test2 Settings</description>
-		
-		<field key="field1" label="Field 1" defaultValue="false" type="boolean">
-			<description>Field 1 Description</description>
-		</field>
+        <field key="field9" label="Field 9" defaultValue="Value9" type="text">
+            <description>Field 9 Description</description>
+        </field>
+    </group>
 
-		<field key="field2" label="Field 2" defaultValue="Value2" type="string" scope="user">
-			<description>Field 2 Description</description>
-		</field>
+    <!-- All variants -->
+    <group path="test2" label="Test2">
+        <description>Test2 Settings</description>
 
-		<field key="field3" label="Field 3" defaultValue="3.2" type="float">
-			<description>Field 3 Description</description>
-		</field>
+        <field key="field1" label="Field 1" defaultValue="false" type="boolean">
+            <description>Field 1 Description</description>
+        </field>
 
-		<field key="field4" label="Field 4" defaultValue="4" type="choice">
-			<description>Field 4 Description</description>
-			<options class="test.junit.cm.MyOptionFactory"/>
-		</field>
+        <field key="field2" label="Field 2" defaultValue="Value2" type="string" scope="user">
+            <description>Field 2 Description</description>
+        </field>
 
-		<field key="field5" label="Field 5" defaultValue="5" type="long" hints="regex">
-			<description>Field 5 Description</description>
-		</field>
+        <field key="field3" label="Field 3" defaultValue="3.2" type="float">
+            <description>Field 3 Description</description>
+        </field>
 
-		<field key="field6" label="Field 6" defaultValue="6" type="text">
-			<description>Field 5 Description</description>
-			<options range="4-7"/>
-		</field>
-		
-		<field key="field7" label="Field 7" defaultValue="7" type="choice">
-			<description>Field 7 Description</description>
-			<options expression="phoenix_config_CreateOptionList(phoenix_umb_GetViewFactories(&quot;tv&quot;))"/>
-		</field>
+        <field key="field4" label="Field 4" defaultValue="4" type="choice">
+            <description>Field 4 Description</description>
+            <options class="test.junit.cm.MyOptionFactory"/>
+        </field>
 
-		<field key="field8" label="Field 8" defaultValue="1" type="int">
-			<description>Field 7 Description</description>
-			<options>
-				<option value="1" name="1"/>
-				<option value="2" name="2"/>
-				<option value="3" name="3"/>
-				<option value="4" name="4"/>
-			</options>
-		</field>
-	</group>
+        <field key="field5" label="Field 5" defaultValue="5" type="long" hints="regex">
+            <description>Field 5 Description</description>
+        </field>
 
-	<!-- Test Annotated Class -->
-	<group class="test.junit.cm.MyProxyGroup"/>
+        <field key="field6" label="Field 6" defaultValue="6" type="text">
+            <description>Field 5 Description</description>
+            <options range="4-7"/>
+        </field>
+
+        <field key="field7" label="Field 7" defaultValue="7" type="choice">
+            <description>Field 7 Description</description>
+            <options expression="phoenix_config_CreateOptionList(phoenix_umb_GetViewFactories(&quot;tv&quot;))"/>
+        </field>
+
+        <field key="field8" label="Field 8" defaultValue="1" type="int">
+            <description>Field 7 Description</description>
+            <options>
+                <option value="1" name="1"/>
+                <option value="2" name="2"/>
+                <option value="3" name="3"/>
+                <option value="4" name="4"/>
+            </options>
+        </field>
+    </group>
+
+    <!-- Test Annotated Class -->
+    <group class="test.junit.cm.MyProxyGroup"/>
 </configuration>

@@ -7,9 +7,9 @@ import java.lang.annotation.Target;
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = java.lang.annotation.ElementType.TYPE)
 public @interface AGroup {
-	String path();
+    String path();
 
-	String label();
+    String label();
 
-	String description() default "";
+    String description() default "";
 }

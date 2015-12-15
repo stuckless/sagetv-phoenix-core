@@ -1,9 +1,9 @@
 <plugin id="phoenix.test" name="Test Plugin" version="1.1">
-   <description>This is a test PLugin</description>
-   <updateUrl>http://somesite.org/update.xml</updateUrl>
-   
-   <activator class="myplugin.js"/>
-   
-   <depend id="phoenix.core"/>
-   <depend id="phoenix.db"/>
+    <description>This is a test PLugin</description>
+    <updateUrl>http://somesite.org/update.xml</updateUrl>
+
+    <activator class="myplugin.js"/>
+
+    <depend id="phoenix.core"/>
+    <depend id="phoenix.db"/>
 </plugin>

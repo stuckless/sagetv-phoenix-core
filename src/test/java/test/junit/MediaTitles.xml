@@ -1,32 +1,32 @@
 <titles>
-        <!--
-                A Match can contain a regex that will be used to match against the
-                path. If it matches, then it will then set the fields, title, year, or
-                id, into the search query.
-        -->
-        <match>
-                <regex>[\\/]Babylon\s*5[\\/]</regex>
-                <title>Babylon 5</title>
-                <year>1993</year>
-                <metadata type="tv" name="tvdb">7072</metadata>
-        </match>
+    <!--
+            A Match can contain a regex that will be used to match against the
+            path. If it matches, then it will then set the fields, title, year, or
+            id, into the search query.
+    -->
+    <match>
+        <regex>[\\/]Babylon\s*5[\\/]</regex>
+        <title>Babylon 5</title>
+        <year>1993</year>
+        <metadata type="tv" name="tvdb">7072</metadata>
+    </match>
 
-        <match>
-                <file>/home/movies/shared/FindingNemo.avi</file>
-                <title>Finding Nemo</title>
-                <year>2003</year>
-                <metadata name="imdb">tt0266543</metadata>
-        </match>
+    <match>
+        <file>/home/movies/shared/FindingNemo.avi</file>
+        <title>Finding Nemo</title>
+        <year>2003</year>
+        <metadata name="imdb">tt0266543</metadata>
+    </match>
 
-        <match>
-                <regex>[\\/]Battlestar Galactica[\\/]</regex>
-                <title>Battlestar Galactica</title>
-                <year>2003</year>
-                <metadata type="tv" name="tvdb">73545</metadata>
-        </match>
+    <match>
+        <regex>[\\/]Battlestar Galactica[\\/]</regex>
+        <title>Battlestar Galactica</title>
+        <year>2003</year>
+        <metadata type="tv" name="tvdb">73545</metadata>
+    </match>
 
-        <match>
-                <regex>[\\/]The Prisoner[\\/]</regex>
-                <metadata type="tv" name="tvdb">85242</metadata>
-        </match>
+    <match>
+        <regex>[\\/]The Prisoner[\\/]</regex>
+        <metadata type="tv" name="tvdb">85242</metadata>
+    </match>
 </titles>

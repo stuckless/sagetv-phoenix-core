@@ -5,23 +5,22 @@ import sagex.phoenix.vfs.IMediaResource;
 /**
  * Wraps a standard {@link IResourceFilter} to make it compatible with a View
  * Filter
- * 
+ *
  * @author seans
- * 
  */
 public class WrappedResourceFilter extends Filter {
-	private IResourceFilter filter = null;
+    private IResourceFilter filter = null;
 
-	public WrappedResourceFilter(IResourceFilter filter) {
-		this.filter = filter;
-	}
+    public WrappedResourceFilter(IResourceFilter filter) {
+        this.filter = filter;
+    }
 
-	@Override
-	protected boolean canAccept(IMediaResource res) {
-		return filter.accept(res);
-	}
+    @Override
+    protected boolean canAccept(IMediaResource res) {
+        return filter.accept(res);
+    }
 
-	public IResourceFilter getResourceFilter() {
-		return filter;
-	}
+    public IResourceFilter getResourceFilter() {
+        return filter;
+    }
 }

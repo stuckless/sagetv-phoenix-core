@@ -1,13 +1,13 @@
 package sagex.phoenix.metadata;
 
 public interface ITVEpisodeResult {
-	public int getSeason();
+    public int getSeason();
 
-	public int getEpisode();
+    public int getEpisode();
 
-	public String getSeriesId();
+    public String getSeriesId();
 
-	public String getEpisodeName();
+    public String getEpisodeName();
 
-	public String fanartUrl();
+    public String fanartUrl();
 }
