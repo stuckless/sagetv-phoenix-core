@@ -1,11 +1,11 @@
 package sagex.phoenix.vfs.sage;
 
+import java.io.File;
+import java.util.List;
+
 import sagex.api.Configuration;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.VirtualMediaFolder;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * A Virtual Folder that will contain all the files from the sage imported

@@ -1,8 +1,8 @@
 package sagex.phoenix.metadata;
 
-import sagex.phoenix.metadata.proxy.SageProperty;
-
 import java.util.Date;
+
+import sagex.phoenix.metadata.proxy.SageProperty;
 
 public interface ISagePropertyRO extends ISageMetadata {
     @SageProperty("Width")

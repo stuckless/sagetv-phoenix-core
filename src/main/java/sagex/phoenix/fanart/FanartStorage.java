@@ -1,25 +1,31 @@
 package sagex.phoenix.fanart;
 
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.log4j.Logger;
-import sagex.phoenix.Phoenix;
-import sagex.phoenix.configuration.proxy.GroupProxy;
-import sagex.phoenix.download.DownloadHandler;
-import sagex.phoenix.download.DownloadItem;
-import sagex.phoenix.metadata.*;
-import sagex.phoenix.util.Hints;
-import sagex.phoenix.util.Loggers;
-import sagex.phoenix.util.StoredStringSet;
-import sagex.phoenix.vfs.IMediaFile;
-import sagex.phoenix.vfs.MediaResourceType;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.Phoenix;
+import sagex.phoenix.configuration.proxy.GroupProxy;
+import sagex.phoenix.download.DownloadHandler;
+import sagex.phoenix.download.DownloadItem;
+import sagex.phoenix.metadata.IMediaArt;
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.MediaArtifactType;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.metadata.MetadataConfiguration;
+import sagex.phoenix.metadata.MetadataException;
+import sagex.phoenix.util.Hints;
+import sagex.phoenix.util.Loggers;
+import sagex.phoenix.util.StoredStringSet;
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.MediaResourceType;
 
 public class FanartStorage implements DownloadHandler {
     private final Logger log = Logger.getLogger(FanartStorage.class);

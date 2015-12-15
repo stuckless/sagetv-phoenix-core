@@ -1,15 +1,15 @@
 package test;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.log4j.BasicConfigurator;
-import org.xml.sax.SAXException;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.log4j.BasicConfigurator;
+import org.xml.sax.SAXException;
 
 public class TestIMDB {
     public static void main(String[] args) throws FileNotFoundException, IOException, SAXException {

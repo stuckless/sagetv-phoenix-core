@@ -1,9 +1,9 @@
 package sagex.phoenix.fanart;
 
-import sagex.remote.media.SageMediaRequestHandler;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import sagex.remote.media.SageMediaRequestHandler;
 
 /**
  * Alternate http fanart {@link SageMediaRequestHandler} handler that uses the

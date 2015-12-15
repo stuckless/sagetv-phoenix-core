@@ -1,16 +1,17 @@
 package sagex.phoenix.configuration.impl;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
 import sagex.UIContext;
 import sagex.api.Configuration;
 import sagex.phoenix.configuration.ConfigScope;
 import sagex.phoenix.configuration.IConfigurationProvider;
 import sagex.phoenix.profiles.Profile;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class SageConfigurationProvider implements IConfigurationProvider {
     private Logger log = Logger.getLogger(SageConfigurationProvider.class);

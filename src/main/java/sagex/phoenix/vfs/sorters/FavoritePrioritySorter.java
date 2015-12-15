@@ -1,16 +1,16 @@
 package sagex.phoenix.vfs.sorters;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+
 import sagex.api.AiringAPI;
 import sagex.api.Database;
 import sagex.api.FavoriteAPI;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 
 /**
  * Sorts based on favorite priority non-favorites are unsorted at the bottom of

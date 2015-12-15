@@ -1,20 +1,25 @@
 package sagex.phoenix.metadata.provider.tvdb;
 
+import java.text.MessageFormat;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
+
 import sagex.phoenix.configuration.proxy.GroupProxy;
-import sagex.phoenix.metadata.*;
+import sagex.phoenix.metadata.CastMember;
+import sagex.phoenix.metadata.ISeriesInfo;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.metadata.MetadataException;
+import sagex.phoenix.metadata.MetadataUtil;
 import sagex.phoenix.metadata.proxy.MetadataProxy;
 import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.util.url.IUrl;
 import sagex.phoenix.util.url.UrlFactory;
-
-import java.text.MessageFormat;
-import java.util.List;
 
 public class TVDBSeriesParser {
     private static final Logger log = Logger.getLogger(TVDBSeriesParser.class);

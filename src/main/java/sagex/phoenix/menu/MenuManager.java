@@ -1,15 +1,5 @@
 package sagex.phoenix.menu;
 
-import org.apache.commons.io.IOCase;
-import org.apache.commons.io.filefilter.SuffixFileFilter;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import sagex.phoenix.Phoenix;
-import sagex.phoenix.common.SystemConfigurationFileManager;
-import sagex.phoenix.menu.Menu.Insert;
-import sagex.phoenix.node.INodeVisitor;
-import sagex.phoenix.util.FileUtils;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -17,6 +7,17 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.io.IOCase;
+import org.apache.commons.io.filefilter.SuffixFileFilter;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.Phoenix;
+import sagex.phoenix.common.SystemConfigurationFileManager;
+import sagex.phoenix.menu.Menu.Insert;
+import sagex.phoenix.node.INodeVisitor;
+import sagex.phoenix.util.FileUtils;
 
 public class MenuManager extends SystemConfigurationFileManager implements SystemConfigurationFileManager.ConfigurationFileVisitor {
     public static final Logger log = Logger.getLogger(MenuManager.class);

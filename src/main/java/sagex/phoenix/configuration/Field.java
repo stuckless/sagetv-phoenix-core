@@ -1,9 +1,9 @@
 package sagex.phoenix.configuration;
 
+import java.util.List;
+
 import sagex.phoenix.util.Hints;
 import sagex.phoenix.util.NamedValue;
-
-import java.util.List;
 
 public class Field extends AbstractElement {
     private ConfigType type = ConfigType.TEXT;

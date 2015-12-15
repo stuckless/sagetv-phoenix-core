@@ -1,15 +1,16 @@
 package sagex.phoenix.metadata.proxy;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import sagex.phoenix.metadata.ISageMetadata;
-import sagex.util.TypesUtil;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.metadata.ISageMetadata;
+import sagex.util.TypesUtil;
 
 /**
  * Abstract Proxy class for Metadata. If you are simply storing your metadata as

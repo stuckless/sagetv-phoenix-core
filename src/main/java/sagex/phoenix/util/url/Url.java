@@ -1,13 +1,13 @@
 package sagex.phoenix.util.url;
 
-import org.apache.log4j.Logger;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
 
 public class Url implements IUrl {
     private Logger log = Logger.getLogger(Url.class);

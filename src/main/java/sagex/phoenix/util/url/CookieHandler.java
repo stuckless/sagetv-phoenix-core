@@ -1,12 +1,12 @@
 package sagex.phoenix.util.url;
 
-import org.apache.log4j.Logger;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.log4j.Logger;
 
 public class CookieHandler implements ICookieHandler {
     private static final Logger log = Logger.getLogger(CookieHandler.class);

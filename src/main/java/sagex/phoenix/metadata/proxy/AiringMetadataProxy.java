@@ -1,18 +1,23 @@
 package sagex.phoenix.metadata.proxy;
 
-import org.apache.log4j.Logger;
-import sagex.api.AiringAPI;
-import sagex.api.Configuration;
-import sagex.api.ShowAPI;
-import sagex.phoenix.metadata.*;
-import sagex.phoenix.util.DateUtils;
-import sagex.util.TypesUtil;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import org.apache.log4j.Logger;
+
+import sagex.api.AiringAPI;
+import sagex.api.Configuration;
+import sagex.api.ShowAPI;
+import sagex.phoenix.metadata.ICastMember;
+import sagex.phoenix.metadata.IMediaArt;
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.ISageMetadata;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.util.DateUtils;
+import sagex.util.TypesUtil;
 
 /**
  * Represents the {@link IMetadata} for a Sage Airing object. Airings are Read

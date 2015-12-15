@@ -1,10 +1,10 @@
 package sagex.phoenix.metadata.proxy;
 
-import sagex.phoenix.metadata.IMetadata;
-import sagex.phoenix.metadata.MetadataUtil;
-
 import java.lang.reflect.Proxy;
 import java.util.Map;
+
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.MetadataUtil;
 
 /**
  * A COW (Copy On Write) Metadata proxy will proxy all requests to the Parent

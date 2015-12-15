@@ -1,5 +1,7 @@
 package test.junit.lib;
 
+import java.util.Set;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.vfs.IMediaFolder;
@@ -7,8 +9,6 @@ import sagex.phoenix.vfs.MediaResourceType;
 import sagex.phoenix.vfs.views.OnlineViewFolder;
 import sagex.phoenix.vfs.views.ViewFactory;
 import sagex.phoenix.vfs.views.ViewFolder;
-
-import java.util.Set;
 
 /**
  * Simple Stub View that always returns the same items

@@ -1,13 +1,13 @@
 package sagex.phoenix.metadata.search;
 
-import sagex.phoenix.metadata.MediaType;
-import sagex.phoenix.util.HasHints;
-import sagex.phoenix.util.Hints;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.util.HasHints;
+import sagex.phoenix.util.Hints;
 
 public class SearchQuery implements Serializable, HasHints {
     private static final long serialVersionUID = 1L;

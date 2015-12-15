@@ -1,10 +1,10 @@
 package sagex.phoenix.vfs.sources;
 
+import java.util.Set;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.Factory;
 import sagex.phoenix.vfs.IMediaFolder;
-
-import java.util.Set;
 
 /**
  * Simple Factory that holds a reference to an existing MediaFolder object, and

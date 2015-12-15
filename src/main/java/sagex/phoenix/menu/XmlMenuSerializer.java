@@ -1,5 +1,10 @@
 package sagex.phoenix.menu;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentFactory;
@@ -7,12 +12,8 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
-import sagex.phoenix.util.var.DynamicVariable;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.List;
-import java.util.Map;
+import sagex.phoenix.util.var.DynamicVariable;
 
 public class XmlMenuSerializer {
     public XmlMenuSerializer() {

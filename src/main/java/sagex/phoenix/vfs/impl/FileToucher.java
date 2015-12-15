@@ -1,12 +1,13 @@
 package sagex.phoenix.vfs.impl;
 
-import org.apache.commons.io.DirectoryWalker;
-import sagex.phoenix.util.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+
+import org.apache.commons.io.DirectoryWalker;
+
+import sagex.phoenix.util.FileUtils;
 
 public class FileToucher extends DirectoryWalker {
     private long time = 0;

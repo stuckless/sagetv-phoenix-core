@@ -1,17 +1,17 @@
 package sagex.phoenix.remote.sync;
 
+import java.lang.ref.SoftReference;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import sagex.api.MediaFileAPI;
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.tools.annotation.API;
 import sagex.phoenix.vfs.IAlbumInfo;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.MediaResourceType;
-
-import java.lang.ref.SoftReference;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @API(group = "sync")
 public class SyncService {

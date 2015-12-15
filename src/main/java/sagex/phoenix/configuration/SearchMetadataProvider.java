@@ -1,8 +1,8 @@
 package sagex.phoenix.configuration;
 
-import org.apache.log4j.Logger;
-
 import java.io.IOException;
+
+import org.apache.log4j.Logger;
 
 public class SearchMetadataProvider implements IConfigurationMetadata {
     private static final Logger log = Logger.getLogger(SearchMetadataProvider.class);

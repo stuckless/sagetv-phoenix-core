@@ -1,10 +1,10 @@
 package sagex.phoenix.vfs.filters;
 
+import java.io.File;
+
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.util.PathUtils;
-
-import java.io.File;
 
 /**
  * filters a file path using a regular expression

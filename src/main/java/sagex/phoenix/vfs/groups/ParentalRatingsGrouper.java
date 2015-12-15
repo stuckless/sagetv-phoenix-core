@@ -1,13 +1,14 @@
 package sagex.phoenix.vfs.groups;
 
-import org.apache.commons.lang.StringUtils;
-import sagex.phoenix.util.Utils;
-import sagex.phoenix.vfs.IMediaFile;
-import sagex.phoenix.vfs.IMediaResource;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+
+import sagex.phoenix.util.Utils;
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaResource;
 
 /**
  * Creates Groups based on the Parental Controls

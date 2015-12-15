@@ -1,11 +1,11 @@
 package sagex.phoenix.tools;
 
-import sagex.phoenix.metadata.MetadataUtil;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Map;
+
+import sagex.phoenix.metadata.MetadataUtil;
 
 public class SagePropertiesConstGenerator {
     public static void main(String args[]) throws FileNotFoundException {

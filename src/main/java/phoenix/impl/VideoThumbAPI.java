@@ -1,14 +1,5 @@
 package phoenix.impl;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import org.apache.log4j.Logger;
-import sagex.api.AiringAPI;
-import sagex.api.MediaFileAPI;
-import sagex.phoenix.Phoenix;
-import sagex.phoenix.tools.annotation.API;
-import sagex.phoenix.vfs.IMediaFile;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -17,6 +8,16 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.log4j.Logger;
+
+import sagex.api.AiringAPI;
+import sagex.api.MediaFileAPI;
+import sagex.phoenix.Phoenix;
+import sagex.phoenix.tools.annotation.API;
+import sagex.phoenix.vfs.IMediaFile;
 
 /**
  * API For managing Video Thumbnails

@@ -1,5 +1,11 @@
 package sagex.phoenix.vfs.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
 import sagex.SageAPI;
 import sagex.api.AiringAPI;
 import sagex.api.MediaFileAPI;
@@ -11,12 +17,6 @@ import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.MediaResourceType;
 import sagex.phoenix.vfs.VirtualMediaFile;
 import sagex.phoenix.vfs.util.PathUtils;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FileMediaFile extends VirtualMediaFile implements IMediaFile, Serializable {
     private static final long serialVersionUID = 1L;

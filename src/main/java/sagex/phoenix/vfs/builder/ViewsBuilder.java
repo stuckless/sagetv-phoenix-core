@@ -1,9 +1,12 @@
 package sagex.phoenix.vfs.builder;
 
+import java.util.Stack;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.Factory;
 import sagex.phoenix.factory.IConfigurable;
@@ -19,8 +22,6 @@ import sagex.phoenix.vfs.sorters.Sorter;
 import sagex.phoenix.vfs.sorters.SorterFactory;
 import sagex.phoenix.vfs.views.ViewFactory;
 import sagex.phoenix.vfs.views.ViewPresentation;
-
-import java.util.Stack;
 
 public class ViewsBuilder extends VFSManagerBuilder {
     private ViewFactory view = null;

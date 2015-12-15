@@ -1,19 +1,20 @@
 package sagex.phoenix.weather.yahoo;
 
+import java.net.URL;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
+
 import sage.media.rss.RSSParser;
 import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.weather.ICurrentForecast;
 import sagex.phoenix.weather.ILongRangeForecast;
 import sagex.phoenix.weather.IWeatherSupport2;
 import sagex.phoenix.weather.WeatherConfiguration;
-
-import java.net.URL;
-import java.util.Date;
-import java.util.List;
 
 public class YahooWeatherSupport2 implements IWeatherSupport2 {
     private Logger log = Logger.getLogger(this.getClass());

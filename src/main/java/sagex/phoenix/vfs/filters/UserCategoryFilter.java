@@ -1,5 +1,7 @@
 package sagex.phoenix.vfs.filters;
 
+import java.util.Map;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.factory.ConfigurableOption.ListSelection;
@@ -7,8 +9,6 @@ import sagex.phoenix.vfs.DecoratedMediaFile;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.sage.SageMediaFile;
-
-import java.util.Map;
 
 public class UserCategoryFilter extends Filter {
     private String value = null;

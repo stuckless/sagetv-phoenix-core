@@ -1,6 +1,7 @@
 package sagex.phoenix.remote;
 
 import org.apache.commons.lang.math.NumberUtils;
+
 import sagex.phoenix.util.Function;
 
 public class LongFunction implements Function<String, Long> {

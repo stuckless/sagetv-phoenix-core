@@ -1,10 +1,10 @@
 package phoenix.impl;
 
-import sagex.phoenix.tools.annotation.API;
-import sagex.phoenix.util.JarUtil;
-
 import java.io.File;
 import java.io.IOException;
+
+import sagex.phoenix.tools.annotation.API;
+import sagex.phoenix.util.JarUtil;
 
 /**
  * System Level Pheonix operations

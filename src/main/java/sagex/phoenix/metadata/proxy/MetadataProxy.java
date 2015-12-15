@@ -1,9 +1,9 @@
 package sagex.phoenix.metadata.proxy;
 
-import sagex.phoenix.metadata.IMetadata;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import sagex.phoenix.metadata.IMetadata;
 
 /**
  * Metadata Proxy that stores metadata in a String Map

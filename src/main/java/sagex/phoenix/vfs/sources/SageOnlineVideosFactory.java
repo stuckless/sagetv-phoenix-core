@@ -1,6 +1,12 @@
 package sagex.phoenix.vfs.sources;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
+
 import sagex.UIContext;
 import sagex.api.WidgetAPI;
 import sagex.phoenix.factory.ConfigurableOption;
@@ -11,11 +17,6 @@ import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.VirtualOnlineMediaFolder;
 import sagex.phoenix.vfs.ov.XmlFolder;
 import sagex.phoenix.vfs.ov.XmlOptions;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Properties;
-import java.util.Set;
 
 public class SageOnlineVideosFactory extends Factory<IMediaFolder> {
 

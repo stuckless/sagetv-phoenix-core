@@ -1,20 +1,21 @@
 package test.junit;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static test.junit.lib.TestUtil.makeDir;
+import static test.junit.lib.TestUtil.makeFile;
+
+import java.io.File;
+import java.io.IOException;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.MediaResourceType;
 import sagex.phoenix.vfs.impl.FileResourceFactory;
 import test.InitPhoenix;
-
-import java.io.File;
-import java.io.IOException;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static test.junit.lib.TestUtil.makeDir;
-import static test.junit.lib.TestUtil.makeFile;
 
 public class TestFilePatterns {
     @BeforeClass

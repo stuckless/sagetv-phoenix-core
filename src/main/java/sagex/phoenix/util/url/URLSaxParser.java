@@ -1,15 +1,16 @@
 package sagex.phoenix.util.url;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLDecoder;
+
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import sagex.phoenix.util.AbstractSaxHandler;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLDecoder;
+import sagex.phoenix.util.AbstractSaxHandler;
 
 /**
  * Single use parser for a given url. Provides the parsing framework.

@@ -1,7 +1,28 @@
 package test.junit;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+import static test.junit.lib.TestUtil.delete;
+import static test.junit.lib.TestUtil.fillFile;
+import static test.junit.lib.TestUtil.makeDir;
+import static test.junit.lib.TestUtil.makeFile;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import phoenix.impl.FanartAPI;
 import sagex.SageAPI;
 import sagex.api.MediaFileAPI;
@@ -15,19 +36,6 @@ import sagex.stub.MediaFileAPIProxy.MediaFile;
 import test.InitPhoenix;
 import test.junit.lib.SimpleStubAPI;
 import test.junit.lib.SimpleStubAPI.Airing;
-
-import java.io.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
-import static test.junit.lib.TestUtil.*;
 
 public class TestFanartLocations {
     @BeforeClass

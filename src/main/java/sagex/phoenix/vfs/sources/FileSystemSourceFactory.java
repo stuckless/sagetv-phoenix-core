@@ -1,13 +1,13 @@
 package sagex.phoenix.vfs.sources;
 
+import java.io.File;
+import java.util.Set;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.factory.Factory;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.impl.FileResourceFactory;
-
-import java.io.File;
-import java.util.Set;
 
 /**
  * Creates FileSystem folder for the given 'dir' in the option. This is normally

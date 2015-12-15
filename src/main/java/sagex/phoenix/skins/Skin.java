@@ -1,10 +1,10 @@
 package sagex.phoenix.skins;
 
-import sagex.phoenix.image.ImageUtil;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import sagex.phoenix.image.ImageUtil;
 
 public class Skin implements ISkin {
     public enum State {

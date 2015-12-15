@@ -1,15 +1,25 @@
 package sagex.phoenix.menu;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import org.xml.sax.*;
-import org.xml.sax.helpers.XMLReaderFactory;
-import sagex.phoenix.util.BaseBuilder;
-import sagex.phoenix.util.XmlUtil;
-
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang.math.NumberUtils;
+import org.xml.sax.Attributes;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
+
+import sagex.phoenix.util.BaseBuilder;
+import sagex.phoenix.util.XmlUtil;
 
 public class MenuBuilder extends BaseBuilder {
     public static List<Menu> buildMenus(String menuXML, File dtdDir) throws SAXException, FileNotFoundException, IOException {

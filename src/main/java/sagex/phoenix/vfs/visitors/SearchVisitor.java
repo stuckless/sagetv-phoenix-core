@@ -1,13 +1,13 @@
 package sagex.phoenix.vfs.visitors;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import sagex.phoenix.db.PQLParser;
 import sagex.phoenix.db.ParseException;
 import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.filters.IResourceFilter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Used to search a mediafolder for a given mediafile

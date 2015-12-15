@@ -1,10 +1,16 @@
 package sagex.phoenix.task;
 
-import org.apache.log4j.Logger;
-import sagex.phoenix.task.TaskItem.State;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.task.TaskItem.State;
 
 /**
  * TaskManager is used to manager long running tasks that require rety

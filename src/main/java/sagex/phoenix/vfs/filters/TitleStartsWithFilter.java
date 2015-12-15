@@ -1,12 +1,12 @@
 package sagex.phoenix.vfs.filters;
 
+import java.util.Map;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.factory.ConfigurableOption.ListSelection;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.util.ConfigList;
-
-import java.util.Map;
 
 public class TitleStartsWithFilter extends Filter {
     private String value = "";

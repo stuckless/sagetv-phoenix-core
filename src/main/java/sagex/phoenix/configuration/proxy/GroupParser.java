@@ -1,13 +1,14 @@
 package sagex.phoenix.configuration.proxy;
 
+import java.io.IOException;
+
 import org.apache.commons.lang.StringUtils;
+
 import sagex.phoenix.configuration.ConfigType;
 import sagex.phoenix.configuration.Field;
 import sagex.phoenix.configuration.Group;
 import sagex.phoenix.configuration.StaticOptionsFactory;
 import sagex.phoenix.util.Loggers;
-
-import java.io.IOException;
 
 public class GroupParser {
     public static Group parseGroup(Class cl) {

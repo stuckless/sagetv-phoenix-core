@@ -1,16 +1,17 @@
 package sagex.phoenix.weather.worldweather;
 
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.util.XmlUtil;
 import sagex.phoenix.weather.ICurrentForecast;
 import sagex.phoenix.weather.ILongRangeForecast;
 import sagex.phoenix.weather.IWeatherSupport2;
 import sagex.phoenix.weather.WeatherConfiguration;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * WorldWeather Online implementation for Phoenix API Key to access our weather

@@ -1,11 +1,12 @@
 package sagex.phoenix.vfs;
 
-import org.apache.log4j.Logger;
-import sagex.phoenix.progress.IProgressMonitor;
-import sagex.phoenix.util.Hints;
-
 import java.util.EnumMap;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.progress.IProgressMonitor;
+import sagex.phoenix.util.Hints;
 
 /**
  * Abstract Media Resource. Most VFS items should descend from this class just

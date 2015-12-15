@@ -1,6 +1,7 @@
 package sagex.phoenix.vfs.visitors;
 
 import org.apache.commons.lang.StringUtils;
+
 import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaFolder;

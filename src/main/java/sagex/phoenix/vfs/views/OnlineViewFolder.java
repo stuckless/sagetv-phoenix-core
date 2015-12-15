@@ -1,14 +1,14 @@
 package sagex.phoenix.vfs.views;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.vfs.DummyMediaFile;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.IMediaResourceVisitor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class OnlineViewFolder extends ViewFolder {
     public static int FOLDER_TIMEOUT = 5000;

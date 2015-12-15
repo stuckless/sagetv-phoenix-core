@@ -1,8 +1,8 @@
 package sagex.phoenix.metadata;
 
-import sagex.phoenix.util.Hints;
-
 import java.util.Date;
+
+import sagex.phoenix.util.Hints;
 
 /**
  * Stub class that simply implements the IMetadataSupport calls. Only used to

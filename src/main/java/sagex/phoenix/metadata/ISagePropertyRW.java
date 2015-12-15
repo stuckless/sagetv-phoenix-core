@@ -1,9 +1,9 @@
 package sagex.phoenix.metadata;
 
-import sagex.phoenix.metadata.proxy.SageProperty;
-
 import java.util.Date;
 import java.util.List;
+
+import sagex.phoenix.metadata.proxy.SageProperty;
 
 /**
  * Core SAGETV Metadata Properties...

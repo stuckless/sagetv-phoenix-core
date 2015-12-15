@@ -1,12 +1,16 @@
 package sagex.phoenix.vfs.music;
 
+import java.util.Set;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.factory.Factory;
 import sagex.phoenix.metadata.search.MetadataSearchUtil;
-import sagex.phoenix.vfs.*;
-
-import java.util.Set;
+import sagex.phoenix.vfs.DecoratedMediaFile;
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaFolder;
+import sagex.phoenix.vfs.IMediaResource;
+import sagex.phoenix.vfs.VirtualMediaFolder;
 
 /**
  * A Music Mapper Factory takes 2 VFS Music views and maps an offline view to

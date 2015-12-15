@@ -1,16 +1,16 @@
 package sagex.phoenix.vfs.groups;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import sagex.phoenix.factory.BaseConfigurable;
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.util.HasOptions;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Groups based on the parent's groupName and a regular expression. ie, you can

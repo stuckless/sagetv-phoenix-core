@@ -1,11 +1,12 @@
 package sagex.phoenix.metadata;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
-import sagex.phoenix.metadata.search.SearchQuery;
-import sagex.phoenix.vfs.IMediaFile;
-
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
+
+import org.apache.commons.lang.exception.ExceptionUtils;
+
+import sagex.phoenix.metadata.search.SearchQuery;
+import sagex.phoenix.vfs.IMediaFile;
 
 /**
  * Exception to represent something went wrong with Metadata, either searching

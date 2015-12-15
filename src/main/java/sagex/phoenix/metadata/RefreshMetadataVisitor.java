@@ -1,6 +1,7 @@
 package sagex.phoenix.metadata;
 
 import org.apache.commons.lang.StringUtils;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.metadata.search.SearchQuery;
 import sagex.phoenix.metadata.search.SearchQuery.Field;

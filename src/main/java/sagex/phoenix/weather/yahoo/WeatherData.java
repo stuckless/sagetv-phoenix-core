@@ -1,8 +1,8 @@
 package sagex.phoenix.weather.yahoo;
 
-import sagex.phoenix.weather.IWeatherData;
-
 import java.util.Date;
+
+import sagex.phoenix.weather.IWeatherData;
 
 public class WeatherData implements IWeatherData {
     private Date date;

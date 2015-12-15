@@ -1,10 +1,10 @@
 package sagex.phoenix.vfs.impl;
 
+import java.util.List;
+
 import sagex.phoenix.metadata.ICastMember;
 import sagex.phoenix.vfs.IAlbumInfo;
 import sagex.phoenix.vfs.IMediaFile;
-
-import java.util.List;
 
 /**
  * Exposed SageTV Metadata as an AlbumInfo object

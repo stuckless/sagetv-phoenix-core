@@ -1,6 +1,14 @@
 package phoenix.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.log4j.Logger;
+
 import sagex.api.Configuration;
 import sagex.phoenix.tools.annotation.API;
 import sagex.phoenix.weather.ICurrentForecast;
@@ -11,9 +19,6 @@ import sagex.phoenix.weather.IWeatherSupport2.Units;
 import sagex.phoenix.weather.worldweather.WorldWeatherWeatherSupport;
 import sagex.phoenix.weather.yahoo.YahooWeatherSupport;
 import sagex.phoenix.weather.yahoo.YahooWeatherSupport2;
-
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 /**
  * WeatherAPI provides access to weather information, including current forecast

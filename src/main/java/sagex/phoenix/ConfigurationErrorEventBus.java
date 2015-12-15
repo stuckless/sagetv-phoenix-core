@@ -1,12 +1,13 @@
 package sagex.phoenix;
 
-import org.xml.sax.SAXParseException;
-import sagex.phoenix.event.SimpleEventBus;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.xml.sax.SAXParseException;
+
+import sagex.phoenix.event.SimpleEventBus;
 
 /**
  * Global Event Bus for configuration error processing

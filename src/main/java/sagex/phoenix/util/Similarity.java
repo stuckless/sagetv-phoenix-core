@@ -1,8 +1,8 @@
 package sagex.phoenix.util;
 
-import org.apache.log4j.Logger;
-
 import java.util.ArrayList;
+
+import org.apache.log4j.Logger;
 
 /**
  * String Similarity taken from:

@@ -1,7 +1,15 @@
 package test.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+import java.io.IOException;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.VirtualMediaFolder;
 import sagex.phoenix.vfs.music.MusicMapperFactory;
@@ -11,11 +19,6 @@ import sagex.phoenix.vfs.ov.XmlSourceFactory;
 import sagex.phoenix.vfs.views.ViewFolder;
 import test.InitPhoenix;
 import test.junit.lib.StubViewFactory;
-
-import java.io.File;
-import java.io.IOException;
-
-import static org.junit.Assert.*;
 
 public class TestMusicMapper {
     @BeforeClass

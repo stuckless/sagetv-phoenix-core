@@ -1,11 +1,12 @@
 package sagex.phoenix.util.var;
 
-import org.apache.commons.lang.StringUtils;
-import sagex.UIContext;
-import sagex.api.WidgetAPI;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang.StringUtils;
+
+import sagex.UIContext;
+import sagex.api.WidgetAPI;
 
 public class SageExpressionVariable<T> extends Variable<T> {
     private static final Pattern exprPattern = Pattern.compile("\\$\\{([^}]+)}");

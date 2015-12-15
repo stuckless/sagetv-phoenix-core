@@ -1,5 +1,10 @@
 package sagex.phoenix.vfs.groups;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
 import sagex.phoenix.factory.BaseConfigurable;
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
@@ -8,11 +13,6 @@ import sagex.phoenix.util.HasLabel;
 import sagex.phoenix.util.HasName;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.util.HasOptions;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Configurable Grouper base class

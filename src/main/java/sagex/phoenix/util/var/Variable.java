@@ -1,6 +1,7 @@
 package sagex.phoenix.util.var;
 
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.configuration.proxy.Converter;
 import sagex.phoenix.configuration.proxy.FieldConverter;
 

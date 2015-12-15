@@ -1,6 +1,7 @@
 package sagex.phoenix.metadata.proxy;
 
 import org.apache.commons.lang.StringUtils;
+
 import sagex.phoenix.metadata.CastMember;
 import sagex.phoenix.metadata.ICastMember;
 

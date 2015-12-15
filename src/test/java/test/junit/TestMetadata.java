@@ -1,15 +1,8 @@
 package test.junit;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import sagex.api.MediaFileAPI;
-import sagex.phoenix.metadata.*;
-import sagex.phoenix.metadata.proxy.COWMetadataProxy;
-import sagex.phoenix.metadata.proxy.MetadataProxy;
-import sagex.phoenix.metadata.proxy.SageMediaFileMetadataProxy;
-import test.InitPhoenix;
-import test.junit.lib.FilesTestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.io.File;
 import java.lang.reflect.Proxy;
@@ -18,7 +11,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import sagex.api.MediaFileAPI;
+import sagex.phoenix.metadata.CastMember;
+import sagex.phoenix.metadata.ICastMember;
+import sagex.phoenix.metadata.IMediaArt;
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.MediaArt;
+import sagex.phoenix.metadata.MediaArtifactType;
+import sagex.phoenix.metadata.MetadataUtil;
+import sagex.phoenix.metadata.proxy.COWMetadataProxy;
+import sagex.phoenix.metadata.proxy.MetadataProxy;
+import sagex.phoenix.metadata.proxy.SageMediaFileMetadataProxy;
+import test.InitPhoenix;
+import test.junit.lib.FilesTestCase;
 
 public class TestMetadata {
 

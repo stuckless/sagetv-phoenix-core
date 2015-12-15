@@ -1,19 +1,20 @@
 package test.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+import java.net.URL;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.download.DownloadConfiguration;
 import sagex.phoenix.download.DownloadHandler;
 import sagex.phoenix.download.DownloadItem;
 import sagex.phoenix.download.DownloadManager;
 import test.InitPhoenix;
-
-import java.io.File;
-import java.net.URL;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class TestDownloadManager implements DownloadHandler {
     DownloadItem good = null;

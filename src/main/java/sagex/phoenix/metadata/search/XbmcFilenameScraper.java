@@ -1,10 +1,11 @@
 package sagex.phoenix.metadata.search;
 
+import java.io.File;
+
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.scrapers.xbmc.XbmcScraper;
 import sagex.phoenix.scrapers.xbmc.XbmcScraperParser;
-
-import java.io.File;
 
 public abstract class XbmcFilenameScraper implements IFilenameScraper {
     protected Logger log = Logger.getLogger(this.getClass());

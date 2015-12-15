@@ -1,12 +1,12 @@
 package test.junit;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.IMediaResourceVisitor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CountVisitor implements IMediaResourceVisitor {
     public int folders = 0;

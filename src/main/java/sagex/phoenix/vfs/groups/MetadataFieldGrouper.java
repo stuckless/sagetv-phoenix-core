@@ -1,6 +1,10 @@
 package sagex.phoenix.vfs.groups;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.factory.BaseConfigurable;
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
@@ -11,9 +15,6 @@ import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.util.ConfigList;
 import sagex.phoenix.vfs.util.HasOptions;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Groups based on the value of a Sage Metadata Field on a MediaFile

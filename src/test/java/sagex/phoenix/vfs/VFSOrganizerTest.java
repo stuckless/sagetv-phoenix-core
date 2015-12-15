@@ -1,16 +1,17 @@
 package sagex.phoenix.vfs;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import sagex.phoenix.Phoenix;
-import test.InitPhoenix;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import sagex.phoenix.Phoenix;
+import test.InitPhoenix;
 
 public class VFSOrganizerTest {
     @BeforeClass

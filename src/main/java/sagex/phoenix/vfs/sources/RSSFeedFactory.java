@@ -1,5 +1,7 @@
 package sagex.phoenix.vfs.sources;
 
+import java.util.Set;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.factory.ConfigurableOption.ListSelection;
@@ -11,8 +13,6 @@ import sagex.phoenix.vfs.ov.XmlFolder;
 import sagex.phoenix.vfs.ov.XmlOptions;
 import sagex.phoenix.vfs.ov.XmlSourceFactory;
 import sagex.phoenix.vfs.util.ConfigList;
-
-import java.util.Set;
 
 /**
  * Convenience source for configuring a base {@link XmlSourceFactory} for either

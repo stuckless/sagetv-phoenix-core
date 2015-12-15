@@ -1,14 +1,15 @@
 package sagex.phoenix.event;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
-import org.apache.log4j.Logger;
-import sage.SageTVEventListener;
-import sagex.api.SystemMessageAPI;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
+
+import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.log4j.Logger;
+
+import sage.SageTVEventListener;
+import sagex.api.SystemMessageAPI;
 
 /**
  * Writes Phoenix System Messages to the SageTV SystemMessages

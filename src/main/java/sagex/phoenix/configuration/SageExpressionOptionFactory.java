@@ -1,10 +1,10 @@
 package sagex.phoenix.configuration;
 
+import java.util.List;
+
 import sagex.UIContext;
 import sagex.api.WidgetAPI;
 import sagex.phoenix.util.NamedValue;
-
-import java.util.List;
 
 /**
  * Creates an Option Array based on an expression.

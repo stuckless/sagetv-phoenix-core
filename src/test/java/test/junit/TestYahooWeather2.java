@@ -1,7 +1,16 @@
 package test.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.io.IOException;
+import java.util.List;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.phoenix.weather.ICurrentForecast;
 import sagex.phoenix.weather.IForecastPeriod;
 import sagex.phoenix.weather.IForecastPeriod.Type;
@@ -9,11 +18,6 @@ import sagex.phoenix.weather.ILongRangeForecast;
 import sagex.phoenix.weather.IWeatherSupport2.Units;
 import sagex.phoenix.weather.yahoo.YahooWeatherSupport2;
 import test.InitPhoenix;
-
-import java.io.IOException;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class TestYahooWeather2 {
     @BeforeClass

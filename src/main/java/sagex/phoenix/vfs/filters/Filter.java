@@ -1,5 +1,8 @@
 package sagex.phoenix.vfs.filters;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import sagex.phoenix.factory.BaseConfigurable;
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
@@ -7,9 +10,6 @@ import sagex.phoenix.factory.ConfigurableOption.ListSelection;
 import sagex.phoenix.util.HasLabel;
 import sagex.phoenix.util.HasName;
 import sagex.phoenix.vfs.IMediaResource;
-
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Filters are used to restrict a view based on a criteria. Subclasses must

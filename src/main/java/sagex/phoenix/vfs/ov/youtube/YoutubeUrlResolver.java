@@ -1,10 +1,10 @@
 package sagex.phoenix.vfs.ov.youtube;
 
-import sagex.phoenix.util.Loggers;
-import sagex.phoenix.vfs.ov.IUrlResolver;
-
 import java.io.IOException;
 import java.util.List;
+
+import sagex.phoenix.util.Loggers;
+import sagex.phoenix.vfs.ov.IUrlResolver;
 
 public class YoutubeUrlResolver implements IUrlResolver {
     public YoutubeUrlResolver() {

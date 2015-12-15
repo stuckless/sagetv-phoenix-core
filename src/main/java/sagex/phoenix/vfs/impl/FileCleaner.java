@@ -1,13 +1,14 @@
 package sagex.phoenix.vfs.impl;
 
-import org.apache.commons.io.DirectoryWalker;
-import sagex.phoenix.util.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import org.apache.commons.io.DirectoryWalker;
+
+import sagex.phoenix.util.FileUtils;
 
 public class FileCleaner extends DirectoryWalker {
     private static FileCleaner instance = new FileCleaner();

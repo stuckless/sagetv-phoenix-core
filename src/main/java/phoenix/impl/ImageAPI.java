@@ -1,18 +1,19 @@
 package phoenix.impl;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.log4j.Logger;
-import sagex.phoenix.Phoenix;
-import sagex.phoenix.image.ImageUtil;
-import sagex.phoenix.tools.annotation.API;
-import sagex.phoenix.util.ElapsedTimer;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.Phoenix;
+import sagex.phoenix.image.ImageUtil;
+import sagex.phoenix.tools.annotation.API;
+import sagex.phoenix.util.ElapsedTimer;
 
 /**
  * Set of Image APIs for performing transformations on images. Typically in all

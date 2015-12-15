@@ -1,13 +1,14 @@
 package sagex.phoenix.menu;
 
-import org.apache.log4j.Logger;
-import sagex.phoenix.node.INodeVisitor;
-import sagex.phoenix.util.var.DynamicVariable;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.node.INodeVisitor;
+import sagex.phoenix.util.var.DynamicVariable;
 
 public class MenuItem implements IMenuItem {
 

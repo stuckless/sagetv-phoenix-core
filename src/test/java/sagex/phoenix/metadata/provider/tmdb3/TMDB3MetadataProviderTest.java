@@ -1,16 +1,17 @@
 package sagex.phoenix.metadata.provider.tmdb3;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
+import java.io.IOException;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.metadata.search.HasFindByIMDBID;
 import test.InitPhoenix;
-
-import java.io.IOException;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
 
 public class TMDB3MetadataProviderTest {
     @BeforeClass

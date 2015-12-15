@@ -1,11 +1,11 @@
 package sagex.phoenix.vfs.filters;
 
+import java.util.Map;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.factory.ConfigurableOption.ListSelection;
 import sagex.phoenix.vfs.IMediaResource;
-
-import java.util.Map;
 
 public class AlbumStartsWithFilter extends Filter {
     boolean ignoreThe = false;

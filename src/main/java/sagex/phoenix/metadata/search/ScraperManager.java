@@ -1,18 +1,19 @@
 package sagex.phoenix.metadata.search;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.filefilter.SuffixFileFilter;
-import org.apache.commons.lang.StringUtils;
-import sagex.phoenix.common.SystemConfigurationFileManager;
-import sagex.phoenix.metadata.search.SearchQuery.Field;
-import sagex.phoenix.util.Hints;
-import sagex.phoenix.vfs.IMediaFile;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.filefilter.SuffixFileFilter;
+import org.apache.commons.lang.StringUtils;
+
+import sagex.phoenix.common.SystemConfigurationFileManager;
+import sagex.phoenix.metadata.search.SearchQuery.Field;
+import sagex.phoenix.util.Hints;
+import sagex.phoenix.vfs.IMediaFile;
 
 public abstract class ScraperManager extends SystemConfigurationFileManager implements
         SystemConfigurationFileManager.ConfigurationFileVisitor, IFilenameScraper {

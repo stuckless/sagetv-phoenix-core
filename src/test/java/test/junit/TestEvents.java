@@ -1,17 +1,20 @@
 package test.junit;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import sage.SageTVEventListener;
-import sagex.phoenix.Phoenix;
-import sagex.phoenix.event.PhoenixEvent;
-import test.InitPhoenix;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static junit.framework.Assert.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import sage.SageTVEventListener;
+import sagex.phoenix.Phoenix;
+import sagex.phoenix.event.PhoenixEvent;
+import test.InitPhoenix;
 
 public class TestEvents {
     private String message = null;

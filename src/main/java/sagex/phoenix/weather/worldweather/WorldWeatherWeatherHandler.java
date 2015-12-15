@@ -1,14 +1,5 @@
 package sagex.phoenix.weather.worldweather;
 
-import org.apache.commons.lang.math.NumberUtils;
-import org.apache.log4j.Logger;
-import org.xml.sax.Attributes;
-import sagex.phoenix.util.BaseBuilder;
-import sagex.phoenix.util.DateUtils;
-import sagex.phoenix.weather.*;
-import sagex.phoenix.weather.IForecastPeriod.Type;
-import sagex.phoenix.weather.IWeatherSupport2.Units;
-
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,6 +8,20 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
+
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.log4j.Logger;
+import org.xml.sax.Attributes;
+
+import sagex.phoenix.util.BaseBuilder;
+import sagex.phoenix.util.DateUtils;
+import sagex.phoenix.weather.CurrentForecast;
+import sagex.phoenix.weather.ForecastPeriod;
+import sagex.phoenix.weather.IForecastPeriod;
+import sagex.phoenix.weather.IForecastPeriod.Type;
+import sagex.phoenix.weather.ILongRangeForecast;
+import sagex.phoenix.weather.IWeatherSupport2.Units;
+import sagex.phoenix.weather.LongRangForecast;
 
 /**
  * @author jusjoken

@@ -1,15 +1,16 @@
 package sagex.phoenix.metadata.factory;
 
+import java.lang.reflect.Constructor;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
 import sagex.phoenix.metadata.IMetadataProvider;
 import sagex.phoenix.metadata.IMetadataProviderInfo;
 import sagex.phoenix.metadata.MediaType;
 import sagex.phoenix.metadata.MetadataProviderInfo;
 import sagex.phoenix.util.BaseBuilder;
 import sagex.phoenix.util.XmlUtil;
-
-import java.lang.reflect.Constructor;
 
 public class MetadataProviderBuilder extends BaseBuilder {
     private MetadataProviderInfo info = null;

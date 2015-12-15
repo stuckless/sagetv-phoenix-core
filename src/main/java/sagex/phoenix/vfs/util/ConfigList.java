@@ -1,14 +1,14 @@
 package sagex.phoenix.vfs.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.factory.ConfigurableOption.ListSelection;
 import sagex.phoenix.metadata.MediaType;
 import sagex.phoenix.metadata.MetadataUtil;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class ConfigList {
     public static String BOOLEAN_LIST = "true:Yes,no:No";

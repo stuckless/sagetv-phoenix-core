@@ -1,15 +1,16 @@
 package sagex.phoenix.metadata.search;
 
+import java.io.File;
+import java.net.URLDecoder;
+
 import org.apache.commons.lang.StringUtils;
+
 import sagex.phoenix.metadata.MediaType;
 import sagex.phoenix.metadata.search.SearchQuery.Field;
 import sagex.phoenix.scrapers.xbmc.XbmcScraperProcessor;
 import sagex.phoenix.util.Hints;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.util.PathUtils;
-
-import java.io.File;
-import java.net.URLDecoder;
 
 public class XbmcMovieFilenameScraper extends XbmcFilenameScraper {
     public XbmcMovieFilenameScraper(File scraperFile) throws Exception {

@@ -1,9 +1,9 @@
 package sagex.phoenix.vfs.groups;
 
+import java.util.Set;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.Factory;
-
-import java.util.Set;
 
 public class GroupingFactory extends Factory<Grouper> {
     private Grouper grouper = null;

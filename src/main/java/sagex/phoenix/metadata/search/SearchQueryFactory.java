@@ -1,9 +1,23 @@
 package sagex.phoenix.metadata.search;
 
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.Phoenix;
-import sagex.phoenix.metadata.*;
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.ISeriesInfo;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.metadata.MetadataHints;
+import sagex.phoenix.metadata.MetadataUtil;
 import sagex.phoenix.metadata.search.SearchQuery.Field;
 import sagex.phoenix.util.DateUtils;
 import sagex.phoenix.util.Hints;
@@ -13,11 +27,6 @@ import sagex.phoenix.vfs.MediaResourceType;
 import sagex.phoenix.vfs.util.PathUtils;
 import sagex.remote.json.JSONException;
 import sagex.remote.json.JSONObject;
-
-import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 public class SearchQueryFactory {
     private Logger log = Logger.getLogger(SearchQueryFactory.class);

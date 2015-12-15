@@ -1,10 +1,41 @@
 package test.junit;
 
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.aryEq;
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.getCurrentArguments;
+import static org.easymock.EasyMock.replay;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static test.junit.lib.TestUtil.makeDir;
+import static test.junit.lib.TestUtil.makeFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import javax.script.ScriptException;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.log4j.Level;
 import org.easymock.IAnswer;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.SAXException;
+
 import phoenix.impl.ConfigurableOptionsAPI;
 import phoenix.impl.MediaBrowserAPI;
 import phoenix.impl.ViewAPI;
@@ -18,10 +49,26 @@ import sagex.phoenix.factory.ConfigurableOption.ListValue;
 import sagex.phoenix.factory.FactoryRegistry;
 import sagex.phoenix.util.Hints;
 import sagex.phoenix.util.Loggers;
-import sagex.phoenix.vfs.*;
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaFolder;
+import sagex.phoenix.vfs.IMediaResource;
+import sagex.phoenix.vfs.IMediaResourceVisitor;
+import sagex.phoenix.vfs.VFSOrganizer;
+import sagex.phoenix.vfs.VirtualMediaFile;
+import sagex.phoenix.vfs.VirtualMediaFolder;
 import sagex.phoenix.vfs.builder.VFSBuilder;
-import sagex.phoenix.vfs.filters.*;
-import sagex.phoenix.vfs.groups.*;
+import sagex.phoenix.vfs.filters.FilePathFilter;
+import sagex.phoenix.vfs.filters.Filter;
+import sagex.phoenix.vfs.filters.FilterFactory;
+import sagex.phoenix.vfs.filters.GenresFilter;
+import sagex.phoenix.vfs.filters.HomeVideosFilter;
+import sagex.phoenix.vfs.filters.MetadataFieldFilter;
+import sagex.phoenix.vfs.filters.TitleFilter;
+import sagex.phoenix.vfs.groups.Grouper;
+import sagex.phoenix.vfs.groups.GroupingFactory;
+import sagex.phoenix.vfs.groups.IGrouper;
+import sagex.phoenix.vfs.groups.MetadataFieldGrouper;
+import sagex.phoenix.vfs.groups.SeasonGrouper;
 import sagex.phoenix.vfs.impl.FileMediaFile;
 import sagex.phoenix.vfs.impl.FileResourceFactory;
 import sagex.phoenix.vfs.sorters.JavascriptComparator;
@@ -38,16 +85,6 @@ import test.InitPhoenix;
 import test.SimpleSTDOUTVisitor;
 import test.junit.lib.SimpleStubAPI;
 import test.junit.lib.SimpleStubAPI.Airing;
-
-import javax.script.ScriptException;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
-import java.util.*;
-
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.*;
-import static test.junit.lib.TestUtil.makeDir;
-import static test.junit.lib.TestUtil.makeFile;
 
 public class TestMediaBrowser {
 

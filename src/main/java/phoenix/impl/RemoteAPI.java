@@ -1,6 +1,12 @@
 package phoenix.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
+
 import sagex.api.SystemMessageAPI;
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.progress.NullProgressMonitor;
@@ -13,11 +19,6 @@ import sagex.phoenix.vfs.sorters.SorterFactory;
 import sagex.phoenix.vfs.views.ViewFolder;
 import sagex.phoenix.vfs.visitors.ActorSearchVisitor;
 import sagex.phoenix.vfs.visitors.TitleSearchVisitor;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Remote API is a helper API class for helping Remote devices (Web, Android,

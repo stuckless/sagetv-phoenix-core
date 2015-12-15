@@ -1,13 +1,21 @@
 package sagex.phoenix.metadata.provider.tvdb;
 
+import java.text.MessageFormat;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
-import sagex.phoenix.metadata.*;
+
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.IMetadataProviderInfo;
+import sagex.phoenix.metadata.IMetadataSearchResult;
+import sagex.phoenix.metadata.ISeriesInfo;
+import sagex.phoenix.metadata.ITVMetadataProvider;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.metadata.MetadataException;
+import sagex.phoenix.metadata.MetadataProvider;
 import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.metadata.search.SearchQuery;
 import sagex.phoenix.metadata.search.SearchQuery.Field;
-
-import java.text.MessageFormat;
-import java.util.List;
 
 public class TVDBMetadataProvider extends MetadataProvider implements ITVMetadataProvider {
     public static final String ID = "tvdb";

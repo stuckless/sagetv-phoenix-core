@@ -1,7 +1,12 @@
 package sagex.phoenix.vfs;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.factory.BaseConfigurable;
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.util.HasName;
@@ -14,10 +19,6 @@ import sagex.phoenix.vfs.views.ViewPresentation;
 import sagex.remote.json.JSONArray;
 import sagex.remote.json.JSONException;
 import sagex.remote.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ViewStateSerializer {
     private Logger log = Logger.getLogger(ViewStateSerializer.class);

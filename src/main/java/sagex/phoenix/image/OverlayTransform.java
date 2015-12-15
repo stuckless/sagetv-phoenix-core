@@ -1,11 +1,12 @@
 package sagex.phoenix.image;
 
-import sagex.phoenix.util.Loggers;
-
-import java.awt.*;
+import java.awt.AlphaComposite;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
+import sagex.phoenix.util.Loggers;
 
 public class OverlayTransform implements IBufferedTransform {
     private float opacity = 0;

@@ -1,8 +1,8 @@
 package sagex.phoenix.metadata;
 
-import sagex.phoenix.util.Hints;
-
 import java.util.Date;
+
+import sagex.phoenix.util.Hints;
 
 /**
  * Defines the base Metadata Scanning API that is exposed via the Phoenix APIs

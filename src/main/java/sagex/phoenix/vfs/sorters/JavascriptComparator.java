@@ -1,10 +1,11 @@
 package sagex.phoenix.vfs.sorters;
 
-import sagex.phoenix.util.PhoenixScriptEngine;
-import sagex.phoenix.vfs.IMediaResource;
+import java.util.Comparator;
 
 import javax.script.ScriptException;
-import java.util.Comparator;
+
+import sagex.phoenix.util.PhoenixScriptEngine;
+import sagex.phoenix.vfs.IMediaResource;
 
 public class JavascriptComparator implements Comparator<IMediaResource> {
     private Comparator<IMediaResource> comparator = null;

@@ -1,12 +1,12 @@
 package sagex.phoenix.progress;
 
-import org.apache.log4j.Logger;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.apache.log4j.Logger;
 
 /**
  * The progress tracker manager will take a {@link IRunnableWithProgress}

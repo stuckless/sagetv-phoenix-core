@@ -1,26 +1,28 @@
 package sagex.phoenix.metadata.search;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.io.IOCase;
-import org.apache.commons.io.filefilter.SuffixFileFilter;
-import org.apache.log4j.Logger;
-import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
-import sagex.phoenix.common.SystemConfigurationFileManager;
-import sagex.phoenix.metadata.MediaType;
-import sagex.phoenix.util.BaseBuilder;
-import sagex.phoenix.util.FileUtils;
-import sagex.phoenix.util.XmlUtil;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOCase;
+import org.apache.commons.io.filefilter.SuffixFileFilter;
+import org.apache.log4j.Logger;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+
+import sagex.phoenix.common.SystemConfigurationFileManager;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.util.BaseBuilder;
+import sagex.phoenix.util.FileUtils;
+import sagex.phoenix.util.XmlUtil;
 
 public class FileMatcherManager extends SystemConfigurationFileManager implements
         SystemConfigurationFileManager.ConfigurationFileVisitor {

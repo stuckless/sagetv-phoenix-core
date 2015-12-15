@@ -1,19 +1,20 @@
 package sagex.phoenix.vfs.trailers;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.VirtualMediaFolder;
 import sagex.remote.json.JSONArray;
 import sagex.remote.json.JSONException;
 import sagex.remote.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
 
 public class AppleTrailerFolder extends VirtualMediaFolder {
     private String url = null;

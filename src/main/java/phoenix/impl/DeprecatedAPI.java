@@ -1,10 +1,10 @@
 package phoenix.impl;
 
+import java.util.Properties;
+
 import sagex.api.AiringAPI;
 import sagex.phoenix.metadata.IMetadataProviderInfo;
 import sagex.phoenix.metadata.IMetadataSearchResult;
-
-import java.util.Properties;
 
 /**
  * This is where phoenix apis go when they are no longer used, supported, and

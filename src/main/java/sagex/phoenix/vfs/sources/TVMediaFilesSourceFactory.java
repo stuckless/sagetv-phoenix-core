@@ -1,15 +1,20 @@
 package sagex.phoenix.vfs.sources;
 
-import com.omertron.thetvdbapi.TheTVDBApi;
-import com.omertron.thetvdbapi.TvDbException;
-import com.omertron.thetvdbapi.model.Episode;
-import sagex.phoenix.factory.ConfigurableOption;
-import sagex.phoenix.factory.Factory;
-import sagex.phoenix.vfs.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+
+import com.omertron.thetvdbapi.TheTVDBApi;
+import com.omertron.thetvdbapi.TvDbException;
+import com.omertron.thetvdbapi.model.Episode;
+
+import sagex.phoenix.factory.ConfigurableOption;
+import sagex.phoenix.factory.Factory;
+import sagex.phoenix.vfs.DecoratedMediaFile;
+import sagex.phoenix.vfs.IMediaFolder;
+import sagex.phoenix.vfs.IMediaResource;
+import sagex.phoenix.vfs.TVVirtualMediaFile;
+import sagex.phoenix.vfs.VirtualMediaFolder;
 
 /**
  * Factory to create a source using sage TV media and allowing filling episode gaps

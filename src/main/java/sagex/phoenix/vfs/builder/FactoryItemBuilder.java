@@ -3,6 +3,7 @@ package sagex.phoenix.vfs.builder;
 import org.apache.commons.lang.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.Factory;
 import sagex.phoenix.util.XmlUtil;

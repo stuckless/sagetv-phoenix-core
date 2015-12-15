@@ -1,12 +1,13 @@
 package test.junit;
 
-import org.junit.Test;
-import phoenix.impl.UtilAPI;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import org.junit.Test;
+
+import phoenix.impl.UtilAPI;
 
 public class TestRemoveAll {
     @Test

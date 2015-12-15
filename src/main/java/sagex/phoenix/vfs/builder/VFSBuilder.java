@@ -1,15 +1,26 @@
 package sagex.phoenix.vfs.builder;
 
-import org.xml.sax.*;
-import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.helpers.XMLReaderFactory;
-import sagex.phoenix.util.Loggers;
-import sagex.phoenix.vfs.VFSManager;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
+import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sax.helpers.XMLReaderFactory;
+
+import sagex.phoenix.util.Loggers;
+import sagex.phoenix.vfs.VFSManager;
 
 public class VFSBuilder extends VFSManagerBuilder {
     private DefaultHandler defaultHandler = null;

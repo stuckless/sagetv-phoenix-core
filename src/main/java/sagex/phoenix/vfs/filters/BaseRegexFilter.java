@@ -1,10 +1,10 @@
 package sagex.phoenix.vfs.filters;
 
+import java.util.regex.Pattern;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.vfs.util.ConfigList;
-
-import java.util.regex.Pattern;
 
 /**
  * Base filter that accepts a regular expression as the filter value. A base

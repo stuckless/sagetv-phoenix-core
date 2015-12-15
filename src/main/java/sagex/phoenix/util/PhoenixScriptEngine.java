@@ -1,10 +1,16 @@
 package sagex.phoenix.util;
 
+import java.io.File;
+
+import javax.script.Bindings;
+import javax.script.Invocable;
+import javax.script.ScriptContext;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
-
-import javax.script.*;
-import java.io.File;
 
 /**
  * Creates a scripting engine that is capable of executing scripts (ie,

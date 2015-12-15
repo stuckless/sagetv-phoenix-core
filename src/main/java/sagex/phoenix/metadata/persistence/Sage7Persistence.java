@@ -1,18 +1,26 @@
 package sagex.phoenix.metadata.persistence;
 
+import java.util.Date;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.configuration.proxy.GroupProxy;
-import sagex.phoenix.metadata.*;
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.IMetadataPersistence;
+import sagex.phoenix.metadata.ISageCustomMetadataRW;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.metadata.MetadataConfiguration;
+import sagex.phoenix.metadata.MetadataException;
+import sagex.phoenix.metadata.MetadataHints;
+import sagex.phoenix.metadata.MetadataUtil;
 import sagex.phoenix.metadata.fixes.FixParentalRatingsVisitor;
 import sagex.phoenix.metadata.fixes.FixTVYearVisitor;
 import sagex.phoenix.util.Hints;
 import sagex.phoenix.util.LogUtil;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.MediaResourceType;
-
-import java.util.Date;
 
 /**
  * Save the metadata to the Sage Object of the given MediaFile

@@ -15,20 +15,46 @@
  */
 package sagex.phoenix.remote.gcm;
 
-import com.google.gson.GsonBuilder;
-import sagex.phoenix.remote.gcm.Result.Builder;
-import sagex.remote.json.JSONObject;
+import static sagex.phoenix.remote.gcm.Constants.GCM_SEND_ENDPOINT;
+import static sagex.phoenix.remote.gcm.Constants.JSON_CANONICAL_IDS;
+import static sagex.phoenix.remote.gcm.Constants.JSON_ERROR;
+import static sagex.phoenix.remote.gcm.Constants.JSON_FAILURE;
+import static sagex.phoenix.remote.gcm.Constants.JSON_MESSAGE_ID;
+import static sagex.phoenix.remote.gcm.Constants.JSON_MULTICAST_ID;
+import static sagex.phoenix.remote.gcm.Constants.JSON_PAYLOAD;
+import static sagex.phoenix.remote.gcm.Constants.JSON_REGISTRATION_IDS;
+import static sagex.phoenix.remote.gcm.Constants.JSON_RESULTS;
+import static sagex.phoenix.remote.gcm.Constants.JSON_SUCCESS;
+import static sagex.phoenix.remote.gcm.Constants.PARAM_COLLAPSE_KEY;
+import static sagex.phoenix.remote.gcm.Constants.PARAM_DELAY_WHILE_IDLE;
+import static sagex.phoenix.remote.gcm.Constants.PARAM_PAYLOAD_PREFIX;
+import static sagex.phoenix.remote.gcm.Constants.PARAM_REGISTRATION_ID;
+import static sagex.phoenix.remote.gcm.Constants.PARAM_TIME_TO_LIVE;
+import static sagex.phoenix.remote.gcm.Constants.TOKEN_CANONICAL_REG_ID;
+import static sagex.phoenix.remote.gcm.Constants.TOKEN_ERROR;
+import static sagex.phoenix.remote.gcm.Constants.TOKEN_MESSAGE_ID;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static sagex.phoenix.remote.gcm.Constants.*;
+import com.google.gson.GsonBuilder;
+
+import sagex.phoenix.remote.gcm.Result.Builder;
+import sagex.remote.json.JSONObject;
 
 /**
  * Helper class to send messages to the GCM service using an API Key.

@@ -1,12 +1,13 @@
 package test.junit;
 
-import org.junit.Test;
-import phoenix.impl.DateTimeAPI;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+
+import phoenix.impl.DateTimeAPI;
 
 public class TestDateTime {
     private DateTimeAPI api = new DateTimeAPI();

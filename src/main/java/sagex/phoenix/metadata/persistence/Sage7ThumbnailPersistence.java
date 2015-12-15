@@ -1,13 +1,17 @@
 package sagex.phoenix.metadata.persistence;
 
+import java.io.File;
+
 import sagex.phoenix.fanart.FanartUtil;
-import sagex.phoenix.metadata.*;
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.IMetadataPersistence;
+import sagex.phoenix.metadata.MediaArtifactType;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.metadata.MetadataException;
 import sagex.phoenix.util.Hints;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.MediaResourceType;
 import sagex.phoenix.vfs.util.PathUtils;
-
-import java.io.File;
 
 /**
  * Save a Sage7 thumbanil file for a given mediafile

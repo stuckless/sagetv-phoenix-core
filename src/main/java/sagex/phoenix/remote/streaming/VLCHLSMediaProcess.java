@@ -1,14 +1,19 @@
 package sagex.phoenix.remote.streaming;
 
+import java.io.File;
+import java.lang.ProcessBuilder.Redirect;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
+
 import sagex.phoenix.remote.streaming.GenericCommandMediaProcess.Env;
 import sagex.phoenix.util.TextReplacement;
-
-import java.io.File;
-import java.lang.ProcessBuilder.Redirect;
-import java.util.*;
 
 public class VLCHLSMediaProcess extends MediaProcess {
     public VLCHLSMediaProcess(MediaStreamerManager manager, MediaRequest req) {

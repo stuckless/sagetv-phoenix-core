@@ -1,6 +1,7 @@
 package sagex.phoenix.stv;
 
 import org.apache.log4j.Logger;
+
 import sagex.UIContext;
 import sagex.api.Global;
 import sagex.api.WidgetAPI;

@@ -1,8 +1,8 @@
 package sagex.phoenix.menu;
 
-import sagex.phoenix.util.PhoenixScriptEngine;
-
 import javax.script.ScriptException;
+
+import sagex.phoenix.util.PhoenixScriptEngine;
 
 public class ScriptAction extends Action {
     private Script script = null;

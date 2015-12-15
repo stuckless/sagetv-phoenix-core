@@ -1,11 +1,11 @@
 package sagex.phoenix.vfs.impl;
 
-import sagex.phoenix.vfs.IAlbumInfo;
-import sagex.phoenix.vfs.IMediaFile;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import sagex.phoenix.vfs.IAlbumInfo;
+import sagex.phoenix.vfs.IMediaFile;
 
 public class AlbumInfo implements IAlbumInfo, Serializable {
     private static final long serialVersionUID = 1L;

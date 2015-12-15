@@ -1,10 +1,10 @@
 package sagex.phoenix.event;
 
+import java.util.Map;
+
 import sage.SageTVEventListener;
 import sage.SageTVPluginRegistry;
 import sagex.phoenix.util.Loggers;
-
-import java.util.Map;
 
 /**
  * EventBus backed by the SageTV event system

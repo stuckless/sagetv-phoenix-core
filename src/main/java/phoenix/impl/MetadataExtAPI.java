@@ -1,13 +1,13 @@
 package phoenix.impl;
 
+import java.util.List;
+
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.metadata.ISageMetadata;
 import sagex.phoenix.metadata.MetadataUtil;
 import sagex.phoenix.metadata.proxy.SageProperty;
 import sagex.phoenix.tools.annotation.API;
 import sagex.phoenix.vfs.IMediaFile;
-
-import java.util.List;
 
 @API(group = "metadata")
 public class MetadataExtAPI {

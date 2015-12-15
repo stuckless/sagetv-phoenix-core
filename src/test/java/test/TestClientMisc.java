@@ -1,12 +1,12 @@
 package test;
 
+import java.io.IOException;
+
 import phoenix.impl.ClientAPI;
 import phoenix.impl.UtilAPI;
 import sagex.UIContext;
 import sagex.api.Global;
 import sagex.phoenix.metadata.MetadataException;
-
-import java.io.IOException;
 
 public class TestClientMisc {
     public static void main(String args[]) throws MetadataException, IOException {

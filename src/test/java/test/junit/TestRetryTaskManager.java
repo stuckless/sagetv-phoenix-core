@@ -1,14 +1,17 @@
 package test.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.phoenix.task.ITaskOperation;
 import sagex.phoenix.task.ITaskProgressHandler;
 import sagex.phoenix.task.RetryTaskManager;
 import sagex.phoenix.task.TaskItem;
 import test.InitPhoenix;
-
-import static org.junit.Assert.*;
 
 public class TestRetryTaskManager {
     public static class Counts {

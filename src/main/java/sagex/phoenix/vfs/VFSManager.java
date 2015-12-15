@@ -1,10 +1,21 @@
 package sagex.phoenix.vfs;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 import org.apache.commons.io.IOCase;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.common.SystemConfigurationFileManager;
 import sagex.phoenix.download.DownloadItem;
@@ -17,12 +28,6 @@ import sagex.phoenix.vfs.filters.FilterFactory;
 import sagex.phoenix.vfs.groups.GroupingFactory;
 import sagex.phoenix.vfs.sorters.SorterFactory;
 import sagex.phoenix.vfs.views.ViewFactory;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
 
 public class VFSManager extends SystemConfigurationFileManager implements SystemConfigurationFileManager.ConfigurationFileVisitor {
     private Logger log = Logger.getLogger(VFSManager.class);

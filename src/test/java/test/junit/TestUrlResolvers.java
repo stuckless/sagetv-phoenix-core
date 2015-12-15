@@ -1,17 +1,18 @@
 package test.junit;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import sagex.phoenix.util.PhoenixManagedScriptEngineProxy;
-import sagex.phoenix.vfs.ov.IUrlResolver;
-import test.InitPhoenix;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import sagex.phoenix.util.PhoenixManagedScriptEngineProxy;
+import sagex.phoenix.vfs.ov.IUrlResolver;
+import test.InitPhoenix;
 
 public class TestUrlResolvers {
     static Map<String, String> map = new HashMap<String, String>();

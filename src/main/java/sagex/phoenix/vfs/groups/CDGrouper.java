@@ -1,10 +1,10 @@
 package sagex.phoenix.vfs.groups;
 
-import sagex.phoenix.vfs.IMediaFile;
-import sagex.phoenix.vfs.IMediaResource;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaResource;
 
 public class CDGrouper implements IGrouper {
     private Pattern pattern = Pattern.compile("[ _\\\\.-]+(cd|dvd|part|disc)[ _\\\\.-]*([0-9a-d]+)");

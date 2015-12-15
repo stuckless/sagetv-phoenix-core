@@ -1,11 +1,11 @@
 package sagex.phoenix.vfs;
 
+import java.io.File;
+import java.util.List;
+
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.util.Hints;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * Decorator for a MediaItem

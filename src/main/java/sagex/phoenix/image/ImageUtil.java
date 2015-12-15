@@ -1,23 +1,10 @@
 package sagex.phoenix.image;
 
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.Logger;
-import sagex.api.Utility;
-import sagex.phoenix.Phoenix;
-import sagex.phoenix.configuration.proxy.GroupProxy;
-import sagex.phoenix.metadata.MetadataConfiguration;
-import sagex.phoenix.util.FileUtils;
-import sagex.util.WaitFor;
-
-import javax.imageio.IIOImage;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.stream.FileCacheImageOutputStream;
-import javax.imageio.stream.FileImageOutputStream;
-import java.awt.*;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -29,6 +16,25 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.FileCacheImageOutputStream;
+import javax.imageio.stream.FileImageOutputStream;
+
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.log4j.Logger;
+
+import sagex.api.Utility;
+import sagex.phoenix.Phoenix;
+import sagex.phoenix.configuration.proxy.GroupProxy;
+import sagex.phoenix.metadata.MetadataConfiguration;
+import sagex.phoenix.util.FileUtils;
+import sagex.util.WaitFor;
 
 public class ImageUtil {
     public static String DEFAULT_IMAGE_FORMAT = "jpg";

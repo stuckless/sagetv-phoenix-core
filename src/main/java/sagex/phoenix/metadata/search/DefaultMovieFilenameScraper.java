@@ -1,15 +1,16 @@
 package sagex.phoenix.metadata.search;
 
+import java.net.URLDecoder;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.metadata.search.SearchQuery.Field;
 import sagex.phoenix.util.Hints;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.util.PathUtils;
-
-import java.net.URLDecoder;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * This scraper that is used on movies, if no other scraper in the system can

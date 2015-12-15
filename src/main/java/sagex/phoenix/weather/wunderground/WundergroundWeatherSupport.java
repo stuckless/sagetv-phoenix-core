@@ -1,17 +1,30 @@
 package sagex.phoenix.weather.wunderground;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import org.apache.log4j.Logger;
-import sage.google.weather.WeatherUnderground;
-import sagex.UIContext;
-import sagex.phoenix.weather.*;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.log4j.Logger;
+
+import sage.google.weather.WeatherUnderground;
+import sagex.UIContext;
+import sagex.phoenix.weather.CurrentForecast;
+import sagex.phoenix.weather.ForecastPeriod;
+import sagex.phoenix.weather.ICurrentForecast;
+import sagex.phoenix.weather.IForecastPeriod;
+import sagex.phoenix.weather.ILongRangeForecast;
+import sagex.phoenix.weather.IWeatherSupport2;
+import sagex.phoenix.weather.LongRangForecast;
 
 /**
  * Weather Underground implementation for Phoenix retrieved using the

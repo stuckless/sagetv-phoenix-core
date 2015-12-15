@@ -1,8 +1,8 @@
 package sagex.phoenix.configuration;
 
-import sagex.phoenix.util.NamedValue;
-
 import java.util.List;
+
+import sagex.phoenix.util.NamedValue;
 
 /**
  * Simple Option Factory for creating options

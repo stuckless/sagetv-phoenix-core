@@ -1,10 +1,33 @@
 package test.junit;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.aryEq;
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.getCurrentArguments;
+import static org.easymock.EasyMock.replay;
+import static org.junit.Assert.assertFalse;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.commons.lang.math.NumberUtils;
 import org.easymock.IAnswer;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.SAXException;
+
 import sagex.ISageAPIProvider;
 import sagex.SageAPI;
 import sagex.phoenix.Phoenix;
@@ -23,15 +46,6 @@ import sagex.phoenix.vfs.views.ViewPresentation;
 import test.InitPhoenix;
 import test.junit.lib.SimpleStubAPI;
 import test.junit.lib.SimpleStubAPI.Airing;
-
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
-import static junit.framework.Assert.*;
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.assertFalse;
 
 public class TestVFSBuilder {
 

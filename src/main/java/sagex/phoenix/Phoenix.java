@@ -1,10 +1,18 @@
 package sagex.phoenix;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
 import sagex.api.Configuration;
 import sagex.api.Global;
 import sagex.api.WidgetAPI;
@@ -40,13 +48,6 @@ import sagex.phoenix.util.url.CachedUrlCleanupTask;
 import sagex.phoenix.vfs.VFSManager;
 import sagex.phoenix.vfs.ov.OnlineVideosUrlResolverManager;
 import sagex.util.Log4jConfigurator;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Phoenix is the main entry point into getting various core sub managers, such

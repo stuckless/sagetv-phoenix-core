@@ -1,11 +1,11 @@
 package sagex.phoenix.node;
 
-import sagex.phoenix.util.HasLabel;
-import sagex.phoenix.util.HasName;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import sagex.phoenix.util.HasLabel;
+import sagex.phoenix.util.HasName;
 
 public class Container<ParentType, NodeType> implements IContainer<ParentType, NodeType>, INode<ParentType>, Iterable<NodeType>,
         HasLabel, HasName {

@@ -1,14 +1,15 @@
 package test.junit;
 
+import java.util.List;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.phoenix.metadata.ICastMember;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.trailers.AppleTrailerFolder;
 import test.InitPhoenix;
-
-import java.util.List;
 
 public class TestTrailersVFS {
 

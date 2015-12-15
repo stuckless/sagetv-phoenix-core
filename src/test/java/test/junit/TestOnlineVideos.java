@@ -1,17 +1,18 @@
 package test.junit;
 
+import java.io.File;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.ov.XmlFile;
 import sagex.phoenix.vfs.sources.SageOnlineVideosFactory;
 import test.InitPhoenix;
-
-import java.io.File;
-import java.util.Set;
-import java.util.TreeSet;
 
 public class TestOnlineVideos {
 

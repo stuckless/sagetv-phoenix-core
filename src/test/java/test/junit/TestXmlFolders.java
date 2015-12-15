@@ -1,7 +1,14 @@
 package test.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+import java.io.IOException;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.phoenix.metadata.FieldName;
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.vfs.IMediaFile;
@@ -11,12 +18,6 @@ import sagex.phoenix.vfs.ov.XmlOptions;
 import sagex.phoenix.vfs.ov.XmlSourceFactory;
 import sagex.phoenix.vfs.sources.RSSFeedFactory;
 import test.InitPhoenix;
-
-import java.io.File;
-import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class TestXmlFolders {
     @BeforeClass

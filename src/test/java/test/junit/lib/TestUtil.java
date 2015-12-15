@@ -1,12 +1,12 @@
 package test.junit.lib;
 
-import junit.framework.TestCase;
-import sagex.phoenix.image.ImageUtil;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import junit.framework.TestCase;
+import sagex.phoenix.image.ImageUtil;
 
 public class TestUtil extends TestCase {
     // verify that we are in the right testing directory

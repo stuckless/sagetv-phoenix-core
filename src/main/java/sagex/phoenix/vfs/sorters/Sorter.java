@@ -1,5 +1,9 @@
 package sagex.phoenix.vfs.sorters;
 
+import java.util.Comparator;
+import java.util.Set;
+import java.util.TreeSet;
+
 import sagex.phoenix.factory.BaseConfigurable;
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
@@ -11,10 +15,6 @@ import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.util.ConfigList;
 import sagex.phoenix.vfs.util.HasOptions;
-
-import java.util.Comparator;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * A Configurable Sorter for Views

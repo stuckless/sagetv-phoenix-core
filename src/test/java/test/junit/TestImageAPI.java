@@ -1,20 +1,24 @@
 package test.junit;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import sagex.phoenix.image.IBufferedTransform;
-import sagex.phoenix.image.ImageUtil;
-import sagex.phoenix.image.TransformFactory;
-import test.InitPhoenix;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static test.junit.lib.TestUtil.createImageFile;
+import static test.junit.lib.TestUtil.verifyImageSize;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static junit.framework.Assert.*;
-import static test.junit.lib.TestUtil.createImageFile;
-import static test.junit.lib.TestUtil.verifyImageSize;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import sagex.phoenix.image.IBufferedTransform;
+import sagex.phoenix.image.ImageUtil;
+import sagex.phoenix.image.TransformFactory;
+import test.InitPhoenix;
 
 public class TestImageAPI {
     @BeforeClass

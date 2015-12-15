@@ -1,6 +1,7 @@
 package sagex.phoenix.metadata.fixes;
 
 import org.apache.commons.lang.StringUtils;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.metadata.MediaType;

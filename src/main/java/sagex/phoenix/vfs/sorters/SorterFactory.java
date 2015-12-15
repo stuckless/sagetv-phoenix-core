@@ -1,11 +1,11 @@
 package sagex.phoenix.vfs.sorters;
 
+import java.util.Comparator;
+import java.util.Set;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.Factory;
 import sagex.phoenix.vfs.IMediaResource;
-
-import java.util.Comparator;
-import java.util.Set;
 
 public class SorterFactory extends Factory<Sorter> {
     private Sorter sorter = null;

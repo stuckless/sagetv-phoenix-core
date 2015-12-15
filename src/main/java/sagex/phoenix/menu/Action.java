@@ -3,6 +3,7 @@ package sagex.phoenix.menu;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.util.var.DynamicVariable;
 
 public abstract class Action {

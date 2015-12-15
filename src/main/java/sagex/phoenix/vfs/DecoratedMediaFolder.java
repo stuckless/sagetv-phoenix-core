@@ -1,12 +1,13 @@
 package sagex.phoenix.vfs;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import sagex.phoenix.progress.IProgressMonitor;
-import sagex.phoenix.util.Hints;
-
 import java.util.Iterator;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.progress.IProgressMonitor;
+import sagex.phoenix.util.Hints;
 
 /**
  * Folder Implementation that "decorates" an underlying folder.

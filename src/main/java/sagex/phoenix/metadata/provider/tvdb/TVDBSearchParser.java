@@ -1,11 +1,20 @@
 package sagex.phoenix.metadata.provider.tvdb;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.metadata.IMetadataProvider;
 import sagex.phoenix.metadata.IMetadataSearchResult;
@@ -20,13 +29,6 @@ import sagex.phoenix.util.ParserUtils;
 import sagex.phoenix.util.url.IUrl;
 import sagex.phoenix.util.url.UrlFactory;
 import sagex.phoenix.util.url.UrlUtil;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
 
 public class TVDBSearchParser {
     private static final Logger log = Logger.getLogger(TVDBSearchParser.class);

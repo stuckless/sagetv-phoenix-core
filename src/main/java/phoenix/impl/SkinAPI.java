@@ -1,6 +1,10 @@
 package phoenix.impl;
 
+import java.io.File;
+import java.util.List;
+
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.configuration.ConfigScope;
 import sagex.phoenix.configuration.impl.ConfigurationUtils;
@@ -8,9 +12,6 @@ import sagex.phoenix.skins.ISkin;
 import sagex.phoenix.skins.Skin;
 import sagex.phoenix.skins.Skin.State;
 import sagex.phoenix.tools.annotation.API;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * Skin Operations

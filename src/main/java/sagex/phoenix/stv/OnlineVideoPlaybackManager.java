@@ -1,12 +1,13 @@
 package sagex.phoenix.stv;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.event.PhoenixEvent;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.plugin.SageEvents;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class OnlineVideoPlaybackManager {
 

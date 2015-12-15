@@ -1,11 +1,11 @@
 package sagex.phoenix.util.url;
 
-import java.io.IOException;
-
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+
+import java.io.IOException;
 
 public class MockUrlUtils {
 

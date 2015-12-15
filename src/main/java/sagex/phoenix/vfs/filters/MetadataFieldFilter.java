@@ -1,6 +1,9 @@
 package sagex.phoenix.vfs.filters;
 
+import java.util.Map;
+
 import org.apache.commons.lang.math.NumberUtils;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.factory.ConfigurableOption.ListSelection;
@@ -11,8 +14,6 @@ import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.MediaResourceType;
 import sagex.phoenix.vfs.groups.MetadataFieldGrouper;
 import sagex.phoenix.vfs.util.ConfigList;
-
-import java.util.Map;
 
 /**
  * Filters based on the value of a metadata field

@@ -2,6 +2,7 @@ package sagex.phoenix.db;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+
 import sagex.phoenix.metadata.MetadataUtil;
 import sagex.phoenix.metadata.proxy.SageProperty;
 import sagex.phoenix.vfs.IMediaFile;

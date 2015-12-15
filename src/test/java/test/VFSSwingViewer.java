@@ -1,17 +1,25 @@
 package test;
 
-import sagex.phoenix.vfs.IMediaFolder;
-import sagex.phoenix.vfs.IMediaResource;
-import sagex.phoenix.vfs.views.ViewFolder;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.io.IOException;
+import java.net.URL;
 
-import javax.swing.*;
+import javax.swing.JEditorPane;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTree;
+import javax.swing.UIManager;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeSelectionModel;
-import java.awt.*;
-import java.io.IOException;
-import java.net.URL;
+
+import sagex.phoenix.vfs.IMediaFolder;
+import sagex.phoenix.vfs.IMediaResource;
+import sagex.phoenix.vfs.views.ViewFolder;
 
 public class VFSSwingViewer extends JPanel implements TreeSelectionListener {
     public class TreeLabel {

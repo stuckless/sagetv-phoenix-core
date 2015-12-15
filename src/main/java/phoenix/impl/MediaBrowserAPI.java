@@ -1,8 +1,19 @@
 package phoenix.impl;
 
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.apache.log4j.Logger;
+
 import sagex.UIContext;
-import sagex.api.*;
+import sagex.api.Global;
+import sagex.api.MediaFileAPI;
+import sagex.api.MediaNodeAPI;
+import sagex.api.MediaPlayerAPI;
+import sagex.api.PlaylistAPI;
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.Factory;
@@ -13,18 +24,19 @@ import sagex.phoenix.stv.Toaster;
 import sagex.phoenix.tools.annotation.API;
 import sagex.phoenix.util.ElapsedTimer;
 import sagex.phoenix.util.FileUtils;
-import sagex.phoenix.vfs.*;
+import sagex.phoenix.vfs.CombinedMediaFolder;
+import sagex.phoenix.vfs.DecoratedMediaFile;
+import sagex.phoenix.vfs.HasPlayableUrl;
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaFolder;
+import sagex.phoenix.vfs.IMediaResource;
+import sagex.phoenix.vfs.MediaResourceType;
+import sagex.phoenix.vfs.VirtualMediaFolder;
 import sagex.phoenix.vfs.sage.MediaFilesMediaFolder;
 import sagex.phoenix.vfs.sage.SageSourcesMediaFolder;
 import sagex.phoenix.vfs.views.ViewFactory;
 import sagex.phoenix.vfs.views.ViewFolder;
 import sagex.phoenix.vfs.visitors.SearchVisitor;
-
-import java.io.File;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * MediaBrowserAPI is a set of APIs for Browsing and Playing Media Files.

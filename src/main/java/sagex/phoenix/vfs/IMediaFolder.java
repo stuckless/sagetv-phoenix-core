@@ -1,8 +1,8 @@
 package sagex.phoenix.vfs;
 
-import sagex.phoenix.tools.annotation.API;
-
 import java.util.List;
+
+import sagex.phoenix.tools.annotation.API;
 
 @API(group = "media", proxy = true, prefix = "Media", resolver = "phoenix.umb.GetFolder")
 public interface IMediaFolder extends IMediaResource, Iterable<IMediaResource> {

@@ -1,6 +1,13 @@
 package phoenix.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.db.UserRecordUtil;
 import sagex.phoenix.factory.ConfigurableOption;
@@ -22,8 +29,6 @@ import sagex.phoenix.vfs.sorters.SorterFactory;
 import sagex.phoenix.vfs.views.OnlineViewFolder;
 import sagex.phoenix.vfs.views.ViewFactory;
 import sagex.phoenix.vfs.views.ViewFolder;
-
-import java.util.*;
 
 /**
  * View Management APIs.

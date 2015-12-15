@@ -1,10 +1,21 @@
 package sagex.phoenix.metadata.provider.htb;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 import sagex.phoenix.metadata.MediaArt;
 import sagex.phoenix.metadata.MediaArtifactType;
 import sagex.phoenix.metadata.MediaType;
@@ -12,10 +23,6 @@ import sagex.phoenix.metadata.provider.ScoredSearchResultSorter;
 import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.util.url.IUrl;
 import sagex.phoenix.util.url.UrlFactory;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.util.*;
 
 public class HTBParser {
     private static final Logger log = Logger.getLogger(HTBParser.class);

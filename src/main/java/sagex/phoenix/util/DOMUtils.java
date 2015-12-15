@@ -1,5 +1,11 @@
 package sagex.phoenix.util;
 
+import java.io.IOException;
+import java.util.zip.GZIPInputStream;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.w3c.dom.Document;
@@ -11,13 +17,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
+
 import sagex.phoenix.util.url.CachedUrl;
 import sagex.phoenix.util.url.IUrl;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.IOException;
-import java.util.zip.GZIPInputStream;
 
 public class DOMUtils {
     private static DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

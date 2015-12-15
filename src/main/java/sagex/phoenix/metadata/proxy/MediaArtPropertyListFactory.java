@@ -1,6 +1,7 @@
 package sagex.phoenix.metadata.proxy;
 
 import org.apache.commons.lang.math.NumberUtils;
+
 import sagex.phoenix.metadata.IMediaArt;
 import sagex.phoenix.metadata.MediaArt;
 import sagex.phoenix.metadata.MediaArtifactType;

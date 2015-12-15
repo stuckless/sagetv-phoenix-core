@@ -1,10 +1,10 @@
 package sagex.phoenix.metadata.provider.imdb;
 
-import sagex.phoenix.util.Pair;
-import sagex.phoenix.util.ParserUtils;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import sagex.phoenix.util.Pair;
+import sagex.phoenix.util.ParserUtils;
 
 public class IMDBUtils {
     public static final String IMDB_TITLE_URL = "http://%s/title/%s/";

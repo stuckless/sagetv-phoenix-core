@@ -1,15 +1,16 @@
 package test.junit;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import sagex.phoenix.Phoenix;
-import test.InitPhoenix;
+import static junit.framework.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.TimerTask;
 
-import static junit.framework.Assert.assertEquals;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import sagex.phoenix.Phoenix;
+import test.InitPhoenix;
 
 public class TestTaskManager {
     private String message = null;

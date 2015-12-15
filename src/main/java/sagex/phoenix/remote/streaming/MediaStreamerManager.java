@@ -1,12 +1,12 @@
 package sagex.phoenix.remote.streaming;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.exception.ExceptionUtils;
-import org.apache.log4j.Logger;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.exception.ExceptionUtils;
+import org.apache.log4j.Logger;
 
 public class MediaStreamerManager {
     public static Logger log = Logger.getLogger(MediaStreamerManager.class);

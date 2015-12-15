@@ -1,11 +1,11 @@
 package sagex.phoenix.vfs.sage;
 
+import java.util.List;
+
 import sagex.api.MediaFileAPI;
 import sagex.api.MediaNodeAPI;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.VirtualMediaFolder;
-
-import java.util.List;
 
 public class MediaNodeMediaFolder extends VirtualMediaFolder {
     public MediaNodeMediaFolder(MediaNodeMediaFolder parent, Object node) {

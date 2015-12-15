@@ -1,7 +1,15 @@
 package test.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+import java.util.Calendar;
+import java.util.regex.Pattern;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.SageAPI;
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.metadata.MediaType;
@@ -18,13 +26,6 @@ import sagex.phoenix.vfs.sage.SageMediaFile;
 import test.InitPhoenix;
 import test.junit.lib.SimpleStubAPI;
 import test.junit.lib.SimpleStubAPI.Airing;
-
-import java.io.File;
-import java.util.Calendar;
-import java.util.regex.Pattern;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class TestSearchQuery {
     @BeforeClass

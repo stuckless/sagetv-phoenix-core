@@ -1,12 +1,13 @@
 package sagex.phoenix.vfs.impl;
 
-import org.apache.log4j.Logger;
-import sagex.phoenix.vfs.IMediaFolder;
-import sagex.phoenix.vfs.IMediaResource;
-
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.vfs.IMediaFolder;
+import sagex.phoenix.vfs.IMediaResource;
 
 public class FileResourceFactory {
     private static final Logger log = Logger.getLogger(FileResourceFactory.class);

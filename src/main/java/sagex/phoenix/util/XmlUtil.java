@@ -1,5 +1,12 @@
 package sagex.phoenix.util;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -9,15 +16,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
+
 import sagex.phoenix.util.var.SageExpressionVariable;
 import sagex.phoenix.util.var.Variable;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class XmlUtil {
     private static final Pattern exprPattern = Pattern.compile("\\$\\{([^}]+)}");

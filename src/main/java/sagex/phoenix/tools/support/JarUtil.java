@@ -1,7 +1,5 @@
 package sagex.phoenix.tools.support;
 
-import org.apache.commons.lang.math.NumberUtils;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
@@ -13,6 +11,8 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang.math.NumberUtils;
 
 public class JarUtil {
     private static Pattern jarPat = Pattern.compile("(.*)-([0-9]+\\.[0-9]+.*)\\.jar");

@@ -1,21 +1,31 @@
 package sagex.phoenix.metadata.provider.tmdb3;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.util.List;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.configuration.proxy.GroupProxy;
-import sagex.phoenix.metadata.*;
+import sagex.phoenix.metadata.ICastMember;
+import sagex.phoenix.metadata.IMediaArt;
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.IMetadataSearchResult;
+import sagex.phoenix.metadata.MediaArtifactType;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.metadata.MetadataException;
 import sagex.phoenix.metadata.search.HasFindByIMDBID;
 import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.metadata.search.SearchQuery;
 import sagex.phoenix.metadata.search.SearchQuery.Field;
 import sagex.phoenix.util.DateUtils;
 import test.InitPhoenix;
-
-import java.io.IOException;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class TMDB3DetailParserTest {
     @BeforeClass

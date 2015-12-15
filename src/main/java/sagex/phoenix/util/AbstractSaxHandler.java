@@ -1,7 +1,12 @@
 package sagex.phoenix.util;
 
 import org.apache.log4j.Logger;
-import org.xml.sax.*;
+import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 /**
  * Doesn't provide anything, just handles quietly the required sax events.

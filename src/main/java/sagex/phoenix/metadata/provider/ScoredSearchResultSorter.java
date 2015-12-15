@@ -1,8 +1,8 @@
 package sagex.phoenix.metadata.provider;
 
-import sagex.phoenix.metadata.IMetadataSearchResult;
-
 import java.util.Comparator;
+
+import sagex.phoenix.metadata.IMetadataSearchResult;
 
 public class ScoredSearchResultSorter implements Comparator<IMetadataSearchResult> {
     public static final ScoredSearchResultSorter INSTANCE = new ScoredSearchResultSorter();

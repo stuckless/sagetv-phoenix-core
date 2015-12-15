@@ -1,7 +1,15 @@
 package sagex.phoenix.metadata.provider.imdb.nielm;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.metadata.MediaType;
@@ -10,10 +18,6 @@ import sagex.phoenix.metadata.provider.nielm.NielmIMDBMetaDataProvider;
 import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.util.DateUtils;
 import test.InitPhoenix;
-
-import java.io.IOException;
-
-import static org.junit.Assert.*;
 
 public class IMDBDetailParserTest {
     @BeforeClass

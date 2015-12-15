@@ -1,11 +1,11 @@
 package sagex.phoenix.vfs.sage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import sagex.api.AlbumAPI;
 import sagex.phoenix.vfs.IAlbumInfo;
 import sagex.phoenix.vfs.IMediaFile;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SageAlbumInfo implements IAlbumInfo {
     private Object album;

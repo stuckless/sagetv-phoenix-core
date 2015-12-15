@@ -1,12 +1,12 @@
 package sagex.phoenix.vfs.visitors;
 
+import java.util.List;
+
 import sagex.phoenix.metadata.ICastMember;
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaResource;
-
-import java.util.List;
 
 public class ActorSearchVisitor extends FileVisitor {
     private String searchContains = null;

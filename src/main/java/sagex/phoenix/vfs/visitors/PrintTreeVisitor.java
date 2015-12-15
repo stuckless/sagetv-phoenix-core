@@ -1,14 +1,15 @@
 package sagex.phoenix.vfs.visitors;
 
+import java.io.PrintWriter;
+
 import org.apache.commons.lang.StringUtils;
+
 import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.util.Hints;
 import sagex.phoenix.vfs.DecoratedMediaFile;
 import sagex.phoenix.vfs.DecoratedMediaFolder;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaFolder;
-
-import java.io.PrintWriter;
 
 /**
  * Will Build a debug string of the folder contents.

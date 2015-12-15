@@ -1,14 +1,19 @@
 package sagex.phoenix.configuration.impl;
 
-import org.apache.log4j.Logger;
-import sagex.phoenix.configuration.ConfigScope;
-import sagex.phoenix.configuration.IConfigurationProvider;
-import sagex.phoenix.util.IterableEnumeration;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Properties;
+
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.configuration.ConfigScope;
+import sagex.phoenix.configuration.IConfigurationProvider;
+import sagex.phoenix.util.IterableEnumeration;
 
 /**
  * Simple file based, {@link Properties} based configuration provider that does

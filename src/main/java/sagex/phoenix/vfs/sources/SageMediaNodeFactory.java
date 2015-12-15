@@ -1,6 +1,9 @@
 package sagex.phoenix.vfs.sources;
 
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
+
 import sagex.api.MediaNodeAPI;
 import sagex.api.WidgetAPI;
 import sagex.phoenix.factory.ConfigurableOption;
@@ -9,8 +12,6 @@ import sagex.phoenix.factory.ConfigurableOption.ListSelection;
 import sagex.phoenix.factory.Factory;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.sage.MediaNodeMediaFolder;
-
-import java.util.Set;
 
 /**
  * Creates a MediaFolder from a given MediaNode Content String

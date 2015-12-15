@@ -1,14 +1,15 @@
 package sagex.phoenix.menu;
 
+import java.util.List;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.VirtualMediaFolder;
 import sagex.phoenix.vfs.views.ViewFolder;
-
-import java.util.List;
 
 /**
  * @author sean

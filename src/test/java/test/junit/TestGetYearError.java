@@ -1,20 +1,26 @@
 package test.junit;
 
+import static org.easymock.EasyMock.anyObject;
+import static org.easymock.EasyMock.createNiceMock;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.getCurrentArguments;
+import static org.easymock.EasyMock.replay;
+import static org.junit.Assert.assertEquals;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.easymock.IAnswer;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.ISageAPIProvider;
 import sagex.SageAPI;
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.metadata.proxy.AiringMetadataProxy;
 import sagex.phoenix.metadata.proxy.SageMediaFileMetadataProxy;
 import test.InitPhoenix;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.easymock.EasyMock.*;
-import static org.junit.Assert.assertEquals;
 
 public class TestGetYearError {
 

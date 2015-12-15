@@ -1,11 +1,30 @@
 package sagex.phoenix.metadata.provider.xbmc;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import sagex.phoenix.metadata.*;
+
+import sagex.phoenix.metadata.CastMember;
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.IMetadataSearchResult;
+import sagex.phoenix.metadata.MediaArt;
+import sagex.phoenix.metadata.MediaArtifactType;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.metadata.MetadataException;
+import sagex.phoenix.metadata.MetadataProvider;
+import sagex.phoenix.metadata.MetadataProviderInfo;
 import sagex.phoenix.metadata.provider.imdb.IMDBUtils;
 import sagex.phoenix.metadata.proxy.MetadataProxy;
 import sagex.phoenix.metadata.search.HasFindByIMDBID;
@@ -20,15 +39,6 @@ import sagex.phoenix.scrapers.xbmc.XbmcUrl;
 import sagex.phoenix.util.DOMUtils;
 import sagex.phoenix.util.DateUtils;
 import sagex.phoenix.util.ParserUtils;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class XbmcMetadataProvider extends MetadataProvider implements HasFindByIMDBID {
     private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

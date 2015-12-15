@@ -1,10 +1,10 @@
 package sagex.phoenix.event;
 
-import sage.SageTVEventListener;
-import sagex.phoenix.util.Loggers;
-
 import java.lang.reflect.Method;
 import java.util.Map;
+
+import sage.SageTVEventListener;
+import sagex.phoenix.util.Loggers;
 
 public class ReflectionEventListener implements SageTVEventListener {
     private Object parent;

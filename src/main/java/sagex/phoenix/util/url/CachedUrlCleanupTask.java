@@ -1,16 +1,21 @@
 package sagex.phoenix.util.url;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Properties;
+import java.util.TimerTask;
+
 import org.apache.commons.io.DirectoryWalker;
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.util.FileExtFileFilter;
 import sagex.phoenix.util.FileUtils;
 import sagex.phoenix.util.PropertiesUtils;
-
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-import java.util.*;
 
 public class CachedUrlCleanupTask extends TimerTask {
     public static final String TaskID = "urlcachecleaner";

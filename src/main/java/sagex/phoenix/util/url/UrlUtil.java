@@ -1,13 +1,20 @@
 package sagex.phoenix.util.url;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import sagex.phoenix.configuration.proxy.GroupProxy;
-
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.SocketTimeoutException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.configuration.proxy.GroupProxy;
 
 public class UrlUtil {
     private static final Logger log = Logger.getLogger(UrlUtil.class);

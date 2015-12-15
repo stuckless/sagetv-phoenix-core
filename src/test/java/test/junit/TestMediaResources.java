@@ -1,15 +1,11 @@
 package test.junit;
 
-import org.apache.commons.io.filefilter.FileFileFilter;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import sagex.phoenix.progress.IProgressMonitor;
-import sagex.phoenix.util.DirectoryScanner;
-import sagex.phoenix.vfs.*;
-import sagex.phoenix.vfs.impl.FileResourceFactory;
-import sagex.phoenix.vfs.util.PathUtils;
-import test.InitPhoenix;
-import test.junit.lib.FilesTestCase;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
+import static test.junit.lib.FilesTestCase.makeDir;
+import static test.junit.lib.FilesTestCase.makeFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,10 +13,23 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import static junit.framework.Assert.*;
-import static org.junit.Assert.assertNull;
-import static test.junit.lib.FilesTestCase.makeDir;
-import static test.junit.lib.FilesTestCase.makeFile;
+import org.apache.commons.io.filefilter.FileFileFilter;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import sagex.phoenix.progress.IProgressMonitor;
+import sagex.phoenix.util.DirectoryScanner;
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaFolder;
+import sagex.phoenix.vfs.IMediaResource;
+import sagex.phoenix.vfs.IMediaResourceVisitor;
+import sagex.phoenix.vfs.MediaResourceType;
+import sagex.phoenix.vfs.VirtualMediaFile;
+import sagex.phoenix.vfs.VirtualMediaFolder;
+import sagex.phoenix.vfs.impl.FileResourceFactory;
+import sagex.phoenix.vfs.util.PathUtils;
+import test.InitPhoenix;
+import test.junit.lib.FilesTestCase;
 
 public class TestMediaResources {
     private static class Counter {

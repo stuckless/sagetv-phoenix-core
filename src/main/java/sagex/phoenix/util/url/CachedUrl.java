@@ -1,13 +1,5 @@
 package sagex.phoenix.util.url;
 
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
-import sagex.phoenix.Phoenix;
-import sagex.phoenix.util.FileUtils;
-import sagex.phoenix.util.PropertiesUtils;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -16,6 +8,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Properties;
+
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.Phoenix;
+import sagex.phoenix.util.FileUtils;
+import sagex.phoenix.util.PropertiesUtils;
 
 public class CachedUrl extends Url implements IUrl {
 

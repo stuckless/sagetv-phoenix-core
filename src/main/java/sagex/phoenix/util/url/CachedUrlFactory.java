@@ -1,8 +1,8 @@
 package sagex.phoenix.util.url;
 
-import org.apache.log4j.Logger;
-
 import java.io.IOException;
+
+import org.apache.log4j.Logger;
 
 public class CachedUrlFactory implements IUrlFactory {
     private static final Logger log = Logger.getLogger(CachedUrlFactory.class);

@@ -1,7 +1,15 @@
 package sagex.phoenix.metadata.provider.imdb.nielm;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.util.List;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.metadata.IMetadataSearchResult;
 import sagex.phoenix.metadata.MediaType;
@@ -11,11 +19,6 @@ import sagex.phoenix.metadata.search.SearchQuery;
 import sagex.phoenix.metadata.search.SearchQuery.Field;
 import sagex.phoenix.util.Hints;
 import test.InitPhoenix;
-
-import java.io.IOException;
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class IMDBSearchResultParserTest {
     private static final String TEST_SEARCH_TITLE = "Iron Man 2";

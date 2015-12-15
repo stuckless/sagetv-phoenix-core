@@ -1,10 +1,11 @@
 package sagex.phoenix.util;
 
-import org.apache.commons.io.FileUtils;
-
-import javax.script.ScriptException;
 import java.io.File;
 import java.io.IOException;
+
+import javax.script.ScriptException;
+
+import org.apache.commons.io.FileUtils;
 
 /**
  * A script engine that manages a script file. ie, it will take care of

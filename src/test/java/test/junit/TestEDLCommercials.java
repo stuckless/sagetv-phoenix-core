@@ -1,15 +1,18 @@
 package test.junit;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import phoenix.impl.CommercialAPI;
-import phoenix.impl.CommercialStruct;
-import test.InitPhoenix;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 
-import static org.junit.Assert.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import phoenix.impl.CommercialAPI;
+import phoenix.impl.CommercialStruct;
+import test.InitPhoenix;
 
 public class TestEDLCommercials {
     @BeforeClass

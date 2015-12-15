@@ -1,13 +1,14 @@
 package sagex.phoenix.event;
 
-import org.apache.log4j.Logger;
-import sage.SageTVEventListener;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
+
+import sage.SageTVEventListener;
 
 /**
  * Phoenix Event Bus is a proxy for the SageTV event bus, or in the event that

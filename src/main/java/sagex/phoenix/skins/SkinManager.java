@@ -1,15 +1,5 @@
 package sagex.phoenix.skins;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.DirectoryFileFilter;
-import org.apache.commons.io.filefilter.FileFilterUtils;
-import org.apache.log4j.Logger;
-import sagex.UIContext;
-import sagex.api.Global;
-import sagex.phoenix.common.SystemConfigurationFileManager;
-import sagex.phoenix.skins.Skin.State;
-import sagex.phoenix.util.PropertiesUtils;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -20,6 +10,17 @@ import java.util.List;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.DirectoryFileFilter;
+import org.apache.commons.io.filefilter.FileFilterUtils;
+import org.apache.log4j.Logger;
+
+import sagex.UIContext;
+import sagex.api.Global;
+import sagex.phoenix.common.SystemConfigurationFileManager;
+import sagex.phoenix.skins.Skin.State;
+import sagex.phoenix.util.PropertiesUtils;
 
 public class SkinManager extends SystemConfigurationFileManager implements SystemConfigurationFileManager.ConfigurationFileVisitor {
     private static final Logger log = Logger.getLogger(SkinManager.class);

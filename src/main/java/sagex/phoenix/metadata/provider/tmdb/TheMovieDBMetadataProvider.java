@@ -1,14 +1,20 @@
 package sagex.phoenix.metadata.provider.tmdb;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
-import sagex.phoenix.metadata.*;
+
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.IMetadataProviderInfo;
+import sagex.phoenix.metadata.IMetadataSearchResult;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.metadata.MetadataException;
+import sagex.phoenix.metadata.MetadataProvider;
 import sagex.phoenix.metadata.search.HasFindByIMDBID;
 import sagex.phoenix.metadata.search.MediaSearchResult;
 import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.metadata.search.SearchQuery;
 import sagex.phoenix.util.url.UrlUtil;
-
-import java.util.List;
 
 public class TheMovieDBMetadataProvider extends MetadataProvider implements HasFindByIMDBID {
     private static final String SEARCH_URL = "http://api.themoviedb.org/2.1/Movie.search/%s/xml/%s/%s";

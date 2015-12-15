@@ -1,19 +1,8 @@
 package test.junit;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.xml.sax.SAXException;
-import sagex.phoenix.Phoenix;
-import sagex.phoenix.metadata.MediaType;
-import sagex.phoenix.metadata.search.FileMatcher;
-import sagex.phoenix.metadata.search.FileMatcherManager.FileMatcherXmlBuilder;
-import sagex.phoenix.metadata.search.ID;
-import sagex.phoenix.metadata.search.XmlFileMatcherSerializer;
-import test.InitPhoenix;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -22,8 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.xml.sax.SAXException;
+
+import sagex.phoenix.Phoenix;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.metadata.search.FileMatcher;
+import sagex.phoenix.metadata.search.FileMatcherManager.FileMatcherXmlBuilder;
+import sagex.phoenix.metadata.search.ID;
+import sagex.phoenix.metadata.search.XmlFileMatcherSerializer;
+import test.InitPhoenix;
 
 public class TestFileMatchers {
 

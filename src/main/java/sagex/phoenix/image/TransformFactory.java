@@ -1,14 +1,15 @@
 package sagex.phoenix.image;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.cache.ICache;
 import sagex.phoenix.cache.MapCache;
 import sagex.remote.json.JSONArray;
 import sagex.remote.json.JSONException;
 import sagex.remote.json.JSONObject;
-
-import java.awt.image.BufferedImage;
-import java.io.File;
 
 public class TransformFactory {
     private static final Logger log = Logger.getLogger(TransformFactory.class);

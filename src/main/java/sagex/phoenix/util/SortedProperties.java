@@ -1,6 +1,10 @@
 package sagex.phoenix.util;
 
-import java.util.*;
+import java.util.Enumeration;
+import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.Vector;
 
 public class SortedProperties extends Properties {
     public SortedProperties() {

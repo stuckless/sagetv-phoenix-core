@@ -1,9 +1,9 @@
 package sagex.phoenix.util.var;
 
-import sagex.phoenix.util.var.ScopedConfigurationPropertyVariable.Scope;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import sagex.phoenix.util.var.ScopedConfigurationPropertyVariable.Scope;
 
 /**
  * A Dynamic Variable will dynamically manage one of more other Variable types

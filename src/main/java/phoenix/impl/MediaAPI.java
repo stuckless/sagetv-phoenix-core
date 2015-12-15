@@ -1,14 +1,27 @@
 package phoenix.impl;
 
+import java.io.File;
+import java.text.DecimalFormat;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
+
 import sagex.api.AiringAPI;
 import sagex.api.MediaFileAPI;
 import sagex.api.SeriesInfoAPI;
 import sagex.api.ShowAPI;
 import sagex.phoenix.configuration.proxy.GroupProxy;
-import sagex.phoenix.metadata.*;
+import sagex.phoenix.metadata.ICastMember;
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.ISeriesInfo;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.metadata.MetadataUtil;
+import sagex.phoenix.metadata.SageSeriesInfo;
 import sagex.phoenix.metadata.persistence.TVSeriesUtil;
 import sagex.phoenix.metadata.proxy.SageProperty;
 import sagex.phoenix.progress.BasicProgressMonitor;
@@ -17,20 +30,20 @@ import sagex.phoenix.tools.annotation.API;
 import sagex.phoenix.util.Loggers;
 import sagex.phoenix.util.TextReplacement;
 import sagex.phoenix.util.TextReplacement.IVariableResolver;
-import sagex.phoenix.vfs.*;
+import sagex.phoenix.vfs.DecoratedMediaFile;
+import sagex.phoenix.vfs.HasPlayableUrl;
+import sagex.phoenix.vfs.IAlbumInfo;
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaFolder;
+import sagex.phoenix.vfs.IMediaResource;
+import sagex.phoenix.vfs.MediaConfiguration;
+import sagex.phoenix.vfs.MediaResourceType;
 import sagex.phoenix.vfs.sage.SageMediaFile;
 import sagex.phoenix.vfs.util.PathUtils;
 import sagex.phoenix.vfs.views.OnlineViewFolder;
 import sagex.phoenix.vfs.views.ViewItem;
 import sagex.phoenix.vfs.visitors.ClearCustomMetadataFieldsVisitor;
 import sagex.phoenix.vfs.visitors.CollectorResourceVisitor;
-
-import java.io.File;
-import java.text.DecimalFormat;
-import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
 
 /**
  * The MediaAPI is a set of API calls that will deal with getting information

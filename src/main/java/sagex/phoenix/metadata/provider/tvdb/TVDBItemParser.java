@@ -1,13 +1,28 @@
 package sagex.phoenix.metadata.provider.tvdb;
 
+import java.text.MessageFormat;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
 import sagex.phoenix.configuration.proxy.GroupProxy;
-import sagex.phoenix.metadata.*;
+import sagex.phoenix.metadata.CastMember;
+import sagex.phoenix.metadata.ICastMember;
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.IMetadataProvider;
+import sagex.phoenix.metadata.IMetadataSearchResult;
+import sagex.phoenix.metadata.ISeriesInfo;
+import sagex.phoenix.metadata.ITVMetadataProvider;
+import sagex.phoenix.metadata.MediaArt;
+import sagex.phoenix.metadata.MediaArtifactType;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.metadata.MetadataException;
+import sagex.phoenix.metadata.MetadataUtil;
 import sagex.phoenix.metadata.proxy.MetadataProxy;
 import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.metadata.search.SearchQuery;
@@ -15,9 +30,6 @@ import sagex.phoenix.util.DOMUtils;
 import sagex.phoenix.util.DateUtils;
 import sagex.phoenix.util.url.IUrl;
 import sagex.phoenix.util.url.UrlFactory;
-
-import java.text.MessageFormat;
-import java.util.List;
 
 public class TVDBItemParser {
     private static final Logger log = Logger.getLogger(TVDBItemParser.class);

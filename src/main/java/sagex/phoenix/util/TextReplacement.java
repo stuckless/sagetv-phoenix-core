@@ -1,8 +1,5 @@
 package sagex.phoenix.util;
 
-import org.apache.commons.lang.math.NumberUtils;
-import org.apache.log4j.Logger;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
@@ -11,6 +8,9 @@ import java.text.ParseException;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.log4j.Logger;
 
 /**
  * Provides basic text replacements in a string using a mask and a

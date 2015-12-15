@@ -1,15 +1,16 @@
 package sagex.phoenix.remote;
 
+import java.lang.reflect.Type;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+
 import sagex.phoenix.factory.BaseConfigurable;
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.util.HasLabel;
 import sagex.phoenix.util.HasName;
-
-import java.lang.reflect.Type;
 
 public class BaseConfigurableSerializer implements JsonSerializer<BaseConfigurable> {
     public BaseConfigurableSerializer() {

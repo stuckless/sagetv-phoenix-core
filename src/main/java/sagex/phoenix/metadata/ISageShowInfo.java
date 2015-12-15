@@ -1,9 +1,9 @@
 package sagex.phoenix.metadata;
 
-import sagex.phoenix.metadata.proxy.SageProperty;
-
 import java.util.Date;
 import java.util.List;
+
+import sagex.phoenix.metadata.proxy.SageProperty;
 
 /**
  * Sage Metadata that represents the ShowInfo for a given TV show.

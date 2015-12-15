@@ -1,17 +1,23 @@
 package sagex.phoenix.remote;
 
-import sagex.SageAPI;
-import sagex.api.FavoriteAPI;
-import sagex.api.Utility;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URLDecoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
+import javax.servlet.http.HttpServletRequest;
+
+import sagex.SageAPI;
+import sagex.api.FavoriteAPI;
+import sagex.api.Utility;
 
 /**
  * Direct copy of Nielm's Search but modified to use Sagex apis

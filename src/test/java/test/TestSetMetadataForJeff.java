@@ -1,10 +1,10 @@
 package test;
 
+import java.io.File;
+
 import sagex.SageAPI;
 import sagex.api.MediaFileAPI;
 import sagex.phoenix.fanart.SageFanartUtil;
-
-import java.io.File;
 
 public class TestSetMetadataForJeff {
     public static void main(String args[]) {

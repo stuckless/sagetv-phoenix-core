@@ -1,11 +1,11 @@
 package sagex.phoenix.util;
 
-import org.apache.commons.io.DirectoryWalker;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.Collection;
+
+import org.apache.commons.io.DirectoryWalker;
 
 /**
  * Simple Scanner that will notify a listener for each File/Dir it finds.

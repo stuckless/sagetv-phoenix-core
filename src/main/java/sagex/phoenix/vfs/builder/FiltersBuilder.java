@@ -1,16 +1,21 @@
 package sagex.phoenix.vfs.builder;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.apache.commons.lang.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.Factory;
 import sagex.phoenix.util.XmlUtil;
 import sagex.phoenix.vfs.VFSManager;
-import sagex.phoenix.vfs.filters.*;
-
-import java.util.Set;
-import java.util.TreeSet;
+import sagex.phoenix.vfs.filters.AbstractResourceFilterContainer;
+import sagex.phoenix.vfs.filters.AndResourceFilter;
+import sagex.phoenix.vfs.filters.Filter;
+import sagex.phoenix.vfs.filters.FilterFactory;
+import sagex.phoenix.vfs.filters.OrResourceFilter;
 
 public class FiltersBuilder extends FactoryItemBuilder<FilterFactory> {
     private String groupName, groupLabel, groupVisible;

@@ -1,11 +1,11 @@
 package sagex.phoenix.configuration.proxy;
 
-import sagex.phoenix.configuration.ConfigScope;
-import sagex.phoenix.configuration.ConfigType;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import sagex.phoenix.configuration.ConfigScope;
+import sagex.phoenix.configuration.ConfigType;
 
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = java.lang.annotation.ElementType.FIELD)

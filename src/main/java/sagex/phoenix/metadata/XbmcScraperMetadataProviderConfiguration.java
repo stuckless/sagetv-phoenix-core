@@ -1,13 +1,14 @@
 package sagex.phoenix.metadata;
 
+import java.io.File;
+
 import org.apache.commons.io.IOCase;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
+
 import sagex.phoenix.common.SystemConfigurationFileManager;
 import sagex.phoenix.metadata.provider.xbmc.XbmcMetadataProvider;
 import sagex.phoenix.scrapers.xbmc.XbmcScraper;
 import sagex.phoenix.scrapers.xbmc.XbmcScraperParser;
-
-import java.io.File;
 
 public class XbmcScraperMetadataProviderConfiguration extends SystemConfigurationFileManager implements
         SystemConfigurationFileManager.ConfigurationFileVisitor {

@@ -1,18 +1,34 @@
 package test.junit;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
-import sagex.phoenix.Phoenix;
-import sagex.phoenix.image.*;
-import test.InitPhoenix;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static test.junit.lib.TestUtil.createBufferedImage;
+import static test.junit.lib.TestUtil.verifyImageSize;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 
-import static junit.framework.Assert.*;
-import static test.junit.lib.TestUtil.createBufferedImage;
-import static test.junit.lib.TestUtil.verifyImageSize;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import sagex.phoenix.Phoenix;
+import sagex.phoenix.image.AlphaReflectionImageTransform;
+import sagex.phoenix.image.CompositeTransform;
+import sagex.phoenix.image.IBufferedTransform;
+import sagex.phoenix.image.ImageUtil;
+import sagex.phoenix.image.JavascriptBufferedTransform;
+import sagex.phoenix.image.JustReflectionImageTransform;
+import sagex.phoenix.image.OpacityTransform;
+import sagex.phoenix.image.OverlayTransform;
+import sagex.phoenix.image.PerspectiveImageTransform;
+import sagex.phoenix.image.ReflectionImageTransform;
+import sagex.phoenix.image.RotateImageTransform;
+import sagex.phoenix.image.ScaledImageTransform;
+import sagex.phoenix.image.ShadowTransform;
+import sagex.phoenix.image.TransformFactory;
+import test.InitPhoenix;
 
 public class TestTransformFactory {
     private static TransformFactory factory = null;

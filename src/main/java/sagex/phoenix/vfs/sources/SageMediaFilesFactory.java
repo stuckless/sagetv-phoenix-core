@@ -1,12 +1,12 @@
 package sagex.phoenix.vfs.sources;
 
+import java.util.Set;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.factory.ConfigurableOption.ListSelection;
 import sagex.phoenix.factory.Factory;
 import sagex.phoenix.vfs.IMediaFolder;
-
-import java.util.Set;
 
 /**
  * Simple factory to create a source using a sage media mask

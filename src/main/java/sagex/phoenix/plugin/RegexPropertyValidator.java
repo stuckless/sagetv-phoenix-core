@@ -1,10 +1,11 @@
 package sagex.phoenix.plugin;
 
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang.StringUtils;
+
 import sagex.phoenix.util.Loggers;
 import sagex.plugin.IPropertyValidator;
-
-import java.util.regex.Pattern;
 
 public class RegexPropertyValidator implements IPropertyValidator {
     public RegexPropertyValidator() {

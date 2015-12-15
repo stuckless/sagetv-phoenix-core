@@ -1,14 +1,14 @@
 package sagex.phoenix.configuration;
 
-import sagex.phoenix.util.HasLabel;
-import sagex.phoenix.util.HasName;
-import sagex.phoenix.util.NamedValue;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import sagex.phoenix.util.HasLabel;
+import sagex.phoenix.util.HasName;
+import sagex.phoenix.util.NamedValue;
 
 public class ConfigUtils {
     /**

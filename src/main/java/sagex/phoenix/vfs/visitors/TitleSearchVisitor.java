@@ -1,12 +1,12 @@
 package sagex.phoenix.vfs.visitors;
 
+import java.util.List;
+
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.MediaResourceType;
-
-import java.util.List;
 
 /**
  * If a given media file's title matches the search, then it is added to the

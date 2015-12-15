@@ -1,6 +1,11 @@
 package phoenix.impl;
 
+import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import org.apache.commons.lang.StringUtils;
+
 import sagex.UIContext;
 import sagex.api.Global;
 import sagex.api.PluginAPI;
@@ -9,10 +14,6 @@ import sagex.phoenix.stv.ProgressDialog;
 import sagex.phoenix.tools.annotation.API;
 import sagex.phoenix.util.Loggers;
 import sagex.phoenix.util.TimerUtil;
-
-import java.io.File;
-import java.util.Timer;
-import java.util.TimerTask;
 
 @API(group = "beta")
 public class PhoenixBetaAPI {

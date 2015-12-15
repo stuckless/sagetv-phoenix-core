@@ -1,13 +1,14 @@
 package test.junit;
 
-import org.apache.log4j.BasicConfigurator;
-import org.junit.Test;
-import sagex.phoenix.util.DateUtils;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import org.apache.log4j.BasicConfigurator;
+import org.junit.Test;
+
+import sagex.phoenix.util.DateUtils;
 
 public class TestDateParsers {
     @Test

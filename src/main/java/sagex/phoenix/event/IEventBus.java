@@ -1,8 +1,8 @@
 package sagex.phoenix.event;
 
-import sage.SageTVEventListener;
-
 import java.util.Map;
+
+import sage.SageTVEventListener;
 
 /**
  * Simple INterface for an EventBus

@@ -1,12 +1,12 @@
 package sagex.phoenix.vfs.util;
 
-import sagex.phoenix.util.url.UrlUtil;
-import sagex.phoenix.vfs.IMediaFile;
-import sagex.phoenix.vfs.IMediaResource;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import sagex.phoenix.util.url.UrlUtil;
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaResource;
 
 /**
  * PathUtils work with Resources as inputs, but it will use the underlying File

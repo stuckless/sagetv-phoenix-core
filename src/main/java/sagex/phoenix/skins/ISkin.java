@@ -1,9 +1,9 @@
 package sagex.phoenix.skins;
 
+import java.io.File;
+
 import sagex.phoenix.skins.Skin.State;
 import sagex.phoenix.tools.annotation.API;
-
-import java.io.File;
 
 @API(group = "skin", prefix = "Skin", proxy = true, resolver = "phoenix.skin.GetSkin")
 public interface ISkin {

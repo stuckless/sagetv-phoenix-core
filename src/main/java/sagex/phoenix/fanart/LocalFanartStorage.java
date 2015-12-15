@@ -1,5 +1,8 @@
 package sagex.phoenix.fanart;
 
+import java.io.File;
+import java.util.List;
+
 import sagex.phoenix.metadata.IMediaArt;
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.metadata.MediaArtifactType;
@@ -7,9 +10,6 @@ import sagex.phoenix.metadata.MediaType;
 import sagex.phoenix.metadata.persistence.PersistenceUtil;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.util.PathUtils;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * Writes a simple poster image for the sage system.

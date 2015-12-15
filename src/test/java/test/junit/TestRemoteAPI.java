@@ -1,26 +1,41 @@
 package test.junit;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import org.apache.commons.io.IOUtils;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import sagex.phoenix.remote.*;
-import sagex.phoenix.vfs.VirtualMediaFile;
-import sagex.phoenix.vfs.VirtualMediaFolder;
-import sagex.remote.json.JSONObject;
-import test.InitPhoenix;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.apache.commons.io.IOUtils;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import sagex.phoenix.remote.Command;
+import sagex.phoenix.remote.IOContext;
+import sagex.phoenix.remote.MapFunction;
+import sagex.phoenix.remote.ReferenceFunction;
+import sagex.phoenix.remote.RemoteAPI;
+import sagex.phoenix.remote.RemoteContext;
+import sagex.phoenix.remote.StubIOContext;
+import sagex.phoenix.vfs.VirtualMediaFile;
+import sagex.phoenix.vfs.VirtualMediaFolder;
+import sagex.remote.json.JSONObject;
+import test.InitPhoenix;
 
 public class TestRemoteAPI {
     @BeforeClass

@@ -1,14 +1,14 @@
 package sagex.phoenix.vfs;
 
+import java.io.File;
+import java.util.Collections;
+import java.util.List;
+
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.metadata.proxy.MetadataProxy;
 import sagex.phoenix.util.Hints;
 import sagex.phoenix.vfs.filters.HomeVideosFilter;
 import sagex.phoenix.vfs.impl.AlbumInfo;
-
-import java.io.File;
-import java.util.Collections;
-import java.util.List;
 
 public class VirtualMediaFile extends AbstractMediaResource implements IMediaFile {
 

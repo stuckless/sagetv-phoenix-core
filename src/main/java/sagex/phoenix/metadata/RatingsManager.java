@@ -1,14 +1,15 @@
 package sagex.phoenix.metadata;
 
-import org.apache.commons.io.IOCase;
-import org.apache.commons.io.filefilter.SuffixFileFilter;
-import org.apache.commons.lang.StringUtils;
-import sagex.phoenix.common.SystemConfigurationFileManager;
-import sagex.phoenix.util.PropertiesUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
+
+import org.apache.commons.io.IOCase;
+import org.apache.commons.io.filefilter.SuffixFileFilter;
+import org.apache.commons.lang.StringUtils;
+
+import sagex.phoenix.common.SystemConfigurationFileManager;
+import sagex.phoenix.util.PropertiesUtils;
 
 public class RatingsManager extends SystemConfigurationFileManager implements
         SystemConfigurationFileManager.ConfigurationFileVisitor {

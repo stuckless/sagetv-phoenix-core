@@ -1,5 +1,16 @@
 package sagex.phoenix.metadata.provider.tmdb3;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.log4j.Logger;
+
 import com.omertron.themoviedbapi.MovieDbException;
 import com.omertron.themoviedbapi.TheMovieDbApi;
 import com.omertron.themoviedbapi.enumeration.ArtworkType;
@@ -14,12 +25,19 @@ import com.omertron.themoviedbapi.model.media.Video;
 import com.omertron.themoviedbapi.model.movie.MovieInfo;
 import com.omertron.themoviedbapi.model.movie.ReleaseInfo;
 import com.omertron.themoviedbapi.results.ResultList;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import org.apache.log4j.Logger;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.configuration.proxy.GroupProxy;
-import sagex.phoenix.metadata.*;
+import sagex.phoenix.metadata.CastMember;
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.IMetadataProviderInfo;
+import sagex.phoenix.metadata.IMetadataSearchResult;
+import sagex.phoenix.metadata.MediaArt;
+import sagex.phoenix.metadata.MediaArtifactType;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.metadata.MetadataConfiguration;
+import sagex.phoenix.metadata.MetadataException;
+import sagex.phoenix.metadata.MetadataProvider;
 import sagex.phoenix.metadata.provider.ScoredSearchResultSorter;
 import sagex.phoenix.metadata.proxy.MetadataProxy;
 import sagex.phoenix.metadata.search.HasFindByIMDBID;
@@ -28,9 +46,6 @@ import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.metadata.search.SearchQuery;
 import sagex.phoenix.metadata.search.SearchQuery.Field;
 import sagex.phoenix.util.DateUtils;
-
-import java.net.URL;
-import java.util.*;
 
 /**
  * TheMovieDB Provider using themoviedb api v4

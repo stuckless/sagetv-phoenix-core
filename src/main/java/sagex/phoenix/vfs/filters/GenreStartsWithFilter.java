@@ -1,11 +1,11 @@
 package sagex.phoenix.vfs.filters;
 
+import java.util.List;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaResource;
-
-import java.util.List;
 
 public class GenreStartsWithFilter extends Filter {
     public GenreStartsWithFilter() {

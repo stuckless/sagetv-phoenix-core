@@ -1,10 +1,10 @@
 package sagex.phoenix.vfs.sage;
 
+import java.util.List;
+
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.VirtualMediaFolder;
-
-import java.util.List;
 
 /**
  * Used to create a MediaFolder when you have an Array of Sage MediaFile objects

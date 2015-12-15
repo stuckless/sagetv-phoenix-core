@@ -1,5 +1,9 @@
 package sagex.phoenix.tools;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.factory.BaseConfigurable;
 import sagex.phoenix.factory.ConfigurableOption;
@@ -9,10 +13,6 @@ import sagex.phoenix.util.HasLabel;
 import sagex.phoenix.util.HasName;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.VFSManager;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 
 public class VFSDocumentationGenerator {
     public void generate(VFSManager manager, PrintWriter pw) {

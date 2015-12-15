@@ -1,13 +1,13 @@
 package sagex.phoenix.remote;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import sagex.phoenix.util.Function;
 import sagex.remote.json.JSONArray;
 import sagex.remote.json.JSONException;
 import sagex.remote.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 public class MapFunction implements Function<String, Map> {
     public MapFunction() {

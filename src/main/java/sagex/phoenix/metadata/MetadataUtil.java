@@ -1,7 +1,18 @@
 package sagex.phoenix.metadata;
 
+import java.io.File;
+import java.lang.reflect.Method;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+
 import sagex.api.MediaFileAPI;
 import sagex.api.ShowAPI;
 import sagex.phoenix.Phoenix;
@@ -15,10 +26,6 @@ import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.MediaResourceType;
 import sagex.util.ILog;
 import sagex.util.LogProvider;
-
-import java.io.File;
-import java.lang.reflect.Method;
-import java.util.*;
 
 /**
  * SageTV Metadata Class. This class should always contain the complete list of

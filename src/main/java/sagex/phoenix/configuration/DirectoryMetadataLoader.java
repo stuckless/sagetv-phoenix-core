@@ -1,12 +1,12 @@
 package sagex.phoenix.configuration;
 
-import org.apache.log4j.Logger;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.log4j.Logger;
 
 public class DirectoryMetadataLoader implements IConfigurationMetadata {
     private static final Logger log = Logger.getLogger(DirectoryMetadataLoader.class);

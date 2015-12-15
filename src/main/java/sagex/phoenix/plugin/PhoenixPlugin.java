@@ -1,7 +1,19 @@
 package sagex.phoenix.plugin;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+
 import sage.SageTVEventListener;
 import sage.SageTVPluginRegistry;
 import sagex.api.Configuration;
@@ -18,7 +30,12 @@ import sagex.phoenix.event.SageEventBus;
 import sagex.phoenix.event.SageSystemMessageListener;
 import sagex.phoenix.event.SystemMessageID;
 import sagex.phoenix.fanart.FanartUtil;
-import sagex.phoenix.metadata.*;
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.ISageCustomMetadataRW;
+import sagex.phoenix.metadata.MetadataConfiguration;
+import sagex.phoenix.metadata.MetadataException;
+import sagex.phoenix.metadata.MetadataHints;
+import sagex.phoenix.metadata.MetadataUtil;
 import sagex.phoenix.task.ITaskOperation;
 import sagex.phoenix.task.ITaskProgressHandler;
 import sagex.phoenix.task.RetryTaskManager;
@@ -34,11 +51,11 @@ import sagex.phoenix.vfs.filters.HomeVideosConfiguration;
 import sagex.phoenix.vfs.filters.HomeVideosFilter;
 import sagex.phoenix.vfs.sage.SageMediaFile;
 import sagex.phoenix.vfs.util.PathUtils;
-import sagex.plugin.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import sagex.plugin.AbstractPlugin;
+import sagex.plugin.ButtonClickHandler;
+import sagex.plugin.PluginProperty;
+import sagex.plugin.SageEvent;
+import sagex.plugin.SageEvents;
 
 /**
  * Sage7 Plugin for Phoenix

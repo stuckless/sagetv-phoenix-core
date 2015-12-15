@@ -1,6 +1,12 @@
 package sagex.phoenix.metadata.persistence;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
 import org.apache.commons.lang.StringUtils;
+
 import sagex.phoenix.fanart.FanartUtil;
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.metadata.IMetadataPersistence;
@@ -12,11 +18,6 @@ import sagex.phoenix.util.SortedProperties;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.MediaResourceType;
 import sagex.phoenix.vfs.util.PathUtils;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
 
 /**
  * Save the metadata to a SageTV .properties file.

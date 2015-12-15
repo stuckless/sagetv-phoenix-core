@@ -1,9 +1,9 @@
 package sagex.phoenix.vfs.util;
 
+import java.util.List;
+
 import sagex.phoenix.factory.BaseConfigurable;
 import sagex.phoenix.factory.ConfigurableOption;
-
-import java.util.List;
 
 public interface HasOptions {
     public List<ConfigurableOption> getOptions();

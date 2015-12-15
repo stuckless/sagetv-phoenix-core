@@ -1,12 +1,12 @@
 package sagex.phoenix.configuration.proxy;
 
-import org.apache.log4j.Logger;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
 
 public class GroupProxy {
     private static final Logger log = Logger.getLogger(GroupProxy.class);

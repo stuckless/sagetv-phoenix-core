@@ -2,8 +2,13 @@ package sagex.phoenix.stv;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
+
 import sagex.UIContext;
-import sagex.api.*;
+import sagex.api.AiringAPI;
+import sagex.api.Configuration;
+import sagex.api.Global;
+import sagex.api.MediaFileAPI;
+import sagex.api.MediaPlayerAPI;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.util.WaitFor;
 

@@ -1,8 +1,8 @@
 package sagex.phoenix.weather;
 
-import sagex.phoenix.tools.annotation.API;
-
 import java.util.Date;
+
+import sagex.phoenix.tools.annotation.API;
 
 /**
  * Interface to access the Current Weather Forecast data for the current day

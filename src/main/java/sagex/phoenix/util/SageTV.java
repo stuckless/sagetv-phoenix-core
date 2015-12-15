@@ -1,10 +1,11 @@
 package sagex.phoenix.util;
 
-import org.apache.log4j.Logger;
-import sagex.api.Configuration;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.log4j.Logger;
+
+import sagex.api.Configuration;
 
 @Deprecated
 public class SageTV {

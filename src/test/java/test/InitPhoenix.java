@@ -1,14 +1,15 @@
 package test;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.log4j.BasicConfigurator;
-import sagex.SageAPI;
-import sagex.phoenix.util.BaseBuilder;
-import sagex.stub.StubSageAPI;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.log4j.BasicConfigurator;
+
+import sagex.SageAPI;
+import sagex.phoenix.util.BaseBuilder;
+import sagex.stub.StubSageAPI;
 
 public class InitPhoenix {
     private static boolean initialized = false;

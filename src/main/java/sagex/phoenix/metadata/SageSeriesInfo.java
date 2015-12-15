@@ -1,10 +1,11 @@
 package sagex.phoenix.metadata;
 
-import org.apache.commons.lang.math.NumberUtils;
-import sagex.api.SeriesInfoAPI;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.math.NumberUtils;
+
+import sagex.api.SeriesInfoAPI;
 
 /**
  * Wraps the Sage SeriesInfo to provide a Read-Only {@link ISeriesInfo}

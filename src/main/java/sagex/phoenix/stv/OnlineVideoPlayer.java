@@ -1,6 +1,10 @@
 package sagex.phoenix.stv;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
+
 import sagex.UIContext;
 import sagex.api.Global;
 import sagex.api.MediaFileAPI;
@@ -11,9 +15,6 @@ import sagex.phoenix.vfs.HasPlayableUrl;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.ov.IUrlResolver;
 import sagex.util.WaitFor;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Class for managing the playback of Online Videos

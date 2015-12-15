@@ -1,17 +1,20 @@
 package test.junit;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
+import java.io.IOException;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.SageAPI;
 import sagex.phoenix.util.var.DynamicVariable;
 import sagex.phoenix.util.var.SageExpressionVariable;
 import sagex.phoenix.util.var.ScopedConfigurationPropertyVariable;
 import sagex.stub.StubSageAPI;
 import test.InitPhoenix;
-
-import java.io.IOException;
-
-import static junit.framework.Assert.*;
 
 public class TestDynamicVariables {
     @BeforeClass

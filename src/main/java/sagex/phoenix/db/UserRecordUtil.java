@@ -2,6 +2,7 @@ package sagex.phoenix.db;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+
 import sagex.api.UserRecordAPI;
 
 /**

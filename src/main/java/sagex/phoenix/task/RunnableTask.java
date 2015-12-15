@@ -1,8 +1,8 @@
 package sagex.phoenix.task;
 
-import sagex.phoenix.task.TaskItem.State;
-
 import java.util.TimerTask;
+
+import sagex.phoenix.task.TaskItem.State;
 
 public class RunnableTask extends TimerTask {
     private RetryTaskManager mgr = null;

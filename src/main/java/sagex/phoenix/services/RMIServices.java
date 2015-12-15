@@ -1,16 +1,17 @@
 package sagex.phoenix.services;
 
-import org.apache.commons.lang.math.NumberUtils;
-import org.apache.log4j.Logger;
-import sagex.api.Configuration;
-import sagex.plugin.impl.SagexConfiguration;
-
 import java.rmi.Remote;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.log4j.Logger;
+
+import sagex.api.Configuration;
+import sagex.plugin.impl.SagexConfiguration;
 
 /**
  * Phoenix RMI Services

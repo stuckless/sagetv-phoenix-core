@@ -1,18 +1,27 @@
 package sagex.phoenix.metadata;
 
-import org.apache.log4j.Logger;
-import sagex.phoenix.Phoenix;
-import sagex.phoenix.metadata.search.SearchQuery;
-import sagex.phoenix.metadata.search.SearchQuery.Field;
-import sagex.phoenix.progress.*;
-import sagex.phoenix.util.Hints;
-import sagex.phoenix.vfs.*;
-import sagex.phoenix.vfs.impl.FileResourceFactory;
-
 import java.io.File;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.Phoenix;
+import sagex.phoenix.metadata.search.SearchQuery;
+import sagex.phoenix.metadata.search.SearchQuery.Field;
+import sagex.phoenix.progress.IProgressMonitor;
+import sagex.phoenix.progress.IRunnableWithProgress;
+import sagex.phoenix.progress.ProgressTracker;
+import sagex.phoenix.progress.ProgressTrackerManager;
+import sagex.phoenix.progress.TrackedItem;
+import sagex.phoenix.util.Hints;
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaFolder;
+import sagex.phoenix.vfs.IMediaResource;
+import sagex.phoenix.vfs.IMediaResourceVisitor;
+import sagex.phoenix.vfs.VirtualMediaFolder;
+import sagex.phoenix.vfs.impl.FileResourceFactory;
 
 /**
  * Allows BMT to provide metadata support to the Phoenix Metadata apis.

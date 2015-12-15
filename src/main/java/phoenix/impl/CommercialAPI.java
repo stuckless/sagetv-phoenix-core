@@ -1,17 +1,18 @@
 package phoenix.impl;
 
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.LineIterator;
-import org.apache.commons.lang.math.NumberUtils;
-import org.apache.log4j.Logger;
-import sagex.phoenix.tools.annotation.API;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.LineIterator;
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.tools.annotation.API;
 
 /**
  * API for reading EDL Files for commercial skip. An EDL file has the following

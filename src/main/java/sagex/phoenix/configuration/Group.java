@@ -1,11 +1,11 @@
 package sagex.phoenix.configuration;
 
-import sagex.phoenix.node.IContainer;
-import sagex.phoenix.util.Hints;
-
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import sagex.phoenix.node.IContainer;
+import sagex.phoenix.util.Hints;
 
 public class Group extends AbstractElement implements Iterable<IConfigurationElement>, IContainer<Group, IConfigurationElement> {
     protected List<IConfigurationElement> elements = new LinkedList<IConfigurationElement>();

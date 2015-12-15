@@ -1,13 +1,13 @@
 package sagex.phoenix.remote;
 
-import org.apache.commons.io.output.ByteArrayOutputStream;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.io.output.ByteArrayOutputStream;
 
 /**
  * Stub IO Context used for testing

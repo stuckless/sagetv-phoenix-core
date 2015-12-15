@@ -1,21 +1,33 @@
 package sagex.phoenix.vfs;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
-import org.dom4j.*;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentFactory;
+import org.dom4j.Element;
+import org.dom4j.VisitorSupport;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import sagex.phoenix.util.Loggers;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import sagex.phoenix.util.Loggers;
 
 /**
  * Loads one or more VFS files and organizes the filters, sorter, views, etc

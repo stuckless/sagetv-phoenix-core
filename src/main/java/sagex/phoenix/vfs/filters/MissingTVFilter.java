@@ -1,6 +1,7 @@
 package sagex.phoenix.vfs.filters;
 
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.factory.ConfigurableOption.ListSelection;

@@ -1,16 +1,18 @@
 package sagex.phoenix.remote.services;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+
+import javax.script.ScriptException;
+
 import org.apache.commons.io.IOUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.phoenix.Phoenix;
 import test.InitPhoenix;
-
-import javax.script.ScriptException;
-import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class ScriptingEngingTest {
     private static interface MyInterface {

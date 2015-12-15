@@ -1,14 +1,19 @@
 package sagex.phoenix.vfs.ov;
 
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang.StringUtils;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.metadata.FieldName;
 import sagex.phoenix.metadata.MediaType;
 import sagex.phoenix.util.Loggers;
-
-import java.util.*;
-import java.util.regex.Pattern;
 
 public class XmlOptions {
     public static final String FEED_URL = "feedurl";

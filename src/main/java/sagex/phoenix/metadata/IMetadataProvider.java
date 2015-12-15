@@ -1,8 +1,8 @@
 package sagex.phoenix.metadata;
 
-import sagex.phoenix.metadata.search.SearchQuery;
-
 import java.util.List;
+
+import sagex.phoenix.metadata.search.SearchQuery;
 
 public interface IMetadataProvider {
     public IMetadataProviderInfo getInfo();

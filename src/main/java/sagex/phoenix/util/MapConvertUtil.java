@@ -1,9 +1,9 @@
 package sagex.phoenix.util;
 
+import java.util.Map;
+
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.math.NumberUtils;
-
-import java.util.Map;
 
 public class MapConvertUtil {
     public static String getString(Map<String, String> map, String key, String defValue) {

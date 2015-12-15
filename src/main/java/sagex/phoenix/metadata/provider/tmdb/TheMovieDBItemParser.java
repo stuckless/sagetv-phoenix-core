@@ -1,22 +1,28 @@
 package sagex.phoenix.metadata.provider.tmdb;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import sagex.phoenix.metadata.*;
+
+import sagex.phoenix.metadata.CastMember;
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.MediaArt;
+import sagex.phoenix.metadata.MediaArtifactType;
+import sagex.phoenix.metadata.MediaType;
 import sagex.phoenix.metadata.proxy.MetadataProxy;
 import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.util.DateUtils;
 import sagex.phoenix.util.url.IUrl;
 import sagex.phoenix.util.url.UrlFactory;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TheMovieDBItemParser {
     private static final Logger log = Logger.getLogger(TheMovieDBItemParser.class);

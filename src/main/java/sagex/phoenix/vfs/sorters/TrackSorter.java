@@ -1,9 +1,9 @@
 package sagex.phoenix.vfs.sorters;
 
-import sagex.phoenix.vfs.IMediaResource;
-
 import java.io.Serializable;
 import java.util.Comparator;
+
+import sagex.phoenix.vfs.IMediaResource;
 
 public class TrackSorter implements Comparator<IMediaResource>, Serializable {
     private static final long serialVersionUID = 1L;

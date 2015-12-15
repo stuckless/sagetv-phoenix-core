@@ -1,12 +1,12 @@
 package sagex.phoenix.fanart;
 
-import sagex.phoenix.metadata.MediaArtifactType;
-import sagex.phoenix.metadata.MediaType;
-import sagex.phoenix.vfs.IMediaFile;
-
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+
+import sagex.phoenix.metadata.MediaArtifactType;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.vfs.IMediaFile;
 
 /**
  * Any fanart lookup providers needs to implement this interface

@@ -1,12 +1,13 @@
 package sagex.phoenix.vfs.filters;
 
+import java.io.File;
+
 import org.apache.commons.lang.StringUtils;
+
 import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.util.PathUtils;
-
-import java.io.File;
 
 /**
  * Returns true if the file is a considered to be a Home Video. ie the file's

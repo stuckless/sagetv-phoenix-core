@@ -1,16 +1,21 @@
 package test.junit;
 
+import java.io.File;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.fanart.FanartStorage;
-import sagex.phoenix.metadata.*;
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.MediaArt;
+import sagex.phoenix.metadata.MediaArtifactType;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.metadata.MetadataConfiguration;
 import sagex.phoenix.metadata.proxy.MetadataProxy;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.VirtualMediaFile;
 import test.InitPhoenix;
-
-import java.io.File;
 
 public class TestFanartDownloading {
 

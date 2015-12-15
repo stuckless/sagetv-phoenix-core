@@ -1,12 +1,16 @@
 package test;
 
-import sagex.phoenix.fanart.*;
-import sagex.phoenix.metadata.MediaArtifactType;
-import sagex.phoenix.metadata.MediaType;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+
+import sagex.phoenix.fanart.FanartUtil;
+import sagex.phoenix.fanart.IFanartSupport;
+import sagex.phoenix.fanart.LocalFanartSupport;
+import sagex.phoenix.fanart.PhoenixFanartSupport;
+import sagex.phoenix.fanart.SageMCFanartSupport;
+import sagex.phoenix.metadata.MediaArtifactType;
+import sagex.phoenix.metadata.MediaType;
 
 public class TestFanart {
     public static void main(String args[]) {

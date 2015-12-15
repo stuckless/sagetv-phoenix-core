@@ -1,6 +1,12 @@
 package sagex.phoenix.vfs.sage;
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+
 import sagex.api.AiringAPI;
 import sagex.api.FavoriteAPI;
 import sagex.api.MediaFileAPI;
@@ -9,13 +15,12 @@ import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.metadata.MetadataUtil;
 import sagex.phoenix.metadata.proxy.AiringMetadataProxy;
 import sagex.phoenix.util.Hints;
-import sagex.phoenix.vfs.*;
+import sagex.phoenix.vfs.IAlbumInfo;
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaFolder;
+import sagex.phoenix.vfs.MediaResourceType;
+import sagex.phoenix.vfs.VirtualMediaFile;
 import sagex.phoenix.vfs.impl.FileToucher;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 public class SageMediaFile extends VirtualMediaFile implements IMediaFile {
     /**

@@ -1,15 +1,16 @@
 package sagex.phoenix.fanart;
 
-import org.apache.log4j.Logger;
-import sagex.phoenix.metadata.MediaArtifactType;
-import sagex.phoenix.metadata.MediaType;
-import sagex.phoenix.vfs.IMediaFile;
-import sagex.phoenix.vfs.util.PathUtils;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.metadata.MediaArtifactType;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.util.PathUtils;
 
 /**
  * Local Fanart Support implements the FanartAPI but only looks for Fanart, in

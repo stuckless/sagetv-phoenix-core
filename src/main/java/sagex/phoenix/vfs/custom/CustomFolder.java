@@ -1,6 +1,10 @@
 package sagex.phoenix.vfs.custom;
 
+import java.io.File;
+import java.util.List;
+
 import org.apache.commons.lang.math.NumberUtils;
+
 import sagex.api.UserRecordAPI;
 import sagex.phoenix.metadata.FieldName;
 import sagex.phoenix.metadata.MetadataUtil;
@@ -12,9 +16,6 @@ import sagex.phoenix.vfs.VirtualMediaFolder;
 import sagex.phoenix.vfs.impl.FileMediaFile;
 import sagex.phoenix.vfs.impl.FileResourceFactory;
 import sagex.phoenix.vfs.sage.SageMediaFile;
-
-import java.io.File;
-import java.util.List;
 
 public class CustomFolder extends VirtualMediaFolder {
     public static final String FIELD_TITLE = FieldName.Title;

@@ -1,13 +1,14 @@
 package sagex.phoenix.common;
 
-import org.apache.commons.lang.BooleanUtils;
-import org.apache.log4j.Logger;
-import sagex.api.Configuration;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.log4j.Logger;
+
+import sagex.api.Configuration;
 
 /**
  * Manages sets of configuration files from 3 primary sources; System, Plugins,

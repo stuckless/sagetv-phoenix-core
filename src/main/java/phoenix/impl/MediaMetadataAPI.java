@@ -1,18 +1,25 @@
 package phoenix.impl;
 
+import java.util.Map;
+import java.util.Properties;
+
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.cache.ICache;
 import sagex.phoenix.cache.SimpleWeakMapCache;
-import sagex.phoenix.metadata.*;
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.IMetadataSearchResult;
+import sagex.phoenix.metadata.IMetadataSupport;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.metadata.MetadataException;
+import sagex.phoenix.metadata.MetadataHints;
+import sagex.phoenix.metadata.PhoenixMetadataSupport;
 import sagex.phoenix.metadata.search.SearchQuery;
 import sagex.phoenix.metadata.search.SearchQuery.Field;
 import sagex.phoenix.tools.annotation.API;
 import sagex.phoenix.util.Hints;
 import sagex.phoenix.vfs.IMediaFile;
-
-import java.util.Map;
-import java.util.Properties;
 
 /**
  * Service Calls for Dealing with media file metadata. ie, for searching for

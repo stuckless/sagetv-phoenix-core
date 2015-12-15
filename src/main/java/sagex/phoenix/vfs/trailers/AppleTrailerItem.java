@@ -1,5 +1,9 @@
 package sagex.phoenix.vfs.trailers;
 
+import java.io.File;
+import java.util.Calendar;
+import java.util.List;
+
 import sagex.phoenix.metadata.CastMember;
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.util.DateUtils;
@@ -8,10 +12,6 @@ import sagex.phoenix.vfs.MediaResourceType;
 import sagex.phoenix.vfs.VirtualMediaFile;
 import sagex.remote.json.JSONArray;
 import sagex.remote.json.JSONObject;
-
-import java.io.File;
-import java.util.Calendar;
-import java.util.List;
 
 public class AppleTrailerItem extends VirtualMediaFile {
     public AppleTrailerItem(IMediaFolder parent, JSONObject json) {

@@ -1,13 +1,13 @@
 package sagex.phoenix.factory;
 
+import java.util.Collection;
+import java.util.Set;
+import java.util.TreeSet;
+
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.factory.ConfigurableOption.ListSelection;
 import sagex.phoenix.util.HasLabel;
 import sagex.phoenix.util.HasName;
-
-import java.util.Collection;
-import java.util.Set;
-import java.util.TreeSet;
 
 public abstract class Factory<T> extends BaseConfigurable implements HasName, HasLabel {
     /**

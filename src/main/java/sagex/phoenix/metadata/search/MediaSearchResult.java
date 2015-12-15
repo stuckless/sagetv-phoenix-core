@@ -1,13 +1,13 @@
 package sagex.phoenix.metadata.search;
 
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.metadata.IMetadataSearchResult;
 import sagex.phoenix.metadata.MediaType;
 import sagex.phoenix.util.StringUtils;
-
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MediaSearchResult implements IMetadataSearchResult, Serializable, HasIMDBID {
     private static final long serialVersionUID = 2L;

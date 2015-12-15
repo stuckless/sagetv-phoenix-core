@@ -1,35 +1,5 @@
 package sagex.phoenix.metadata;
 
-import org.apache.commons.io.IOCase;
-import org.apache.commons.io.filefilter.SuffixFileFilter;
-import org.apache.commons.lang.StringUtils;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
-import sagex.api.Configuration;
-import sagex.api.ShowAPI;
-import sagex.phoenix.Phoenix;
-import sagex.phoenix.common.SystemConfigurationFileManager;
-import sagex.phoenix.configuration.proxy.GroupProxy;
-import sagex.phoenix.fanart.FanartStorage;
-import sagex.phoenix.fanart.FanartUtil;
-import sagex.phoenix.fanart.LocalFanartStorage;
-import sagex.phoenix.metadata.factory.MetadataProviderBuilder;
-import sagex.phoenix.metadata.persistence.Sage7Persistence;
-import sagex.phoenix.metadata.search.*;
-import sagex.phoenix.metadata.search.SearchQuery.Field;
-import sagex.phoenix.util.Hints;
-import sagex.phoenix.vfs.IMediaFile;
-import sagex.phoenix.vfs.IMediaResource;
-import sagex.phoenix.vfs.MediaResourceType;
-import sagex.phoenix.vfs.filters.FilePathFilter;
-import sagex.phoenix.vfs.filters.MediaResourceTypeFilter;
-import sagex.phoenix.vfs.filters.MissingMetadataFilter;
-import sagex.phoenix.vfs.sage.SageMediaFile;
-import sagex.phoenix.vfs.util.PathUtils;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -41,6 +11,41 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.io.IOCase;
+import org.apache.commons.io.filefilter.SuffixFileFilter;
+import org.apache.commons.lang.StringUtils;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.XMLReaderFactory;
+
+import sagex.api.Configuration;
+import sagex.api.ShowAPI;
+import sagex.phoenix.Phoenix;
+import sagex.phoenix.common.SystemConfigurationFileManager;
+import sagex.phoenix.configuration.proxy.GroupProxy;
+import sagex.phoenix.fanart.FanartStorage;
+import sagex.phoenix.fanart.FanartUtil;
+import sagex.phoenix.fanart.LocalFanartStorage;
+import sagex.phoenix.metadata.factory.MetadataProviderBuilder;
+import sagex.phoenix.metadata.persistence.Sage7Persistence;
+import sagex.phoenix.metadata.search.HasFindByIMDBID;
+import sagex.phoenix.metadata.search.MediaSearchResult;
+import sagex.phoenix.metadata.search.MetadataSearchUtil;
+import sagex.phoenix.metadata.search.SearchQuery;
+import sagex.phoenix.metadata.search.SearchQuery.Field;
+import sagex.phoenix.metadata.search.SearchQueryFactory;
+import sagex.phoenix.util.Hints;
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaResource;
+import sagex.phoenix.vfs.MediaResourceType;
+import sagex.phoenix.vfs.filters.FilePathFilter;
+import sagex.phoenix.vfs.filters.MediaResourceTypeFilter;
+import sagex.phoenix.vfs.filters.MissingMetadataFilter;
+import sagex.phoenix.vfs.sage.SageMediaFile;
+import sagex.phoenix.vfs.util.PathUtils;
 
 /**
  * Manages all Fanart/Metadata operations, from adding/removing providers,

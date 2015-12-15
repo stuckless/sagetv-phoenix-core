@@ -1,11 +1,12 @@
 package phoenix.impl;
 
+import java.io.IOException;
+
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.tools.annotation.API;
 import sagex.phoenix.util.PhoenixScriptEngine;
-
-import java.io.IOException;
 
 /**
  * General Purpose Utility Methods

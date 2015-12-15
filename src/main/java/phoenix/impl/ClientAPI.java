@@ -1,17 +1,22 @@
 package phoenix.impl;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
 import sagex.api.Configuration;
 import sagex.api.Global;
 import sagex.api.Utility;
 import sagex.phoenix.tools.annotation.API;
 import sagex.phoenix.util.PropertiesUtils;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
 
 /**
  * Manages the extender names as configured in the Sage.properties

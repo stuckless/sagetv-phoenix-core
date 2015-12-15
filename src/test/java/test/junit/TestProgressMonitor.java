@@ -1,13 +1,14 @@
 package test.junit;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
 import org.junit.Test;
+
 import sagex.phoenix.progress.BasicProgressMonitor;
 import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.progress.ProgressTracker;
 import sagex.phoenix.progress.TrackedItem;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
 
 public class TestProgressMonitor {
     @Test

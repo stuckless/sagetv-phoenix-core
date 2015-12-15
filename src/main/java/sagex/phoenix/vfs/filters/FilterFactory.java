@@ -1,9 +1,9 @@
 package sagex.phoenix.vfs.filters;
 
+import java.util.Set;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.Factory;
-
-import java.util.Set;
 
 public class FilterFactory extends Factory<Filter> implements Comparable<FilterFactory> {
     protected Filter resourceFilter = null;

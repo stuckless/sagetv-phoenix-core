@@ -1,14 +1,15 @@
 package sagex.phoenix.vfs.sage;
 
+import java.io.File;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+
 import sagex.api.MediaFileAPI;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.VirtualMediaFolder;
 import sagex.phoenix.vfs.impl.FileResourceFactory;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * Creates a Virtual FileSystem layout for collection of Sage MediaFile objects

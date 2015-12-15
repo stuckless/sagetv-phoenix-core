@@ -1,13 +1,13 @@
 package sagex.phoenix.tools.support;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.io.FileUtils;
 
 public class Tools {
 

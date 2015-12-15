@@ -1,5 +1,10 @@
 package sagex.phoenix.vfs.sorters;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import sagex.phoenix.factory.BaseConfigurable;
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
@@ -7,11 +12,6 @@ import sagex.phoenix.factory.ConfigurableOption.ListSelection;
 import sagex.phoenix.util.Loggers;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.util.HasOptions;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
 public class TitleSorter implements Comparator<IMediaResource>, Serializable, HasOptions {
     private static final long serialVersionUID = 1L;

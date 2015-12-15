@@ -1,9 +1,9 @@
 package sagex.phoenix.metadata.search;
 
-import sagex.phoenix.metadata.MediaType;
-
 import java.io.File;
 import java.util.regex.Pattern;
+
+import sagex.phoenix.metadata.MediaType;
 
 public class FileMatcher implements Comparable<FileMatcher> {
     private String id;

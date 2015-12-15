@@ -1,8 +1,8 @@
 package test;
 
-import sagex.remote.json.JSONException;
-
 import java.io.IOException;
+
+import sagex.remote.json.JSONException;
 
 public class TestMisc2 {
     public static void main(String args[]) throws IOException, JSONException {

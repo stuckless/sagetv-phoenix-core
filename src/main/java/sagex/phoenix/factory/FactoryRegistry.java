@@ -1,8 +1,16 @@
 package sagex.phoenix.factory;
 
-import org.apache.log4j.Logger;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
-import java.util.*;
+import org.apache.log4j.Logger;
 
 public class FactoryRegistry<F extends Factory<?>> {
     protected Logger log = Logger.getLogger(this.getClass());

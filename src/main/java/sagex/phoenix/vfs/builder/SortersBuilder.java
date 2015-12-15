@@ -1,6 +1,7 @@
 package sagex.phoenix.vfs.builder;
 
 import org.xml.sax.SAXException;
+
 import sagex.phoenix.vfs.VFSManager;
 import sagex.phoenix.vfs.sorters.SorterFactory;
 

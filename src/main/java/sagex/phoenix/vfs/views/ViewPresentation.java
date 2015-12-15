@@ -1,6 +1,11 @@
 package sagex.phoenix.vfs.views;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+
 import sagex.phoenix.util.CloneUtil;
 import sagex.phoenix.util.PublicCloneable;
 import sagex.phoenix.vfs.IMediaResource;
@@ -8,10 +13,6 @@ import sagex.phoenix.vfs.filters.Filter;
 import sagex.phoenix.vfs.groups.Grouper;
 import sagex.phoenix.vfs.sorters.MultiLevelComparator;
 import sagex.phoenix.vfs.sorters.Sorter;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * View Presention organizes the sorts, filters, and groups for a given view

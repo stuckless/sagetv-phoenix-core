@@ -1,20 +1,21 @@
 package sagex.phoenix.fanart;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.image.ImageUtil;
 import sagex.phoenix.metadata.MediaArtifactType;
 import sagex.phoenix.metadata.MediaType;
 import sagex.phoenix.metadata.MetadataConfiguration;
 import sagex.phoenix.vfs.IMediaFile;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Central Folder V2 Support as defined the <a

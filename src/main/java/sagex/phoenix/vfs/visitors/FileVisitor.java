@@ -1,6 +1,7 @@
 package sagex.phoenix.vfs.visitors;
 
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaResource;

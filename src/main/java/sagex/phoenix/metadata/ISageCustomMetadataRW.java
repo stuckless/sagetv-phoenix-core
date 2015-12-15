@@ -1,9 +1,9 @@
 package sagex.phoenix.metadata;
 
-import sagex.phoenix.metadata.proxy.SageProperty;
-
 import java.util.Date;
 import java.util.List;
+
+import sagex.phoenix.metadata.proxy.SageProperty;
 
 /**
  * Provide support for some common custom fields, This list is not extensive,

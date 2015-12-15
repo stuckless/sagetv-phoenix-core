@@ -1,8 +1,17 @@
 package test.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
+
 import org.apache.commons.io.FileUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.SageAPI;
 import sagex.api.Configuration;
 import sagex.phoenix.skins.ISkin;
@@ -11,12 +20,6 @@ import sagex.phoenix.skins.SkinManager;
 import sagex.stub.PropertiesStubAPIProxy;
 import sagex.stub.StubSageAPI;
 import test.InitPhoenix;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
-
-import static org.junit.Assert.*;
 
 public class TestSkinAPI {
     @BeforeClass

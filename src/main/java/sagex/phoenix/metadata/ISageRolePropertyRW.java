@@ -1,8 +1,8 @@
 package sagex.phoenix.metadata;
 
-import sagex.phoenix.metadata.proxy.SageProperty;
-
 import java.util.List;
+
+import sagex.phoenix.metadata.proxy.SageProperty;
 
 public interface ISageRolePropertyRW extends ISageMetadata {
     @SageProperty(value = "Actor", listFactory = "sagex.phoenix.metadata.proxy.CastMemberPropertyListFactory")

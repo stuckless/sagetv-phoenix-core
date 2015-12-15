@@ -1,7 +1,13 @@
 package test.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
+import java.io.IOException;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.SageAPI;
 import sagex.api.MediaFileAPI;
 import sagex.api.ShowAPI;
@@ -17,11 +23,6 @@ import sagex.phoenix.vfs.visitors.FilteredResourceVisitor;
 import test.InitPhoenix;
 import test.junit.lib.SimpleStubAPI;
 import test.junit.lib.SimpleStubAPI.Airing;
-
-import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 public class TestPQL {
     @BeforeClass

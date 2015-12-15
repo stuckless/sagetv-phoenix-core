@@ -1,12 +1,13 @@
 package sagex.phoenix.remote;
 
-import org.apache.commons.lang.math.NumberUtils;
-import sagex.phoenix.util.Function;
-
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang.math.NumberUtils;
+
+import sagex.phoenix.util.Function;
 
 public class ReferenceFunction implements Function<String, Object> {
     private Pattern pat = Pattern.compile("([a-zA-Z]+)\\[([^\\]]+)\\]");

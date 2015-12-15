@@ -1,9 +1,9 @@
 package sagex.phoenix.db;
 
+import java.util.LinkedList;
+
 import sagex.phoenix.util.Pair;
 import sagex.phoenix.vfs.filters.IResourceFilter;
-
-import java.util.LinkedList;
 
 /**
  * Phoenix Query Language - A Simple Filter builder

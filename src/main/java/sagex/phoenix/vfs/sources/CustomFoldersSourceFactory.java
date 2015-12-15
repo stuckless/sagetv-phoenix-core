@@ -1,11 +1,11 @@
 package sagex.phoenix.vfs.sources;
 
+import java.util.Set;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.Factory;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.custom.CustomFolders;
-
-import java.util.Set;
 
 /**
  * Simple factory for creating the Custom Folders node.

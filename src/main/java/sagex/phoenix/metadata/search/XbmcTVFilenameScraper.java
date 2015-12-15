@@ -1,7 +1,11 @@
 package sagex.phoenix.metadata.search;
 
+import java.io.File;
+import java.net.URLDecoder;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+
 import sagex.api.AiringAPI;
 import sagex.api.ShowAPI;
 import sagex.phoenix.metadata.MediaType;
@@ -10,9 +14,6 @@ import sagex.phoenix.scrapers.xbmc.XbmcScraperProcessor;
 import sagex.phoenix.util.Hints;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.util.PathUtils;
-
-import java.io.File;
-import java.net.URLDecoder;
 
 public class XbmcTVFilenameScraper extends XbmcFilenameScraper {
     public XbmcTVFilenameScraper(File scraperFile) throws Exception {

@@ -1,14 +1,19 @@
 package sagex.phoenix.fanart;
 
-import org.apache.commons.lang.math.NumberUtils;
-import org.apache.log4j.Logger;
-import sagex.SageAPI;
-import sagex.api.*;
-import sagex.phoenix.metadata.MediaType;
-
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.log4j.Logger;
+
+import sagex.SageAPI;
+import sagex.api.AiringAPI;
+import sagex.api.AlbumAPI;
+import sagex.api.Configuration;
+import sagex.api.MediaFileAPI;
+import sagex.api.ShowAPI;
+import sagex.phoenix.metadata.MediaType;
 
 public class SageFanartUtil {
     private static final Logger log = Logger.getLogger(SageFanartUtil.class);

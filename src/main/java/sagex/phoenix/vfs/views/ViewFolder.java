@@ -1,7 +1,15 @@
 package sagex.phoenix.vfs.views;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.util.ElapsedTimer;
 import sagex.phoenix.util.Hints;
 import sagex.phoenix.util.Loggers;
@@ -13,8 +21,6 @@ import sagex.phoenix.vfs.filters.Filter;
 import sagex.phoenix.vfs.groups.GroupNameMediaFolder;
 import sagex.phoenix.vfs.groups.Grouper;
 import sagex.phoenix.vfs.sorters.Sorter;
-
-import java.util.*;
 
 public class ViewFolder extends DecoratedMediaFolder {
     protected Logger log = Logger.getLogger(this.getClass());

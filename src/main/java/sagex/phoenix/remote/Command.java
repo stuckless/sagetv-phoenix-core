@@ -1,12 +1,13 @@
 package sagex.phoenix.remote;
 
-import org.apache.commons.lang.StringUtils;
-import sagex.UIContext;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang.StringUtils;
+
+import sagex.UIContext;
 
 public class Command {
     public static enum Encoder {

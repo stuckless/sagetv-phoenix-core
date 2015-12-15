@@ -1,13 +1,17 @@
 package test.junit;
 
-import org.junit.Test;
-import phoenix.impl.UtilAPI;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
 
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import static junit.framework.Assert.*;
+import org.junit.Test;
+
+import phoenix.impl.UtilAPI;
 
 public class TestUtilAPI {
     @Test

@@ -1,12 +1,13 @@
 package sagex.phoenix.scrapers.xbmc;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import sagex.phoenix.util.url.UrlUtil;
-
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.util.url.UrlUtil;
 
 /**
  * This tries to emulate the XMBC Process. Much of what is done in this code was

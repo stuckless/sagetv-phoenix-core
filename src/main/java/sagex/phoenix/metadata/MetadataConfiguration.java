@@ -4,7 +4,11 @@ import sagex.phoenix.Phoenix;
 import sagex.phoenix.configuration.Config;
 import sagex.phoenix.configuration.ConfigScope;
 import sagex.phoenix.configuration.ConfigType;
-import sagex.phoenix.configuration.proxy.*;
+import sagex.phoenix.configuration.proxy.AField;
+import sagex.phoenix.configuration.proxy.AGroup;
+import sagex.phoenix.configuration.proxy.Converter;
+import sagex.phoenix.configuration.proxy.FieldProxy;
+import sagex.phoenix.configuration.proxy.GroupProxy;
 
 @AGroup(label = "Fanart/Metadata Options", path = "phoenix/fanart", description = "Fanart and Metadata options that control how metadata fanart is treated")
 public class MetadataConfiguration extends GroupProxy {

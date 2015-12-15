@@ -1,19 +1,20 @@
 package sagex.phoenix.fanart;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import org.apache.log4j.Logger;
-import sagex.phoenix.image.ImageUtil;
-import sagex.phoenix.metadata.IMediaArt;
-import sagex.phoenix.metadata.IMetadata;
-import sagex.phoenix.metadata.MediaArtifactType;
-import sagex.phoenix.metadata.MediaType;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.image.ImageUtil;
+import sagex.phoenix.metadata.IMediaArt;
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.MediaArtifactType;
+import sagex.phoenix.metadata.MediaType;
 
 /**
  * Collection of Useful Functions for dealing with the Central and Local Fanart

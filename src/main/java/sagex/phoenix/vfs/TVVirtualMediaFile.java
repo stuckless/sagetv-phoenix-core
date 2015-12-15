@@ -1,9 +1,10 @@
 package sagex.phoenix.vfs;
 
-import com.omertron.thetvdbapi.model.Episode;
-import sagex.phoenix.util.DateUtils;
-
 import java.util.Date;
+
+import com.omertron.thetvdbapi.model.Episode;
+
+import sagex.phoenix.util.DateUtils;
 
 /**
  * A Virtual TV media file to represent a missing Episode from a specific Show,

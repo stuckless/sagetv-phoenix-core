@@ -1,7 +1,13 @@
 package test.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.SageAPI;
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.db.ParseException;
@@ -17,11 +23,6 @@ import sagex.phoenix.vfs.views.ViewPresentation;
 import test.InitPhoenix;
 import test.junit.lib.SimpleStubAPI;
 import test.junit.lib.SimpleStubAPI.Airing;
-
-import java.io.IOException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class TestJavaViewFactory {
     @BeforeClass

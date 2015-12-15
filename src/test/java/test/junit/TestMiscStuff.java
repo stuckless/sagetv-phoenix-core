@@ -1,10 +1,11 @@
 package test.junit;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
-import sagex.phoenix.util.StringUtils;
 
-import static org.junit.Assert.assertEquals;
+import sagex.phoenix.util.StringUtils;
 
 public class TestMiscStuff {
     @BeforeClass

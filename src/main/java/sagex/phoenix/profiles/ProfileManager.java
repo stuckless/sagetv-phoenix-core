@@ -1,12 +1,13 @@
 package sagex.phoenix.profiles;
 
-import org.apache.log4j.Logger;
-import sagex.api.Global;
-
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.log4j.Logger;
+
+import sagex.api.Global;
 
 public class ProfileManager {
     private static final String DEFAULT_CONTEXT = "default";

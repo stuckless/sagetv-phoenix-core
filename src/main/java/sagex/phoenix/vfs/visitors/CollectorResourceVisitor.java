@@ -1,12 +1,12 @@
 package sagex.phoenix.vfs.visitors;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.IMediaResourceVisitor;
 import sagex.phoenix.vfs.MediaResourceType;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Collects resources

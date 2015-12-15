@@ -1,13 +1,13 @@
 package sagex.phoenix.vfs.filters;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.util.DateUtils;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaResource;
-
-import java.util.Calendar;
-import java.util.Date;
 
 public class DateFilter extends Filter {
     private Date myDate = null;

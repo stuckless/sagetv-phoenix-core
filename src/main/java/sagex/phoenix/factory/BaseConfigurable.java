@@ -1,9 +1,17 @@
 package sagex.phoenix.factory;
 
-import org.apache.log4j.Logger;
-import sagex.phoenix.util.PublicCloneable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
-import java.util.*;
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.util.PublicCloneable;
 
 /**
  * @author seans

@@ -1,11 +1,12 @@
 package sagex.phoenix.vfs.sorters;
 
-import org.apache.commons.lang.math.NumberUtils;
-import sagex.phoenix.vfs.IMediaFile;
-import sagex.phoenix.vfs.IMediaResource;
-
 import java.io.Serializable;
 import java.util.Comparator;
+
+import org.apache.commons.lang.math.NumberUtils;
+
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaResource;
 
 /**
  * Sorts based on the Date Added to SageDB (MediaFileID)

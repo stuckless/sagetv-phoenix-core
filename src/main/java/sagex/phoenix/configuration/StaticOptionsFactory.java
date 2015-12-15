@@ -1,10 +1,10 @@
 package sagex.phoenix.configuration;
 
-import sagex.phoenix.util.NamedValue;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import sagex.phoenix.util.NamedValue;
 
 /**
  * Factory for returning a static option list

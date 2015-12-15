@@ -1,8 +1,14 @@
 package sagex.phoenix.vfs.ov;
 
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang.StringUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
 import sagex.phoenix.metadata.FieldName;
 import sagex.phoenix.metadata.MetadataUtil;
 import sagex.phoenix.util.BaseBuilder;
@@ -11,11 +17,6 @@ import sagex.phoenix.util.XmlUtil;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.ov.XmlOptions.XmlMetadata;
-
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class XmlHandler extends BaseBuilder {
     private XmlFolder folder = null;

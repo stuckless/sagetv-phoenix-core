@@ -1,9 +1,10 @@
 package sagex.phoenix.image;
 
-import sagex.phoenix.image.extra.ShadowFactory;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+
+import sagex.phoenix.image.extra.ShadowFactory;
 
 public class ShadowTransform implements IBufferedTransform {
     private ShadowFactory factory = new ShadowFactory();

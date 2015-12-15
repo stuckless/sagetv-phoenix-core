@@ -1,15 +1,16 @@
 package sagex.phoenix.metadata.persistence;
 
-import org.apache.log4j.Logger;
-import sagex.phoenix.Phoenix;
-import sagex.phoenix.download.DownloadItem;
-import sagex.phoenix.image.ImageUtil;
-import sagex.phoenix.util.FileUtils;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.SocketTimeoutException;
 import java.net.URL;
+
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.Phoenix;
+import sagex.phoenix.download.DownloadItem;
+import sagex.phoenix.image.ImageUtil;
+import sagex.phoenix.util.FileUtils;
 
 public class PersistenceUtil {
     private static Logger log = Logger.getLogger(PersistenceUtil.class);

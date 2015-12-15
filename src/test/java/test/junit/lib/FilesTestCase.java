@@ -1,9 +1,9 @@
 package test.junit.lib;
 
+import java.io.File;
+
 import junit.framework.TestCase;
 import sagex.phoenix.vfs.impl.FileCleaner;
-
-import java.io.File;
 
 public class FilesTestCase extends TestCase {
     public FilesTestCase() {

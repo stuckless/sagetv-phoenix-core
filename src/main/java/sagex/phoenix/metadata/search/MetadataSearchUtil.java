@@ -1,8 +1,14 @@
 package sagex.phoenix.metadata.search;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.metadata.IMetadataProvider;
@@ -11,11 +17,6 @@ import sagex.phoenix.metadata.MetadataConfiguration;
 import sagex.phoenix.metadata.search.SearchQuery.Field;
 import sagex.phoenix.util.DateUtils;
 import sagex.phoenix.util.Similarity;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MetadataSearchUtil {
     private static final Logger log = Logger.getLogger(MetadataSearchUtil.class);

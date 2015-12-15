@@ -1,6 +1,7 @@
 package sagex.phoenix.vfs.builder;
 
 import org.xml.sax.SAXException;
+
 import sagex.phoenix.factory.Factory;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.VFSManager;

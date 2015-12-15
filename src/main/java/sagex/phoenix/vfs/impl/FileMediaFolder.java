@@ -1,13 +1,13 @@
 package sagex.phoenix.vfs.impl;
 
+import java.io.File;
+import java.io.Serializable;
+import java.util.List;
+
 import sagex.phoenix.util.Hints;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.VirtualMediaFolder;
-
-import java.io.File;
-import java.io.Serializable;
-import java.util.List;
 
 public class FileMediaFolder extends VirtualMediaFolder implements Serializable {
     private static final long serialVersionUID = 1L;

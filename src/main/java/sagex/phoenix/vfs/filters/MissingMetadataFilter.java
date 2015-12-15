@@ -1,6 +1,7 @@
 package sagex.phoenix.vfs.filters;
 
 import org.apache.commons.lang.StringUtils;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.vfs.IMediaFile;

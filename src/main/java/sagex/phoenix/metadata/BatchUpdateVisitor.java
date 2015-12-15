@@ -1,12 +1,12 @@
 package sagex.phoenix.metadata;
 
+import java.util.Map;
+
 import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.util.Loggers;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.IMediaResourceVisitor;
-
-import java.util.Map;
 
 /**
  * batch updates each mediafile with the given set of metadata properties

@@ -1,9 +1,9 @@
 package sagex.phoenix.metadata;
 
+import java.util.List;
+
 import sagex.phoenix.metadata.proxy.SageProperty;
 import sagex.phoenix.tools.annotation.API;
-
-import java.util.List;
 
 /**
  * Represents the Series Info for a given TV Show

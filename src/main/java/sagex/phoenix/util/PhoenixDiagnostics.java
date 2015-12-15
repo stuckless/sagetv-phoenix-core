@@ -1,13 +1,5 @@
 package sagex.phoenix.util;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.WordUtils;
-import sagex.api.Configuration;
-import sagex.api.MediaFileAPI;
-import sagex.phoenix.fanart.SageFanartUtil;
-import sagex.phoenix.fanart.SimpleMediaFile;
-import sagex.phoenix.metadata.MediaType;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -17,6 +9,15 @@ import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.WordUtils;
+
+import sagex.api.Configuration;
+import sagex.api.MediaFileAPI;
+import sagex.phoenix.fanart.SageFanartUtil;
+import sagex.phoenix.fanart.SimpleMediaFile;
+import sagex.phoenix.metadata.MediaType;
 
 public class PhoenixDiagnostics {
     public static class Timer {

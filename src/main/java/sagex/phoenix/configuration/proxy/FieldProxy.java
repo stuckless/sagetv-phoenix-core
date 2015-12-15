@@ -1,6 +1,7 @@
 package sagex.phoenix.configuration.proxy;
 
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.Phoenix;
 
 public class FieldProxy<T> {

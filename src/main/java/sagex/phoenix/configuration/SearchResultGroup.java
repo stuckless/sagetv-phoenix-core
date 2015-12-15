@@ -1,6 +1,7 @@
 package sagex.phoenix.configuration;
 
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.util.ElapsedTimer;
 

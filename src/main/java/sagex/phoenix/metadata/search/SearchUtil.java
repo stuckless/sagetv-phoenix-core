@@ -1,6 +1,7 @@
 package sagex.phoenix.metadata.search;
 
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.metadata.MetadataConfiguration;
 

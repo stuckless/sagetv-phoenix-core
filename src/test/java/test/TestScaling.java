@@ -1,8 +1,8 @@
 package test;
 
-import sagex.SageAPI;
-
 import java.io.IOException;
+
+import sagex.SageAPI;
 
 public class TestScaling {
     public static void main(String args[]) throws IOException {

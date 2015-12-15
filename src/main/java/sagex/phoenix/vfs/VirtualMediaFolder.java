@@ -1,12 +1,13 @@
 package sagex.phoenix.vfs;
 
-import org.apache.commons.lang.StringUtils;
-import sagex.phoenix.progress.IProgressMonitor;
-import sagex.phoenix.util.Hints;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+
+import sagex.phoenix.progress.IProgressMonitor;
+import sagex.phoenix.util.Hints;
 
 public class VirtualMediaFolder extends AbstractMediaResource implements IMediaFolder {
     private boolean changed = true;

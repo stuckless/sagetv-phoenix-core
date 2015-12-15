@@ -1,11 +1,11 @@
 package sagex.phoenix.configuration;
 
-import org.apache.log4j.Logger;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.apache.log4j.Logger;
 
 public class XmlMetadataProvider implements IConfigurationMetadata {
     private static final Logger log = Logger.getLogger(XmlMetadataProvider.class);

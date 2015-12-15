@@ -1,15 +1,16 @@
 package sagex.phoenix.menu;
 
-import org.apache.commons.lang.StringUtils;
-import sagex.phoenix.db.UserRecordUtil;
-import sagex.phoenix.node.IContainer;
-import sagex.phoenix.node.INodeVisitor;
-import sagex.phoenix.util.var.DynamicVariable;
-
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+
+import sagex.phoenix.db.UserRecordUtil;
+import sagex.phoenix.node.IContainer;
+import sagex.phoenix.node.INodeVisitor;
+import sagex.phoenix.util.var.DynamicVariable;
 
 public class Menu extends MenuItem implements Iterable<IMenuItem>, IMenuItem, IContainer<Menu, IMenuItem> {
     public static final String FIELD_SORTORDER = "sortorder";

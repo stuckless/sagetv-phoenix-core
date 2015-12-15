@@ -1,19 +1,28 @@
 package sagex.phoenix.tools.support;
 
-import org.apache.commons.io.DirectoryWalker;
-import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
-import sagex.api.Configuration;
-import sagex.api.MediaFileAPI;
-import sagex.phoenix.util.SageTV;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import org.apache.commons.io.DirectoryWalker;
+import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
+
+import sagex.api.Configuration;
+import sagex.api.MediaFileAPI;
+import sagex.phoenix.util.SageTV;
 
 public class Troubleshooter {
     private static final Logger log = Logger.getLogger(Troubleshooter.class);

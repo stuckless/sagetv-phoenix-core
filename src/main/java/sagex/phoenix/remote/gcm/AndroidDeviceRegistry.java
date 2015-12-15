@@ -1,15 +1,20 @@
 package sagex.phoenix.remote.gcm;
 
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
+
 import sagex.api.Configuration;
 import sagex.phoenix.remote.gcm.Message.Builder;
 import sagex.phoenix.tools.annotation.API;
-
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.*;
 
 @API(group = "gcm")
 public class AndroidDeviceRegistry {

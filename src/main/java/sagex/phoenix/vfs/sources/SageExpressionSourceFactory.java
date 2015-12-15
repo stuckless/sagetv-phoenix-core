@@ -1,5 +1,8 @@
 package sagex.phoenix.vfs.sources;
 
+import java.util.List;
+import java.util.Set;
+
 import sagex.api.AiringAPI;
 import sagex.api.MediaFileAPI;
 import sagex.api.WidgetAPI;
@@ -8,9 +11,6 @@ import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.factory.Factory;
 import sagex.phoenix.util.ElapsedTimer;
 import sagex.phoenix.vfs.IMediaFolder;
-
-import java.util.List;
-import java.util.Set;
 
 public class SageExpressionSourceFactory extends Factory<IMediaFolder> {
     public SageExpressionSourceFactory() {

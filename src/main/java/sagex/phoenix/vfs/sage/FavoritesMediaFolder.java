@@ -1,13 +1,13 @@
 package sagex.phoenix.vfs.sage;
 
+import java.util.Collections;
+import java.util.List;
+
 import sagex.api.FavoriteAPI;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.VirtualMediaFolder;
 import sagex.phoenix.vfs.sorters.StartTimeSorter;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Returns the currently schedules favorites as a Folder

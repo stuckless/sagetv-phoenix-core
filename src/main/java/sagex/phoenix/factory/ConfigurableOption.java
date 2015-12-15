@@ -1,12 +1,13 @@
 package sagex.phoenix.factory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
-import sagex.phoenix.util.var.DynamicVariable;
 
-import java.util.ArrayList;
-import java.util.List;
+import sagex.phoenix.util.var.DynamicVariable;
 
 /**
  * Represents a Configurable Factory Option

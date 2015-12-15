@@ -1,16 +1,18 @@
 package sagex.phoenix.configuration;
 
+import java.io.InputStream;
+
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
 import sagex.phoenix.configuration.proxy.GroupParser;
 import sagex.phoenix.util.BaseBuilder;
 import sagex.phoenix.util.XmlUtil;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import java.io.InputStream;
 
 public class XmlMetadataParser extends BaseBuilder {
     private SAXParserFactory parserFactory = SAXParserFactory.newInstance();

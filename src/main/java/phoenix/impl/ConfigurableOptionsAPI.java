@@ -1,15 +1,16 @@
 package phoenix.impl;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.factory.ConfigurableOption.ListSelection;
 import sagex.phoenix.factory.ConfigurableOption.ListValue;
 import sagex.phoenix.tools.annotation.API;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * API for managing configurable options that tend to be used in Factories and

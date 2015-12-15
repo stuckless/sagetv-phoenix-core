@@ -1,13 +1,13 @@
 package sagex.phoenix.vfs.sorters;
 
+import java.io.Serializable;
+import java.util.Comparator;
+import java.util.List;
+
 import sagex.api.AiringAPI;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
-
-import java.io.Serializable;
-import java.util.Comparator;
-import java.util.List;
 
 /**
  * Sorts based on the value of "GetWatchedStartTime()", but when comparing a

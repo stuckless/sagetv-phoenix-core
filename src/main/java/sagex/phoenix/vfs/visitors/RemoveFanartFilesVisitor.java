@@ -1,14 +1,15 @@
 package sagex.phoenix.vfs.visitors;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.commons.io.FileUtils;
+
 import sagex.phoenix.metadata.MediaArtifactType;
 import sagex.phoenix.metadata.MediaType;
 import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.util.Loggers;
 import sagex.phoenix.vfs.IMediaFile;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * Physically remove Fanart Files that is associated with each given media file

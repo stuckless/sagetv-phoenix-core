@@ -1,12 +1,13 @@
 package sagex.phoenix.metadata.search;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import sagex.phoenix.metadata.search.SearchQuery.Field;
-import sagex.phoenix.util.Loggers;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+
+import sagex.phoenix.metadata.search.SearchQuery.Field;
+import sagex.phoenix.util.Loggers;
 
 public class ScraperUtils {
     private static Pattern cdPartScraper = Pattern.compile("(.+)[ _\\\\.-]+(cd|dvd|part|disc)[ _\\\\.-]*([0-9a-d]+)",

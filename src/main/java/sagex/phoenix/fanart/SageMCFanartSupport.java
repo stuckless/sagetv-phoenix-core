@@ -1,14 +1,15 @@
 package sagex.phoenix.fanart;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
+
 import sagex.api.Configuration;
 import sagex.phoenix.metadata.MediaArtifactType;
 import sagex.phoenix.metadata.MediaType;
 import sagex.phoenix.util.Utils;
-
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 @Deprecated
 public class SageMCFanartSupport implements IFanartSupport {

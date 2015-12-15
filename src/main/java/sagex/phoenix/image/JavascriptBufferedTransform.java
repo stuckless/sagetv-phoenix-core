@@ -1,14 +1,20 @@
 package sagex.phoenix.image;
 
-import org.apache.log4j.Logger;
-import sagex.remote.json.JSONObject;
-
-import javax.script.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+
+import javax.script.Bindings;
+import javax.script.Invocable;
+import javax.script.ScriptContext;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
+import org.apache.log4j.Logger;
+
+import sagex.remote.json.JSONObject;
 
 public class JavascriptBufferedTransform implements IBufferedTransform {
     private static final Logger log = Logger.getLogger(JavascriptBufferedTransform.class);

@@ -1,11 +1,11 @@
 package sagex.phoenix.menu;
 
+import java.io.File;
+
 import sagex.UIContext;
 import sagex.api.Global;
 import sagex.api.Utility;
 import sagex.phoenix.util.var.DynamicVariable;
-
-import java.io.File;
 
 public class ExecuteCommandAction extends OutputVariableAction {
     public ExecuteCommandAction() {

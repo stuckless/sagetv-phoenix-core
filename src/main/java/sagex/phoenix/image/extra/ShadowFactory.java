@@ -7,8 +7,15 @@
 
 package sagex.phoenix.image.extra;
 
-import java.awt.*;
-import java.awt.image.*;
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.ConvolveOp;
+import java.awt.image.DataBufferInt;
+import java.awt.image.Kernel;
+import java.awt.image.WritableRaster;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.HashMap;

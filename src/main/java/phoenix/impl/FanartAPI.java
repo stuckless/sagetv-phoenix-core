@@ -1,13 +1,31 @@
 package phoenix.impl;
 
+import java.io.File;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
-import sagex.api.*;
+
+import sagex.api.AiringAPI;
+import sagex.api.Configuration;
+import sagex.api.MediaFileAPI;
+import sagex.api.SeriesInfoAPI;
+import sagex.api.ShowAPI;
 import sagex.phoenix.cache.ICache;
 import sagex.phoenix.cache.MapCache;
 import sagex.phoenix.db.UserRecordUtil;
-import sagex.phoenix.fanart.*;
+import sagex.phoenix.fanart.FanartUtil;
+import sagex.phoenix.fanart.IFanartSupport;
+import sagex.phoenix.fanart.IFanartSupport2;
+import sagex.phoenix.fanart.IHasCentralizedFanart;
+import sagex.phoenix.fanart.LocalFanartSupport;
+import sagex.phoenix.fanart.PhoenixFanartSupport;
+import sagex.phoenix.fanart.PhoenixFanartSupport2;
+import sagex.phoenix.fanart.SageMCFanartSupport;
 import sagex.phoenix.image.ImageUtil;
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.metadata.ISageCustomMetadataRW;
@@ -19,12 +37,6 @@ import sagex.phoenix.util.Utils;
 import sagex.phoenix.vfs.IAlbumInfo;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.MediaResourceType;
-
-import java.io.File;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Fanart is a STV api that encapsulates accessing Backgrounds, Banners,

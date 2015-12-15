@@ -1,16 +1,16 @@
 package sagex.phoenix.vfs.visitors;
 
-import sagex.phoenix.metadata.IMetadata;
-import sagex.phoenix.progress.IProgressMonitor;
-import sagex.phoenix.vfs.IMediaFile;
-import sagex.phoenix.vfs.IMediaResource;
-import sagex.phoenix.vfs.IMediaResourceVisitor;
-
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.progress.IProgressMonitor;
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaResource;
+import sagex.phoenix.vfs.IMediaResourceVisitor;
 
 /**
  * Updates the Genres to a fixed number of Genres. It will also split out genres

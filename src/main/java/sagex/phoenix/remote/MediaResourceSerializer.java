@@ -1,6 +1,14 @@
 package sagex.phoenix.remote;
 
-import com.google.gson.*;
+import java.lang.reflect.Type;
+import java.util.List;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+
 import sagex.api.AiringAPI;
 import sagex.api.ChannelAPI;
 import sagex.phoenix.metadata.IMetadata;
@@ -10,9 +18,6 @@ import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.MediaResourceType;
 import sagex.phoenix.vfs.views.ViewFolder;
-
-import java.lang.reflect.Type;
-import java.util.List;
 
 public class MediaResourceSerializer implements JsonSerializer<IMediaResource> {
     public MediaResourceSerializer() {

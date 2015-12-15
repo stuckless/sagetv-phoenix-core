@@ -1,5 +1,12 @@
 package sagex.phoenix.vfs;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentFactory;
@@ -7,6 +14,7 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
+
 import sagex.phoenix.factory.BaseConfigurable;
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.Factory;
@@ -15,13 +23,6 @@ import sagex.phoenix.vfs.filters.AbstractResourceFilterContainer;
 import sagex.phoenix.vfs.filters.IResourceFilter;
 import sagex.phoenix.vfs.views.ViewFactory;
 import sagex.phoenix.vfs.views.ViewPresentation;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
 
 public class XmlViewSerializer {
     public void serialize(ViewFactory factory, OutputStream os) throws IOException {

@@ -1,12 +1,16 @@
 package sagex.phoenix.remote.streaming;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import org.apache.commons.lang.StringUtils;
 
 public class GenericCommandMediaProcess extends MediaProcess {
     public static interface Prop {

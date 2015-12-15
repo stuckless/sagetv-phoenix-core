@@ -1,22 +1,28 @@
 package sagex.phoenix.fanart;
 
-import org.apache.commons.io.FileUtils;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import sagex.phoenix.Phoenix;
-import test.InitPhoenix;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+
+import java.io.File;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.FileUtils;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+
+import sagex.phoenix.Phoenix;
+import test.InitPhoenix;
 
 public class AdvancedFanartMediaRequestHandlerTest {
     @BeforeClass

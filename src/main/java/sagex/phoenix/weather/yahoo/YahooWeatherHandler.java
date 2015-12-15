@@ -1,20 +1,25 @@
 package sagex.phoenix.weather.yahoo;
 
-import org.apache.commons.lang.math.NumberUtils;
-import org.apache.log4j.Logger;
-import org.xml.sax.Attributes;
-import sage.media.rss.RSSHandler;
-import sagex.phoenix.util.DateUtils;
-import sagex.phoenix.util.XmlUtil;
-import sagex.phoenix.weather.*;
-import sagex.phoenix.weather.IForecastPeriod.Type;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.log4j.Logger;
+import org.xml.sax.Attributes;
+
+import sage.media.rss.RSSHandler;
+import sagex.phoenix.util.DateUtils;
+import sagex.phoenix.util.XmlUtil;
+import sagex.phoenix.weather.CurrentForecast;
+import sagex.phoenix.weather.ForecastPeriod;
+import sagex.phoenix.weather.IForecastPeriod;
+import sagex.phoenix.weather.IForecastPeriod.Type;
+import sagex.phoenix.weather.ILongRangeForecast;
+import sagex.phoenix.weather.LongRangForecast;
 
 /**
  * Parses Weather RSS for Yahoo

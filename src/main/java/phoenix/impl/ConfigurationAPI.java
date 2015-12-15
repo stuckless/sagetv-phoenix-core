@@ -1,12 +1,19 @@
 package phoenix.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.BooleanUtils;
+
 import sagex.phoenix.Phoenix;
-import sagex.phoenix.configuration.*;
+import sagex.phoenix.configuration.ConfigType;
+import sagex.phoenix.configuration.ConfigUtils;
+import sagex.phoenix.configuration.Field;
+import sagex.phoenix.configuration.Group;
+import sagex.phoenix.configuration.IConfigurationElement;
+import sagex.phoenix.configuration.NewSearchGroup;
+import sagex.phoenix.configuration.SearchResultGroup;
 import sagex.phoenix.tools.annotation.API;
 import sagex.phoenix.util.NamedValue;
-
-import java.util.List;
 
 /**
  * STV Api Calls related to the Configuration API

@@ -1,13 +1,17 @@
 package sagex.phoenix.plugin;
 
-import sagex.phoenix.configuration.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import sagex.phoenix.configuration.Config;
+import sagex.phoenix.configuration.ConfigType;
+import sagex.phoenix.configuration.Field;
+import sagex.phoenix.configuration.Group;
+import sagex.phoenix.configuration.IConfigurationElement;
 import sagex.phoenix.util.Loggers;
 import sagex.phoenix.util.NamedValue;
 import sagex.plugin.AbstractPlugin;
 import sagex.plugin.PluginProperty;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PluginConfigurationHelper {
     /**

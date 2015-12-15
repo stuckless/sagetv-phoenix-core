@@ -1,10 +1,10 @@
 package test.junit.cm;
 
-import sagex.phoenix.configuration.IOptionFactory;
-import sagex.phoenix.util.NamedValue;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import sagex.phoenix.configuration.IOptionFactory;
+import sagex.phoenix.util.NamedValue;
 
 public class MyOptionFactory implements IOptionFactory {
     private ArrayList<NamedValue> list = new ArrayList<NamedValue>();

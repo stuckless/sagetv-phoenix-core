@@ -1,5 +1,7 @@
 package sagex.phoenix.vfs.sources;
 
+import java.util.Set;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.factory.ConfigurableOption.ListSelection;
@@ -7,8 +9,6 @@ import sagex.phoenix.factory.Factory;
 import sagex.phoenix.vfs.CombinedMediaFolder;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.sage.SageSourcesMediaFolder;
-
-import java.util.Set;
 
 /**
  * Simple factory for creating a structured source from a sage media mask. ie,

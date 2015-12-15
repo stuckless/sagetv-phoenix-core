@@ -1,8 +1,8 @@
 package sagex.phoenix.vfs;
 
-import sagex.phoenix.tools.annotation.API;
-
 import java.util.List;
+
+import sagex.phoenix.tools.annotation.API;
 
 @API(group = "music", proxy = true, prefix = "Album", resolver = "phoenix.media.GetAlbum")
 public interface IAlbumInfo {

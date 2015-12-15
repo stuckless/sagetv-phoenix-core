@@ -1,8 +1,8 @@
 package sagex.phoenix.util;
 
-import org.apache.log4j.Logger;
-
 import java.io.File;
+
+import org.apache.log4j.Logger;
 
 /**
  * Common file operations, in addition to the Commons FileUtils

@@ -1,18 +1,27 @@
 package sagex.phoenix.download;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.SocketTimeoutException;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Timer;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.download.DownloadItem.State;
 import sagex.phoenix.util.FileUtils;
 import sagex.phoenix.util.url.UrlUtil;
 import sagex.util.WaitFor;
-
-import java.io.*;
-import java.net.SocketTimeoutException;
-import java.net.URLConnection;
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * DownloadManager is used to schedule and download remote items. Each download

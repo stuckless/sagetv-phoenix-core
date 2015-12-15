@@ -1,10 +1,10 @@
 package sagex.phoenix.vfs.sorters;
 
-import sagex.phoenix.vfs.IMediaFile;
-import sagex.phoenix.vfs.IMediaResource;
-
 import java.io.Serializable;
 import java.util.Comparator;
+
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaResource;
 
 /**
  * Sorts based on the Start Date/Time

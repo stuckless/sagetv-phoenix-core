@@ -1,10 +1,10 @@
 package sagex.phoenix.vfs.ov;
 
+import java.util.Set;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.Factory;
 import sagex.phoenix.vfs.IMediaFolder;
-
-import java.util.Set;
 
 /**
  * Creates a VFS source of media items by mapping xml elements to metadata

@@ -1,11 +1,32 @@
 package test.junit;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import phoenix.impl.ConfigurationAPI;
 import sagex.SageAPI;
 import sagex.phoenix.Phoenix;
-import sagex.phoenix.configuration.*;
+import sagex.phoenix.configuration.ConfigScope;
+import sagex.phoenix.configuration.ConfigType;
+import sagex.phoenix.configuration.ConfigurationManager;
+import sagex.phoenix.configuration.ConfigurationMetadataManager;
+import sagex.phoenix.configuration.Field;
+import sagex.phoenix.configuration.Group;
+import sagex.phoenix.configuration.IConfigurationElement;
+import sagex.phoenix.configuration.IConfigurationMetadataVisitor;
+import sagex.phoenix.configuration.XmlMetadataParser;
 import sagex.phoenix.configuration.impl.SageConfigurationProvider;
 import sagex.phoenix.configuration.proxy.GroupParser;
 import sagex.phoenix.configuration.proxy.GroupProxy;
@@ -14,15 +35,6 @@ import sagex.stub.StubSageAPI;
 import test.InitPhoenix;
 import test.junit.cm.MyProxyGroup;
 import test.junit.lib.SimpleStubAPI;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.List;
-
-import static junit.framework.Assert.*;
-import static org.junit.Assert.assertFalse;
 
 public class TestConfigurationMetadata {
     @BeforeClass

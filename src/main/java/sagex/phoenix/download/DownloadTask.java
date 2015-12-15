@@ -1,13 +1,18 @@
 package sagex.phoenix.download;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLConnection;
+import java.util.TimerTask;
+
 import org.apache.commons.io.IOUtils;
+
 import sagex.phoenix.download.DownloadItem.State;
 import sagex.phoenix.util.FileUtils;
 import sagex.phoenix.util.url.UrlUtil;
-
-import java.io.*;
-import java.net.URLConnection;
-import java.util.TimerTask;
 
 public class DownloadTask extends TimerTask {
     private DownloadManager mgr = null;

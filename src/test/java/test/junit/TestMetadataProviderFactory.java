@@ -1,10 +1,32 @@
 package test.junit;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static test.junit.lib.TestUtil.makeDir;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.SageAPI;
 import sagex.phoenix.Phoenix;
-import sagex.phoenix.metadata.*;
+import sagex.phoenix.metadata.ICastMember;
+import sagex.phoenix.metadata.IMediaArt;
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.IMetadataProvider;
+import sagex.phoenix.metadata.IMetadataSearchResult;
+import sagex.phoenix.metadata.ISeriesInfo;
+import sagex.phoenix.metadata.ITVMetadataProvider;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.metadata.MetadataException;
+import sagex.phoenix.metadata.MetadataManager;
+import sagex.phoenix.metadata.MetadataUtil;
 import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.metadata.search.SearchQuery;
 import sagex.phoenix.metadata.search.SearchQuery.Field;
@@ -17,13 +39,6 @@ import sagex.phoenix.vfs.sage.SageMediaFile;
 import test.InitPhoenix;
 import test.junit.lib.SimpleStubAPI;
 import test.junit.lib.SimpleStubAPI.Airing;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
-import static org.junit.Assert.*;
-import static test.junit.lib.TestUtil.makeDir;
 
 public class TestMetadataProviderFactory {
     static MetadataManager mgr;

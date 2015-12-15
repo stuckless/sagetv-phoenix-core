@@ -1,25 +1,9 @@
 package test.junit;
 
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.io.FileUtils;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.xml.sax.SAXException;
-import phoenix.impl.UtilAPI;
-import sagex.ISageAPIProvider;
-import sagex.SageAPI;
-import sagex.phoenix.Phoenix;
-import sagex.phoenix.configuration.ConfigType;
-import sagex.phoenix.configuration.Field;
-import sagex.phoenix.menu.*;
-import sagex.phoenix.node.INodeVisitor;
-import sagex.phoenix.vfs.VirtualMediaFile;
-import sagex.phoenix.vfs.VirtualMediaFolder;
-import sagex.phoenix.vfs.sources.MediaFolderSourceFactory;
-import sagex.phoenix.vfs.views.ViewFactory;
-import sagex.stub.StubSageAPI;
-import test.InitPhoenix;
-import test.junit.lib.SimpleStubAPI;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,7 +12,37 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static junit.framework.Assert.*;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.FileUtils;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.xml.sax.SAXException;
+
+import phoenix.impl.UtilAPI;
+import sagex.ISageAPIProvider;
+import sagex.SageAPI;
+import sagex.phoenix.Phoenix;
+import sagex.phoenix.configuration.ConfigType;
+import sagex.phoenix.configuration.Field;
+import sagex.phoenix.menu.Action;
+import sagex.phoenix.menu.IMenuItem;
+import sagex.phoenix.menu.Menu;
+import sagex.phoenix.menu.MenuBuilder;
+import sagex.phoenix.menu.MenuItem;
+import sagex.phoenix.menu.SageAddStaticContextAction;
+import sagex.phoenix.menu.SageEvalAction;
+import sagex.phoenix.menu.SageScreenAction;
+import sagex.phoenix.menu.StaticMenuSorter;
+import sagex.phoenix.menu.ViewMenu;
+import sagex.phoenix.menu.XmlMenuSerializer;
+import sagex.phoenix.node.INodeVisitor;
+import sagex.phoenix.vfs.VirtualMediaFile;
+import sagex.phoenix.vfs.VirtualMediaFolder;
+import sagex.phoenix.vfs.sources.MediaFolderSourceFactory;
+import sagex.phoenix.vfs.views.ViewFactory;
+import sagex.stub.StubSageAPI;
+import test.InitPhoenix;
+import test.junit.lib.SimpleStubAPI;
 
 public class TestMenus {
     private static final File TestMenusFile = new File("../../src/test/java/test/junit/menus/TestMenu.xml");

@@ -1,5 +1,13 @@
 package sagex.phoenix.vfs.views;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.factory.ConfigurableOption.ListSelection;
@@ -8,11 +16,18 @@ import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.util.CloneUtil;
 import sagex.phoenix.util.ElapsedTimer;
 import sagex.phoenix.util.Loggers;
-import sagex.phoenix.vfs.*;
-import sagex.phoenix.vfs.filters.*;
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaFolder;
+import sagex.phoenix.vfs.IMediaResource;
+import sagex.phoenix.vfs.IMediaResourceVisitor;
+import sagex.phoenix.vfs.MediaResourceType;
+import sagex.phoenix.vfs.VirtualMediaFolder;
+import sagex.phoenix.vfs.filters.AbstractResourceFilterContainer;
+import sagex.phoenix.vfs.filters.AndResourceFilter;
+import sagex.phoenix.vfs.filters.Filter;
+import sagex.phoenix.vfs.filters.FilterFactory;
+import sagex.phoenix.vfs.filters.IResourceFilter;
 import sagex.phoenix.vfs.visitors.DebugVisitor;
-
-import java.util.*;
 
 public class ViewFactory extends Factory<ViewFolder> {
     /**

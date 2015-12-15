@@ -1,10 +1,10 @@
 package sagex.phoenix.fanart;
 
-import sagex.phoenix.metadata.MediaArtifactType;
-import sagex.phoenix.metadata.MediaType;
-
 import java.io.File;
 import java.util.Map;
+
+import sagex.phoenix.metadata.MediaArtifactType;
+import sagex.phoenix.metadata.MediaType;
 
 /**
  * FanartSupport class that falls back on the legacy sagemc when fanart cannot

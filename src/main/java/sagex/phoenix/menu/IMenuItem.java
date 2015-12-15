@@ -1,10 +1,10 @@
 package sagex.phoenix.menu;
 
+import java.util.List;
+
 import sagex.phoenix.node.INode;
 import sagex.phoenix.node.INodeVisitor;
 import sagex.phoenix.util.var.DynamicVariable;
-
-import java.util.List;
 
 public interface IMenuItem extends INode<Menu> {
     public Menu getParent();

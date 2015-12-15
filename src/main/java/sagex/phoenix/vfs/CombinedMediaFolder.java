@@ -1,11 +1,12 @@
 package sagex.phoenix.vfs;
 
-import org.apache.log4j.Logger;
-import sagex.phoenix.util.Loggers;
-import sagex.phoenix.vfs.visitors.DebugVisitor;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.util.Loggers;
+import sagex.phoenix.vfs.visitors.DebugVisitor;
 
 /**
  * A Combined Media Folder is a special decorated folder that takes all the

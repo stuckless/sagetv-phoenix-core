@@ -1,6 +1,9 @@
 package sagex.phoenix.vfs.filters;
 
+import java.util.Map;
+
 import org.apache.commons.lang.math.NumberUtils;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.factory.ConfigurableOption.ListSelection;
@@ -8,8 +11,6 @@ import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.MediaResourceType;
 import sagex.phoenix.vfs.util.ConfigList;
-
-import java.util.Map;
 
 /**
  * Filters media based on the Types listed in the {@link MediaResourceType}

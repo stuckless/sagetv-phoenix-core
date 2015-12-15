@@ -1,14 +1,15 @@
 package sagex.phoenix.configuration;
 
-import org.apache.commons.io.IOCase;
-import org.apache.commons.io.filefilter.SuffixFileFilter;
-import org.apache.log4j.Logger;
-import sagex.phoenix.common.SystemConfigurationFileManager;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
+
+import org.apache.commons.io.IOCase;
+import org.apache.commons.io.filefilter.SuffixFileFilter;
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.common.SystemConfigurationFileManager;
 
 public class ConfigurationMetadataManager extends SystemConfigurationFileManager implements
         SystemConfigurationFileManager.ConfigurationFileVisitor {

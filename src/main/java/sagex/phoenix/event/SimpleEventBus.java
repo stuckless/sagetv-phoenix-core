@@ -1,12 +1,13 @@
 package sagex.phoenix.event;
 
-import org.apache.log4j.Logger;
-import sage.SageTVEventListener;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
+
+import sage.SageTVEventListener;
 
 public class SimpleEventBus implements IEventBus {
     private Logger log = Logger.getLogger(this.getClass());

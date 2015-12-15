@@ -1,6 +1,7 @@
 package phoenix;
 
 import org.apache.log4j.Logger;
+
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.skins.ISkin;
 import sagex.phoenix.vfs.IMediaFile;

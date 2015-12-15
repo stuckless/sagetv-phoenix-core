@@ -1,7 +1,11 @@
 package sagex.phoenix.vfs.ov;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.xml.sax.SAXException;
+
 import sagex.phoenix.metadata.FieldName;
 import sagex.phoenix.metadata.MetadataUtil;
 import sagex.phoenix.util.DOMUtils;
@@ -10,9 +14,6 @@ import sagex.phoenix.util.url.Url;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.VirtualOnlineMediaFolder;
-
-import java.io.IOException;
-import java.util.List;
 
 public class XmlFolder extends VirtualOnlineMediaFolder {
     private XmlOptions options = new XmlOptions();

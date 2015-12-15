@@ -1,11 +1,11 @@
 package sagex.phoenix.vfs.groups;
 
-import sagex.phoenix.vfs.IMediaFile;
-import sagex.phoenix.vfs.IMediaResource;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaResource;
 
 public class GenreGrouper implements IGrouper, IMultiGrouper {
 

@@ -1,18 +1,19 @@
 package test.junit;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+
+import java.io.IOException;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import sagex.SageAPI;
 import sagex.phoenix.configuration.ConfigScope;
 import sagex.phoenix.configuration.impl.SageConfigurationProvider;
 import sagex.phoenix.profiles.Profile;
 import sagex.stub.StubSageAPI;
 import test.InitPhoenix;
-
-import java.io.IOException;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
 
 public class TestUserProfiles {
 

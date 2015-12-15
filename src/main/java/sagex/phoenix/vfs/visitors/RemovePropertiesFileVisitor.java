@@ -1,11 +1,11 @@
 package sagex.phoenix.vfs.visitors;
 
+import java.io.File;
+
 import sagex.phoenix.fanart.FanartUtil;
 import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.util.PathUtils;
-
-import java.io.File;
 
 /**
  * Physically removed .properties file that as associated with each given media

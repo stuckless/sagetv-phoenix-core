@@ -1,12 +1,13 @@
 package sagex.phoenix.configuration;
 
-import org.apache.log4j.Logger;
-import sagex.phoenix.Phoenix;
-import sagex.phoenix.configuration.impl.ConfigurationUtils;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.log4j.Logger;
+
+import sagex.phoenix.Phoenix;
+import sagex.phoenix.configuration.impl.ConfigurationUtils;
 
 public class ConfigurationManager {
     /**

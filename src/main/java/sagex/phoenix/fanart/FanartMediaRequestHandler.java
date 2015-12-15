@@ -1,6 +1,16 @@
 package sagex.phoenix.fanart;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.BooleanUtils;
+
 import phoenix.impl.ImageAPI;
 import sagex.api.MediaFileAPI;
 import sagex.api.Utility;
@@ -8,14 +18,6 @@ import sagex.phoenix.image.ImageUtil;
 import sagex.remote.media.MediaHandler;
 import sagex.remote.media.SageMediaRequestHandler;
 import sagex.util.MetaImageUtil;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  * Plugs into the sagex.api MediaHandler providing fanart support to the remote

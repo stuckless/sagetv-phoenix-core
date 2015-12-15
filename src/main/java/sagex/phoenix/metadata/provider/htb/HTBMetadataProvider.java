@@ -1,14 +1,21 @@
 package sagex.phoenix.metadata.provider.htb;
 
-import org.apache.commons.lang.StringUtils;
-import sagex.phoenix.metadata.*;
-import sagex.phoenix.metadata.search.SearchQuery;
-import sagex.phoenix.metadata.search.SearchQuery.Field;
-import sagex.phoenix.util.url.UrlUtil;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+
+import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.IMetadataProviderInfo;
+import sagex.phoenix.metadata.IMetadataSearchResult;
+import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.metadata.MetadataException;
+import sagex.phoenix.metadata.MetadataProvider;
+import sagex.phoenix.metadata.MetadataUtil;
+import sagex.phoenix.metadata.search.SearchQuery;
+import sagex.phoenix.metadata.search.SearchQuery.Field;
+import sagex.phoenix.util.url.UrlUtil;
 
 public class HTBMetadataProvider extends MetadataProvider {
     private static final String API_KEY = "f95b13e9fc9f655651c0789500c2a801";

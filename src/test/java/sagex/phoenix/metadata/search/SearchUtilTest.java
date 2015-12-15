@@ -1,8 +1,8 @@
 package sagex.phoenix.metadata.search;
 
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 public class SearchUtilTest {
 

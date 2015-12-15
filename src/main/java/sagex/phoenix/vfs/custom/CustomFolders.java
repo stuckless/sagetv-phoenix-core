@@ -1,12 +1,12 @@
 package sagex.phoenix.vfs.custom;
 
+import java.util.List;
+
 import sagex.api.UserRecordAPI;
 import sagex.phoenix.metadata.FieldName;
 import sagex.phoenix.util.Hints;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.VirtualMediaFolder;
-
-import java.util.List;
 
 public class CustomFolders extends VirtualMediaFolder {
     private static final String ID = "phoenix.vfs.customfoldernames";

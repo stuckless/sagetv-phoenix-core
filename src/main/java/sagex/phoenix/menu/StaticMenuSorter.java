@@ -1,11 +1,11 @@
 package sagex.phoenix.menu;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 
 public class StaticMenuSorter implements Comparator<IMenuItem> {
     private Map<String, Integer> sortMap = new HashMap<String, Integer>();

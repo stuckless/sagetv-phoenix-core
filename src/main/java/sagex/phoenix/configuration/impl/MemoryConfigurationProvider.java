@@ -1,10 +1,14 @@
 package sagex.phoenix.configuration.impl;
 
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Properties;
+
 import sagex.phoenix.configuration.ConfigScope;
 import sagex.phoenix.configuration.IConfigurationProvider;
 import sagex.phoenix.util.IterableEnumeration;
-
-import java.util.*;
 
 /**
  * Simple, non-peristed, Configuration Provider.

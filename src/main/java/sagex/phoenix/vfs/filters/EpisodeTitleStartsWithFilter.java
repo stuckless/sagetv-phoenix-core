@@ -1,5 +1,7 @@
 package sagex.phoenix.vfs.filters;
 
+import java.util.Map;
+
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
 import sagex.phoenix.factory.ConfigurableOption.ListSelection;
@@ -8,8 +10,6 @@ import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.MediaResourceType;
 import sagex.phoenix.vfs.util.ConfigList;
-
-import java.util.Map;
 
 public class EpisodeTitleStartsWithFilter extends Filter {
     private String value = "";

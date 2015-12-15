@@ -1,8 +1,8 @@
 package sagex.phoenix.vfs.util;
 
-import sagex.phoenix.vfs.VFSManager;
-
 import java.io.File;
+
+import sagex.phoenix.vfs.VFSManager;
 
 public class ImmutableVFSManager extends VFSManager {
     public ImmutableVFSManager(File userDir, VFSManager parent) {
