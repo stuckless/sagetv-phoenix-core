@@ -127,6 +127,9 @@ task processResourcesGwt << {
 processResources.finalizedBy processResourcesGwt
 
 task configureDependencies << {
+    // remove all dependency jars
+    ant.delete(dir:"lib", includes: "*.*",failonerror:"false")
+
 	ant.taskdef(
 		name: 'sagetvdeps',
 		classname: 'sagex.plugin.resolver.ant.SageDependencies',

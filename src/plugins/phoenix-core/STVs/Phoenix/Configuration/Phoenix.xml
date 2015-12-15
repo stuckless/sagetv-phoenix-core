@@ -14,11 +14,6 @@
 	</group>
 
 	<group class="sagex.phoenix.metadata.MetadataConfiguration"/>
-	<!--
-	DVD Profiler and MyMoves is gone 
-	<group class="sagex.phoenix.metadata.provider.dvdprofiler.DVDProfilerConfiguration"/>
-	<group class="sagex.phoenix.metadata.provider.mymovies.MyMoviesConfiguration"/>
-  -->
 	<group class="sagex.phoenix.metadata.provider.imdb.IMDBConfiguration"/>
 	<group class="sagex.phoenix.metadata.provider.tvdb.TVDBConfiguration"/>
 	<group class="sagex.phoenix.util.url.UrlConfiguration"/>
@@ -26,36 +21,7 @@
 	<group class="sagex.phoenix.download.DownloadConfiguration"/>
 	<group class="sagex.phoenix.util.ToolsConfiguration"/>
 	<group class="sagex.phoenix.vfs.filters.HomeVideosConfiguration"/>
-	<group class="sagex.phoenix.upnp.UPnPConfiguration"/>
-	
-	<!-- Configuration for xbmc configuration
-	<group label="XBMC imdb.xml Configuration">
-		<description>Configuration Items for XBMC Scraper for IMDb</description>
-		
-		<field key="bmt/xbmc/imdb.xml/fullcredits" label="Enable Full Cast Credits" defaultValue="true" type="boolean" visible="false">
-			<description>Enable Full Cast Credits</description>
-		</field>
-		<field key="bmt/xbmc/imdb.xml/impawards" label="Enable IMPAwards" defaultValue="true" type="boolean" visible="false">
-			<description>Enable IMPAwards</description>
-		</field>
-		<field key="bmt/xbmc/imdb.xml/movieposterdb" label="Enable MoviePosterDB" defaultValue="true" type="boolean" visible="false">
-			<description>Enable MoviePosterDB</description>
-		</field>
-		<field key="bmt/xbmc/imdb.xml/trailer" label="Enable Trailer" defaultValue="true" type="boolean" visible="false">
-			<description>Enable Trailers</description>
-		</field>
-		<field key="bmt/xbmc/imdb.xml/fanart" label="Enable Fanart" defaultValue="true" type="boolean" visible="false">
-			<description>Enable Fanart</description>
-		</field>
-		<field key="bmt/xbmc/imdb.xml/imdbscale" label="IMDB Poster &amp; Actor Thumb(s) Size" defaultValue="512" type="int" visible="false">
-			<description>Poster Size (width)</description>
-		</field>
-		<field key="bmt/xbmc/imdb.xml/url" label="Input Alternative IMDb Source" defaultValue="akas.imdb.com" visible="false">
-			<description>IMDd Domain</description>
-		</field>
-	</group>
- 	-->
- 	
+
 	<!-- Some Phoenix Configuration Items, but we duplicate them here because they are related metadata/fanart -->
 	<group label="Advanced Fanart">
 		<description>Advanced Fanart Display Settings</description>
@@ -78,6 +44,5 @@
 	</group>
 	
 	<group class="sagex.phoenix.weather.WeatherConfiguration"/>
-	<group class="sagex.phoenix.homecontrol.themostat.nest.NestConfiguration"/>
-	
+
 </configuration>

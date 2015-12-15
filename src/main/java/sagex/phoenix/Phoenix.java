@@ -41,7 +41,6 @@ import sagex.phoenix.remote.streaming.MediaStreamerConfig;
 import sagex.phoenix.remote.streaming.MediaStreamerManager;
 import sagex.phoenix.skins.SkinManager;
 import sagex.phoenix.stv.OnlineVideoPlaybackManager;
-import sagex.phoenix.upnp.PhoenixUPNPServer;
 import sagex.phoenix.util.FileUtils;
 import sagex.phoenix.util.Loggers;
 import sagex.phoenix.util.TaskManager;
@@ -118,8 +117,6 @@ public class Phoenix {
 
 	private MovieScraperManager movieFilenameScrapers = null;
 	private TVScraperManager tvFilenameScrapers = null;
-
-	private PhoenixUPNPServer upnpServer = null;
 
 	private SearchQueryFactory searchQueryFactory = new SearchQueryFactory();
 
@@ -209,11 +206,6 @@ public class Phoenix {
 			mediaStreamingManager = new MediaStreamerManager(new MediaStreamerConfig(), new MediaProcessFactory());
 
 			scriptingSerivesFactory = new ScriptingServiceFactory();
-
-			if (!(STANDALONE || TESTING)) {
-				upnpServer = new PhoenixUPNPServer();
-				upnpServer.init();
-			}
 		} catch (Throwable t) {
 			log.error("Phoenix Failed to initialize correctly.  Phoenix will most like not function correctly.", t);
 			t.printStackTrace();
@@ -370,14 +362,6 @@ public class Phoenix {
 		}
 
 		skinManager.stopPlugins();
-
-		if (upnpServer != null) {
-			upnpServer.shutdown();
-		}
-	}
-
-	public PhoenixUPNPServer getUPnPServer() {
-		return upnpServer;
 	}
 
 	public TransformFactory getTransformFactory() {
@@ -617,10 +601,6 @@ public class Phoenix {
 	 * @param filepath
 	 *            file url/filepath being cached, ie,
 	 *            'http://some.onlinevideo.com/videos/videofile.mp4'
-	 * @param name
-	 *            the filename to use inside the cached folder, ie,
-	 *            'videofile.mp4'. It can be null, and if null, then a hash will
-	 *            be used.
 	 * @return File of the cached entity or null if a cached entity could be
 	 *         created.
 	 */

@@ -20,7 +20,6 @@
       <tag value="simple" label="Simple" visible="false"/>
       <tag value="homevideos" label="Home Videos"/>
       <tag value="gemstone" label="Gemstone"/>
-      <tag value="upnp" label="UPnP"/>
       <tag value="playlist" label="Playlist"/>
    </tags>
 
@@ -94,7 +93,6 @@
 
       <item name="music-mapper" label="Maps Offline Music to Music Library" visible="true" class="sagex.phoenix.vfs.music.MusicMapperFactory"/>
 
-      <item name="upnp" label="UPnP Devices" visible="true" class="sagex.phoenix.upnp.UPnPSourceFactory"/>
    </sources>
 
    <filters>
@@ -1114,14 +1112,6 @@
          </presentation>
       </view>
 
-      <!-- UPNP Views -->
-      <view name="phoenix.view.default.upnpdevices" label="UPnP Devices" visible="prop:phoenix/upnp/clientEnabled" flat="false">
-         <option name="children-only" value="true"/>
-         <tag value="online"/>
-         <tag value="upnp"/>
-         <source name="upnp"/>
-      </view>
-
       <!-- Web and Misc views -->
       <!-- ****************************** -->
       <!-- ****************************** -->
@@ -1160,19 +1150,6 @@
          <option name="sort-order" value="asc"/>
          </sort>
          </presentation>
-         </view>
-      -->
-      <!-- This view is very inefficient - but replicates the
-         functionality in the Sage Folder View when NOT combined
-         This basically gives you a folder with each import source -->
-
-      <!-- How to Create a UPnP View to a specific folder on your PlayOn Device -->
-      <!-- BUG: view-source should not need UPnP Devices in the root/bookmark -->
-      <!--
-         <view name="YouTubeonPlayOn" label="YouTube on Playon" visible="prop:server:phoenix/upnp/clientEnabled" flat="false">
-         <option name="root" value="/UPnP Devices/PlayOn (FAMILY-PC)/YouTube/Recently Featured"/>
-         <tag value="online"/>
-         <view-source name="UPnPDevices"/>
          </view>
       -->
    </views>
