@@ -21,6 +21,12 @@ import sagex.phoenix.metadata.proxy.SageProperty;
  * SeasonNumber;
  * UserRating;
  * </pre>
+ * <pre>
+ * Added "EpisodeCount" to allow overriding the number of episodes contained inside a single episode mediafile
+ * </pre>
+ * <pre>
+ * Added "CollectionName, ID and Overview" which represent the movie collection a movie belongs to (optional)
+ * </pre>
  *
  * @author seans
  */
@@ -104,6 +110,53 @@ public interface ISageCustomMetadataRW extends ISageMetadata {
 
     @SageProperty("SeriesInfoID")
     public void setSeriesInfoID(int id);
+
+    /**
+     * EpisodeCount is the count of episodes contained in the MediaFile
+     * This will track situations where a pilot may contain 2 or more episodes in the single file
+     * An unset value will be considered equal to 1 episode
+     *
+     * @return
+     */
+    @SageProperty("EpisodeCount")
+    public int getEpisodeCount();
+
+    @SageProperty("EpisodeCount")
+    public void setEpisodeCount(int count);
+
+    /**
+     * CollectionName is the name/title of the optional Movie collection/group that a movie belongs to
+     *
+     * @return
+     */
+    @SageProperty("CollectionName")
+    public String getCollectionName();
+
+    @SageProperty("CollectionName")
+    public void setCollectionName(String name);
+
+    /**
+     * CollectionID is the ID of the optional Movie collection/group that a movie belongs to
+     * the ID can link back to the provider such as TMDB to get associated collection fanart
+     *
+     * @return
+     */
+    @SageProperty("CollectionID")
+    public int getCollectionID();
+
+    @SageProperty("CollectionID")
+    public void setCollectionID(int id);
+
+    /**
+     * CollectionOverview is the overview/description of the optional Movie collection/group
+     *
+     * @return
+     */
+    @SageProperty("CollectionOverview")
+    public String getCollectionOverview();
+
+    @SageProperty("CollectionOverview")
+    public void setCollectionOverview(String overview);
 
     /**
      * DefaultPoster, DefaultBackground, and DefaultBanner should ONLY set the

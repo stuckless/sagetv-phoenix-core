@@ -164,5 +164,9 @@ public class Sage7Persistence implements IMetadataPersistence {
             sage.setTrivia(md.getTrivia());
         }
         sage.setTrailerUrl(md.getTrailerUrl());
+        sage.setCollectionID(md.getCollectionID());
+        sage.setCollectionName(md.getCollectionName());
+        sage.setCollectionOverview(md.getCollectionOverview());
+        sage.setEpisodeCount(md.getEpisodeCount());
     }
 }

@@ -409,6 +409,10 @@
          <tag value="music"/>
       </item>
 
+      <item name="moviecollection" label="Movie Collection" class="sagex.phoenix.vfs.groups.MovieCollectionGrouper">
+         <tag value="video"/>
+      </item>
+
       <item name="filedate" label="Date Field" class="sagex.phoenix.vfs.groups.FileDateGrouper">
          <option name="field" value="SageField"/>
          <tag value="video"/>
@@ -1017,7 +1021,6 @@
          <description>Movies from all sources</description>
          <tag value="video"/>
          <tag value="movie"/>
-         <tag value="movie"/>
          <tag value="default"/>
          <view-source name="phoenix.view.primary.recordedmovies"/>
          <view-source name="phoenix.view.primary.importedmovies"/>
@@ -1027,6 +1030,33 @@
                <option name="ignore-all" value="true"/>
             </sort>
          </presentation>
+      </view>
+
+      <view name="phoenix.view.default.moviecollections" label="Movie Collections" flat="true">
+         <description>Movies grouped by Collection</description>
+         <tag value="video"/>
+         <tag value="movie"/>
+         <tag value="default"/>
+         <view-source name="phoenix.view.primary.recordedmovies"/>
+         <view-source name="phoenix.view.primary.importedmovies"/>
+
+         <presentation level="1">
+            <group by="moviecollection">
+               <option name="prune-single-item-groups" value="true"/>
+            </group>
+            <sort by="title">
+               <option name="sort-order" value="asc"/>
+               <option name="folders-first" value="false"/>
+               <option name="ignore-all" value="true"/>
+            </sort>
+         </presentation>
+
+         <presentation level="2">
+            <sort by="title">
+               <option name="ignore-all" value="true"/>
+            </sort>
+         </presentation>
+
       </view>
 
       <view name="phoenix.view.default.bluray" label="BluRay Movies" flat="true">
