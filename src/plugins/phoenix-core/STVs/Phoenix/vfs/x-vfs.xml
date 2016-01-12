@@ -1052,9 +1052,7 @@
          </presentation>
 
          <presentation level="2">
-            <sort by="title">
-               <option name="ignore-all" value="true"/>
-            </sort>
+            <sort by="originalairdate"/>
          </presentation>
 
       </view>
