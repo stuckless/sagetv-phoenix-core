@@ -1186,6 +1186,61 @@
          </presentation>
       </view>
 
+      <view name="phoenix.view.default.allvideos" label="All Videos">
+         <description>All Sage Videos</description>
+         <view-source name="phoenix.view.primary.recordedtv"/>
+         <view-source name="phoenix.view.primary.recordedtvarchived"/>
+         <view-source name="phoenix.view.primary.importedtv"/>
+         <view-source name="phoenix.view.primary.recordedmovies"/>
+         <view-source name="phoenix.view.primary.importedmovies"/>
+      </view>
+
+      <view name="phoenix.view.default.videosbygenre" label="All Movies Grouped by Genre">
+         <description>Show Videos grouped by Genre</description>
+         <tag value="video"/>
+         <tag value="web"/>
+         <view-source name="phoenix.view.primary.importedmovies"/>
+         <view-source name="phoenix.view.primary.recordedmovies"/>
+
+         <presentation>
+            <group by="genre">
+               <option name="empty-foldername" value="No Genre"/>
+            </group>
+            <sort by="title">
+               <option name="sort-order" value="asc"/>
+            </sort>
+         </presentation>
+      </view>
+
+      <view name="phoenix.view.default.missingmetadata" label="Missing Metadata">
+         <description>Shows videos that are missing Metadata and/or Fanart information</description>
+         <tag value="metadata"/>
+         <tag value="web"/>
+         <view-source name="phoenix.view.default.allvideos"/>
+         <filter by="missingmetadata-ext"/>
+         <presentation>
+            <sort by="title"/>
+         </presentation>
+      </view>
+
+      <view name="phoenix.view.default.videosbyparentalrating" label="Videos (Parental Ratings)">
+         <description>View videos by Parental Ratings</description>
+         <tag value="video"/>
+         <tag value="tv"/>
+         <tag value="movie"/>
+         <tag value="web"/>
+         <view-source name="phoenix.view.default.allvideos"/>
+
+         <presentation>
+            <group by="parental-ratings">
+               <option name="empty-foldername" value="Not Rated"/>
+            </group>
+            <sort by="title">
+               <option name="sort-order" value="asc"/>
+            </sort>
+         </presentation>
+      </view>
+
       <!-- Web and Misc views -->
       <!-- ****************************** -->
       <!-- ****************************** -->

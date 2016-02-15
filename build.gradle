@@ -108,6 +108,11 @@ test.dependsOn testInit
 // eventually we'll be getting rid of gwt
 task processResourcesGwt << {
     // sometimes the ant task is just easier to configure :(
+    ant.copy(toDir:"build/resources/main/gwt/", failonerror:"true") {
+        fileset(dir:"src/main/resourcesGwt/gwt/") {
+			include (name: "phoenix.gwt.xml")
+		}
+    }
     ant.copy(toDir:"build/resources/main/gwt/src", failonerror:"true") {
         fileset(dir:"src/main/resourcesGwt/gwt/src/")
     }
