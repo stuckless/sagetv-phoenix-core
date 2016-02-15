@@ -7,6 +7,8 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.omertron.themoviedbapi.model.collection.Collection;
+import com.omertron.themoviedbapi.model.collection.CollectionInfo;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
@@ -94,6 +96,8 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
         }
 
         try {
+            log.info("******** tid = '" + tid + "'");
+            log.info("******** MovieInfo '" + tmdb.getMovieInfo(tid, config.getLanguage()));
             return createMetadata(tmdb.getMovieInfo(tid, config.getLanguage()));
         } catch (Throwable e) {
             throw new MetadataException("TheMovieDB: Failed to find movie for result", result, e);
@@ -126,6 +130,15 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
         md.setMediaTitle(movie.getTitle());
         md.setOriginalAirDate(DateUtils.parseDate(movie.getReleaseDate()));
         md.setRunningTime(movie.getRuntime() * 60 * 1000);
+
+        //set optional Collection info
+        Collection movCol = movie.getBelongsToCollection();
+        if(movCol!=null && movCol.getId()>0){
+            CollectionInfo cInfo = tmdb.getCollectionInfo(movie.getBelongsToCollection().getId(), config.getLanguage());
+            md.setCollectionID(cInfo.getId());
+            md.setCollectionName(cInfo.getName());
+            md.setCollectionOverview(cInfo.getOverview());
+        }
 
         ResultList<Video> results = getMovieTrailers(tmdb, tid, config.getLanguage());
         if (results == null || results.getTotalResults() == 0) {
@@ -202,6 +215,11 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
         // a language
         processArt(md, getMovieImages(tmdb, tid, null));
 
+        //now process the collection artwork if needed
+        if (md.getCollectionID()>0){
+            processArt(md, getCollectionImages(tmdb, md.getCollectionID(), null));
+        }
+
         updateReleaseInfo(md, movie, config.getCountry());
 
         md.setUserRating((int) (movie.getVoteAverage() * 10));
@@ -214,6 +232,14 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
     private ResultList<Artwork> getMovieImages(TheMovieDbApi tmdb2, int tid, Object object) {
         try {
             return tmdb2.getMovieImages(tid, null);
+        } catch (Throwable t) {
+            return null;
+        }
+    }
+
+    private ResultList<Artwork> getCollectionImages(TheMovieDbApi tmdb2, int cid, Object object) {
+        try {
+            return tmdb2.getCollectionImages(cid, null);
         } catch (Throwable t) {
             return null;
         }
@@ -287,6 +313,7 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
                     u = tmdb.createImageUrl(a.getFilePath(), "original");
                     if (u != null) {
                         ma.setDownloadUrl(u.toExternalForm());
+                        ma.setCollectionID(md.getCollectionID());
                         maxPosters++;
                     }
                 } catch (MovieDbException e) {
@@ -302,6 +329,7 @@ public class TMDB3MetadataProvider extends MetadataProvider implements HasFindBy
                     u = tmdb.createImageUrl(a.getFilePath(), "original");
                     if (u != null) {
                         ma.setDownloadUrl(u.toExternalForm());
+                        ma.setCollectionID(md.getCollectionID());
                         maxBackgrounds++;
                     }
                 } catch (MovieDbException e) {

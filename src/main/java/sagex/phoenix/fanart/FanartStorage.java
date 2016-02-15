@@ -80,6 +80,17 @@ public class FanartStorage implements DownloadHandler {
             throw new MetadataException("Failed to download fanart artifacts for " + title, e);
         }
 
+        // download collection specific fanart for Movies that are part of a collection as well
+        if (mediaType == MediaType.MOVIE && md.getCollectionID() > 0) {
+            artifactDir = FanartUtil.getCentralFanartDir(MediaType.MOVIE_COLLECTION, md.getCollectionName(), mt, null, fanartDir, extraMD);
+            try {
+                downloadFanartArtifacts(mt, artifactDir, md, FanartUtil.getMediaArt(md, mt, 0, md.getCollectionID()), options);
+            } catch (IOException e) {
+                throw new MetadataException("Failed to download Movie Collection fanart for " + title + "; CollectionID: " + md.getCollectionID() + " Collection: " + md.getCollectionName(),
+                        e);
+            }
+        }
+
         // download season specific fanart for TV as well
         if (mediaType == MediaType.TV) {
             if (md.getSeasonNumber() > 0) {
@@ -96,6 +107,7 @@ public class FanartStorage implements DownloadHandler {
                         e);
             }
         }
+
     }
 
     private void downloadFanartArtifacts(MediaArtifactType mt, File fanartDir, IMetadata md, List<IMediaArt> artwork, Hints options)

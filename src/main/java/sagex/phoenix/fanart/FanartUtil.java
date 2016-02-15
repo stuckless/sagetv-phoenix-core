@@ -40,6 +40,7 @@ public class FanartUtil {
     public static final String SEASON_NUMBER = "SeasonNumber";
     public static final String EPISODE_NUMBER = "EpisodeNumber";
     public static final String EPISODE_TITLE = "EpisodeTitle";
+    public static final String COLLECTION_ID = "CollectionID";
 
     /**
      * Cleans a Title for use in the Fanart Folder, by applying the following
@@ -166,6 +167,7 @@ public class FanartUtil {
         }
 
         File dir = new File(centralFolder);
+
         if (mediaType != null) {
             dir = new File(dir, mediaType.dirName());
         }
@@ -395,10 +397,20 @@ public class FanartUtil {
     }
 
     public static List<IMediaArt> getMediaArt(IMetadata md, MediaArtifactType type, int season) {
+        return getMediaArt(md,type,season,0);
+    }
+
+    public static List<IMediaArt> getMediaArt(IMetadata md, MediaArtifactType type, int season, int collectionID) {
         List<IMediaArt> l = new ArrayList<IMediaArt>();
         for (IMediaArt ma : md.getFanart()) {
-            if (ma.getType() == type && season == ma.getSeason()) {
-                l.add(ma);
+            if (collectionID > 0){
+                if (ma.getType() == type && collectionID == ma.getCollectionID()) {
+                    l.add(ma);
+                }
+            }else{
+                if (ma.getType() == type && season == ma.getSeason()) {
+                    l.add(ma);
+                }
             }
         }
         return l;

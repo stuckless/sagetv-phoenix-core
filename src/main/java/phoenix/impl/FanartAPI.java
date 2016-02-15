@@ -246,6 +246,18 @@ public class FanartAPI {
     }
 
     /**
+     * Return the Movie Collection fanart artifact for the given artifact (banner,
+     * poster, background)
+     *
+     * @param collectionname
+     * @param artifactType String value of "banner", "background", "poster"
+     * @return
+     */
+    public String GetFanartMovieCollection(String collectionname, String artifactType) {
+        return GetFanartArtifact(null, MediaType.MOVIE_COLLECTION, collectionname, MediaArtifactType.toMediaArtifactType(artifactType), null, null);
+    }
+
+    /**
      * Return the actor fanart. Actors only have posters/thumbnails, so
      * artifactType is not passed/used.
      *

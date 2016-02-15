@@ -74,9 +74,6 @@ import sagex.phoenix.metadata.proxy.SageProperty;
  * 17. Added support for the following metadata values (case-insensitive) when using GetMediaFileMetadata if the values are not defined by an import plugin: Format.Video.Codec, Format.Video.Resolution, Format.Video.Aspect, Format.Audio.Codec, Format.Audio.Channels, Format.Audio.Language, Format.Audio.SampleRate, Format.Audio.BitsPerSample, Format.Audio.Bitrate (in kbps), Format.Subtitle.Language, Format.Video.Bitrate (in Mbps)
  * </pre>
  * <p/>
- * <pre>
- * Added "EpisodeCount" to allow overriding the number of episodes contained inside a single episode mediafile
- * </pre>
  *
  * @author seans
  */
@@ -195,19 +192,6 @@ public interface ISagePropertyRW extends ISageMetadata {
 
     @SageProperty("TotalParts")
     public void setTotalParts(int parts);
-
-    /**
-     * EpisodeCount is the count of episodes contained in the MediaFile
-     * This will track situations where a pilot may contain 2 or more episodes in the single file
-     * An unset value will be considered equal to 1 episode
-     *
-     * @return
-     */
-    @SageProperty("EpisodeCount")
-    public int getEpisodeCount();
-
-    @SageProperty("EpisodeCount")
-    public void setEpisodeCount(int count);
 
     @SageProperty("HDTV")
     public boolean isHDTV();

@@ -503,7 +503,6 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 
         // new SearcTask(query).then(new
         // GetMetadataTask(query).then(update(file, options)));
-
         updateMetadata(file, getMetdata(search(id, query), query), options);
     }
 

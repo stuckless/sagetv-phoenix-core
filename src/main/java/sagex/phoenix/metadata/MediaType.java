@@ -7,7 +7,7 @@ public enum MediaType {
     TV("TV", "TV"), MOVIE("Movies", "Movie"), MUSIC("Music", "Music"), MUSIC_VIDEOS("MusicVideos", "MusicVideo"),
 
     // Genre and Actor are special types
-    GENRE("Genres", "Genre"), ACTOR("Actors", "Actor");
+    GENRE("Genres", "Genre"), ACTOR("Actors", "Actor"), MOVIE_COLLECTION("MovieCollection", "MovieCollection");
 
     private String dir = null;
     private String sageValue;
