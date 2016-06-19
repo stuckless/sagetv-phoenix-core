@@ -12,3 +12,6 @@ If using Eclipse
 
 If using IntelliJ
 * Open `build.gradle` as project file
+
+## JavaDoc
+* http://stuckless.github.io/sagetv-phoenix-core/javadoc/
