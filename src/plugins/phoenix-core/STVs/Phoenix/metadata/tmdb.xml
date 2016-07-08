@@ -1,7 +1,7 @@
 <!DOCTYPE metadata SYSTEM "metadata.dtd">
 <metadata id="tmdb">
 	<class>sagex.phoenix.metadata.provider.tmdb.TMDBMetadataProvider</class>
-	<name>themoviedb.org v3</name>
+	<name>themoviedb.org v4</name>
 	<description>Provides fanart and metadata from themoviedb.org</description>
 	<mediatype>Movie</mediatype>
 	<icon>http://d3a8mw37cqal2z.cloudfront.net/assets/619c6e3db1177d5/images/tmdb-logo.png</icon>

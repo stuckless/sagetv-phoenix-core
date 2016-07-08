@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
  */
 public abstract class RegexFilenameScraper implements IFilenameScraper {
     File regexFile;Logger log = Logger.getLogger(this.getClass());
-    List<Pattern> regexes = new ArrayList<>();
+    List<Pattern> regexes = new ArrayList<Pattern>();
 
     public RegexFilenameScraper(File file) {
         loadRegex(file);
@@ -29,7 +29,7 @@ public abstract class RegexFilenameScraper implements IFilenameScraper {
         this.regexFile=regexFile;
         try {
             log.debug("Loading Regex Filename Scrapers from " + regexFile);
-            List<Pattern> patterns = new ArrayList<>();
+            List<Pattern> patterns = new ArrayList<Pattern>();
             for (String s: FileUtils.readLines(regexFile)) {
                 if (s.trim().length()==0 || s.trim().charAt(0)=='#') continue;
                 try {

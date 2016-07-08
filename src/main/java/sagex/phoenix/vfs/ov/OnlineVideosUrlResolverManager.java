@@ -10,7 +10,6 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
 import sagex.phoenix.common.SystemConfigurationFileManager;
 import sagex.phoenix.common.SystemConfigurationFileManager.ConfigurationFileVisitor;
 import sagex.phoenix.util.PhoenixManagedScriptEngineProxy;
-import sagex.phoenix.vfs.ov.youtube.YoutubeUrlResolver;
 
 public class OnlineVideosUrlResolverManager extends SystemConfigurationFileManager implements ConfigurationFileVisitor {
 
@@ -30,7 +29,6 @@ public class OnlineVideosUrlResolverManager extends SystemConfigurationFileManag
     public void loadConfigurations() {
         log.info("Being Loading URL Resolvers");
         accept(this);
-        resolvers.add(new YoutubeUrlResolver());
         log.info("End Loading URL Resolvers");
     }
 
