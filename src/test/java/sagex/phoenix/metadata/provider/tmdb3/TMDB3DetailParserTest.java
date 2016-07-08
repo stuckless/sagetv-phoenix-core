@@ -20,6 +20,8 @@ import sagex.phoenix.metadata.IMetadataSearchResult;
 import sagex.phoenix.metadata.MediaArtifactType;
 import sagex.phoenix.metadata.MediaType;
 import sagex.phoenix.metadata.MetadataException;
+import sagex.phoenix.metadata.provider.tmdb.TMDBConfiguration;
+import sagex.phoenix.metadata.provider.tmdb.TMDBMetadataProvider;
 import sagex.phoenix.metadata.search.HasFindByIMDBID;
 import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.metadata.search.SearchQuery;
@@ -35,7 +37,7 @@ public class TMDB3DetailParserTest {
 
     @Test
     public void testDetailsByIMDBID() throws MetadataException, IOException {
-        TMDB3MetadataProvider provider = (TMDB3MetadataProvider) Phoenix.getInstance().getMetadataManager().getProvider("tmdb3");
+        TMDBMetadataProvider provider = (TMDBMetadataProvider) Phoenix.getInstance().getMetadataManager().getProvider("tmdb3");
         assertNotNull("TMDB3 is not registered.", provider);
 
         IMetadata md = ((HasFindByIMDBID) provider).getMetadataForIMDBId("tt1228705");
@@ -44,7 +46,7 @@ public class TMDB3DetailParserTest {
 
     @Test
     public void testDetailsByID() throws MetadataException, IOException {
-        TMDB3MetadataProvider provider = (TMDB3MetadataProvider) Phoenix.getInstance().getMetadataManager().getProvider("tmdb3");
+        TMDBMetadataProvider provider = (TMDBMetadataProvider) Phoenix.getInstance().getMetadataManager().getProvider("tmdb3");
         assertNotNull("TMDB3 is not registered.", provider);
 
         SearchQuery q = new SearchQuery(MediaType.MOVIE, Field.ID, "10138");
@@ -55,7 +57,7 @@ public class TMDB3DetailParserTest {
 
     @Test
     public void testSearch() throws MetadataException {
-        TMDB3MetadataProvider provider = (TMDB3MetadataProvider) Phoenix.getInstance().getMetadataManager().getProvider("tmdb3");
+        TMDBMetadataProvider provider = (TMDBMetadataProvider) Phoenix.getInstance().getMetadataManager().getProvider("tmdb3");
         assertNotNull("TMDB3 is not registered.", provider);
 
         SearchQuery q = new SearchQuery(MediaType.MOVIE, "Iron Man 2", "2010");
@@ -126,7 +128,7 @@ public class TMDB3DetailParserTest {
         assertTrue(md.getTrailerUrl().length() > 0);
         assertTrue(md.getTrailerUrl().contains("www.youtube.com"));
 
-        TMDB3Configuration config = GroupProxy.get(TMDB3Configuration.class);
+        TMDBConfiguration config = GroupProxy.get(TMDBConfiguration.class);
         assertEquals(count(md.getFanart(), MediaArtifactType.POSTER), config.getMaxPosters());
         assertEquals(count(md.getFanart(), MediaArtifactType.BACKGROUND), config.getMaxBackgrounds());
 

@@ -28,7 +28,6 @@ import sagex.phoenix.image.TransformFactory;
 import sagex.phoenix.menu.MenuManager;
 import sagex.phoenix.metadata.MetadataManager;
 import sagex.phoenix.metadata.RatingsManager;
-import sagex.phoenix.metadata.XbmcScraperMetadataProviderConfiguration;
 import sagex.phoenix.metadata.search.FileMatcherManager;
 import sagex.phoenix.metadata.search.MovieScraperManager;
 import sagex.phoenix.metadata.search.SearchQueryFactory;
@@ -184,13 +183,10 @@ public class Phoenix {
 
             metadataManager = new MetadataManager(getPhoenixMetadataDir(), new File(getPhoenixUserDir(), "metadata"));
 
-            metadataManager.addConfiguration(new XbmcScraperMetadataProviderConfiguration(metadataManager, new File(
-                    getScrapersDir(), "xbmc/video"), new File(getPhoenixUserDir(), "scrapers/xbmc/video")));
-
-            movieFilenameScrapers = new MovieScraperManager(new File(getScrapersDir(), "xbmc/moviefilenames"), new File(
-                    getPhoenixUserDir(), "scrapers/xbmc/moviefilenames"));
-            tvFilenameScrapers = new TVScraperManager(new File(getScrapersDir(), "xbmc/tvfilenames"), new File(getPhoenixUserDir(),
-                    "scrapers/xbmc/tvfilenames"));
+            movieFilenameScrapers = new MovieScraperManager(new File(getScrapersDir(), "movies"), new File(
+                    getPhoenixUserDir(), "scrapers/movies"));
+            tvFilenameScrapers = new TVScraperManager(new File(getScrapersDir(), "tv"), new File(getPhoenixUserDir(),
+                    "scrapers/tv"));
 
             downloadManager = new DownloadManager();
 
@@ -528,7 +524,7 @@ public class Phoenix {
     }
 
     /**
-     * Return the {@link TVFileNameUtils} scrapers for processing TV Filenames.
+     * Return the scrapers for processing TV Filenames.
      *
      * @return
      */
@@ -537,7 +533,7 @@ public class Phoenix {
     }
 
     /**
-     * return the {@link MovieFileNameUtils} scrapers for processing Movie
+     * return the scrapers for processing Movie
      * Filenames.
      *
      * @return

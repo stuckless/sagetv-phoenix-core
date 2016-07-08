@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.metadata.IMetadata;
+import sagex.phoenix.metadata.provider.tmdb.TMDBMetadataProvider;
 import sagex.phoenix.metadata.search.HasFindByIMDBID;
 import test.InitPhoenix;
 
@@ -21,7 +22,7 @@ public class TMDB3MetadataProviderTest {
 
     @Test
     public void testTrailersCausingFailures() {
-        TMDB3MetadataProvider provider = (TMDB3MetadataProvider) Phoenix.getInstance().getMetadataManager().getProvider("tmdb3");
+        TMDBMetadataProvider provider = (TMDBMetadataProvider) Phoenix.getInstance().getMetadataManager().getProvider("tmdb3");
         assertNotNull("TMDB3 is not registered.", provider);
 
         try {

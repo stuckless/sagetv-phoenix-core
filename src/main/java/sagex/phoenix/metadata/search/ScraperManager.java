@@ -21,7 +21,7 @@ public abstract class ScraperManager extends SystemConfigurationFileManager impl
     protected String name;
 
     public ScraperManager(String name, File systemDir, File userDir) {
-        super(systemDir, userDir, new SuffixFileFilter(new String[]{".js", ".class", ".xml"}));
+        super(systemDir, userDir, new SuffixFileFilter(new String[]{".js", ".class", ".xml", ".regex"}));
         this.name = name;
     }
 
@@ -55,7 +55,9 @@ public abstract class ScraperManager extends SystemConfigurationFileManager impl
             } else if ("class".equals(ext)) {
                 addScraper(type, loadClassScraper(type, file));
             } else if ("xml".equals(ext)) {
-                addScraper(type, loadXmbcScraper(type, file));
+                addScraper(type, loadXmlScraper(type, file));
+            } else if ("regex".equals(ext)) {
+                addScraper(type, loadRegexScraper(type, file));
             } else {
                 log.warn("Unknown Scraper: " + file);
             }
@@ -64,8 +66,13 @@ public abstract class ScraperManager extends SystemConfigurationFileManager impl
         }
     }
 
-    protected IFilenameScraper loadXmbcScraper(ConfigurationType type, File file) throws Exception {
-        log.warn("Class needs to implement an Xbmc Scraper!");
+    protected IFilenameScraper loadRegexScraper(ConfigurationType type, File file) throws Exception {
+        log.warn("Class needs to implement an Regex Scraper!");
+        return null;
+    }
+
+    protected IFilenameScraper loadXmlScraper(ConfigurationType type, File file) throws Exception {
+        log.warn("Class needs to implement an Xml Scraper!");
         return null;
     }
 

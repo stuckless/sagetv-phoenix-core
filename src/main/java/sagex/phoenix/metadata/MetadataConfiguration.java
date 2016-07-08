@@ -19,7 +19,7 @@ public class MetadataConfiguration extends GroupProxy {
     @AField(label = "TV Metadata Provider(s)", description = "Default provider(s) to use for TV", listSeparator = ",", list = "tvdb:TVDb", scope = ConfigScope.SERVER)
     private FieldProxy<String> tvProviders = new FieldProxy<String>("tvdb");
 
-    @AField(label = "Movie Metadata Provider(s)", description = "Default provider(s) to use for Movies", listSeparator = ",", list = "imdb:IMDB,tmdb:The MovieDB,imdb.xml:Xbmc IMDb,dvdprofiler:DVD Profiler,mymovies:MyMovies (obsolete)", scope = ConfigScope.SERVER)
+    @AField(label = "Movie Metadata Provider(s)", description = "Default provider(s) to use for Movies", listSeparator = ",", list = "tmdb:The MovieDB", scope = ConfigScope.SERVER)
     private FieldProxy<String> movieProviders = new FieldProxy<String>("tmdb,imdb");
 
     @AField(label = "Music Metadata Provider(s)", description = "Default provider(s) to use for Music", listSeparator = ",", visible = "false", scope = ConfigScope.SERVER)

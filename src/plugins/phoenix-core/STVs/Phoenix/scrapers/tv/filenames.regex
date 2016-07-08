@@ -1,0 +1,33 @@
+# SageTV recording BrooklynNineNine-S03E21-MaximumSecurity-14895977-0.ts
+^(?<show>[^-]+)-s(?<season>[0-9]+)e(?<episode>[0-9]+)-(?<title>[^-]+)-(?<airing>[0-9]{3,9}+)-(?<segment>[0-9]{1,2})\.
+
+# SageTV recording SHOW-TITLE-AIRING-SEGMENT.ts
+^(?<show>[^-]+)-(?<title>[^-]+)-(?<airing>[0-9]{3,9}+)-(?<segment>[0-9]{1,2})\.
+
+# SageTV recording SHOW-AIRING-SEGMENT.ts
+^(?<show>[^-]+)-(?<airing>[0-9]{3,9}+)-(?<segment>[0-9]{1,2})\.
+
+# now for the general TV formats
+
+# show yyyy.mm.dd
+(?<show>.*)(?<date>[0-9]{4}[-\.][0-1][0-9][-\.][0-3][0-9])
+
+
+# show (year) s01e11-12
+(?<show>.*)\((?<year>[0-9]{4})\).*?[s]{0,1}(?<season>[0-9]+)[ex\.](?<episode>[0-9]+)-(?<episodeEnd>[0-9]+)
+
+# show (year) s01e11
+(?<show>.*)\((?<year>[0-9]{4})\).*?[s]{0,1}(?<season>[0-9]+)[ex\.](?<episode>[0-9]+)
+
+# show year s01e11-12
+(?<show>.*) (?<year>[0-9]{4}).*?[s]{0,1}(?<season>[0-9]+)[ex\.](?<episode>[0-9]+)-(?<episodeEnd>[0-9]+)
+
+# show year s01e11
+(?<show>.*) (?<year>[0-9]{4}).*?[s]{0,1}(?<season>[0-9]+)[ex\.](?<episode>[0-9]+)
+
+# show s01e11-12
+(?<show>.*?)[s]{0,1}(?<season>[0-9]+)[ex\\.](?<episode>[0-9]+)-(?<episodeEnd>[0-9]+)
+
+# show s01e11
+(?<show>.*?)[s]{0,1}(?<season>[0-9]+)[ex\\.](?<episode>[0-9]+)
+

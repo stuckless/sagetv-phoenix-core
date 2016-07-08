@@ -12,17 +12,10 @@ import sagex.phoenix.util.Hints;
 public class SearchQuery implements Serializable, HasHints {
     private static final long serialVersionUID = 1L;
 
-    /*
-     * we are going to add IMDBID and ID to the search query remove metadata id
-     * and series id since they are basically the same provider will no longer
-     * have search by id, just a searchQUery, and then the provider can
-     * determine how to search, etc.
-     */
     public enum Field {
-        QUERY, RAW_TITLE, CLEAN_TITLE, SEASON, EPISODE, DISC, EPISODE_TITLE, EPISODE_DATE, YEAR, FILE, URL, PROVIDER, ID, ARTIST, ALBUM
+        QUERY, RAW_TITLE, CLEAN_TITLE, SEASON, EPISODE, DISC, EPISODE_TITLE, EPISODE_DATE,
+        YEAR, FILE, URL, PROVIDER, ID, ARTIST, ALBUM, AIRING_ID, EPISODE_RANGE_END
     }
-
-    ;
 
     private Map<Field, String> fields = new HashMap<Field, String>();
     private MediaType type = MediaType.MOVIE;
@@ -38,6 +31,143 @@ public class SearchQuery implements Serializable, HasHints {
             fields.put(f, query.get(f));
         }
         hints.addHints(query.getHints());
+    }
+
+    public String getEpisodeRangeEnd() {
+        return fields.get(Field.EPISODE_RANGE_END);
+    }
+
+    public void setEpisodeRangeEnd(String val) {
+        set(Field.EPISODE_RANGE_END, val);
+    }
+
+    public String getAiringId() {
+        return fields.get(Field.AIRING_ID);
+    }
+
+    public void setAiringId(String val) {
+        set(Field.AIRING_ID, val);
+    }
+
+    public String getAlbum() {
+        return fields.get(Field.ALBUM);
+    }
+
+    public void setAlbum(String val) {
+        set(Field.ALBUM, val);
+    }
+
+    public String getArtist() {
+        return fields.get(Field.ARTIST);
+    }
+
+    public void setArtist(String val) {
+        set(Field.ARTIST, val);
+    }
+
+    public String getProviderId() {
+        return fields.get(Field.ID);
+    }
+
+    public void setProviderId(String val) {
+        set(Field.ID, val);
+    }
+
+    public String getProvider() {
+        return fields.get(Field.PROVIDER);
+    }
+
+    public void setProvider(String val) {
+        set(Field.PROVIDER, val);
+    }
+
+    public String getUrl() {
+        return fields.get(Field.URL);
+    }
+
+    public void setUrl(String val) {
+        set(Field.URL, val);
+    }
+
+    public String getFile() {
+        return fields.get(Field.FILE);
+    }
+
+    public void setFile(String val) {
+        set(Field.FILE, val);
+    }
+
+    public String getYear() {
+        return fields.get(Field.YEAR);
+    }
+
+    public void setYear(String val) {
+        set(Field.YEAR, val);
+    }
+
+    public String getEpisodeDate() {
+        return fields.get(Field.EPISODE_DATE);
+    }
+
+    public void setEpisodeDate(String val) {
+        set(Field.EPISODE_DATE, val);
+    }
+
+
+    public String getEpisodeTitle() {
+        return fields.get(Field.EPISODE_TITLE);
+    }
+
+    public void setEpisodeTitle(String val) {
+        set(Field.EPISODE_TITLE, val);
+    }
+
+    public String getDisc() {
+        return fields.get(Field.DISC);
+    }
+
+    public void setDisc(String val) {
+        set(Field.DISC, val);
+    }
+
+    public String getEpisode() {
+        return fields.get(Field.EPISODE);
+    }
+
+    public void setEpisode(String val) {
+        set(Field.EPISODE, val);
+    }
+
+    public String getSeason() {
+        return fields.get(Field.SEASON);
+    }
+
+    public void setSeason(String val) {
+        set(Field.SEASON, val);
+    }
+
+    public String getCleanTitle() {
+        return fields.get(Field.CLEAN_TITLE);
+    }
+
+    public void setCleanTitle(String val) {
+        set(Field.CLEAN_TITLE, val);
+    }
+
+    public String getRawTitle() {
+        return fields.get(Field.RAW_TITLE);
+    }
+
+    public void setRawTitle(String val) {
+        set(Field.RAW_TITLE, val);
+    }
+
+    public String getQuery() {
+        return fields.get(Field.QUERY);
+    }
+
+    public void setQuery(String val) {
+        set(Field.QUERY, val);
     }
 
     public Hints getHints() {
@@ -68,7 +198,11 @@ public class SearchQuery implements Serializable, HasHints {
     }
 
     public SearchQuery set(Field field, String value) {
-        fields.put(field, value);
+        if (value==null||value.trim().length()==0) {
+            fields.remove(field);
+            return this;
+        }
+        fields.put(field, value.trim());
         return this;
     }
 

@@ -4,7 +4,7 @@
     <Identifier>phoenix-core</Identifier>
     <Description>
         Phoenix Core Services provides the following services
-        * automatic metadata and fanart fetching from external sources such as IMDb, TMDb, and TVDb.
+        * automatic metadata and fanart fetching from external sources such as TheMovieDB, and TVDb.
         * dynamic menus
         * custom views
         * user profiles

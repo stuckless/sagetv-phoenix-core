@@ -56,39 +56,13 @@ public class TestMetadataProviderFactory {
             System.out.println("Provider: " + p);
         }
 
-        IMetadataProvider prov = mgr.getProvider("imdb");
-        assertNotNull("Failed to load imdb provider!", prov);
-        assertNotNull(prov.getInfo().getName());
-        assertNotNull(prov.getInfo().getIconUrl());
-        assertNotNull(prov.getInfo().getDescription());
-        assertEquals(MediaType.MOVIE, prov.getInfo().getSupportedSearchTypes().get(0));
-
-        prov = mgr.getProvider("imdb.xml");
-        assertNotNull("Failed to load xbmc imdb provider!", prov);
-        assertNotNull(prov.getInfo().getName());
-        assertNotNull(prov.getInfo().getIconUrl());
-        assertNotNull(prov.getInfo().getDescription());
-        assertEquals(MediaType.MOVIE, prov.getInfo().getSupportedSearchTypes().get(0));
+        IMetadataProvider prov;
 
         prov = mgr.getProvider("tvdb");
         assertNotNull("Failed to load tvdb provider!", prov);
         assertNotNull(prov.getInfo().getName());
         assertNotNull(prov.getInfo().getDescription());
         assertEquals(MediaType.TV, prov.getInfo().getSupportedSearchTypes().get(0));
-
-        // -- SEAN -- DvdProfiler and MyMovies is removed, might get added as a separate plugin
-
-//		prov = mgr.getProvider("dvdprofiler");
-//		assertNotNull("Failed to load tvdb provider!", prov);
-//		assertNotNull(prov.getInfo().getName());
-//		assertNotNull(prov.getInfo().getDescription());
-//		assertEquals(MediaType.MOVIE, prov.getInfo().getSupportedSearchTypes().get(0));
-
-//		prov = mgr.getProvider("mymovies");
-//		assertNotNull("Failed to load mymovies provider!", prov);
-//		assertNotNull(prov.getInfo().getName());
-//		assertNotNull(prov.getInfo().getDescription());
-//		assertEquals(MediaType.MOVIE, prov.getInfo().getSupportedSearchTypes().get(0));
 
         assertTrue("getProviders() failed", mgr.getProviders().size() > 0);
         for (IMetadataProvider p : mgr.getProviders()) {
@@ -97,187 +71,6 @@ public class TestMetadataProviderFactory {
     }
 
 
-    @Deprecated
-    @Test
-    public void testIMDBLookup() throws Exception {
-        SearchQuery query = new SearchQuery(MediaType.MOVIE, "Iron Man 2", "2010");
-        List<IMetadataSearchResult> results = mgr.search("imdb", query);
-        assertTrue("Search for Iron Man 2 return nothing!", results.size() > 0);
-
-        // ensure we get iron man
-        IMetadataSearchResult result = MetadataSearchUtil.getBestResultForQuery(results, query);
-        assertEquals("tt1228705", result.getId());
-        assertEquals("imdb", result.getProviderId());
-        assertEquals(MediaType.MOVIE, result.getMediaType());
-        assertEquals(2010, result.getYear());
-        assertEquals("Iron Man 2", result.getTitle());
-        assertEquals("http://www.imdb.com/title/tt1228705/", result.getUrl());
-
-        // get the metadata, validate it
-        IMetadata md = mgr.getMetdata(result);
-        assertTrue(md.getActors().size() > 10);
-        assertEquals("Robert Downey Jr.", md.getActors().get(0).getName());
-        assertEquals("Tony Stark", md.getActors().get(0).getRole());
-
-        assertNotNull(md.getDescription());
-        // assertTrue(md.getDirectors().size() > 0);
-        assertEquals("Iron Man 2", md.getEpisodeName());
-
-        assertTrue(md.getFanart().size() > 1); // should have more than just a
-        // poster
-        System.out.println("# of Fanart Artifacts: " + md.getFanart().size());
-
-        // for (IMediaArt ma : md.getFanart()) {
-        // System.out.println("IMDB Fanart: " + ma);
-        // }
-
-        assertTrue(md.getGenres().size() > 0);
-        assertEquals("Action", md.getGenres().get(0));
-
-        assertEquals("tt1228705", md.getIMDBID());
-        assertEquals("tt1228705", md.getMediaProviderDataID());
-        assertEquals("imdb", md.getMediaProviderID());
-        assertEquals("Iron Man 2", md.getMediaTitle());
-        assertEquals(MediaType.MOVIE.sageValue(), md.getMediaType());
-        assertEquals(DateUtils.parseDate("2010-05-07").getTime(), md.getOriginalAirDate().getTime());
-        assertEquals("PG-13", md.getRated());
-        assertTrue(md.getExtendedRatings().length() > 5);
-        assertEquals(MetadataSearchUtil.convertTimeToMillissecondsForSage("124"), md.getRunningTime());
-        assertEquals("Iron Man 2", md.getEpisodeName());
-        assertNull(md.getRelativePathWithTitle());
-
-        System.out.println("User Rating: " + md.getUserRating());
-        assertTrue("Invalid User Rating: " + md.getUserRating(), md.getUserRating() > 10);
-        // assertTrue(md.getWriters().size() > 0);
-        assertEquals(2010, md.getYear());
-    }
-
-    // IMDB will be removed at some point, so don't care that it doesn't work
-//	@Deprecated
-//	@Test
-//	public void testIMDBLookupWithAmpData() throws Exception {
-//		SearchQuery query = new SearchQuery(MediaType.MOVIE, "Fast & Furious", "2009");
-//		List<IMetadataSearchResult> results = mgr.search("imdb", query);
-//		assertTrue("Search for Fast & Furious return nothing!", results.size() > 0);
-//
-//		// ensure we get iron man
-//		IMetadataSearchResult result = MetadataSearchUtil.getBestResultForQuery(results, query);
-//		assertEquals("tt1013752", result.getId());
-//		assertEquals("imdb", result.getProviderId());
-//		assertEquals(MediaType.MOVIE, result.getMediaType());
-//		assertEquals(2009, result.getYear());
-//		assertEquals("Fast & Furious", result.getTitle());
-//		assertEquals("http://www.imdb.com/title/tt1013752/", result.getUrl());
-//
-//		// get the metadata, validate it
-//		IMetadata md = mgr.getMetdata(result);
-//		assertTrue(md.getActors().size() > 10);
-//		assertEquals("Vin Diesel", md.getActors().get(0).getName());
-//		assertEquals("Dominic Toretto", md.getActors().get(0).getRole());
-//
-//		for (ICastMember cm : md.getActors()) {
-//			assertFalse("Name has html entities", cm.getName().contains("&x"));
-//			assertFalse("Role has html entities", cm.getRole().contains("&x"));
-//		}
-//
-//		assertNotNull(md.getDescription());
-//		// assertTrue(md.getDirectors().size() > 0);
-//		assertEquals("Fast & Furious", md.getEpisodeName());
-//
-//		assertTrue(md.getFanart().size() > 1); // should have more than just a
-//												// poster
-//
-//		assertTrue(md.getGenres().size() > 0);
-//		assertEquals("Action", md.getGenres().get(0));
-//
-//		assertEquals("tt1013752", md.getIMDBID());
-//		assertEquals("tt1013752", md.getMediaProviderDataID());
-//		assertEquals("imdb", md.getMediaProviderID());
-//		assertEquals("Fast & Furious", md.getMediaTitle());
-//		assertEquals(MediaType.MOVIE.sageValue(), md.getMediaType());
-//		assertEquals(DateUtils.parseDate("2009-04-03").getTime(), md.getOriginalAirDate().getTime());
-//		assertEquals("PG-13", md.getRated());
-//		assertTrue(md.getExtendedRatings().length() > 5);
-//		assertEquals(6420000, md.getRunningTime());
-//		assertEquals("Fast & Furious", md.getEpisodeName());
-//		assertNull(md.getRelativePathWithTitle());
-//
-//		System.out.println("User Rating: " + md.getUserRating());
-//		assertTrue("Invalid User Rating: " + md.getUserRating(), md.getUserRating() > 10);
-//		// assertTrue(md.getWriters().size() > 0);
-//		assertEquals(2009, md.getYear());
-//	}
-
-    @Deprecated
-    @Test
-    public void testIMDBLookupBYID() throws Exception {
-        SearchQuery query = new SearchQuery(MediaType.MOVIE, "XXXXXXX", "2010");
-        query.set(Field.PROVIDER, "imdb");
-        query.set(Field.ID, "tt1228705");
-
-        List<IMetadataSearchResult> results = mgr.search("imdb", query);
-        assertTrue("Search for Iron Man 2 return nothing!", results.size() > 0);
-
-        // ensure we get iron man
-        IMetadataSearchResult result = MetadataSearchUtil.getBestResultForQuery(results, query);
-        assertEquals("tt1228705", result.getId());
-        assertEquals("imdb", result.getProviderId());
-        assertEquals(MediaType.MOVIE, result.getMediaType());
-        assertEquals(2010, result.getYear());
-        assertEquals("Iron Man 2", result.getTitle());
-
-        // search by id, uses tt as the url
-        // assertEquals("http://www.imdb.com/title/tt1228705/",
-        // result.getUrl());
-
-        // get the metadata, validate it
-        long t1 = System.currentTimeMillis();
-        IMetadata md = mgr.getMetdata(result);
-        long t2 = System.currentTimeMillis();
-
-        System.out.println("IMDB Lookup and parse took " + (t2 - t1) + "ms");
-
-        assertTrue(md.getActors().size() > 10);
-        assertEquals("Robert Downey Jr.", md.getActors().get(0).getName());
-        assertEquals("Tony Stark", md.getActors().get(0).getRole());
-
-        assertNotNull(md.getDescription());
-        // assertTrue(md.getDirectors().size() > 0);
-        // assertEquals("Jon Favreau", md.getDirectors().get(0).getName());
-
-        // assertTrue(md.getWriters().size() > 0);
-        // assertEquals("Justin Theroux (screenplay)",
-        // md.getWriters().get(0).getName());
-
-        assertEquals("Iron Man 2", md.getEpisodeName());
-
-        assertTrue(md.getFanart().size() > 1); // should have more than just a
-        // poster
-
-        // for (IMediaArt ma : md.getFanart()) {
-        // System.out.println("IMDB Fanart: " + ma);
-        // }
-
-        assertTrue(md.getGenres().size() > 0);
-        assertEquals("Action", md.getGenres().get(0));
-
-        assertEquals("tt1228705", md.getIMDBID());
-        assertEquals("tt1228705", md.getMediaProviderDataID());
-        assertEquals("imdb", md.getMediaProviderID());
-        assertEquals("Iron Man 2", md.getMediaTitle());
-        assertEquals(MediaType.MOVIE.sageValue(), md.getMediaType());
-        assertEquals(DateUtils.parseDate("7 May 2010").getTime(), md.getOriginalAirDate().getTime());
-        assertEquals("PG-13", md.getRated());
-        assertTrue(md.getExtendedRatings().length() > 5);
-        assertEquals(MetadataSearchUtil.convertTimeToMillissecondsForSage("124"), md.getRunningTime());
-        assertEquals("Iron Man 2", md.getEpisodeName());
-        assertNull(md.getRelativePathWithTitle());
-
-        System.out.println("User Rating: " + md.getUserRating());
-        assertTrue("Invalid User Rating: " + md.getUserRating(), md.getUserRating() > 5);
-        assertEquals(2010, md.getYear());
-
-    }
 
     @Test
     public void testTMDBLookup() throws Exception {
@@ -577,41 +370,6 @@ public class TestMetadataProviderFactory {
         for (ICastMember cm : info.getCast()) {
             System.out.println("Cast: " + cm);
         }
-    }
-
-    @Deprecated
-    @Test
-    public void testAmiliaCompareWithAPIsForIMDB() throws MetadataException {
-        SearchQuery q = new SearchQuery(Phoenix.getInstance().getMetadataManager().getDefaultMetadataOptions());
-        q.setMediaType(MediaType.MOVIE);
-        q.set(Field.CLEAN_TITLE, "Amelia");
-        q.set(Field.YEAR, "2009");
-        q.set(Field.EPISODE_DATE, "2009-10-23");
-        q.set(Field.RAW_TITLE, "Amelia");
-        q.set(Field.EPISODE_TITLE, "Amelia");
-
-        List<IMetadataSearchResult> results = Phoenix.getInstance().getMetadataManager().search("imdb", q);
-        assertTrue(results.size() > 0);
-        for (IMetadataSearchResult r : results) {
-            System.out.printf("result: %s %s %s\n", r.getTitle(), r.getYear(), r.getScore());
-        }
-
-        IMetadata md = Phoenix.getInstance().getMetadataManager().getMetdata(results.get(0));
-        assertTrue(md.getFanart().size() > 1);
-        for (IMediaArt f : md.getFanart()) {
-            System.out.printf("fanart: %s %s\n", f.getType(), f.getDownloadUrl());
-        }
-        // type=MOVIE, fields={CLEAN_TITLE: Amelia,YEAR: 2009,EPISODE_DATE:
-        // 2009-10-23,RAW_TITLE: Amelia,EPISODE_TITLE: Amelia,}, hints=Hints
-        // [hints={update_fanart: true,update_metadata:
-        // true,scan_missing_metadata: true,scan_subfolders:
-        // true,import_tv_as_recording: false,}]]; Because it's a SageTV Movie
-
-        IMetadataSearchResult res[] = phoenix.metadatascan.Search(q);
-        assertTrue(res.length > 0);
-        IMetadata md2 = phoenix.metadatascan.GetMetadata(res[0]);
-        assertTrue(md2.getFanart().size() > 1);
-        // assertEquals(md2.getFanart().size(), md.getFanart().size());
     }
 
     @Test

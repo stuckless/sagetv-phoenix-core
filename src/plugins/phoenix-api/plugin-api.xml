@@ -49,10 +49,6 @@
         <MinVersion>1.7.1</MinVersion>
     </Dependency>
     <Dependency>
-        <Plugin>nielm_sageimdb</Plugin>
-        <MinVersion>1.8.4</MinVersion>
-    </Dependency>
-    <Dependency>
         <Plugin>themoviedb</Plugin>
         <MinVersion>4.1.0</MinVersion>
     </Dependency>

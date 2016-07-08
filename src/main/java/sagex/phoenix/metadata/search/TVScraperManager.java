@@ -9,7 +9,7 @@ public class TVScraperManager extends ScraperManager {
     }
 
     @Override
-    protected IFilenameScraper loadXmbcScraper(ConfigurationType type, File file) throws Exception {
-        return new XbmcTVFilenameScraper(file);
+    protected IFilenameScraper loadRegexScraper(ConfigurationType type, File file) throws Exception {
+        return new RegexTVFilenameScraper(file);
     }
 }

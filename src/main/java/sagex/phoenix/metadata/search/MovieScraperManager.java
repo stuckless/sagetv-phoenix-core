@@ -8,15 +8,7 @@ public class MovieScraperManager extends ScraperManager {
     }
 
     @Override
-    protected IFilenameScraper loadXmbcScraper(ConfigurationType type, File file) throws Exception {
-        return new XbmcMovieFilenameScraper(file);
-    }
-
-    @Override
-    public void loadConfigurations() {
-        super.loadConfigurations();
-
-        // now add in our default scraper
-        addScraper(ConfigurationType.System, new DefaultMovieFilenameScraper());
+    protected IFilenameScraper loadRegexScraper(ConfigurationType type, File file) throws Exception {
+        return new RegexMovieFilenameScraper(file);
     }
 }

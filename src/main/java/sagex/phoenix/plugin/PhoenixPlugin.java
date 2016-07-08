@@ -274,8 +274,8 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 					managePlugin(new File(dir, "metadata"), Phoenix.getInstance().getMetadataManager(), managers);
 					managePlugin(new File(dir, "Skins"), Phoenix.getInstance().getSkinManager(), managers);
 					managePlugin(new File(dir, "scrapers"), Phoenix.getInstance().getMediaTitlesManager(), managers);
-					managePlugin(new File(dir, "scrapers/xbmc/moviefilenames"), Phoenix.getInstance().getMovieScrapers(), managers);
-					managePlugin(new File(dir, "scrapers/xbmc/tvfilenames"), Phoenix.getInstance().getTVScrapers(), managers);
+					managePlugin(new File(dir, "scrapers/movies"), Phoenix.getInstance().getMovieScrapers(), managers);
+					managePlugin(new File(dir, "scrapers/tv"), Phoenix.getInstance().getTVScrapers(), managers);
 				}
 			}
 
