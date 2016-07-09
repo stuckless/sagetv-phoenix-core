@@ -3,8 +3,8 @@ package test.junit;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-import static test.junit.lib.TestUtil.createBufferedImage;
-import static test.junit.lib.TestUtil.verifyImageSize;
+import static test.junit.lib.Utils.createBufferedImage;
+import static test.junit.lib.Utils.verifyImageSize;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

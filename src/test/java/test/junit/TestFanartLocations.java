@@ -5,10 +5,10 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
-import static test.junit.lib.TestUtil.delete;
-import static test.junit.lib.TestUtil.fillFile;
-import static test.junit.lib.TestUtil.makeDir;
-import static test.junit.lib.TestUtil.makeFile;
+import static test.junit.lib.Utils.delete;
+import static test.junit.lib.Utils.fillFile;
+import static test.junit.lib.Utils.makeDir;
+import static test.junit.lib.Utils.makeFile;
 
 import java.io.BufferedReader;
 import java.io.File;

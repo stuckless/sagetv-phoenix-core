@@ -2,8 +2,8 @@ package test.junit;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
-import static test.junit.lib.TestUtil.makeDir;
-import static test.junit.lib.TestUtil.makeFile;
+import static test.junit.lib.Utils.makeDir;
+import static test.junit.lib.Utils.makeFile;
 
 import java.io.File;
 import java.io.IOException;

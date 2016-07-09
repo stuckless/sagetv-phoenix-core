@@ -1,6 +1,7 @@
 package sagex.phoenix.util;
 
 import java.io.File;
+import java.io.IOException;
 
 import javax.script.Bindings;
 import javax.script.Invocable;
@@ -10,6 +11,7 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 
 /**
@@ -109,27 +111,38 @@ public class PhoenixScriptEngine {
 
     protected void addGlobals(ScriptEngine engine) {
         Bindings b = engine.getBindings(ScriptContext.ENGINE_SCOPE);
-        b.put("MediaFileAPI", new sagex.api.MediaFileAPI());
-        b.put("Global", new sagex.api.Global());
-        b.put("Utility", new sagex.api.Utility());
-        b.put("PlaylistAPI", new sagex.api.PlaylistAPI());
-        b.put("AiringAPI", new sagex.api.AiringAPI());
-        b.put("AlbumAPI", new sagex.api.AlbumAPI());
-        b.put("CaptureDeviceAPI", new sagex.api.CaptureDeviceAPI());
-        b.put("CaptureDeviceInputAPI", new sagex.api.CaptureDeviceInputAPI());
-        b.put("ChannelAPI", new sagex.api.ChannelAPI());
-        b.put("Configuration", new sagex.api.Configuration());
-        b.put("Database", new sagex.api.Database());
-        b.put("FavoriteAPI", new sagex.api.FavoriteAPI());
-        b.put("MediaPlayerAPI", new sagex.api.MediaPlayerAPI());
-        b.put("SeriesInfoAPI", new sagex.api.SeriesInfoAPI());
-        b.put("ShowAPI", new sagex.api.ShowAPI());
-        b.put("TranscodeAPI", new sagex.api.TranscodeAPI());
-        b.put("TVEditorialAPI", new sagex.api.TVEditorialAPI());
-        b.put("WidgetAPI", new sagex.api.WidgetAPI());
-        b.put("Version", new sagex.api.Version());
-        b.put("SageAPI", new sagex.SageAPI());
-        b.put("phoenix", new phoenix.api());
+        if (!Utils.isAtLeastJava8()) {
+            b.put("MediaFileAPI", new sagex.api.MediaFileAPI());
+            b.put("Global", new sagex.api.Global());
+            b.put("Utility", new sagex.api.Utility());
+            b.put("PlaylistAPI", new sagex.api.PlaylistAPI());
+            b.put("AiringAPI", new sagex.api.AiringAPI());
+            b.put("AlbumAPI", new sagex.api.AlbumAPI());
+            b.put("CaptureDeviceAPI", new sagex.api.CaptureDeviceAPI());
+            b.put("CaptureDeviceInputAPI", new sagex.api.CaptureDeviceInputAPI());
+            b.put("ChannelAPI", new sagex.api.ChannelAPI());
+            b.put("Configuration", new sagex.api.Configuration());
+            b.put("Database", new sagex.api.Database());
+            b.put("FavoriteAPI", new sagex.api.FavoriteAPI());
+            b.put("MediaPlayerAPI", new sagex.api.MediaPlayerAPI());
+            b.put("SeriesInfoAPI", new sagex.api.SeriesInfoAPI());
+            b.put("ShowAPI", new sagex.api.ShowAPI());
+            b.put("TranscodeAPI", new sagex.api.TranscodeAPI());
+            b.put("TVEditorialAPI", new sagex.api.TVEditorialAPI());
+            b.put("WidgetAPI", new sagex.api.WidgetAPI());
+            b.put("Version", new sagex.api.Version());
+            b.put("SageAPI", new sagex.SageAPI());
+            b.put("phoenix", new phoenix.api());
+        } else {
+            // java 8 or later
+            try {
+                addScript(IOUtils.toString(this.getClass().getClassLoader().getResource("phoenix-compat.js")));
+            } catch (ScriptException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         b.put("log", Logger.getLogger("sagex.phoenix.scripts"));
     }
 }

@@ -9,7 +9,9 @@ import junit.framework.TestCase;
 import sagex.phoenix.image.ImageUtil;
 import test.InitPhoenix;
 
-public class TestUtil extends TestCase {
+import static org.junit.Assert.*;
+
+public class Utils {
     // verify that we are in the right testing directory
     static {
         try {

@@ -25,4 +25,12 @@ public class Utils {
     public static final <T> String toStringNonNull(T o) {
         return (o == null) ? "" : String.valueOf(o);
     }
+
+    public static String getJavaVersion() {
+        return System.getProperty("java.version","0");
+    }
+
+    public static boolean isAtLeastJava8() {
+        return phoenix.util.IsAtLeastVersion(getJavaVersion(),"1.8");
+    }
 }

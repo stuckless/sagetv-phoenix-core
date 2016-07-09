@@ -4,8 +4,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
-import static test.junit.lib.TestUtil.createImageFile;
-import static test.junit.lib.TestUtil.verifyImageSize;
+import static test.junit.lib.Utils.createImageFile;
+import static test.junit.lib.Utils.verifyImageSize;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

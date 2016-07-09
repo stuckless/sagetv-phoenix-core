@@ -15,11 +15,11 @@ public class FilesTestCase extends TestCase {
     }
 
     public static File makeFile(String path) {
-        return TestUtil.makeFile(path, true);
+        return Utils.makeFile(path, true);
     }
 
     public static File makeDir(String path) {
-        return TestUtil.makeDir(path);
+        return Utils.makeDir(path);
     }
 
     public void testFileDelete() {

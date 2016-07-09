@@ -30,7 +30,7 @@ import test.junit.lib.SimpleStubAPI.Airing;
 public class TestSearchQuery {
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        InitPhoenix.init(true, true);
+        InitPhoenix.init(true, true, true);
     }
 
     @Test
@@ -75,6 +75,9 @@ public class TestSearchQuery {
         FileMatcherManager mgr = new FileMatcherManager(new File(InitPhoenix.PROJECT_ROOT,"src/test/java/test/junit"), new File(
                 InitPhoenix.PHOENIX_HOME, "userdata/Phoenix/scrapers"));
         mgr.loadConfigurations();
+        for (FileMatcher fm: mgr.getFileMatchers()) {
+            System.out.println("matcher: " + fm);
+        }
         assertEquals(4, mgr.getFileMatchers().size());
 
         FileMatcher fm = mgr.getFileMatchers().get(0);

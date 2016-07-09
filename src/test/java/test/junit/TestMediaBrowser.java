@@ -13,8 +13,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static test.junit.lib.TestUtil.makeDir;
-import static test.junit.lib.TestUtil.makeFile;
+import static test.junit.lib.Utils.makeDir;
+import static test.junit.lib.Utils.makeFile;
 
 import java.io.File;
 import java.io.IOException;
