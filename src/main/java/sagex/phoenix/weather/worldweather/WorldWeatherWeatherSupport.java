@@ -14,18 +14,15 @@ import sagex.phoenix.weather.IWeatherSupport2;
 import sagex.phoenix.weather.WeatherConfiguration;
 
 /**
- * WorldWeather Online implementation for Phoenix API Key to access our weather
- * forecast is p6y5b5g5haupghedu7p42nbb **** OLD API Key to access our weather
- * forecast is b18c521658003002121007 - not used after 8/31/2013
- * <p/>
- * www.worldweatheronline.com The base URL for the Free Local Weather API is
- * http://api.worldweatheronline.com/free/v1/weather.ashx **** OLD url
- * http://free.worldweatheronline.com/feed/weather.ashx
- *
  * @author jusjoken
  */
 public class WorldWeatherWeatherSupport implements IWeatherSupport2 {
 
+    // NOTE: World weather will no longer work, since they no longer provide a free key
+
+    private String freeKey = "p6y5b5g5haupghedu7p42nbb"; // jusjoken - 1000 hits per day
+    private String premiumKey = "4072fc6aa84641468cb145931160907"; // trial ends Sept 7, 2016
+    private boolean isPremium=false;
     private Logger log = Logger.getLogger(this.getClass());
 
     private Date lastUpdated = null;
@@ -55,14 +52,14 @@ public class WorldWeatherWeatherSupport implements IWeatherSupport2 {
 
             String thislocation = config.getLocation();
 
-            // Changed the url string below as World Weather changed their API
-            // as of March 2013 and old API will be off line as of Aug 31st 2013
-            // String rssUrl =
-            // "http://free.worldweatheronline.com/feed/weather.ashx?q=" +
-            // thislocation +
-            // "&format=xml&num_of_days=5&includeLocation=yes&extra=localObsTime&key=b18c521658003002121007";
-            String rssUrl = "http://api.worldweatheronline.com/free/v1/weather.ashx?q=" + thislocation
-                    + "&format=xml&num_of_days=5&includeLocation=yes&extra=localObsTime&key=p6y5b5g5haupghedu7p42nbb";
+            String rssUrl;
+            if (!isPremium) {
+                rssUrl = "http://api.worldweatheronline.com/free/v1/weather.ashx?q=" + thislocation
+                        + "&format=xml&num_of_days=5&includeLocation=yes&extra=localObsTime&key=" + freeKey;
+            } else {
+                rssUrl = "http://api.worldweatheronline.com/premium/v1/weather.ashx?q=" + thislocation
+                        + "&format=xml&num_of_days=5&includeLocation=yes&extra=localObsTime&key=" + premiumKey;
+            }
             log.info("Getting WorldWeather Weather for " + rssUrl);
             try {
                 WorldWeatherWeatherHandler handler = new WorldWeatherWeatherHandler(getUnits());

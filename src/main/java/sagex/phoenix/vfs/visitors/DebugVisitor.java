@@ -3,8 +3,13 @@ package sagex.phoenix.vfs.visitors;
 import org.apache.commons.lang.StringUtils;
 
 import sagex.phoenix.progress.IProgressMonitor;
+import sagex.phoenix.util.Loggers;
 import sagex.phoenix.vfs.IMediaFile;
 import sagex.phoenix.vfs.IMediaFolder;
+import sagex.phoenix.vfs.IMediaResource;
+
+import java.io.OutputStream;
+import java.io.PrintStream;
 
 /**
  * Will Build a debug string of the folder contents.
@@ -49,5 +54,13 @@ public class DebugVisitor extends StructureVisitor {
      */
     public String toString() {
         return sb.toString();
+    }
+
+    public static void dump(IMediaFolder folder, PrintStream ps) {
+        ps.println("BEGIN " + folder.getTitle());
+        DebugVisitor walk = new DebugVisitor();
+        folder.accept(walk, null, IMediaResource.DEEP_UNLIMITED);
+        ps.println(walk.toString());
+        ps.println("  END " + folder.getTitle());
     }
 }

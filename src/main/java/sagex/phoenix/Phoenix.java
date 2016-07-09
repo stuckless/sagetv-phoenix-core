@@ -68,17 +68,28 @@ public class Phoenix {
      */
     public static final String DEFAULT_USERDATA = "userdata/Phoenix";
 
+    public void reinit() {
+        state=State.Offline;
+        onLoadList.clear();
+        INSTANCE = new Phoenix();
+        // initialize phoenix
+        try {
+            INSTANCE.init();
+            INSTANCE.initServices();
+        } catch (Exception e) {
+            Loggers.LOG.error("Failed to load phoenix.", e);
+        }
+    }
+
     private static enum State {
         Online, Offline
     }
 
-    ;
-
     private static State state = State.Offline;
 
-    private static final List<Runnable> onLoadList = new ArrayList<Runnable>();
+    private static List<Runnable> onLoadList = new ArrayList<Runnable>();
 
-    private static final Phoenix INSTANCE = new Phoenix();
+    private static Phoenix INSTANCE = new Phoenix();
 
     static {
         // initialize phoenix
@@ -401,8 +412,7 @@ public class Phoenix {
     }
 
     public File getPhoenixUserDir() {
-        return new File(getSageTVRootDir(), System.getProperty("phoenix/userDir",
-                Configuration.GetProperty("phoenix/userDir", DEFAULT_USERDATA)));
+        return new File(getSageTVRootDir(), System.getProperty("phoenix/userDir", DEFAULT_USERDATA));
     }
 
     public String getUserPath(String path) {

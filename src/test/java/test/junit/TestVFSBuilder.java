@@ -12,7 +12,6 @@ import static org.easymock.EasyMock.getCurrentArguments;
 import static org.easymock.EasyMock.replay;
 import static org.junit.Assert.assertFalse;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Collection;
@@ -24,6 +23,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.easymock.IAnswer;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.SAXException;
@@ -44,15 +44,11 @@ import sagex.phoenix.vfs.views.ViewFactory;
 import sagex.phoenix.vfs.views.ViewFolder;
 import sagex.phoenix.vfs.views.ViewPresentation;
 import test.InitPhoenix;
+import test.PhoenixTestBase;
 import test.junit.lib.SimpleStubAPI;
 import test.junit.lib.SimpleStubAPI.Airing;
 
-public class TestVFSBuilder {
-
-    @BeforeClass
-    public static void init() throws IOException {
-        InitPhoenix.init(true, true);
-    }
+public class TestVFSBuilder extends PhoenixTestBase {
 
     @Test
     public void testXMLBuilder() throws Throwable {
@@ -87,7 +83,7 @@ public class TestVFSBuilder {
     public void testTags() {
         // should be none for that label
         Set fact = Phoenix.getInstance().getVFSManager().getVFSSourceFactory().getFactories("sdfsdfsd");
-        assertEquals(6, fact.size());
+        assertEquals(0, fact.size());
 
         fact = Phoenix.getInstance().getVFSManager().getVFSViewFactory().getFactories("tv");
         for (Object f : fact) {
@@ -251,7 +247,7 @@ public class TestVFSBuilder {
     @Test
     public void testParsingSingleView() {
         VFSManager m = Phoenix.getInstance().getVFSManager();
-        m.visitConfigurationFile(ConfigurationType.System, new File("../../src/test/java/test/junit/TestVFS.xml"));
+        m.visitConfigurationFile(ConfigurationType.System, InitPhoenix.ProjectHome("src/test/java/test/junit/TestVFS.xml"));
         ViewFactory x = m.getVFSViewFactory().getFactory("seansrecordings");
         assertNotNull(x);
     }
@@ -291,7 +287,7 @@ public class TestVFSBuilder {
         setResordings();
 
         VFSManager m = Phoenix.getInstance().getVFSManager();
-        m.visitConfigurationFile(ConfigurationType.System, new File("../../src/test/java/test/junit/TestVFS.xml"));
+        m.visitConfigurationFile(ConfigurationType.System, InitPhoenix.ProjectHome("src/test/java/test/junit/TestVFS.xml"));
         ViewFactory x = m.getVFSViewFactory().getFactory("seansrecordings");
         assertNotNull(x);
         ViewFolder view = x.create(null);
@@ -320,7 +316,7 @@ public class TestVFSBuilder {
     public void testHasTagOnSorter() throws IOException {
         VFSManager m = Phoenix.getInstance().getVFSManager();
         m.clear();
-        m.visitConfigurationFile(ConfigurationType.System, new File("../../src/test/java/test/junit/TestVFS.xml"));
+        m.visitConfigurationFile(ConfigurationType.System, InitPhoenix.ProjectHome("src/test/java/test/junit/TestVFS.xml"));
 
         Sorter s = phoenix.umb.CreateSorter("MySort");
         assertNotNull(s);

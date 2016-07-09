@@ -21,6 +21,7 @@ import org.xml.sax.SAXException;
 import phoenix.impl.UtilAPI;
 import sagex.ISageAPIProvider;
 import sagex.SageAPI;
+import sagex.api.Global;
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.configuration.ConfigType;
 import sagex.phoenix.configuration.Field;
@@ -40,18 +41,23 @@ import sagex.phoenix.vfs.VirtualMediaFile;
 import sagex.phoenix.vfs.VirtualMediaFolder;
 import sagex.phoenix.vfs.sources.MediaFolderSourceFactory;
 import sagex.phoenix.vfs.views.ViewFactory;
+import sagex.stub.StubAPIProxy;
 import sagex.stub.StubSageAPI;
 import test.InitPhoenix;
 import test.junit.lib.SimpleStubAPI;
 
 public class TestMenus {
-    private static final File TestMenusFile = new File("../../src/test/java/test/junit/menus/TestMenu.xml");
-    private static final File TestMenusDTDDir = new File("../../src/main/STVs/Phoenix/Menus");
-    private static final File TestMenusUserdataDir = new File("../../target/userdata/Phoenix/Menus");
+    private static File TestMenusFile;
+    private static File TestMenusDTDDir;
+    private static File TestMenusUserdataDir;
 
     @BeforeClass
     public static void init() throws IOException {
         InitPhoenix.init(true, true);
+
+        TestMenusFile = InitPhoenix.ProjectHome("src/test/java/test/junit/menus/TestMenu.xml");
+        TestMenusDTDDir = InitPhoenix.ProjectHome("src/plugins/phoenix-core/STVs/Phoenix/Menus");
+        TestMenusUserdataDir = InitPhoenix.ProjectHome("target/userdata/Phoenix/Menus");
 
         // add this dummy field
         Field f = new Field();
@@ -146,7 +152,7 @@ public class TestMenus {
     public void testMenuBuilderUsingPhoenixAPI() throws Throwable, SAXException, IOException {
         SageAPI.setProvider(new StubSageAPI());
 
-        FileUtils.copyFileToDirectory(TestMenusFile, new File("../../target/testing/STVs/Phoenix/Menus"));
+        FileUtils.copyFileToDirectory(TestMenusFile, InitPhoenix.ProjectHome("target/testing/STVs/Phoenix/Menus"));
         Phoenix.getInstance().getMenuManager().loadConfigurations();
 
         List<Menu> menus = MenuBuilder.buildMenus(TestMenusFile, TestMenusDTDDir);
@@ -251,12 +257,12 @@ public class TestMenus {
         XmlMenuSerializer serializer = new XmlMenuSerializer();
         serializer.serialize(menu, System.out);
 
-        File f = new File("../../target/testing/userdata/Phoenix/Menus/MyMenu.xml");
+        File f = InitPhoenix.ProjectHome("target/testing/userdata/Phoenix/Menus/MyMenu.xml");
         if (f.exists())
             f.delete();
         assertFalse(f.exists());
         Phoenix.getInstance().getMenuManager().saveMenu(menu);
-        f = new File("../../target/testing/userdata/Phoenix/Menus/MyMenu.xml");
+        f = InitPhoenix.ProjectHome("target/testing/userdata/Phoenix/Menus/MyMenu.xml");
         assertTrue(f.exists());
 
         Phoenix.getInstance().getMenuManager().loadConfigurations();
@@ -314,14 +320,21 @@ public class TestMenus {
         assertNotNull(item.label().getValue());
         System.out.println(item.label().getValue());
 
-        ISageAPIProvider api = SageAPI.getProvider();
-        try {
-            SageAPI.setProvider(SageAPI.getRemoteProvider());
-            System.out.println(item.label().get());
+        StubSageAPI api = (StubSageAPI) SageAPI.getProvider();
+        api.addProxy("EvaluateExpression", new StubAPIProxy() {
+            @Override
+            public Object call(String s, Object[] objects) {
+                System.out.println("CMD: " + s);
+                if (objects!=null) {
+                    for (Object o: objects) {
+                        System.out.println("ARG: " + o);
+                    }
+                }
+                return "My Test Label";
+            }
+        });
+            System.out.println("ITEM LABEL: " + item.label().get());
             assertNotNull(item.label().get());
-        } finally {
-            SageAPI.setProvider(api);
-        }
     }
 
     @Test
@@ -352,7 +365,7 @@ public class TestMenus {
         System.out.println("SystemMenuDir: " + Phoenix.getInstance().getMenuManager().getSystemFiles().getDir());
         System.out.println("UserMenuDir: " + Phoenix.getInstance().getMenuManager().getUserFiles().getDir());
 
-        FileUtils.copyFileToDirectory(TestMenusFile, new File("../../target/testing/STVs/Phoenix/Menus"));
+        FileUtils.copyFileToDirectory(TestMenusFile, InitPhoenix.ProjectHome("target/testing/STVs/Phoenix/Menus"));
         Phoenix.getInstance().getMenuManager().loadConfigurations();
         Menu testmenu = Phoenix.getInstance().getMenuManager().getMenu("TestMenu");
         assertNotNull(testmenu);
@@ -419,9 +432,9 @@ public class TestMenus {
     public void testFragments() throws IOException {
         SimpleStubAPI api = new SimpleStubAPI();
         SageAPI.setProvider(api);
-        FileUtils.copyFileToDirectory(TestMenusFile, new File("../../target/testing/STVs/Phoenix/Menus"));
-        FileUtils.copyFileToDirectory(new File(TestMenusFile.getParentFile(), "Fragments.xml"), new File(
-                "../../target/testing/STVs/Phoenix/Menus"));
+        FileUtils.copyFileToDirectory(TestMenusFile, InitPhoenix.ProjectHome("target/testing/STVs/Phoenix/Menus"));
+        FileUtils.copyFileToDirectory(new File(TestMenusFile.getParentFile(), "Fragments.xml"), InitPhoenix.ProjectHome(
+                "target/testing/STVs/Phoenix/Menus"));
         Phoenix.getInstance().getMenuManager().loadConfigurations();
         Menu m = Phoenix.getInstance().getMenuManager().getMenu("TestMenu");
         assertNotNull(m);
@@ -563,7 +576,7 @@ public class TestMenus {
 
         assertTrue("failed to save menu fragment", phoenix.menu.SaveFragment(mi, "test.parent", null, "parent.after"));
 
-        File frag = new File("../../target/testing/userdata/Phoenix/Menus/test.parent_sls.testmenu1_fragment.xml");
+        File frag = InitPhoenix.ProjectHome("target/testing/userdata/Phoenix/Menus/test.parent_sls.testmenu1_fragment.xml");
         String sfrag = FileUtils.readFileToString(frag);
         assertTrue(sfrag.contains("</fragment>"));
         assertTrue(sfrag.contains("name=\"sls.testmenu1\""));

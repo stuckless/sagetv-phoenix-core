@@ -1,6 +1,5 @@
 package test.junit;
 
-import java.io.File;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -30,7 +29,7 @@ public class TestOnlineVideos {
 
         SageOnlineVideosFactory factory = new SageOnlineVideosFactory();
         Set<ConfigurableOption> opts = new TreeSet<ConfigurableOption>();
-        opts.add(new ConfigurableOption("videodir", new File("../../src/test/java/test/junit/OnlineVideos").getPath()));
+        opts.add(new ConfigurableOption("videodir", InitPhoenix.ProjectHome("src/test/java/test/junit/OnlineVideos").getPath()));
 
         IMediaFolder folder = factory.create(opts);
 

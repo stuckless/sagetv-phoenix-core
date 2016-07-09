@@ -89,67 +89,67 @@ public class TestSearchQuery {
 
     @Test
     public void testMovieMatchers() {
-        IMediaFile mf = (IMediaFile) FileResourceFactory.createResource(new File(
-                "../../target/junit/testing/Time.Traveller.1967.dvdrip.avi"));
+        IMediaFile mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome(
+                "target/junit/testing/Time.Traveller.1967.dvdrip.avi"));
         SearchQuery q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.MOVIE, Field.RAW_TITLE, "Time Traveller", Field.CLEAN_TITLE, "Time Traveller", Field.YEAR, "1967");
 
-        mf = (IMediaFile) FileResourceFactory.createResource(new File("../../target/junit/testing/Big Loser (2011) DVDRip.avi"));
+        mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome("target/junit/testing/Big Loser (2011) DVDRip.avi"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.MOVIE, Field.RAW_TITLE, "Big Loser", Field.CLEAN_TITLE, "Big Loser", Field.YEAR, "2011");
 
-        mf = (IMediaFile) FileResourceFactory.createResource(new File("../../target/junit/testing/Big Loser (2011) DVDRip.avi"));
+        mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome("target/junit/testing/Big Loser (2011) DVDRip.avi"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.MOVIE, Field.RAW_TITLE, "Big Loser", Field.CLEAN_TITLE, "Big Loser", Field.YEAR, "2011");
 
-        mf = (IMediaFile) FileResourceFactory.createResource(new File("../../target/junit/testing/Resident Evil[2010]DVDRip[eng].avi"));
+        mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome("target/junit/testing/Resident Evil[2010]DVDRip[eng].avi"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.MOVIE, Field.RAW_TITLE, "Resident Evil", Field.CLEAN_TITLE, "Resident Evil", Field.YEAR, "2010");
 
-        mf = (IMediaFile) FileResourceFactory.createResource(new File("../../target/junit/testing/Finding Nemo 2001 DvdRip 720p.avi"));
+        mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome("target/junit/testing/Finding Nemo 2001 DvdRip 720p.avi"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.MOVIE, Field.RAW_TITLE, "Finding Nemo", Field.CLEAN_TITLE, "Finding Nemo", Field.YEAR, "2001");
 
         mf = (IMediaFile) FileResourceFactory
-                .createResource(new File("../../target/junit/testing/Total Recall 2010 1998 DvdRip 720p.avi"));
+                .createResource(InitPhoenix.ProjectHome("target/junit/testing/Total Recall 2010 1998 DvdRip 720p.avi"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.MOVIE, Field.RAW_TITLE, "Total Recall 2010", Field.CLEAN_TITLE, "Total Recall", Field.YEAR, "1998");
 
-        mf = (IMediaFile) FileResourceFactory.createResource(new File("../../target/junit/testing/I'm OK & That's The Truth 2010.avi"));
+        mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome("target/junit/testing/I'm OK & That's The Truth 2010.avi"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.MOVIE, Field.RAW_TITLE, "I'm OK & That's The Truth", Field.CLEAN_TITLE, "I'm OK & That's The Truth",
                 Field.YEAR, "2010");
 
-        mf = (IMediaFile) FileResourceFactory.createResource(new File(
-                "../../target/junit/testing/Savages.2012.720p.bluray.x264-sparks.mkv"));
+        mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome(
+                "target/junit/testing/Savages.2012.720p.bluray.x264-sparks.mkv"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.MOVIE, Field.RAW_TITLE, "Savages", Field.CLEAN_TITLE, "Savages", Field.YEAR, "2012");
 
-        mf = (IMediaFile) FileResourceFactory.createResource(new File("../../target/junit/testing/R.I.P.D (2013).iso"));
+        mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome("target/junit/testing/R.I.P.D (2013).iso"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.MOVIE, Field.RAW_TITLE, "R.I.P.D", Field.CLEAN_TITLE, "R.I.P.D", Field.YEAR, "2013");
     }
 
     @Test
     public void testTVMatchers() {
-        IMediaFile mf = (IMediaFile) FileResourceFactory.createResource(new File("../../target/junit/testing/Lost Again S01E02.avi"));
+        IMediaFile mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome("target/junit/testing/Lost Again S01E02.avi"));
         SearchQuery q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.TV, Field.RAW_TITLE, "Lost Again", Field.CLEAN_TITLE, "Lost Again", Field.SEASON, "01", Field.EPISODE,
                 "02");
 
         mf = (IMediaFile) FileResourceFactory
-                .createResource(new File("../../target/junit/testing/BigBangTheory-NewEpisode-000000-0.avi"));
+                .createResource(InitPhoenix.ProjectHome("target/junit/testing/BigBangTheory-NewEpisode-000000-0.avi"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.TV, Field.RAW_TITLE, "Big Bang Theory", Field.CLEAN_TITLE, "Big Bang Theory", Field.EPISODE_TITLE,
                 "New Episode");
 
         mf = (IMediaFile) FileResourceFactory
-                .createResource(new File("../../target/junit/testing/BigBangTheory-NewEpisode-000000-0.avi"));
+                .createResource(InitPhoenix.ProjectHome("target/junit/testing/BigBangTheory-NewEpisode-000000-0.avi"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.TV, Field.RAW_TITLE, "Big Bang Theory", Field.CLEAN_TITLE, "Big Bang Theory", Field.EPISODE_TITLE,
                 "New Episode");
 
-        mf = (IMediaFile) FileResourceFactory.createResource(new File("../../target/junit/testing/SeriesTitle-123456-0.avi"));
+        mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome("target/junit/testing/SeriesTitle-123456-0.avi"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.TV, Field.RAW_TITLE, "Series Title", Field.CLEAN_TITLE, "Series Title");
 
@@ -158,7 +158,7 @@ public class TestSearchQuery {
 //        verify(q, MediaType.TV, Field.RAW_TITLE, "Series Title", Field.CLEAN_TITLE, "Series Title", Field.EPISODE_TITLE,
 //                "Episode Title");
 
-        mf = (IMediaFile) FileResourceFactory.createResource(new File("../../target/junit/testing/Lost 01x02.avi"));
+        mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome("target/junit/testing/Lost 01x02.avi"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.TV, Field.RAW_TITLE, "Lost", Field.CLEAN_TITLE, "Lost", Field.SEASON, "01", Field.EPISODE, "02");
 
@@ -170,32 +170,32 @@ public class TestSearchQuery {
 //        q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
 //        verify(q, MediaType.TV, Field.RAW_TITLE, "Lost", Field.CLEAN_TITLE, "Lost", Field.SEASON, "03", Field.DISC, "4");
 
-        mf = (IMediaFile) FileResourceFactory.createResource(new File("../../target/junit/testing/Lost 2009-11-22.avi"));
+        mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome("target/junit/testing/Lost 2009-11-22.avi"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.TV, Field.RAW_TITLE, "Lost", Field.CLEAN_TITLE, "Lost", Field.EPISODE_DATE, "2009-11-22");
 
-        mf = (IMediaFile) FileResourceFactory.createResource(new File("../../target/junit/testing/Lost 2009.11.22.avi"));
+        mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome("target/junit/testing/Lost 2009.11.22.avi"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.TV, Field.RAW_TITLE, "Lost", Field.CLEAN_TITLE, "Lost", Field.EPISODE_DATE, "2009-11-22");
 
-        mf = (IMediaFile) FileResourceFactory.createResource(new File("../../target/junit/testing/Lost.2009-11-22.avi"));
+        mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome("target/junit/testing/Lost.2009-11-22.avi"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.TV, Field.RAW_TITLE, "Lost", Field.CLEAN_TITLE, "Lost", Field.EPISODE_DATE, "2009-11-22");
 
         mf = (IMediaFile) FileResourceFactory
-                .createResource(new File("../../target/junit/testing/The X-Files-S06E20-three of a kind.avi"));
+                .createResource(InitPhoenix.ProjectHome("target/junit/testing/The X-Files-S06E20-three of a kind.avi"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.TV, Field.RAW_TITLE, "The X-Files", Field.CLEAN_TITLE, "The X-Files", Field.EPISODE, "20",
                 Field.SEASON, "06");
 
-        mf = (IMediaFile) FileResourceFactory.createResource(new File(
-                "../../target/junit/testing/TheMiddle-S04E03-TheSecondAct-6260432-0.mp4"));
+        mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome(
+                "target/junit/testing/TheMiddle-S04E03-TheSecondAct-6260432-0.mp4"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.TV, Field.RAW_TITLE, "The Middle", Field.CLEAN_TITLE, "The Middle", Field.EPISODE, "03", Field.SEASON,
                 "04");
 
-        mf = (IMediaFile) FileResourceFactory.createResource(new File(
-                "../../target/junit/testing/Marvel's Agents of S.H.I.E.L.D. - S01E01 - Pilot [WEBDL-1080p].mkv"));
+        mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome(
+                "target/junit/testing/Marvel's Agents of S.H.I.E.L.D. - S01E01 - Pilot [WEBDL-1080p].mkv"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.TV, Field.RAW_TITLE, "Marvel's Agents of S.H.I.E.L.D", Field.CLEAN_TITLE,
                 "Marvel's Agents of S.H.I.E.L.D", Field.EPISODE, "01", Field.SEASON, "01");
@@ -203,8 +203,8 @@ public class TestSearchQuery {
 
     @Test
     public void testTVWithYears() throws Exception {
-        IMediaFile mf = (IMediaFile) FileResourceFactory.createResource(new File(
-                "../../target/junit/testing/Archer (2009)/Season 01/Archer (2009) - S01E01 - Mole Hunt.mkv"));
+        IMediaFile mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome(
+                "target/junit/testing/Archer (2009)/Season 01/Archer (2009) - S01E01 - Mole Hunt.mkv"));
         SearchQuery q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         verify(q, MediaType.TV, Field.RAW_TITLE, "Archer", Field.CLEAN_TITLE, "Archer", Field.SEASON, "01", Field.EPISODE,
                 "01");

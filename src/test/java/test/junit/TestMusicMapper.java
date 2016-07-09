@@ -4,8 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -15,8 +16,11 @@ import sagex.phoenix.vfs.VirtualMediaFolder;
 import sagex.phoenix.vfs.music.MusicMapperFactory;
 import sagex.phoenix.vfs.ov.XmlFile;
 import sagex.phoenix.vfs.ov.XmlFolder;
+import sagex.phoenix.vfs.ov.XmlOptions;
 import sagex.phoenix.vfs.ov.XmlSourceFactory;
+import sagex.phoenix.vfs.views.ViewFactory;
 import sagex.phoenix.vfs.views.ViewFolder;
+import sagex.phoenix.vfs.visitors.DebugVisitor;
 import test.InitPhoenix;
 import test.junit.lib.StubViewFactory;
 
@@ -28,7 +32,7 @@ public class TestMusicMapper {
 
     @Test
     public void testMusicMaper() {
-        String url = new File("../../src/test/java/test/junit/hot-100.xml").toURI().toString();
+        String url = InitPhoenix.ProjectHome("src/test/java/test/junit/hot-100.xml").toURI().toString();
 
         XmlSourceFactory factory = new XmlSourceFactory();
         factory.setOptionValue("feedurl", url);
@@ -41,9 +45,10 @@ public class TestMusicMapper {
         assertEquals(100, offline.getChildren().size());
 
         // create the offline view and register it
-        StubViewFactory.registerView("hot100-offline", offline);
+        StubViewFactory.registerView("hot100-offline", offline).setOptionValue(XmlOptions.WAIT_FOR_CHILDREN, "true");
         ViewFolder offlineView = phoenix.umb.CreateView("hot100-offline");
         assertNotNull("failed to find hot100 view??", offlineView);
+        DebugVisitor.dump(offlineView, System.out);
         assertEquals(100, offlineView.getChildren().size());
 
         // create the music library view and register it

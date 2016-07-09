@@ -30,7 +30,7 @@ public class TestDownloadManager implements DownloadHandler {
     public void testDownloadManager() throws Exception {
         DownloadManager mgr = new DownloadManager();
 
-        File f1 = new File("../../target/junit/logo.gif");
+        File f1 = InitPhoenix.ProjectHome("target/junit/logo.gif");
         if (f1.exists()) f1.delete();
         DownloadItem item = new DownloadItem(new URL("http://www.google.ca/intl/en_ALL/images/logos/images_logo_lg.gif"), f1);
         item.setHandler(this);
@@ -44,7 +44,7 @@ public class TestDownloadManager implements DownloadHandler {
         assertTrue("Did not download file!", f1.exists() && f1.length() > 0);
 
         good = error = start = null;
-        File f2 = new File("../../target/junit/logo2.gif");
+        File f2 = InitPhoenix.ProjectHome("target/junit/logo2.gif");
         DownloadItem item2 = new DownloadItem(new URL("http://www.google.ca/sdsdsssdf.gif"), f2);
         item2.setHandler(this);
         item2.setMaxReties(10);

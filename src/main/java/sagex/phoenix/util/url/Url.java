@@ -7,6 +7,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 public class Url implements IUrl {
@@ -80,5 +82,4 @@ public class Url implements IUrl {
             }
         }
     }
-
 }

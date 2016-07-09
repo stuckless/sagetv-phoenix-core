@@ -22,7 +22,7 @@ public class TMDB3MetadataProviderTest {
 
     @Test
     public void testTrailersCausingFailures() {
-        TMDBMetadataProvider provider = (TMDBMetadataProvider) Phoenix.getInstance().getMetadataManager().getProvider("tmdb3");
+        TMDBMetadataProvider provider = (TMDBMetadataProvider) Phoenix.getInstance().getMetadataManager().getProvider("tmdb");
         assertNotNull("TMDB3 is not registered.", provider);
 
         try {

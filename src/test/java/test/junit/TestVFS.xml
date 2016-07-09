@@ -1,5 +1,11 @@
 <!DOCTYPE vfs SYSTEM "vfs.dtd">
 <vfs>
+    <sources>
+        <item name="expression" label="Sage Expression" class="sagex.phoenix.vfs.sources.SageExpressionSourceFactory">
+            <option name="expression" label="Expression"/>
+        </item>
+    </sources>
+
     <!-- used to test has tag on a sorter -->
     <sorts>
         <item label="MySort" name="MySort" class="sagex.phoenix.vfs.sorters.MetadataFieldSorter">

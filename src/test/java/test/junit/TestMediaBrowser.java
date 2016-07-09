@@ -635,9 +635,9 @@ public class TestMediaBrowser {
         VirtualMediaFile mf1 = new VirtualMediaFile("1");
         VirtualMediaFile mf2 = new VirtualMediaFile("2");
 
-        String sorter = "function compare(o1,o2) {return phoenix.GetMediaTitle(o1).compareTo(phoenix.GetMediaTitle(o2));}";
-        System.out.println("MT1: " + phoenix.api.GetMediaTitle(mf1));
-        System.out.println("MT2: " + phoenix.api.GetMediaTitle(mf2));
+        String sorter = "function compare(o1,o2) {return o1.getTitle().compareTo(o2.getTitle());}";
+        System.out.println("MT1: " + phoenix.media.GetTitle(mf1));
+        System.out.println("MT2: " + phoenix.media.GetTitle(mf2));
         JavascriptComparator comparator = new JavascriptComparator(sorter);
         assertTrue(comparator.compare(mf1, mf2) != 0);
     }
@@ -880,7 +880,7 @@ public class TestMediaBrowser {
         // should return all factories
         List<ViewFactory> list = fr.getFactories(true);
         assertEquals(2, list.size());
-        assertFalse(list.get(0).isVisible());
+        assertFalse("Should Not Be Visible: " + list.get(0), list.get(0).isVisible());
         assertTrue(list.get(1).isVisible());
 
         list = fr.getFactories();

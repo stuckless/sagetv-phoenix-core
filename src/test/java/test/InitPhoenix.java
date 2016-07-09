@@ -11,6 +11,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import sagex.SageAPI;
+import sagex.phoenix.Phoenix;
 import sagex.phoenix.util.BaseBuilder;
 import sagex.stub.StubSageAPI;
 
@@ -21,11 +22,10 @@ public class InitPhoenix {
     public static File PROJECT_ROOT;
 
     public static synchronized void init(boolean deleteOld, boolean stubapi) throws IOException {
-        if (initialized) {
-            System.out.println("InitPhoenix: already done.");
-            return;
-        }
+        init(deleteOld, stubapi, false);
+    }
 
+    public static synchronized void init(boolean deleteOld, boolean stubapi, boolean force) throws IOException {
         // allow for xml parsing errors
         BaseBuilder.failOnError = true;
 
@@ -40,6 +40,11 @@ public class InitPhoenix {
         LogManager.getRootLogger().setLevel(Level.DEBUG);
         System.out.println("Copying Phoenix Configuration to Testing Area...");
         //File baseDir = new File("."); // test runner should put us into target/testing
+
+        if (!force && initialized) {
+            System.out.println("InitPhoenix: already done.");
+            return;
+        }
 
         PROJECT_ROOT = getProjectRoot(new File("."));
         if (!new File(PROJECT_ROOT,"src").exists()) {
@@ -65,6 +70,10 @@ public class InitPhoenix {
 
         System.out.println("Initializing Phoneix with testing dir: " + PHOENIX_HOME.getAbsolutePath());
         System.setProperty("phoenix/sagetvHomeDir", PHOENIX_HOME.getAbsolutePath());
+        System.setProperty("phoenix/testing", "true");
+
+        // for testing we are clearing out the phoenix state after each test
+        Phoenix.getInstance().reinit();
 
         System.out.println("Phoenix has been initialized.");
         initialized = true;
@@ -74,5 +83,17 @@ public class InitPhoenix {
         File d = new File(dir, "src");
         if (d.exists() && d.isDirectory()) return dir;
         return getProjectRoot(dir.getParentFile());
+    }
+
+    public static File ProjectHome(String path) {
+        if (PROJECT_ROOT==null) throw new RuntimeException("InitPhoenix.init() must be run before you can access files");
+        if (path.startsWith("/") || path.startsWith("..")) throw new RuntimeException("Paths must be relative to the ProjectRoot; PATH: " + path);
+        return new File(PROJECT_ROOT, path);
+    }
+
+    public static File PhoenixHome(String path) {
+        if (PROJECT_ROOT==null) throw new RuntimeException("InitPhoenix.init() must be run before you can access files");
+        if (path.startsWith("/") || path.startsWith("..")) throw new RuntimeException("Paths must be relative to the ProjectRoot; PATH: " + path);
+        return new File(PHOENIX_HOME, path);
     }
 }

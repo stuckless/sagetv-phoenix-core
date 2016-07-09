@@ -51,9 +51,9 @@ public class TestSkinAPI {
 
     @Test
     public void testSkinPlugins() throws IOException {
-        FileUtils.deleteDirectory(new File("../../target/testing/userdata/"));
-        SkinManager mgr = new SkinManager(new File("../../src/test/java/test/junit/testskins/"), new File(
-                "../../target/testing/userdata/Phoenix/Skins"));
+        FileUtils.deleteDirectory(InitPhoenix.ProjectHome("target/testing/userdata/"));
+        SkinManager mgr = new SkinManager(InitPhoenix.ProjectHome("src/test/java/test/junit/testskins/"), InitPhoenix.ProjectHome(
+                "target/testing/userdata/Phoenix/Skins"));
         mgr.loadConfigurations();
 
         assertEquals(2, mgr.getPlugins().length);
@@ -69,6 +69,8 @@ public class TestSkinAPI {
         // NOTE: This only works as a test becauset he stub api uses the sample
         // properties object for all
         // properties, server client, context variables, etc.
+        //System.out.println("CFG: " + Configuration.GetProperty("Test1", null));
+        //System.out.println("CFG: " + new File(Configuration.GetProperty("Test1", null)).exists());
         assertTrue(new File(Configuration.GetProperty("Test1", null)).exists());
         assertTrue(new File(Configuration.GetProperty("Test2", null)).exists());
         assertTrue(new File(Configuration.GetProperty("Test3", null)).exists());

@@ -40,6 +40,9 @@
 
         <menuItem name="testScript" label="Test Script" visible="false">
             <script><![CDATA[
+            // java 8 needs this..
+            load("nashorn:mozilla_compat.js");
+
 			// before you can use java classes, you have to import them
 			importClass(java.lang.System);
 			
@@ -58,6 +61,7 @@
 			System.out.println("The Square was: " + squared);
 			
 			// you can call SageAPIs using the sagex apis
+			System.out.println("GLOBAL: " + Global);
 			var os = Global.GetOS();
 			System.out.println("Current OS: " + os);
 			

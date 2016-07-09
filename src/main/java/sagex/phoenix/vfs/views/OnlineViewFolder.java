@@ -3,12 +3,15 @@ package sagex.phoenix.vfs.views;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.net.ftp.Configurable;
 import sagex.phoenix.Phoenix;
+import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.progress.IProgressMonitor;
 import sagex.phoenix.vfs.DummyMediaFile;
 import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.IMediaResourceVisitor;
+import sagex.phoenix.vfs.ov.XmlOptions;
 
 public class OnlineViewFolder extends ViewFolder {
     public static int FOLDER_TIMEOUT = 5000;
@@ -61,10 +64,6 @@ public class OnlineViewFolder extends ViewFolder {
     }
 
     private void loadChilren() {
-        // set a temporary list to ask the UI to wait
-        decoratedChildren = new ArrayList<IMediaResource>();
-        decoratedChildren.add(new ViewItem(this, new DummyMediaFile("Loading Items... Please wait and refresh later.")));
-
         // create a background task to load the items
         Runnable r = new Runnable() {
             @Override
@@ -77,8 +76,18 @@ public class OnlineViewFolder extends ViewFolder {
             }
         };
 
-        // schedule this task to run later
-        Phoenix.getInstance().invokeLater(r);
+        ConfigurableOption waitForChildren = getViewFactory().getOption(XmlOptions.WAIT_FOR_CHILDREN);
+        if (waitForChildren==null || !waitForChildren.getBoolean(false)) {
+            // set a temporary list to ask the UI to wait
+            decoratedChildren = new ArrayList<IMediaResource>();
+            decoratedChildren.add(new ViewItem(this, new DummyMediaFile("Loading Items... Please wait and refresh later.")));
+
+            // schedule this task to run later
+            Phoenix.getInstance().invokeLater(r);
+        } else {
+            log.warn("Online View is blocking the UI to load Children");
+            r.run();
+        }
     }
 
     /**

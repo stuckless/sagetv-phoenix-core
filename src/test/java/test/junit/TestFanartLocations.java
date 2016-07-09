@@ -40,7 +40,7 @@ import test.junit.lib.SimpleStubAPI.Airing;
 public class TestFanartLocations {
     @BeforeClass
     public static void init() throws IOException {
-        InitPhoenix.init(true, true);
+        InitPhoenix.init(true, true, true);
     }
 
     @Test
@@ -379,11 +379,11 @@ public class TestFanartLocations {
         fillFile(f1);
         System.out.println("Added Fanart: " + f1);
 
-        File f2 = new File(central, mediaType.dirName() + "/" + name + "/" + artifactType.dirName() + "/" + name + "2.jpg");
-        f2.getParentFile().mkdirs();
-        f2.createNewFile();
-        fillFile(f2);
-        System.out.println("Added Fanart: " + f2);
+//        File f2 = new File(central, mediaType.dirName() + "/" + name + "/" + artifactType.dirName() + "/" + name + "2.jpg");
+//        f2.getParentFile().mkdirs();
+//        f2.createNewFile();
+//        fillFile(f2);
+//        System.out.println("Added Fanart: " + f2);
 
         if (artifactType == MediaArtifactType.POSTER) {
             assertTrue("Doesn't have fanart!!", phoenix.fanart.HasFanartPoster(mediaFile));
@@ -422,7 +422,7 @@ public class TestFanartLocations {
         }
 
         assertNotNull("GetFanartXXXXXs() Failed for: " + name + "; MediaType: " + mediaType + "; Artifact: " + artifactType, all);
-        assertEquals(2, all.length);
+        assertEquals(1, all.length);
         System.out.println("GetFanart" + artifactType.name() + "s(" + mediaType.name() + ") PASSED");
     }
 
@@ -540,11 +540,11 @@ public class TestFanartLocations {
         f1.createNewFile();
         fillFile(f1);
 
-        File f2 = new File(central, mediaType.dirName() + "/" + name + "/Season " + season + "/" + artifactType.dirName() + "/"
-                + name + "2.jpg");
-        f2.getParentFile().mkdirs();
-        f2.createNewFile();
-        fillFile(f2);
+//        File f2 = new File(central, mediaType.dirName() + "/" + name + "/Season " + season + "/" + artifactType.dirName() + "/"
+//                + name + "2.jpg");
+//        f2.getParentFile().mkdirs();
+//        f2.createNewFile();
+//        fillFile(f2);
 
         String file = null;
         if (artifactType == MediaArtifactType.BACKGROUND) {
@@ -584,7 +584,7 @@ public class TestFanartLocations {
         }
 
         assertNotNull(all);
-        assertEquals(2, all.length);
+        assertEquals(1, all.length);
     }
 
     private void doTestGenres(File central, MediaType mediaType, String genre, String artifactType) throws IOException {
@@ -625,10 +625,10 @@ public class TestFanartLocations {
         dir.mkdirs();
         File file = new File(dir, actor + ".jpg");
         file.createNewFile();
-        fillFile(file);
-        file = new File(dir, actor + "1.jpg");
-        file.createNewFile();
-        fillFile(file);
+//        fillFile(file);
+//        file = new File(dir, actor + "1.jpg");
+//        file.createNewFile();
+//        fillFile(file);
 
         String act = phoenix.api.GetFanartActor(actor);
         assertNotNull(act);
@@ -636,7 +636,7 @@ public class TestFanartLocations {
 
         String all[] = phoenix.api.GetFanartActors(actor);
         assertNotNull(all);
-        assertEquals(2, all.length);
+        assertEquals(1, all.length);
     }
 
     private void doTestActorsNoMovie(File central, MediaType mediaType, String actor) throws IOException {

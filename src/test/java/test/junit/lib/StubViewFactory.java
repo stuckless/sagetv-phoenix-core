@@ -32,8 +32,14 @@ public class StubViewFactory extends ViewFactory {
         return view;
     }
 
-    public static void registerView(String factoryId, IMediaFolder view) {
+    public static ViewFactory registerView(String factoryId, IMediaFolder view) {
         StubViewFactory stub = new StubViewFactory(factoryId, view);
         Phoenix.getInstance().getVFSManager().getVFSViewFactory().addFactory(stub);
+        return stub;
+    }
+
+    @Override
+    public String toString() {
+        return "StubViewFactory";
     }
 }

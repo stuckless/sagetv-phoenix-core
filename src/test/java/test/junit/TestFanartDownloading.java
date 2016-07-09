@@ -24,7 +24,7 @@ public class TestFanartDownloading {
         InitPhoenix.init(true, true);
 
         MetadataConfiguration config = GroupProxy.get(MetadataConfiguration.class);
-        File f = new File("../../target/junit/Fanart");
+        File f = InitPhoenix.ProjectHome("target/junit/Fanart");
         if (!f.exists()) {
             f.mkdirs();
         }
@@ -38,7 +38,7 @@ public class TestFanartDownloading {
         final IMetadata md = MetadataProxy.newInstance();
         md.setMediaType(MediaType.MOVIE.sageValue());
         md.setMediaTitle("Iron Man 2");
-        File dlFrom = new File("../../src/test/java/test/junit/fanart");
+        File dlFrom = InitPhoenix.ProjectHome("src/test/java/test/junit/fanart");
         for (File f : dlFrom.listFiles()) {
             md.getFanart().add(new MediaArt(MediaArtifactType.POSTER, f.toURI().toString()));
         }

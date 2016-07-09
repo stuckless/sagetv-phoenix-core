@@ -1,6 +1,7 @@
 package sagex.phoenix.util.url;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -11,6 +12,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
@@ -158,4 +160,16 @@ public class UrlUtil {
             return URLDecoder.decode(data);
         }
     }
+
+    public static String getContentAsString(IUrl url) throws IOException {
+        InputStream is = null;
+        try {
+            is = url.getInputStream(null, true);
+            return IOUtils.toString(is, "UTF-8");
+        } finally {
+            IOUtils.closeQuietly(is);
+        }
+    }
+
+
 }

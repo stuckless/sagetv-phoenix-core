@@ -15,10 +15,22 @@ public class JavascriptComparator implements Comparator<IMediaResource> {
     public JavascriptComparator(String script) throws ScriptException {
         engine = new PhoenixScriptEngine();
         engine.addScript(script);
-        comparator = engine.getInterface(Comparator.class);
+        comparator = engine.getInvokable().getInterface(Comparator.class);
     }
 
     public int compare(IMediaResource arg0, IMediaResource arg1) {
-        return comparator.compare(arg0, arg1);
+        if (comparator==null) {
+            System.out.println("JS Engine didn't create Comparator interface");
+            try {
+                return (Integer)engine.getInvokable().invokeFunction("compare", arg0, arg1);
+            } catch (ScriptException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+            return 0;
+        } else {
+            return comparator.compare(arg0, arg1);
+        }
     }
 }

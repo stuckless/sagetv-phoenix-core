@@ -37,7 +37,7 @@ public class TMDB3DetailParserTest {
 
     @Test
     public void testDetailsByIMDBID() throws MetadataException, IOException {
-        TMDBMetadataProvider provider = (TMDBMetadataProvider) Phoenix.getInstance().getMetadataManager().getProvider("tmdb3");
+        TMDBMetadataProvider provider = (TMDBMetadataProvider) Phoenix.getInstance().getMetadataManager().getProvider("tmdb");
         assertNotNull("TMDB3 is not registered.", provider);
 
         IMetadata md = ((HasFindByIMDBID) provider).getMetadataForIMDBId("tt1228705");
@@ -46,7 +46,7 @@ public class TMDB3DetailParserTest {
 
     @Test
     public void testDetailsByID() throws MetadataException, IOException {
-        TMDBMetadataProvider provider = (TMDBMetadataProvider) Phoenix.getInstance().getMetadataManager().getProvider("tmdb3");
+        TMDBMetadataProvider provider = (TMDBMetadataProvider) Phoenix.getInstance().getMetadataManager().getProvider("tmdb");
         assertNotNull("TMDB3 is not registered.", provider);
 
         SearchQuery q = new SearchQuery(MediaType.MOVIE, Field.ID, "10138");
@@ -57,7 +57,7 @@ public class TMDB3DetailParserTest {
 
     @Test
     public void testSearch() throws MetadataException {
-        TMDBMetadataProvider provider = (TMDBMetadataProvider) Phoenix.getInstance().getMetadataManager().getProvider("tmdb3");
+        TMDBMetadataProvider provider = (TMDBMetadataProvider) Phoenix.getInstance().getMetadataManager().getProvider("tmdb");
         assertNotNull("TMDB3 is not registered.", provider);
 
         SearchQuery q = new SearchQuery(MediaType.MOVIE, "Iron Man 2", "2010");
@@ -74,7 +74,7 @@ public class TMDB3DetailParserTest {
         // Iron Man 2 should be first result
         IMetadataSearchResult sr = results.get(0);
         assertEquals("10138", sr.getId());
-        assertEquals("tmdb3", sr.getProviderId());
+        assertEquals("tmdb", sr.getProviderId());
         assertEquals(MediaType.MOVIE, sr.getMediaType());
         assertEquals("Iron Man 2", sr.getTitle());
         assertEquals("2010", String.valueOf(sr.getYear()));
@@ -105,10 +105,10 @@ public class TMDB3DetailParserTest {
 
         assertEquals("tt1228705", md.getIMDBID());
         assertEquals("10138", md.getMediaProviderDataID());
-        assertEquals("tmdb3", md.getMediaProviderID());
+        assertEquals("tmdb", md.getMediaProviderID());
         assertEquals("Iron Man 2", md.getMediaTitle());
         assertEquals(MediaType.MOVIE.sageValue(), md.getMediaType());
-        assertEquals(DateUtils.parseDate("2010-05-07").getTime(), md.getOriginalAirDate().getTime());
+        assertEquals(DateUtils.parseDate("2010-04-28").getTime(), md.getOriginalAirDate().getTime());
         assertEquals("PG-13", md.getRated());
         // no extended ratings
         // assertTrue(md.getExtendedRatings().length()>4);
@@ -129,8 +129,8 @@ public class TMDB3DetailParserTest {
         assertTrue(md.getTrailerUrl().contains("www.youtube.com"));
 
         TMDBConfiguration config = GroupProxy.get(TMDBConfiguration.class);
-        assertEquals(count(md.getFanart(), MediaArtifactType.POSTER), config.getMaxPosters());
-        assertEquals(count(md.getFanart(), MediaArtifactType.BACKGROUND), config.getMaxBackgrounds());
+        assertTrue(count(md.getFanart(), MediaArtifactType.POSTER) > 0);
+        assertTrue(count(md.getFanart(), MediaArtifactType.BACKGROUND) > 0);
 
         for (IMediaArt ma : md.getFanart()) {
             assertTrue(ma.getDownloadUrl().startsWith("http"));

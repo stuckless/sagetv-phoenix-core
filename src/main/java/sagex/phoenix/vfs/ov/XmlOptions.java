@@ -19,6 +19,7 @@ public class XmlOptions {
     public static final String FEED_URL = "feedurl";
     public static final String OFFLINE = "offline";
     public static final String ITEM_ELEMENT = "item-element";
+    public static final String WAIT_FOR_CHILDREN = "wait-for-children";
 
     private Map<String, ConfigurableOption> options = new HashMap<String, ConfigurableOption>();
 
@@ -81,6 +82,7 @@ public class XmlOptions {
         addOption(FEED_URL, null, "Feed Url");
         addOption(ITEM_ELEMENT, "item", "Repeatable item element in the Xml");
         addOption(FieldName.MediaType, MediaType.MOVIE.sageValue(), "Media Type for this feed");
+        addOption(WAIT_FOR_CHILDREN, "false", "Wait for children to load.  May block the UI");
 
         // metadata options
         addMetadataOption(FieldName.MediaTitle, "title", "Movie Title or Music Album");

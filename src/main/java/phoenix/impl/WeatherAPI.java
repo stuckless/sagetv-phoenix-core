@@ -1,38 +1,24 @@
 package phoenix.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
-import sagex.api.Configuration;
 import sagex.phoenix.tools.annotation.API;
-import sagex.phoenix.weather.IWeatherData;
-import sagex.phoenix.weather.IWeatherSupport;
-import sagex.phoenix.weather.IWeatherSupport.Units;
-import sagex.phoenix.weather.yahoo.YahooWeatherSupport;
+import sagex.phoenix.weather.*;
+import sagex.phoenix.weather.yahoo.WeatherData;
 
 /**
  * WeatherAPI provides access to weather information, including current forecast
  * and long range forecasts.
  *
+ * @deprecated use the weather2 apis.  This class will just proxy some calls the to the Weather2 service and will be removed at some point
  * @author seans
  */
 @API(group = "weather")
+@Deprecated
 public class WeatherAPI {
-    private static final Logger log = Logger.getLogger(WeatherAPI.class);
-    private IWeatherSupport api = null;
-
     public WeatherAPI() {
-        try {
-            String prop = (String) Configuration.GetProperty("phoenix/weather/weatherSupportClass",
-                    YahooWeatherSupport.class.getName());
-
-            api = (IWeatherSupport) Class.forName(prop).newInstance();
-        } catch (Throwable e) {
-            log.warn("Failed to load weather support class; defaulting to: " + YahooWeatherSupport.class.getName(), e);
-            api = new YahooWeatherSupport();
-        }
     }
 
     /**
@@ -45,7 +31,7 @@ public class WeatherAPI {
      * @return true if the weather was updated
      */
     public boolean Update() {
-        return api.update();
+        return phoenix.weather2.Update();
     }
 
     /**
@@ -60,7 +46,7 @@ public class WeatherAPI {
      * @return true if the implementation accepted the zip code.
      */
     public boolean SetLocation(String postalOrZip) {
-        return api.setLocation(postalOrZip);
+        return phoenix.weather2.SetLocation(postalOrZip);
     }
 
     /**
@@ -70,7 +56,7 @@ public class WeatherAPI {
      * @return
      */
     public String GetLocation() {
-        return api.getLocation();
+        return phoenix.weather2.GetLocation();
     }
 
     /**
@@ -80,15 +66,7 @@ public class WeatherAPI {
      * @param units
      */
     public void SetUnits(String units) {
-        IWeatherSupport.Units u = null;
-        if (units == null)
-            u = Units.Metric;
-        if (units.toLowerCase().startsWith("m")) {
-            u = Units.Metric;
-        } else {
-            u = Units.Standard;
-        }
-        api.setUnits(u);
+        phoenix.weather2.SetUnits(units);
     }
 
     /**
@@ -97,10 +75,7 @@ public class WeatherAPI {
      * @return
      */
     public String GetUnits() {
-        IWeatherSupport.Units u = api.getUnits();
-        if (u == null)
-            u = Units.Metric;
-        return u.name();
+        return phoenix.weather2.GetUnits();
     }
 
     /**
@@ -108,9 +83,15 @@ public class WeatherAPI {
      * calling this method since this will not force an update automatically.
      *
      * @return {@link IWeatherData} instance for the current weather conditions
+     * @deprecated Use phoenix.weather2.GetCurrentWeather()
      */
     public IWeatherData GetCurrentWeather() {
-        return api.getCurrentWeather();
+        ICurrentForecast cf = phoenix.weather2.GetCurrentWeather();
+        WeatherData w = new WeatherData();
+        w.setCode(String.valueOf(cf.getCode()));
+        w.setDate(cf.getDate());
+        w.setTemp(String.valueOf(cf.getTemp()));
+        return w;
     }
 
     /**
@@ -121,7 +102,20 @@ public class WeatherAPI {
      * ordered by day.
      */
     public List<IWeatherData> GetForecast() {
-        return api.getForecast();
+        List<ILongRangeForecast> forecastPeriods = phoenix.weather2.GetForecasts();
+        List<IWeatherData> list = new ArrayList<IWeatherData>();
+
+        if (forecastPeriods!=null) {
+            for (ILongRangeForecast lr : forecastPeriods) {
+                WeatherData w = new WeatherData();
+                w.setDate(lr.getForecastPeriodDay().getDate());
+                w.setHigh(String.valueOf(lr.getForecastPeriodDay().getTemp()));
+                w.setLow(String.valueOf(lr.getForecastPeriodNight().getTemp()));
+                list.add(w);
+            }
+        }
+
+        return list;
     }
 
     /**
@@ -130,7 +124,7 @@ public class WeatherAPI {
      * @return true if configured
      */
     public boolean IsConfigured() {
-        return api.isConfigured();
+        return phoenix.weather2.IsConfigured();
     }
 
     /**
@@ -139,10 +133,7 @@ public class WeatherAPI {
      * @return days in the forecast
      */
     public int GetForecastDays() {
-        List<IWeatherData> days = GetForecast();
-        if (days == null)
-            return 0;
-        return days.size();
+        return phoenix.weather2.GetForecastDays();
     }
 
     /**
@@ -151,7 +142,7 @@ public class WeatherAPI {
      * @return {@link Date} of last update
      */
     public Date GetLastUpdated() {
-        return api.getLastUpdated();
+        return phoenix.weather2.GetLastUpdated();
     }
 
     /**
@@ -161,7 +152,7 @@ public class WeatherAPI {
      * @return location name, usually the city
      */
     public String GetLocationName() {
-        return api.getLocationName();
+        return phoenix.weather2.GetLocationName();
     }
 
     /**
@@ -170,7 +161,7 @@ public class WeatherAPI {
      * @return true if error
      */
     public boolean HasError() {
-        return api.hasError();
+        return phoenix.weather2.HasError();
     }
 
     /**
@@ -179,6 +170,6 @@ public class WeatherAPI {
      * @return
      */
     public String GetError() {
-        return api.getError();
+        return phoenix.weather2.GetError();
     }
 }

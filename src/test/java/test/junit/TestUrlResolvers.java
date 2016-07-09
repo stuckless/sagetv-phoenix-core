@@ -24,7 +24,7 @@ public class TestUrlResolvers {
 
     @Test
     public void testJavaScriptResolver() {
-        File file = new File("../../src/test/java/test/junit/sampleJavascriptResolver.js");
+        File file = InitPhoenix.ProjectHome("src/test/java/test/junit/sampleJavascriptResolver.js");
         IUrlResolver res = PhoenixManagedScriptEngineProxy.newInstance(file, IUrlResolver.class);
         String url = "http://www.youtube.com/xx3ddfxxZ";
         assertEquals(true, res.canAccept(url));

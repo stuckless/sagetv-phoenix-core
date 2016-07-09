@@ -156,45 +156,45 @@ public class TestTransformFactory {
 
     @Test
     public void testShadowTransform() throws Exception {
-        BufferedImage bi = ImageUtil.readImage(new File("../../src/test/images/test.png"));
+        BufferedImage bi = ImageUtil.readImage(InitPhoenix.ProjectHome("src/test/images/test.png"));
         IBufferedTransform bt = factory.createTransform("{name: shadow, size: 20, opacity: .8, color: 0xffffff}");
 
         assertNotNull("failed to create perspective transform", bt);
         assertTrue("transform is not a shadow transforam", bt instanceof ShadowTransform);
 
         BufferedImage out = bt.transform(bi);
-        File outDir = new File("../../target/images/");
+        File outDir = InitPhoenix.ProjectHome("target/images/");
         outDir.mkdirs();
-        ImageUtil.writeImage(out, new File("../../target/images/test-shadow.png"));
+        ImageUtil.writeImage(out, InitPhoenix.ProjectHome("target/images/test-shadow.png"));
 
     }
 
     @Test
     public void testOpacityTransform() throws Exception {
-        BufferedImage bi = ImageUtil.readImage(new File("../../src/test/images/test.png"));
+        BufferedImage bi = ImageUtil.readImage(InitPhoenix.ProjectHome("src/test/images/test.png"));
         IBufferedTransform bt = factory.createTransform("{name: opacity, opacity: .2}");
 
         assertNotNull("failed to create opacity transform", bt);
         assertTrue("transform is not a opacity transforam", bt instanceof OpacityTransform);
 
         BufferedImage out = bt.transform(bi);
-        File outDir = new File("../../target/images/");
+        File outDir = InitPhoenix.ProjectHome("target/images/");
         outDir.mkdirs();
-        ImageUtil.writeImage(out, new File("../../target/images/test-opacity.png"));
+        ImageUtil.writeImage(out, InitPhoenix.ProjectHome("target/images/test-opacity.png"));
     }
 
     @Test
     public void testOverlayTransform() throws Exception {
-        BufferedImage bi = ImageUtil.readImage(new File("../../src/test/images/test.png"));
+        BufferedImage bi = ImageUtil.readImage(InitPhoenix.ProjectHome("src/test/images/test.png"));
         IBufferedTransform bt = factory
-                .createTransform("{name: overlay, image: '../../src/test/images/test_small.png', opacity:.5, x:100, y:100}");
+                .createTransform("{name: overlay, image: 'src/test/images/test_small.png', opacity:.5, x:100, y:100}");
 
         assertNotNull("failed to create overlay transform", bt);
         assertTrue("transform is not a overlay transforam", bt instanceof OverlayTransform);
 
         BufferedImage out = bt.transform(bi);
-        File outDir = new File("../../target/images/");
+        File outDir = InitPhoenix.ProjectHome("target/images/");
         outDir.mkdirs();
-        ImageUtil.writeImage(out, new File("../../target/images/test-overlay.png"));
+        ImageUtil.writeImage(out, InitPhoenix.ProjectHome("target/images/test-overlay.png"));
     }
 }

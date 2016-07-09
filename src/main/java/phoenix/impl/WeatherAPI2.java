@@ -16,8 +16,6 @@ import sagex.phoenix.weather.IForecastPeriod;
 import sagex.phoenix.weather.ILongRangeForecast;
 import sagex.phoenix.weather.IWeatherSupport2;
 import sagex.phoenix.weather.IWeatherSupport2.Units;
-import sagex.phoenix.weather.worldweather.WorldWeatherWeatherSupport;
-import sagex.phoenix.weather.yahoo.YahooWeatherSupport;
 import sagex.phoenix.weather.yahoo.YahooWeatherSupport2;
 
 /**
@@ -118,26 +116,21 @@ public class WeatherAPI2 {
     private static HashMap<String, String> API_IMPL_NAME = new HashMap<String, String>();
 
     static {
+        // maybe need to look at
+        // http://openweathermap.org/price
+
         API_IMPL.put("yahoo", YahooWeatherSupport2.class.getName());
         API_IMPL_NAME.put("yahoo", "Yahoo! Weather");
-
-        // google is no longer in use so has been removed from the
-        // implementations
-        // API_IMPL.put("google",
-        // "sagex.phoenix.weather.google.GoogleWeatherSupport");
-        // API_IMPL_NAME.put("google", "Google/NWS");
 
         // wunderground requires 3rd party libs (googleweather.jar) that may not
         // be installed, so
         // we have to specify it's class as a string
         API_IMPL.put("wunderground", "sagex.phoenix.weather.wunderground.WundergroundWeatherSupport");
         API_IMPL_NAME.put("wunderground", "Weather Underground");
-        API_IMPL.put("world", WorldWeatherWeatherSupport.class.getName());
-        API_IMPL_NAME.put("world", "World Weather");
     }
 
     private static final String API_IMPL_PROP = "phoenix/weather/weatherSupport";
-    private static final String API_IMPL_DEFAULT = "yahoo";
+    private static final String API_IMPL_DEFAULT = "wunderground";
 
     public WeatherAPI2() {
         try {
@@ -145,14 +138,14 @@ public class WeatherAPI2 {
             // use the default if the result is google as google is no longer
             // available
             if (prop.equals("google")) {
-                log.warn("Google weather called but is no longer available - defaulting to: " + YahooWeatherSupport.class.getName());
+                log.warn("Google weather called but is no longer available - defaulting to: " + YahooWeatherSupport2.class.getName());
                 api = new YahooWeatherSupport2();
             } else {
                 api = (IWeatherSupport2) Class.forName(API_IMPL.get(prop)).newInstance();
             }
 
         } catch (Throwable e) {
-            log.warn("Failed to load weather support class; defaulting to: " + YahooWeatherSupport.class.getName(), e);
+            log.warn("Failed to load weather support class; defaulting to: " + YahooWeatherSupport2.class.getName(), e);
             api = new YahooWeatherSupport2();
         }
     }

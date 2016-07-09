@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 import sagex.phoenix.image.ImageUtil;
+import test.InitPhoenix;
 
 public class TestUtil extends TestCase {
     // verify that we are in the right testing directory
@@ -34,7 +35,7 @@ public class TestUtil extends TestCase {
     }
 
     public static File makeDir(String dir) {
-        File f = new File("../../target/junit", dir);
+        File f = new File(new File(InitPhoenix.PROJECT_ROOT,"target/junit"), dir);
         f.mkdirs();
         assertTrue("Failed to create dir!", f.exists());
         return f;
@@ -45,7 +46,7 @@ public class TestUtil extends TestCase {
     }
 
     public static File makeFile(String file, boolean createDirs) {
-        File f = new File("../../target/junit", file);
+        File f = new File(new File(InitPhoenix.PROJECT_ROOT,"target/junit"), file);
         try {
             if (f.exists())
                 f.delete();

@@ -90,8 +90,13 @@ public class PhoenixScriptEngine {
     public <T> T getInterface(Class<T> type) {
         if (invokable != null) {
             return invokable.getInterface(type);
+        } else {
+            throw new RuntimeException("Engine is not Invokable: " + engine);
         }
-        return null;
+    }
+
+    public Invocable getInvokable() {
+        return invokable;
     }
 
     public ScriptEngine getEngine() {

@@ -1,6 +1,8 @@
 package sagex.phoenix.weather.yahoo;
 
-import java.net.URL;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
@@ -9,15 +11,21 @@ import org.apache.log4j.Logger;
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 
-import sage.media.rss.RSSParser;
 import sagex.phoenix.configuration.proxy.GroupProxy;
+import sagex.phoenix.json.JSON;
+import sagex.phoenix.util.url.UrlFactory;
+import sagex.phoenix.util.url.UrlUtil;
 import sagex.phoenix.weather.ICurrentForecast;
 import sagex.phoenix.weather.ILongRangeForecast;
 import sagex.phoenix.weather.IWeatherSupport2;
 import sagex.phoenix.weather.WeatherConfiguration;
+import sagex.remote.json.JSONException;
+import sagex.remote.json.JSONObject;
 
 public class YahooWeatherSupport2 implements IWeatherSupport2 {
     private Logger log = Logger.getLogger(this.getClass());
+
+    private static String yqlWeatherQuery = "select * from weather.forecast where woeid=%s and u='%s'";
 
     private Date lastUpdated = null;
     private Date recordedDate = null;
@@ -51,28 +59,21 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
         }
 
         if (shouldUpdate()) {
-            // String units = null;
-            // if (getUnits() == Units.Metric) {
-            // units = "c";
-            // } else {
-            // units = "f";
-            // }
+             String units = null;
+             if (getUnits() == Units.Metric) {
+             units = "c";
+             } else {
+             units = "f";
+             }
 
             String woeid = config.getYahooWOEID();
-
-            // http://weather.yahooapis.com/forecastrss?w=24223981&u=c
-            String rssUrl = "http://weather.yahooapis.com/forecastrss?w=" + woeid;
-            // String rssUrl = "http://weather.yahooapis.com/forecastrss?w=" +
-            // woeid + "&u=" + units;
-            if (getUnits().equals(Units.Metric)) {
-                rssUrl = rssUrl + "&u=c";
-            } else {
-                rssUrl = rssUrl + "&u=f";
-            }
-            log.info("Getting Yahoo Weather for " + rssUrl);
+            String query = String.format(yqlWeatherQuery, woeid, units);
             try {
-                YahooWeatherHandler handler = new YahooWeatherHandler();
-                RSSParser.parseXmlFile(new URL(rssUrl), handler, false);
+                String rssUrl = "https://query.yahooapis.com/v1/public/yql?format=json&q=" + URLEncoder.encode(query,"UTF-8");
+                log.info("Getting Yahoo Weather for " + rssUrl);
+
+                YahooWeatherJsonHandler handler = new YahooWeatherJsonHandler();
+                handler.parse(rssUrl);
                 lastUpdated = new Date(System.currentTimeMillis());
                 ttl = handler.getTtl();
 
@@ -85,7 +86,7 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
                 return true;
             } catch (Exception e) {
                 error = "Yahoo weather update failed";
-                log.error("Failed to update weather for " + rssUrl, e);
+                log.error("Failed to update weather for " + query, e);
             }
         }
 
@@ -101,24 +102,28 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
         try {
             config.setLocation(postalOrZip);
 
-            String url = "http://query.yahooapis.com/v1/public/yql?q=select%20woeid%20from%20geo.places%20where%20text='"
-                    + postalOrZip + "'%20limit%201";
-            SAXReader reader = new SAXReader();
-            Document document = reader.read(url);
-            String woeid = document.getRootElement().element("results").element("place").element("woeid").getText();
+            String woeid = convertZipToWoeid(postalOrZip);
 
             if (woeid != null) {
                 config.setYahooWOEID(woeid);
+                configured = true;
+                lastUpdated = new Date();
             }
-
-            configured = true;
-            lastUpdated = null;
         } catch (Exception e) {
             log.warn("Failed to convert " + postalOrZip + " to woeid", e);
             error = "Failed to convert the Location into a valid Yahoo WOEID";
             configured = false;
         }
         return configured;
+    }
+
+    public String convertZipToWoeid(String postalOrZip) throws Exception {
+        String query = String.format("select woeid from geo.places where text='%s' limit 1", postalOrZip);
+
+        String url = "https://query.yahooapis.com/v1/public/yql?format=json&q="+ URLEncoder.encode(query,"UTF-8");
+        String data = UrlUtil.getContentAsString(UrlFactory.newUrl(url));
+        String woeid = JSON.getString("query.results.place.woeid", new JSONObject(data));
+        return woeid;
     }
 
     @Override

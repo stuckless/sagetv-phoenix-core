@@ -22,7 +22,7 @@ public class TestEDLCommercials {
 
     @Test
     public void testCommercialFiles() {
-        File f = new File("../../src/test/java/test/junit/EDLTestFile.avi");
+        File f = InitPhoenix.ProjectHome("src/test/java/test/junit/EDLTestFile.avi");
         CommercialAPI api = new CommercialAPI();
         File edlFile = api.GetCommercialFile(f);
         System.out.println("EDL: " + edlFile);

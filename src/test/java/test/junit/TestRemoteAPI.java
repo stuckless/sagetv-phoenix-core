@@ -7,11 +7,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringWriter;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -241,10 +237,12 @@ public class TestRemoteAPI {
         VirtualMediaFile vmf = new VirtualMediaFile(title);
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
+        PrintWriter pw = new PrintWriter(output);
         Command cmd = mock(Command.class);
         IOContext ctx = mock(IOContext.class);
         when(cmd.getIOContext()).thenReturn(ctx);
         when(ctx.getOutputStream()).thenReturn(output);
+        when(ctx.getWriter()).thenReturn(pw);
 
         RemoteAPI api = new RemoteAPI();
         api.encode(cmd, vmf);

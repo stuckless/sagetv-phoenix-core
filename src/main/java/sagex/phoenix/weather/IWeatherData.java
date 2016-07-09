@@ -12,6 +12,7 @@ import sagex.phoenix.tools.annotation.API;
  * @author sls
  */
 @API(group = "weather", proxy = true)
+@Deprecated
 public interface IWeatherData {
     /**
      * Returns the {@link Date} for the given weather condition

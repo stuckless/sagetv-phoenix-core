@@ -1,28 +1,32 @@
-package test.junit;
+package sagex.phoenix.weather.yahoo;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import sagex.phoenix.weather.ICurrentForecast;
+import sagex.phoenix.weather.IForecastPeriod;
+import sagex.phoenix.weather.ILongRangeForecast;
+import sagex.phoenix.weather.IWeatherSupport2;
+import test.InitPhoenix;
 
 import java.io.IOException;
 import java.util.List;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import static org.junit.Assert.*;
 
-import sagex.phoenix.weather.ICurrentForecast;
-import sagex.phoenix.weather.IForecastPeriod;
-import sagex.phoenix.weather.IForecastPeriod.Type;
-import sagex.phoenix.weather.ILongRangeForecast;
-import sagex.phoenix.weather.IWeatherSupport2.Units;
-import sagex.phoenix.weather.yahoo.YahooWeatherSupport2;
-import test.InitPhoenix;
-
-public class TestYahooWeather2 {
+/**
+ * Created by seans on 09/07/16.
+ */
+public class YahooWeatherSupport2Test {
     @BeforeClass
     public static void init() throws IOException {
         InitPhoenix.init(true, true);
+    }
+
+    @Test
+    public void testConvertZipToWOEID() throws Exception {
+        YahooWeatherSupport2 w = new YahooWeatherSupport2();
+        String woeid = w.convertZipToWoeid("N5Y5M4");
+        assertEquals("24223981", woeid);
     }
 
     @Test
@@ -37,8 +41,8 @@ public class TestYahooWeather2 {
             fail("Failed to set location: " + w.getError());
         }
 
-        w.setUnits(Units.Standard);
-        assertEquals("Failed to update units to Standard", true, w.getUnits().equals(Units.Standard));
+        w.setUnits(IWeatherSupport2.Units.Standard);
+        assertEquals("Failed to update units to Standard", true, w.getUnits().equals(IWeatherSupport2.Units.Standard));
 
         boolean updated = w.update();
         System.out.println("YahooWeather location: " + w.getLocation() + " Name '" + w.getLocationName() + "'");
@@ -57,8 +61,8 @@ public class TestYahooWeather2 {
         testWeather(w);
 
         // now retest with metric for the same location
-        w.setUnits(Units.Metric);
-        assertEquals("Failed to update units to Metric", true, w.getUnits().equals(Units.Metric));
+        w.setUnits(IWeatherSupport2.Units.Metric);
+        assertEquals("Failed to update units to Metric", true, w.getUnits().equals(IWeatherSupport2.Units.Metric));
         updated = w.update();
         testWeather(w);
 
@@ -70,8 +74,8 @@ public class TestYahooWeather2 {
             fail("Failed to set location: " + w.getError());
         }
 
-        w.setUnits(Units.Metric);
-        assertEquals("Failed to update units to Metric", true, w.getUnits().equals(Units.Metric));
+        w.setUnits(IWeatherSupport2.Units.Metric);
+        assertEquals("Failed to update units to Metric", true, w.getUnits().equals(IWeatherSupport2.Units.Metric));
 
         updated = w.update();
         System.out.println("YahooWeather location: " + w.getLocation() + " Name '" + w.getLocationName() + "'");
@@ -136,11 +140,11 @@ public class TestYahooWeather2 {
             System.out.println("Night " + daynum + " '" + night);
             if (daynum == 0) {
                 assertNotNull("Night Period for first day was null", night);
-                assertEquals("Forecast type for '" + daynum + "' not correct", Type.Night, night.getType());
+                assertEquals("Forecast type for '" + daynum + "' not correct", IForecastPeriod.Type.Night, night.getType());
             }
             if (daynum == 1) {
                 assertNotNull("Day Period for second day was null", day);
-                assertEquals("Forecast type for '" + daynum + "' not correct", Type.Day, day.getType());
+                assertEquals("Forecast type for '" + daynum + "' not correct", IForecastPeriod.Type.Day, day.getType());
             }
             if (day != null) {
                 assertNotNull("No Condition", day.getCondition());
@@ -148,7 +152,7 @@ public class TestYahooWeather2 {
                 assertNotNull("No Date", day.getDate());
                 assertNotNull("No Temp", day.getTemp());
                 assertNotNull("No Type", day.getType());
-                assertEquals(day.getType(), Type.Day);
+                assertEquals(day.getType(), IForecastPeriod.Type.Day);
                 // validate supported elements
                 SupportedTest("day.getCode", day.getCode(), true);
                 SupportedTest("day.getCondition", day.getCondition(), true);
@@ -167,7 +171,7 @@ public class TestYahooWeather2 {
                 assertNotNull("No Date", night.getDate());
                 assertNotNull("No Temp", night.getTemp());
                 assertNotNull("No Type", night.getType());
-                assertEquals(night.getType(), Type.Night);
+                assertEquals(night.getType(), IForecastPeriod.Type.Night);
                 // validate supported elements
                 SupportedTest("night.getCode", night.getCode(), true);
                 SupportedTest("night.getCondition", night.getCondition(), true);

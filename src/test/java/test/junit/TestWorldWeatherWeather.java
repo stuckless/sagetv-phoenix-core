@@ -20,6 +20,8 @@ import sagex.phoenix.weather.worldweather.WorldWeatherWeatherSupport;
 import test.InitPhoenix;
 
 /**
+ * NOTE: World Weather requires a premium key now... $108 a year
+ *
  * @author jusjoken
  */
 public class TestWorldWeatherWeather {
