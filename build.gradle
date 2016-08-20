@@ -8,12 +8,20 @@ apply plugin: 'idea'
 
 jar.baseName 'phoenix'
 group 'phoenix'
-version '2.6.0'
+version '2.99.0'
 
 archivesBaseName = "phoenix"
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
+
+ext {
+    plugin_name = "phoenix"
+    plugin_desc = "Phoenix apis"
+    plugin_longdesc = "Phoenix apis for SageTV"
+    plugin_version = version
+}
+
 
 configurations {
 	configure
@@ -193,8 +201,8 @@ task packageApi(type: Zip, dependsOn: jar) {
 
 task packageCore(type: Zip) {
     baseName "phoenix-core"
-    from "src/plugins/phoenix-core/STVs"
-    excludes = ['**/db/**','**/*Test*','**/Skins/**', '**/Themes/**','**/Plugins/**','**/ext/**']
+    from "src/plugins/phoenix-core"
+    excludes = ['**/db/**','**/*Test*','**/Skins/**', '**/Themes/**','**/Plugins/**','**/ext/**', 'plugin-core.xml']
 }
 
 task packageArchives(type: Task, dependsOn: packageApi) {
@@ -236,43 +244,87 @@ task packagePlugins << {
         rename ('plugin-api.xml', "phoenix-api-${version}.xml")
         rename ('plugin-core.xml', "phoenix-core-${version}.xml")
     }
+
+    // update the deployed manifest
+    copy {
+        from 'build/tmp/plugin-api.xml'
+        from 'build/tmp/plugin-core.xml'
+        into 'deployed/'
+    }
 }
 packagePlugins.dependsOn packageArchives
 
-// notification plugins
-task notifyApi << {
-    ant.taskdef(
-            name: 'sagesubmit',
-            classname: 'com.google.code.sagetvaddons.dev.ant.task.SageTvPluginSubmitter',
-            classpath: configurations.sagesubmit.asPath
-    )
+task dist << {
 
-    ant.sagesubmit (
-            name:"Sean Stuckless",
-            user:"stuckless",
-            email:"sean.stuckless@gmail.com",
-            pluginid:"phoenix-api",
-            reqtype:"UPGRADE",
-            descriptor:"build/distrubtions/phoenix-api-${version}.xml"
-    )
 }
 
-task notifyCore << {
-    ant.taskdef(
-            name: 'sagesubmit',
-            classname: 'com.google.code.sagetvaddons.dev.ant.task.SageTvPluginSubmitter',
-            classpath: configurations.sagesubmit.asPath
+dist.dependsOn packagePlugins
+
+/**
+ * note: call like
+ * ./gradlew -PsagetvDir=/home/seans/unRAID/mnt/user/apps/sagetv/server/ -PotherSageTVPlugins=OtherSageTVpluginsDev.xml buildDevPlugins
+ * newly created SageTVPluginsDev.xml will be copied to the sagetvDir
+ */
+task buildDevPlugins << {
+    def fname1 = "phoenix-api-${version}"
+    def server = "http://localhost:8085"
+    ant.replaceregexp(
+            file:"build/distributions/${fname1}.xml",
+            byline: true,
+            match:"<Location>.*</Location>",
+            replace:"<Location>${server}/build/distributions/${fname1}.zip</Location>"
+    )
+    def fname2 = "phoenix-core-${version}"
+    ant.replaceregexp(
+            file:"build/distributions/${fname2}.xml",
+            byline: true,
+            match:"<Location>.*</Location>",
+            replace:"<Location>${server}/build/distributions/${fname2}.zip</Location>"
     )
 
-    ant.sagesubmit (
-            name:"Sean Stuckless",
-            user:"stuckless",
-            email:"sean.stuckless@gmail.com",
-            pluginid:"phoenix-core",
-            reqtype:"UPGRADE",
-            descriptor:"build/distrubtions/phoenix-core-${version}.xml"
-    )
+    // now concat the files and create the plugins dev
+    def xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+    xml += "<PluginRepository version=\"${version}\">\n"
+    xml += new File("build/distributions/${fname1}.xml").text.replaceAll("<\\?.*\\?>", "")
+    xml += "\n"
+    xml += new File("build/distributions/${fname2}.xml").text.replaceAll("<\\?.*\\?>", "")
+
+    if (project.hasProperty("otherSageTVPlugins")) {
+        println("Added additional plugins from ${otherSageTVPlugins}")
+        def otherXml = new File("${otherSageTVPlugins}").text
+        otherXml = otherXml.replaceAll("<\\?.*\\?>", "")
+        otherXml = otherXml.replaceAll("<[/]*PluginRepository.*>", "")
+        xml += otherXml
+    }
+
+    xml += "</PluginRepository>\n"
+
+    // if this fails then the xml processing went wrong
+    println("Validating new plugins xml")
+    def testXml = new XmlSlurper().parseText(xml)
+
+    new File('SageTVPluginsDev.xml').text = xml
+
+    if (project.hasProperty("sagetvDir")) {
+        println("\n\nCopying SageTVPluginsDev.xml to ${sagetvDir}");
+        copy {
+            from 'SageTVPluginsDev.xml'
+            into "${sagetvDir}"
+        }
+    } else {
+        println("\n\nSageTVPluginsDev is created but you need to manually copy it to SageTV, or pass -PsagetvDir=YOUR_SAGETV_DIR");
+    }
 }
+
+task serveDevPlugins << {
+    SimpleHttpFileServerFactory factory = new SimpleHttpFileServerFactory()
+    HttpFileServer server = factory.start(new File("."), 8085)
+    println("Server Started on 8085 ctrc+c to kill it")
+    java.lang.Thread.sleep(Long.MAX_VALUE);
+}
+
+buildDevPlugins.dependsOn packagePlugins
+serveDevPlugins.dependsOn buildDevPlugins
 
 // uploading to BinTray
 bintray {
@@ -281,9 +333,9 @@ bintray {
 
     filesSpec {
         from ('build/distributions/') {
-            include "*${version}*"
+            include "*${plugin_version}*"
         }
-        into 'phoenix'
+        into "phoenix/${plugin_version}"
     }
 
     dryRun = false //Whether to run this as dry-run, without deploying
@@ -299,9 +351,9 @@ bintray {
         publicDownloadNumbers = true
         //attributes= ['a': ['ay1', 'ay2'], 'b': ['bee'], c: 'cee'] //Optional package-level attributes
         version {
-            name = "${version}"
+            name = "${plugin_version}"
             desc = 'Phoenix'
-            vcsTag = "${version}"
+            vcsTag = "${plugin_version}"
             //attributes = ['gradle-plugin': 'com.use.less:com.use.less.gradle:gradle-useless-plugin']
         }
     }

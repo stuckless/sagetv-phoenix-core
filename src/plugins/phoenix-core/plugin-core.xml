@@ -9,7 +9,6 @@
         * custom views
         * user profiles
         * weather
-        *
     </Description>
     <Author>stuckless,jusjoken,bialio,meinmaui</Author>
     <CreationDate>2010.06.05</CreationDate>
@@ -26,7 +25,7 @@
     <PluginType>Standard</PluginType>
     <Package>
         <PackageType>System</PackageType>
-        <Location>http://dl.bintray.com/opensagetv/sagetv-plugins/phoenix/phoenix-core-@@version@@.zip</Location>
+        <Location>http://dl.bintray.com/opensagetv/sagetv-plugins/phoenix/@@version@@/phoenix-core-@@version@@.zip</Location>
         <MD5>@@system-checksum@@</MD5>
     </Package>
     <ImplementationClass>sagex.phoenix.plugin.PhoenixPlugin</ImplementationClass>

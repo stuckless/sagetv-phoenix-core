@@ -59,6 +59,18 @@ public abstract class RegexFilenameScraper implements IFilenameScraper {
         if (title==null) return null;
         title=title.trim();
         if (title.endsWith("-")) return clean(title.substring(0, title.length()-1));
+
+        // if there are no spaces, then, lets try to create spaces from other characters
+        if (title.indexOf(' ')==-1) {
+            // replace underscore with spaces
+            String newTitle = title.replace('_', ' ');
+            // if the string is not _ separated, then let's try replacing dots with spaces
+            if (newTitle.equals(title)) {
+                newTitle = title.replace('.', ' ');
+            }
+            title=newTitle;
+        }
+
         return title;
     }
 

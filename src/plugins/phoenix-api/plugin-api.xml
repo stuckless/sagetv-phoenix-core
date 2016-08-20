@@ -13,8 +13,18 @@
     <Webpage><![CDATA[https://github.com/stuckless/sagetv-phoenix-core]]></Webpage>
 
     <Dependency>
+        <Core/>
+        <MinVersion>9.0.0</MinVersion>
+    </Dependency>
+
+    <Dependency>
+        <JVM/>
+        <MinVersion>1.7</MinVersion>
+    </Dependency>
+
+    <Dependency>
         <Plugin>sagex-api</Plugin>
-        <MinVersion>7.1.9.15</MinVersion>
+        <MinVersion>9.0.0.7</MinVersion>
     </Dependency>
     <Dependency>
         <Plugin>commons-codec</Plugin>
@@ -69,7 +79,7 @@
 
     <Package>
         <PackageType>JAR</PackageType>
-        <Location>http://dl.bintray.com/opensagetv/sagetv-plugins/phoenix/phoenix-api-@@version@@.zip</Location>
+        <Location>http://dl.bintray.com/opensagetv/sagetv-plugins/phoenix/@@version@@/phoenix-api-@@version@@.zip</Location>
         <MD5>@@jar-checksum@@</MD5>
     </Package>
 

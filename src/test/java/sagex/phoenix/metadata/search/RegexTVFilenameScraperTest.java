@@ -47,6 +47,11 @@ public class RegexTVFilenameScraperTest {
         testTV(scraper, "Bones 2010.04.05.ts", "Bones", null, null, null, null, "2010-04-05");
         testTV(scraper, "Bones 2010-04-05.ts", "Bones", null, null, null, null, "2010-04-05");
 
+        testTV(scraper, "THE_WALKING_DEAD-S02E11.mkv", "THE WALKING DEAD", "02","11", null,null,null);
+        testTV(scraper, "THE.WALKING.DEAD.S02E11.mkv", "THE WALKING DEAD", "02","11", null,null,null);
+
+        testAiring(scraper,"The100-S03E07-Thirteen-12775038-0.mpg","The 100", "03","07","Thirteen","12775038");
+
         testNoMatch(scraper, "Savages.2012.720p.bluray.x264-sparks.mkv");
     }
 

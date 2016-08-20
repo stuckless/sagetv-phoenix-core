@@ -204,9 +204,7 @@ public class VFSManager extends SystemConfigurationFileManager implements System
     @Override
     @PhoenixEvent(PhoenixEventID.VFS_Reload)
     public void loadConfigurations() {
-        downloadMissingViews();
         clear();
-
         File cachedFile = new File(Phoenix.getInstance().getUserCacheDir(), "vfs-cached.xml");
         rebuildCache(cachedFile);
     }
@@ -271,39 +269,5 @@ public class VFSManager extends SystemConfigurationFileManager implements System
 
     public void clearErrors() {
         lastError = null;
-    }
-
-    private void downloadMissingViews() {
-        // don't download views when in stand-alone mode, assume that
-        // the stand-alone packaging includes everything.
-        if (Phoenix.isStandalone())
-            return;
-
-        String dlurl = "https://raw.githubusercontent.com/stuckless/sagetv-phoenix-core/master/STVs/Phoenix/vfs/x-vfs.xml";
-        File masterXml = new File(Phoenix.getInstance().getVFSManager().getSystemFiles().getDir(), "x-vfs.xml");
-        log.info("Checking for core Phoenix Views: " + masterXml);
-        if (!masterXml.exists() || masterXml.length() == 0) {
-            // download the missing views
-            try {
-                log.warn("Downloading x-vfs.xml view from Phoenix, since it appears to be missing");
-                DownloadItem item = new DownloadItem(new URL(dlurl), masterXml);
-                item.setOverwrite(false);
-                item.setRetries(0);
-                item.setMaxReties(1);
-                // note this is set here because otherwise we get a race
-                // condition on startup since the vfs download
-                // happens before phoenix is completely initialized.
-                item.setUserAgent("Mozilla/5.0 (X11; Linux i686) AppleWebKit/535.1 (KHTML, like Gecko) Ubuntu/11.10 Chromium/14.0.835.202 Chrome/14.0.835.202 Safari/535.1");
-                item.setTimeout(3000);
-
-                // wait up to 10 seconds for the file to download
-                Phoenix.getInstance().getDownloadManager().downloadAndWait(item, 10000);
-            } catch (Throwable e) {
-                e.printStackTrace();
-                Phoenix.fireError("Unable to download/update the phoenix views... Phoenix may not work correctly.", e);
-            }
-        } else {
-            log.info("Found core Phoenix Views file (no need to download update)" + masterXml);
-        }
     }
 }

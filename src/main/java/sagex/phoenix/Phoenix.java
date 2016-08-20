@@ -320,6 +320,7 @@ public class Phoenix {
             log.info("Core Scheduled Tasks Initialized");
 
             if (!(STANDALONE || TESTING)) {
+
                 // initialize weather
                 if (!phoenix.weather.IsConfigured()) {
                     try {

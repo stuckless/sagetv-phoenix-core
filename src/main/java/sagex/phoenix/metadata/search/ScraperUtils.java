@@ -23,7 +23,7 @@ public class ScraperUtils {
     public static String uncompressTitle(String title) {
         if (title == null)
             return null;
-        return title.replaceAll("([A-Z])([^A-Z])", " $1$2").trim().replaceAll("([^A-Z])([A-Z])", "$1 $2").trim().replaceAll("\\s+"," ");
+        return title.replaceAll("([A-Z0-9])([^A-Z0-9])", " $1$2").trim().replaceAll("([^A-Z0-9])([A-Z0-9])", "$1 $2").trim().replaceAll("\\s+"," ");
     }
 
     /**
