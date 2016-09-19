@@ -57,6 +57,6 @@ public class FileUtils {
     public static String sanitize(String filename) {
         if (filename == null)
             return null;
-        return filename.replaceAll("[^A-Za-z0-9\\.\\[\\]\\(\\)-_~+&]+\\ ", "");
+        return filename.replaceAll("[^\\p{L}A-Za-z0-9\\.\\[\\]\\(\\)-_~+&]+\\ ", "");
     }
 }

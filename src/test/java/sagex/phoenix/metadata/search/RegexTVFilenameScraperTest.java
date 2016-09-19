@@ -27,11 +27,14 @@ public class RegexTVFilenameScraperTest {
         RegexFilenameScraper scraper = new RegexTVFilenameScraper(file);
 
         testAiring(scraper, "BrooklynNineNine-S03E21-MaximumSecurity-14895977-0.ts", "Brooklyn Nine Nine", "03", "21", "Maximum Security", "14895977");
+        testAiring(scraper, "BrooklynNinéNiné-S03E21-MaximumSécurity-14895977-0.ts", "Brooklyn Niné Niné", "03", "21", "Maximum Sécurity", "14895977");
         testAiring(scraper, "Castle-14123125-0.ts", "Castle", null, null, null, "14123125");
         testAiring(scraper, "CollegeBasketball-ArizonaatWashington-14584843-0.ts", "College Basketball", null, null, "Arizonaat Washington", "14584843");
         testAiring(scraper, "CSICyber-S02E14-FitandRun-14670697-0.ts", "CSI Cyber", "02", "14", "Fitand Run", "14670697");
         testAiring(scraper, "CSICyber-S02E14-FitandRun-14670697-0.ts", "CSI Cyber", "02", "14", "Fitand Run", "14670697");
         testAiring(scraper, "MarvelsAgentsofSHIELD-PurposeintheMachine-13995239-0.ts", "Marvels Agentsof SHIELD", null, null, "Purposeinthe Machine","13995239");
+
+        testTV(scraper, "Pokémon S01E02.ts", "Pokémon", "01", "02", null, null, null);
 
         testTV(scraper, "Bones S01E02.ts", "Bones", "01", "02", null, null, null);
         testTV(scraper, "Bones S01E02-03.ts", "Bones", "01", "02", "03", null, null);

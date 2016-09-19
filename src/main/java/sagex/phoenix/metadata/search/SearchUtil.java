@@ -18,7 +18,7 @@ public class SearchUtil {
     public static String removeNonSearchCharacters(String s) {
         if (s == null)
             return null;
-        String val = (s.replaceAll("[^'\"\\!\\+:,A-Za-z0-9&\\-'\\(\\)\\.]", " ")).replaceAll("[\\ ]+", " ").trim();
+        String val = (s.replaceAll("[^'\"\\!\\+:,A-Za-z0-9&\\-'\\(\\)\\.\\p{L}]", " ")).replaceAll("[\\ ]+", " ").trim();
         val = specialHandleDots(val);
         return val;
     }

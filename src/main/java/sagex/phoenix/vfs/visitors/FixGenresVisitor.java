@@ -20,7 +20,7 @@ import sagex.phoenix.vfs.IMediaResourceVisitor;
  */
 public class FixGenresVisitor implements IMediaResourceVisitor {
     Pattern p1 = Pattern.compile("([^/]+)/(.*)");
-    Pattern p2 = Pattern.compile("([a-z0-9]+)\\s+and\\s+([a-z0-9]+)", Pattern.CASE_INSENSITIVE);
+    Pattern p2 = Pattern.compile("([\\p{L}a-z0-9]+)\\s+and\\s+([\\p{L}a-z0-9]+)", Pattern.CASE_INSENSITIVE);
 
     private int maxGenres = 2;
 

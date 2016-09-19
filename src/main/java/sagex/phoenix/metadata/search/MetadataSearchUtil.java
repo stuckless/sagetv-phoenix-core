@@ -24,7 +24,7 @@ public class MetadataSearchUtil {
     public static final String MOVIE_MEDIA_TYPE = "Movie";
     public static final String TV_MEDIA_TYPE = "TV";
 
-    private static String compressedRegex = "[^a-zA-Z0-9]+";
+    private static String compressedRegex = "[^a-zA-Z0-9\\p{L}]+";
 
     private static Pattern mpaaRatingParser = Pattern.compile("Rated\\s+([^ ]+).*");
     private static Pattern mpaaRatingParser2 = Pattern.compile("([^ ]+).*");

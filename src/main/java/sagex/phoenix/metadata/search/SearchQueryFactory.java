@@ -112,9 +112,9 @@ public class SearchQueryFactory {
                 s = s.trim();
                 // don't clean raw title
                 if (f == Field.RAW_TITLE) {
-                    s = s.replaceAll("[^a-zA-Z0-9\\(\\)]+$", "");
+                    s = s.replaceAll("[^a-zA-Z0-9\\(\\)\\p{L}]+$", "");
                 } else {
-                    s = s.replaceAll("[^a-zA-Z0-9]+$", "");
+                    s = s.replaceAll("[^a-zA-Z0-9\\p{L}]+$", "");
                 }
                 q.set(f, s);
             }

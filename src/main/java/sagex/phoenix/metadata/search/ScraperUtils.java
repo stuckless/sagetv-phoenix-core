@@ -39,7 +39,7 @@ public class ScraperUtils {
                 String t2 = m.group(1);
 
                 // remove non alpha at the end of the line
-                t2 = t2.replaceAll("[^a-zA-Z0-9]*$", "");
+                t2 = t2.replaceAll("[^a-zA-Z0-9\\p{L}]*$", "");
                 q.set(Field.RAW_TITLE, t2);
                 Loggers.LOG.debug("Adjusting title: " + t1 + " to: " + t2 + "; because it matches a multi-cd title");
             }
