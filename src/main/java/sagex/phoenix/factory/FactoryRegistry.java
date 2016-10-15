@@ -24,6 +24,10 @@ public class FactoryRegistry<F extends Factory<?>> {
     }
 
     public void addFactory(F factory) {
+        if (factory==null) {
+            log.warn("Attempted to add a NULL factory, ignoring");
+            return;
+        }
         F old = factories.put(factory.getName(), factory);
         if (old != null) {
             log.debug("Old Factory replaced by new factory: " + factory.getName());
@@ -54,6 +58,19 @@ public class FactoryRegistry<F extends Factory<?>> {
             if (fact.isVisible() || includeInvisible) {
                 all.add(fact);
             }
+        }
+
+        if (sort)
+            Collections.sort(all, FactoryComparator.INSTANCE);
+        return all;
+    }
+
+    public List<F> getFactoriesWithErrors() {
+
+        List<F> all = new LinkedList<F>();
+
+        for (F fact : factories.values()) {
+            if (fact.hasErrors()) all.add(fact);
         }
 
         if (sort)

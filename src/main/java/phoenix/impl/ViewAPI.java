@@ -81,6 +81,16 @@ public class ViewAPI {
         return set;
     }
 
+    /**
+     * Returns factories with errors
+     *
+     * @return
+     */
+    public List<ViewFactory> GetViewFactoriesWithErrors() {
+        return Phoenix.getInstance().getVFSManager().getVFSViewFactory().getFactoriesWithErrors();
+    }
+
+
     private void updateVisibilityStatus(Collection<ViewFactory> factories) {
         if (factories == null)
             return;

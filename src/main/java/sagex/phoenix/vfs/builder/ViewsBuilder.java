@@ -1,5 +1,6 @@
 package sagex.phoenix.vfs.builder;
 
+import java.util.Comparator;
 import java.util.Stack;
 
 import org.apache.commons.lang.StringUtils;
@@ -7,19 +8,23 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
+import sagex.phoenix.factory.BaseConfigurable;
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.Factory;
 import sagex.phoenix.factory.IConfigurable;
 import sagex.phoenix.util.PublicCloneable;
 import sagex.phoenix.util.XmlUtil;
 import sagex.phoenix.vfs.IMediaFolder;
+import sagex.phoenix.vfs.IMediaResource;
 import sagex.phoenix.vfs.VFSManager;
 import sagex.phoenix.vfs.filters.Filter;
 import sagex.phoenix.vfs.filters.FilterFactory;
 import sagex.phoenix.vfs.groups.Grouper;
 import sagex.phoenix.vfs.groups.GroupingFactory;
+import sagex.phoenix.vfs.groups.IGrouper;
 import sagex.phoenix.vfs.sorters.Sorter;
 import sagex.phoenix.vfs.sorters.SorterFactory;
+import sagex.phoenix.vfs.sources.SageSourcesFactory;
 import sagex.phoenix.vfs.views.ViewFactory;
 import sagex.phoenix.vfs.views.ViewPresentation;
 
@@ -63,21 +68,29 @@ public class ViewsBuilder extends VFSManagerBuilder {
             PublicCloneable source = manager.getVFSSourceFactory().getFactory(XmlUtil.attr(attributes, "name"));
             if (source == null) {
                 error("unknown source: " + XmlUtil.attr(attributes, "name"));
+                view.setHasErrors(true);
+                view.setErrorMessage("Missing View Source: " + XmlUtil.attr(attributes, "name"));
+                configurables.push(new SageSourcesFactory());
             } else {
                 try {
                     configurables.push((IConfigurable) source.clone());
-                } catch (CloneNotSupportedException e) {
+                } catch (Exception e) {
                     error("Unable to add source to view " + XmlUtil.attr(attributes, "name"), e);
                 }
             }
         } else if (name.equals("view-source")) {
             PublicCloneable source = manager.getVFSViewFactory().getFactory(XmlUtil.attr(attributes, "name"));
-            if (source == null)
+            if (source == null) {
                 error("unknown source: " + XmlUtil.attr(attributes, "name"));
-            try {
-                configurables.push((IConfigurable) source.clone());
-            } catch (CloneNotSupportedException e) {
-                error("Unable to add view source to view " + XmlUtil.attr(attributes, "name"), e);
+                view.setHasErrors(true);
+                view.setErrorMessage("Missing View: " + XmlUtil.attr(attributes, "name"));
+                configurables.push(new ViewFactory());
+            } else {
+                try {
+                    configurables.push((IConfigurable) source.clone());
+                } catch (Exception e) {
+                    error("Unable to add view source to view " + XmlUtil.attr(attributes, "name"), e);
+                }
             }
         } else if (name.equals("presentation")) {
             presentation = new ViewPresentation();
@@ -89,27 +102,42 @@ public class ViewsBuilder extends VFSManagerBuilder {
             }
         } else if (name.equals("group")) {
             GroupingFactory f = manager.getVFSGroupFactory().getFactory(XmlUtil.attr(attributes, "by"));
-            if (f == null)
+            if (f == null) {
                 error("unknown grouper by: " + XmlUtil.attr(attributes, "by"));
-            configurables.push(f.create(null));
+                view.setHasErrors(true);
+                view.setErrorMessage("Missing Groups: " + XmlUtil.attr(attributes, "by"));
+                configurables.push(new GroupingFactory((IGrouper)null));
+            } else {
+                configurables.push(f.create(null));
+            }
         } else if (name.equals("filter")) {
             FilterFactory f = manager.getVFSFilterFactory().getFactory(XmlUtil.attr(attributes, "by"));
-            if (f == null)
+            if (f == null) {
                 error("unknown filter by: " + XmlUtil.attr(attributes, "by"));
-            IConfigurable configurable = f.create(null);
-            if (configurable == null)
-                error("failed to create filter for " + XmlUtil.attr(attributes, "by"));
-            addOption(attributes, Filter.OPT_VALUE, configurable);
-            addOption(attributes, Filter.OPT_SCOPE, configurable);
-            configurables.push(configurable);
+                view.setHasErrors(true);
+                view.setErrorMessage("Missing Filter: " + XmlUtil.attr(attributes, "by"));
+                configurables.push(new FilterFactory());
+            } else {
+                IConfigurable configurable = f.create(null);
+                if (configurable == null)
+                    error("failed to create filter for " + XmlUtil.attr(attributes, "by"));
+                addOption(attributes, Filter.OPT_VALUE, configurable);
+                addOption(attributes, Filter.OPT_SCOPE, configurable);
+                configurables.push(configurable);
+            }
         } else if (name.equals("sort")) {
             SorterFactory f = manager.getVFSSortFactory().getFactory(XmlUtil.attr(attributes, "by"));
-            if (f == null)
+            if (f == null) {
                 error("unknown sort by: " + XmlUtil.attr(attributes, "by"));
-            IConfigurable configurable = f.create(null);
-            addOption(attributes, Sorter.OPT_SORT_ORDER, configurable);
-            addOption(attributes, Sorter.OPT_FOLDERS_FIRST, configurable);
-            configurables.push(configurable);
+                view.setHasErrors(true);
+                view.setErrorMessage("Missing Sort: " + XmlUtil.attr(attributes, "by"));
+                configurables.push(new SorterFactory((Comparator<IMediaResource>) null));
+            } else {
+                IConfigurable configurable = f.create(null);
+                addOption(attributes, Sorter.OPT_SORT_ORDER, configurable);
+                addOption(attributes, Sorter.OPT_FOLDERS_FIRST, configurable);
+                configurables.push(configurable);
+            }
         } else {
             error("Unknown View Tag: " + name);
         }

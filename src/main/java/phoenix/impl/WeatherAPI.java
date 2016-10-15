@@ -1,12 +1,14 @@
 package phoenix.impl;
 
+import sagex.phoenix.tools.annotation.API;
+import sagex.phoenix.weather.ICurrentForecast;
+import sagex.phoenix.weather.ILongRangeForecast;
+import sagex.phoenix.weather.IWeatherData;
+import sagex.phoenix.weather.yahoo.WeatherData;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import sagex.phoenix.tools.annotation.API;
-import sagex.phoenix.weather.*;
-import sagex.phoenix.weather.yahoo.WeatherData;
 
 /**
  * WeatherAPI provides access to weather information, including current forecast

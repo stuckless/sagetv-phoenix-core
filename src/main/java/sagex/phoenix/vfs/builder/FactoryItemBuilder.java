@@ -33,9 +33,13 @@ public abstract class FactoryItemBuilder<T extends Factory<?>> extends VFSManage
 
             // factory = (Factory<?>) Class.forName(className).newInstance();
             factory = createFactory(className);
-            factory.getOption(Factory.OPT_NAME).value().set(itemName);
-            factory.getOption(Factory.OPT_LABEL).value().set(label);
-            factory.getOption(Factory.OPT_VISIBLE).value().set(visible);
+            if (factory==null) {
+                error("Missing Factory for " + className);
+            } else {
+                factory.getOption(Factory.OPT_NAME).value().set(itemName);
+                factory.getOption(Factory.OPT_LABEL).value().set(label);
+                factory.getOption(Factory.OPT_VISIBLE).value().set(visible);
+            }
         } else if ("description".equals(name)) {
         } else if ("tag".equals(name)) {
             String tag = XmlUtil.attr(attributes, "value", null);

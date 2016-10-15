@@ -11,6 +11,15 @@ import sagex.phoenix.util.HasName;
 
 public abstract class Factory<T> extends BaseConfigurable implements HasName, HasLabel {
     /**
+     * If this factory has errors, then this is set to true
+     */
+    private boolean hasErrors=false;
+    /**
+     * if this factory has errors, then this MIGHT be set to an error message
+     */
+    private String errorMessage=null;
+
+    /**
      * Visible option name * {@value}
      */
     public static final String OPT_VISIBLE = "visible";
@@ -103,4 +112,21 @@ public abstract class Factory<T> extends BaseConfigurable implements HasName, Ha
         }
         co.value().setValue(value);
     }
+
+    public void setHasErrors(boolean hasErrors) {
+        this.hasErrors = hasErrors;
+    }
+
+    public boolean hasErrors() {
+        return hasErrors;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
 }

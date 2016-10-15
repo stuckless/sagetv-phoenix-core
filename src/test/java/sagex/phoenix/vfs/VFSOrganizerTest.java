@@ -1,16 +1,18 @@
 package sagex.phoenix.vfs;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
+import java.io.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import sagex.phoenix.Phoenix;
+import sagex.phoenix.util.BaseBuilder;
+import sagex.phoenix.vfs.builder.VFSBuilder;
+import sagex.phoenix.vfs.views.ViewFactory;
 import test.InitPhoenix;
 
 public class VFSOrganizerTest {
@@ -60,7 +62,40 @@ public class VFSOrganizerTest {
         o.writeTo(new OutputStreamWriter(System.out));
     }
 
-    private Reader getReader(String resFile) {
-        return new InputStreamReader(this.getClass().getResourceAsStream(resFile));
+    @Test
+    public void testVFSWithInvalidEntriesShouldStillLoad() throws Exception {
+        VFSOrganizer o = new VFSOrganizer(Phoenix.getInstance().getVFSDir());
+        System.out.println("VFSDIR: " + Phoenix.getInstance().getVFSDir().getAbsolutePath());
+        o.organize(getReader("x-vfs-somebad.xml"), "x-vfs-somebad-1.xml");
+
+        assertEquals(27, o.filters.size());
+        assertEquals(6, o.filterGroups.size());
+        assertEquals(19, o.tags.size());
+        assertEquals(11, o.sorts.size());
+        assertEquals(14, o.groups.size());
+        assertEquals(11, o.sources.size()); // one of these is invalid
+        assertEquals(55, o.views.size()); // one of these is invalid
+
+        // now load the VFSFile
+        BaseBuilder.failOnError=false;
+        VFSManager mgr = new VFSManager(Phoenix.getInstance().getVFSDir(), Phoenix.getInstance().getVFSDir());
+        VFSBuilder builder = new VFSBuilder(mgr);
+        VFSBuilder.registerVFSSources(getInputStream("x-vfs-somebad.xml"), Phoenix.getInstance().getVFSDir(), mgr);
+        assertEquals(55, mgr.getVFSViewFactory().getFactories(true).size());
+        assertEquals(10, mgr.getVFSSourceFactory().getFactories(true).size());
+
+        ViewFactory viewFactory = mgr.getVFSViewFactory().getFactory("playlists_bad_view");
+        assertNotNull(viewFactory);
+        assertTrue(viewFactory.hasErrors());
+        System.out.println(viewFactory.getErrorMessage());
     }
+
+    private InputStream getInputStream(String resFile) {
+        return this.getClass().getResourceAsStream(resFile);
+    }
+    private Reader getReader(String resFile) {
+        return new InputStreamReader(getInputStream(resFile));
+    }
+
+
 }

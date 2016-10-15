@@ -1,0 +1,1174 @@
+<!DOCTYPE vfs SYSTEM "vfs.dtd">
+<vfs>
+	<tags>
+		<tag value="tv" label="TV"/>
+		<tag value="movie" label="Movie"/>
+		<tag value="video" label="Videos"/>
+		<tag value="dvd" label="DVD"/>
+		<tag value="bluray" label="Blu-Ray"/>
+		<tag value="picture" label="Pictures"/>
+		<tag value="music" label="Music"/>
+		<tag value="videodisc" label="DVD or Blu-Ray"/>
+		<tag value="epg" label="Program Guide"/>
+		<tag value="metadata" label="Metadata"/>
+		<tag value="online" label="Online"/>
+		<tag value="web" label="Web" visible="false"/>
+		<tag value="android" label="Android" visible="false"/>
+		<tag value="landingzone" label="Landing Zone" visible="false"/>
+		<tag value="primary" label="Primary View"/>
+		<tag value="default" label="Default View"/>
+		<tag value="simple" label="Simple" visible="false"/>
+		<tag value="homevideos" label="Home Videos"/>
+		<tag value="gemstone" label="Gemstone"/>
+	</tags>
+	
+	<sources>
+		<item name="expression" label="Sage Expression" class="sagex.phoenix.vfs.sources.SageExpressionSourceFactory">
+			<option name="expression" label="Expression"/>
+		</item>
+
+		<item name="mediafiles" label="Sage Media Files" class="sagex.phoenix.vfs.sources.SageMediaFilesFactory">
+			<option name="mediamask" label="Sage Media Mask" list="true" list-values="T:TV,D:DVD,B:BluRay,V:Video,M:Music,P:Pictures" list-selection="multi"/>
+		</item>
+
+		<item name="playlists" label="Sage Playlists" class="sagex.phoenix.vfs.sources.PlaylistSourceFactory">
+		</item>
+
+		<!-- THIS SOURCE IS NOT VALID -->
+		<item name="playlists_bad" label="Sage Playlists" class="sagex.phoenix.vfs.sources.BadPlaylistSourceFactory">
+		</item>
+
+		<item name="sageimports" label="Sage Import Folders" class="sagex.phoenix.vfs.sources.SageSourcesFactory">
+			<option name="combine" label="Combine Sources" datatype="boolean"/>
+			<option name="mediamask" label="Sage Media Mask" list="true" list-values="T:TV,D:DVD,B:BluRay,V:Video,M:Music,P:Pictures" list-selection="multi"/>
+		</item>
+
+		<item name="filesystem" label="File System" visible="false" class="sagex.phoenix.vfs.sources.FileSystemSourceFactory">
+			<option name="dir" label="Directory" datatype="directory"/>
+		</item>
+
+		<item name="sagefilesystem" label="Sage File System" visible="false" class="sagex.phoenix.vfs.sources.SageMediaNodeFactory">
+			<option name="content" label="Content" list="true"/>
+		</item>
+
+		<item name="onlinevideos" label="Online Videos" visible="true" class="sagex.phoenix.vfs.sources.SageOnlineVideosFactory">
+		</item>
+
+		<item name="rss" label="RSS Feed Source" visible="true" class="sagex.phoenix.vfs.sources.RSSFeedFactory">
+			<option name="feedurl" label="Feed Url"/>
+			<option name="mediatype" label="Media Type (TV, Movie, Music)"/>
+			<option name="feedtype" label="Feed Type (rss or atom)" list="true" list-values="rss:RSS,atom:ATOM"/>
+		</item>
+		
+		<item name="xmlfeed" label="Xml Feed Source" visible="true" class="sagex.phoenix.vfs.ov.XmlSourceFactory">
+			<option name="feedurl" label="Feed Url"/>
+			<option name="item-element" label="Repeatable Item Element"/>
+			<option name="MediaType" label="Media Type"/>
+			<!-- 
+				elements are the element names in the xml, use element@attributename
+				to refer to an attribute on an alement
+				
+				regex is a grouped regular expression that will be applied to the
+				element/attribute contents.  Group 1 is the content. This can be 
+				an optional field. 
+			-->
+			<option name="MediaTitle-element" label="Media Title Element" />
+			<option name="MediaTitle-regex" label="Media Title Regex" />
+
+			<option name="Description-element" label="Description Element"/>
+			<option name="Description-regex" label="Description Regex"/>
+
+			<!-- episode name is the song, show, etc -->
+			<option name="EpisodeName-element" label="Episode Name Element"/>
+			<option name="EpisodeName-regex" label="Episode Name Regex"/>
+
+			<option name="Album-element" label="Album Element"/>
+			<option name="Album-regex" label="Album Regex"/>
+
+			<option name="AlbumArtist-element" label="Artist Element"/>
+			<option name="AlbumArtist-regex" label="Artist Regex"/>
+
+			<option name="MediaUrl-element" label="Media Link Url Element"/>
+			<option name="MediaUrl-regex" label="Media Link Url Regex"/>
+
+			<option name="offline" label="If true the no media links, just info" list="true" list-values="true:Yes,false:No"/>
+		</item>
+		
+		<item name="music-mapper" label="Maps Offline Music to Music Library" visible="true" class="sagex.phoenix.vfs.music.MusicMapperFactory"/>
+	</sources>
+
+	<filters>
+		<item name="metadata" label="Metadata Field" class="sagex.phoenix.vfs.filters.MetadataFieldFilter">
+			<option name="field"/>
+			<option name="value"/>
+			<option name="compare-numeric" value="false"/>
+			
+			<tag value="video"/>
+			<tag value="tv"/>
+			<tag value="music"/>
+		</item>
+	
+		<item name="hd" label="HD" class="sagex.phoenix.vfs.filters.HDFilter">
+			<option name="value"/>
+			<tag value="video"/>
+			<tag value="tv"/>			
+		</item>
+
+		<item name="bluray" label="BluRay" class="sagex.phoenix.vfs.filters.BDFilter">
+			<tag value="video"/>
+		</item>
+
+		<item name="dvd" label="DVD" class="sagex.phoenix.vfs.filters.DVDFilter">
+			<tag value="video"/>
+		</item>
+		
+		<item name="channel" label="Channel" class="sagex.phoenix.vfs.filters.ChannelFilter">
+			<option name="value"/>
+			<tag value="tv"/>
+			<tag value="epg"/>
+		</item>
+
+		<item name="genre" label="Genre" class="sagex.phoenix.vfs.filters.GenresFilter">
+			<option name="value" list="true"/>
+			<option name="use-regex-matching" list="false"/>
+			<tag value="video"/>
+			<tag value="tv"/>	
+			<tag value="simple"/>
+		</item>
+		
+		<item name="rating" label="Rating" class="sagex.phoenix.vfs.filters.RatingsFilter">
+			<option name="value" list="true"/>
+		</item>
+		
+		<item name="watched" label="Watched" class="sagex.phoenix.vfs.filters.WatchedFilter">
+			<option name="value"/>
+			<tag value="tv"/>
+			<tag value="video"/>
+			<tag value="simple"/>
+		</item>
+		
+		<item name="mediatype" label="Media Type" class="sagex.phoenix.vfs.filters.MediaTypeFilter">
+			<option name="value" list="true"/> 
+		</item>
+		
+		<item name="fileext" label="File Extension" class="sagex.phoenix.vfs.filters.FileExtFilter" visible="false">
+			<option name="value"/> 
+		</item>
+		
+		<item name="filename" label="Filename" class="sagex.phoenix.vfs.filters.FileNameFilter" visible="false">
+			<option name="value"/> 
+		</item>
+			
+		<item name="filepath" label="File path" class="sagex.phoenix.vfs.filters.FilePathFilter">
+			<option name="value"/> 
+		</item>
+
+		<item name="title" label="Title" class="sagex.phoenix.vfs.filters.TitleFilter">
+			<option name="value"/> 
+		</item>
+			
+		<item name="missingmetadata" label="Missing Metadata" class="sagex.phoenix.vfs.filters.MissingMetadataFilter">
+			<tag value="video"/>
+			<tag value="tv"/>
+		</item>
+
+		<item name="recentlywatched" label="Recently Watched" class="sagex.phoenix.vfs.filters.RecentlyWatchedFilter">
+			<option name="value"/>
+			<option name="duration"/>
+			<tag value="video"/>
+			<tag value="tv"/>
+		</item>
+
+		<item name="partiallywatched" label="Partially Watched" class="sagex.phoenix.vfs.filters.PartiallyWatchedFilter">
+			<option name="value"/>
+			<tag value="video"/>
+			<tag value="tv"/>
+		</item>
+
+		<item name="globalexclude" label="Globally Excluded" class="sagex.phoenix.vfs.filters.GlobalExcludeFilter">
+			<tag value="video"/>
+			<tag value="tv"/>
+		</item>
+			
+		<item name="genrestartswith" label="Genre (Starts With)" class="sagex.phoenix.vfs.filters.GenreStartsWithFilter">
+			<option name="value" list="true"/>
+		</item>
+
+		<item name="albumstartswith" label="Album (Starts With)" class="sagex.phoenix.vfs.filters.AlbumStartsWithFilter">
+			<option name="value" list="true"/>
+		</item>
+		
+		<item name="artiststartswith" label="Artist (Starts With)" class="sagex.phoenix.vfs.filters.ArtistStartsWithFilter">
+			<option name="value" list="true"/>
+		</item>		
+		
+		<item name="currentlyrecording" label="Currently Recording" class="sagex.phoenix.vfs.filters.CurrentlyRecordingFilter">
+			<tag value="tv"/>
+			<tag value="simple"/>
+		</item>
+		
+		<item name="favorite" label="Favorite" class="sagex.phoenix.vfs.filters.FavoriteFilter">
+			<tag value="tv"/>
+			<tag value="simple"/>
+		</item>	
+		
+		<item name="pql" label="Phoenix Query Language" class="sagex.phoenix.vfs.filters.PQLFilter">
+			<option name="value"/>
+			<tag value="video"/>
+			<tag value="tv"/>
+			<tag value="music"/>
+		</item>
+
+		<!-- when value is "" todays date is used-->
+		<item name="date" label="Date" class="sagex.phoenix.vfs.filters.DateFilter">
+			<option name="value"/>
+		</item>
+		
+		<item name="titlestartswith" label="Title Starts With" class="sagex.phoenix.vfs.filters.TitleStartsWithFilter">
+			<option name="value"/>
+		</item>
+		
+		<item name="homevideos" label="Home Videos" class="sagex.phoenix.vfs.filters.HomeVideosFilter">
+			<option name="value"/>
+			<tag value="video"/>
+			<tag value="simple"/>
+		</item>
+
+		<item name="mediaresourcetype" label="Media Resource Type" class="sagex.phoenix.vfs.filters.MediaResourceTypeFilter">
+			<option name="value" list="true"/> 
+			<tag value="gemstone"/>
+		</item>
+
+		<item-group name="missingmetadata-ext" label="Missing Metadata extended Filter" mode="and">
+			<filter by="homevideos" scope="exclude"/>
+			<filter by="missingmetadata"/>
+			<tag value="video"/>
+			<tag value="tv"/>
+		</item-group>
+		
+		<item-group name="kids" label="Kids Filter" mode="or">
+			<filter by="genre" value="children" />
+			<filter by="genre" value="child" />
+			<filter by="rating" value="PG" />
+			<tag value="video"/>
+		</item-group>
+		
+		<item-group name="moviesfilter" label="Movies Filter" mode="or">
+			<filter by="genrestartswith" value="Movie" />
+			<filter by="genrestartswith" value="Film" />
+			<tag value="video"/>
+			<tag value="tv"/>
+		</item-group>
+
+		<item-group name="unwatchedfavorites" label="Unwatched Favorites" mode="and">
+			<filter by="favorite"/>
+			<filter by="watched" value="false"/>
+			<tag value="tv"/>
+		</item-group>
+			
+		<item-group name="latertoday" label="Recording Later Today" mode="and">
+			<filter by="currentlyrecording" scope="exclude"/>
+			<filter by="date" value=""/>
+			<tag value="tv"/>
+		</item-group>	
+
+		<item-group name="moviesonly" label="Movies Only" mode="and">
+			<filter by="homevideos" scope="exclude"/>			
+			<filter by="mediatype" value="TV" scope="exclude"/>
+			<tag value="video"/>
+		</item-group>
+		
+	</filters>
+
+	<sorts>
+		<item name="metadata" label="Metadata Field" class="sagex.phoenix.vfs.sorters.MetadataFieldSorter">
+			<option name="field"/>
+			<option name="compare-numeric" value="false"/>
+			
+			<tag value="music"/>
+			<tag value="video"/>
+			<tag value="tv"/>
+		</item>
+	
+		<item name="starttime" label="Start Time" class="sagex.phoenix.vfs.sorters.StartTimeSorter">
+			<option name="sort-order" value="asc"/>
+			<option name="folders-first" value="true"/>
+			<tag value="video"/>
+			<tag value="tv"/>
+			<tag value="music"/>
+			<tag value="simple"/>
+		</item>
+		
+		<item name="title" label="Title" class="sagex.phoenix.vfs.sorters.TitleSorter">
+			<tag value="music"/>
+			<tag value="video"/>
+			<tag value="tv"/>
+			<tag value="simple"/>
+		</item>
+
+		<item name="seasonepisode" label="Season and Episode" class="sagex.phoenix.vfs.sorters.SeasonEpisodeSorter">
+			<tag value="video"/>
+			<tag value="tv"/>
+			<tag value="simple"/>
+		</item>
+		
+		<item name="artist" label="Artist" class="sagex.phoenix.vfs.sorters.ArtistSorter">
+			<tag value="music"/>
+			<tag value="simple"/>
+		</item>
+
+		<item name="track" label="Track Number" class="sagex.phoenix.vfs.sorters.TrackSorter">
+			<tag value="music"/>
+			<tag value="simple"/>
+		</item>
+
+		<item name="recentactivity" label="Recent Activity" class="sagex.phoenix.vfs.sorters.RecentActivitySorter">
+			<option name="folders-first" value="false"/>
+			<tag value="tv"/>
+			<tag value="music"/>
+			<tag value="simple"/>
+		</item>		
+
+		<item name="recentlywatched" label="Recently Watched" class="sagex.phoenix.vfs.sorters.RecentlyWatchedSorter">
+			<option name="folders-first" value="false"/>
+			<tag value="tv"/>
+			<tag value="video"/>
+			<tag value="simple"/>
+		</item>
+		
+		<item name="originalairdate" label="Original Air Date" class="sagex.phoenix.vfs.sorters.OriginalAirDateSorter">
+			<option name="sort-order" value="asc"/>
+			<option name="folders-first" value="false"/>
+			<tag value="simple"/>
+			<tag value="tv"/>
+		</item>	
+		
+		<item name="mediafileid" label="Date Added" class="sagex.phoenix.vfs.sorters.MediaFileIDSorter">
+			<option name="folders-first" value="false"/>
+			<tag value="video"/>
+			<tag value="tv"/>
+			<tag value="simple"/>
+    	</item>
+		
+		<item name="favoritepriority" label="Favorite Priority" class="sagex.phoenix.vfs.sorters.FavoritePrioritySorter">
+			<option name="folders-first" value="false"/>
+			<tag value="tv"/>
+			<tag value="simple"/>
+		</item>	
+	</sorts>
+
+	<groups>
+		<item name="metadata" label="Metadata Field" class="sagex.phoenix.vfs.groups.MetadataFieldGrouper">
+			<option name="field" value="SageField"/>
+			<tag value="video"/>
+			<tag value="tv"/>
+			<tag value="music"/>
+		</item>
+	
+		<item name="filedate" label="Date Field" class="sagex.phoenix.vfs.groups.FileDateGrouper">
+			<option name="field" value="SageField"/>
+			<tag value="video"/>
+			<tag value="tv"/>
+			<tag value="music"/>
+		</item>
+		
+		<item name="date" label="Date" class="sagex.phoenix.vfs.groups.DateGrouper">
+			<option name="field" value="SageField"/>
+			<tag value="video"/>
+			<tag value="tv"/>
+			<tag value="music"/>
+		</item>
+		
+		<item name="show" label="Show" class="sagex.phoenix.vfs.groups.ShowGrouper">
+			<option name="empty-foldername" value="No Title"/>
+			<option name="prune-single-item-groups" value="true"/>
+			<tag value="tv"/>
+			<tag value="simple"/>
+		</item>
+		
+		<item name="regextitle" label="Regex Title" class="sagex.phoenix.vfs.groups.RegexTitleGrouper">
+			<option name="regex" value=""/>
+			<tag value="tv"/>
+			<tag value="video" />
+		</item>
+
+		<item name="firstletter" label="First Letter in Title" class="sagex.phoenix.vfs.groups.RegexTitleGrouper">
+			<option name="regex" value="[a-zA-Z0-9]"/>
+			<tag value="tv"/>
+			<tag value="video" />
+			<tag value="simple"/>
+		</item>
+
+		<item name="title" label="Title" class="sagex.phoenix.vfs.groups.TitleGrouper">
+			<tag value="tv"/>
+			<tag value="video" />
+			<tag value="simple"/>
+		</item>
+		
+		<item name="parental-ratings" label="Parental Ratings" class="sagex.phoenix.vfs.groups.ParentalRatingsGrouper">
+			<tag value="tv" />
+			<tag value="video" />
+			<tag value="simple"/>
+		</item>
+
+		<item name="season" label="Season" class="sagex.phoenix.vfs.groups.SeasonGrouper">
+			<tag value="tv" />
+			<tag value="simple"/>
+		</item>
+
+		<item name="year" label="Year" class="sagex.phoenix.vfs.groups.YearGrouper">
+			<tag value="simple"/>
+		</item>
+		
+		<item name="cd" label="CD" class="sagex.phoenix.vfs.groups.CDGrouper">
+			<tag value="music"/>
+			<tag value="simple"/>
+		</item>
+		
+		<item name="genre" label="Genre" class="sagex.phoenix.vfs.groups.GenreGrouper">
+			<tag value="tv" />
+			<tag value="video" />
+			<tag value="music"/>
+			<tag value="simple"/>
+		</item>
+		
+		<item name="album" label="Album" class="sagex.phoenix.vfs.groups.AlbumGrouper">
+			<tag value="music"/>
+			<tag value="simple"/>
+		</item>
+		
+		<item name="artist" label="Artist" class="sagex.phoenix.vfs.groups.ArtistGrouper">
+			<tag value="music"/>
+			<tag value="simple"/>
+		</item>
+	</groups>
+	
+	<views>
+		<!-- Theses SOURCE views are meant to be the basis for other views
+		     They have no presentation defined, and are only visible if 'advanced' views are enable-->
+				
+		<view name="phoenix.view.source.music" label="Music" visible="false">
+			<tag value="music" />
+			<source name="mediafiles">
+				<option name="mediamask" value="ML"/>
+			</source>
+		</view>
+		
+		<view name="phoenix.view.source.pictures" label="Pictures" visible="false">
+			<tag value="picture" />
+			<source name="mediafiles">
+				<option name="mediamask" value="PL"/>
+			</source>
+		</view>
+
+		<view name="phoenix.view.source.sagerecordings" label="Sage Recordings" visible="false">
+			<description>Sage Recordings, not including archived</description>
+			<tag value="tv" />
+			<source name="expression">
+				<option name="expression">
+					phoenix_util_ToArray(phoenix_util_RemoveAll(GetMediaFiles("T"), GetMediaFiles("TL")))
+				</option>
+			</source>
+		</view>
+
+		<view name="phoenix.view.source.sagearchivedrecordings" label="Sage Archived Recordings" visible="false">
+			<description>Sage Archived Recordings</description>
+			<tag value="tv" />
+			<tag value="video" />
+			<source name="mediafiles">
+				<option name="mediamask" value="TL"/>
+			</source>
+		</view>
+		
+		<view name="phoenix.view.source.videos" label="Discrete Video Files" visible="false">
+			<tag value="video" />			
+			<source name="expression">
+				<!-- remove all the recording from this source -->
+				<option name="expression">
+					phoenix_util_ToArray(phoenix_util_RemoveAll(GetMediaFiles("VL"), GetMediaFiles("T")))
+				</option>
+			</source>
+		</view>
+		
+		<view name="phoenix.view.source.dvd" label="DVDs" visible="false">
+			<tag value="dvd" />
+			<tag value="video" />
+			<tag value="videodisc" />
+			<source name="mediafiles">
+				<option name="mediamask" value="DBL"/>
+			</source>
+			<filter by="dvd"/>
+		</view>
+
+		<view name="phoenix.view.source.bluray" label="BluRay" visible="false">
+			<tag value="bluray" />
+			<tag value="video" />
+			<tag value="videodisc" />
+			<source name="mediafiles">
+				<option name="mediamask" value="DBL"/>
+			</source>
+			<filter by="bluray"/>
+		</view>	
+
+		<view name="phoenix.view.source.allimportedvideo" label="All Imported Video" visible="false">
+			<tag value="video" />
+			<tag value="tv" />
+			<source name="expression">
+				<!-- remove all the recording from this source -->
+				<option name="expression">
+					phoenix_util_ToArray(phoenix_util_RemoveAll(GetMediaFiles("VDBL"), GetMediaFiles("T")))
+				</option>
+			</source>
+		</view>		
+		
+		<view name="phoenix.view.source.mediafiles" label="All Sage Media Files" visible="false">
+			<description>
+				Includes all Sage media files, but does include things like online
+				videos, trailers, etc.
+			</description>
+
+			<tag value="video" />
+		
+			<source name="expression">
+				<option name="expression">
+					GetMediaFiles()
+				</option>
+			</source>
+		</view>
+				
+		<view name="phoenix.view.source.scheduledrecordings" label="Scheduled Recordings" visible="false">
+			<tag value="tv" />
+			<tag value="epg" />
+			<source name="expression">
+				<option name="expression">
+					GetScheduledRecordings()
+				</option>
+			</source>
+		</view>		
+		
+		<!-- PRIMARY VIEWS
+			These are the building blocks for views built from the GUI, as well as default views for the user.
+			No Presentation (Sort/Grouping) is applied here.
+		-->		
+		<view name="phoenix.view.primary.importedmovies" label="Imported Movies" flat="true" visible="${GetProperty(&quot;phoenix/core/enableAdvancedViews&quot;, true)==true}">
+			<description>Movies from all imported sources</description>
+			<tag value="primary"/>
+			<tag value="video" />
+			<tag value="movie"/>
+			<view-source name="phoenix.view.source.allimportedvideo"/>
+			<!-- moviesonly removes imported TV and homevideos from this view -->
+			<filter by="moviesonly"/>	
+		</view>	
+
+		<view name="phoenix.view.primary.recordedmovies" label="Recorded Movies" visible="${GetProperty(&quot;phoenix/core/enableAdvancedViews&quot;, true)==true}">
+			<description>Recorded Movies</description>
+			<tag value="video"/>
+			<tag value="movie"/>
+			<tag value="primary"/>
+			<view-source name="phoenix.view.source.sagerecordings"/>
+			<view-source name="phoenix.view.source.sagearchivedrecordings"/>
+			
+			<filter by="genre" value="movie.*|film.*">
+				<option name="use-regex-matching" value="true"/>
+			</filter>
+		</view>	
+
+		<view name="phoenix.view.primary.recordedtv" label="Recorded TV" visible="${GetProperty(&quot;phoenix/core/enableAdvancedViews&quot;, true)==true}">
+			<description>Sage Recordings, not including archived or Movies</description>
+			<tag value="primary"/>
+			<tag value="tv" />
+			<view-source name="phoenix.view.source.sagerecordings"/>
+			<filter by="moviesfilter" scope="exclude"/>
+		</view>
+
+		<view name="phoenix.view.primary.recordedtvarchived" label="Recorded TV (Archived)" visible="${GetProperty(&quot;phoenix/core/enableAdvancedViews&quot;, true)==true}">
+			<description>Sage Archived Recordings, not including Movies</description>
+			<tag value="primary"/>
+			<tag value="tv" />
+			<view-source name="phoenix.view.source.sagearchivedrecordings"/>
+			<filter by="moviesfilter" scope="exclude"/>
+		</view>
+		
+		<view name="phoenix.view.primary.importedtv" label="Imported TV" visible="${GetProperty(&quot;phoenix/core/enableAdvancedViews&quot;, true)==true}">
+			<tag value="primary"/>
+			<tag value="tv" />
+			<view-source name="phoenix.view.source.allimportedvideo" />
+			<filter by="mediatype" value="tv" />
+		</view>
+		
+		<view name="phoenix.view.primary.homevideos" label="Home Videos" visible="${GetProperty(&quot;phoenix/core/enableAdvancedViews&quot;, true)==true}">
+			<tag value="primary"/>
+			<tag value="video" />
+			<view-source name="phoenix.view.source.allimportedvideo"/>
+			<filter by="homevideos" scope="include"/>
+		</view>		
+
+		<view name="phoenix.view.primary.scheduledrecordings" label="Scheduled Recordings" flat="true" visible="${GetProperty(&quot;phoenix/core/enableAdvancedViews&quot;, true)==true}">
+			<tag value="primary"/>
+			<tag value="epg" />
+			<view-source name="phoenix.view.source.scheduledrecordings"/>
+			<filter by="currentlyrecording" scope="exclude"/>
+		</view>
+
+		<view name="phoenix.view.primary.upcomingairings" label="Future Airings (12 hours)" flat="true" visible="${GetProperty(&quot;phoenix/core/enableAdvancedViews&quot;, true)==true}">
+			<description>Upcomming Airings</description>
+			<tag value="epg"/>
+			<tag value="primary"/>
+			<source name="expression">
+				<option name="expression">
+					GetAiringsOnViewableChannelsAtTime(java_lang_System_currentTimeMillis(), java_lang_System_currentTimeMillis() + (12 * 60 * 60 * 1000), true)
+				</option>
+			</source>
+		</view>		
+
+		<view name="phoenix.view.primary.currentlyairing" label="Current Airings" flat="true" visible="${GetProperty(&quot;phoenix/core/enableAdvancedViews&quot;, true)==true}">
+			<description>Upcomming Airings</description>
+			<tag value="epg"/>
+			<tag value="primary"/>
+			<source name="expression">
+				<option name="expression">
+					GetAiringsOnViewableChannelsAtTime(java_lang_System_currentTimeMillis(), java_lang_System_currentTimeMillis() + 1000, false)
+				</option>
+			</source>
+		</view>		
+		
+		<!-- These UTIL views are used in the STV as the source of various menus, etc 
+		     They are all set to visible="false"
+			 These are all variations on the primary views, with different filters and sortings added
+			 -->
+		<view name="phoenix.view.util.todaysrecordings" label="Todays Recordings" flat="true" visible="false">
+			<description>Recordings sorted by recording date, limited to todays date</description>
+			<view-source name="phoenix.view.primary.scheduledrecordings"/>
+			<filter by="latertoday"/>
+		</view>		
+
+		<view name="phoenix.view.util.instantstatus.todaysrecordings" label="Todays Recordings" flat="true" visible="false">
+			<description>Recordings sorted by recording date, limited to todays date</description>
+			<view-source name="phoenix.view.util.todaysrecordings"/>
+		</view>
+
+		<view name="phoenix.view.util.recentrecordings" label="Recent Recordings" flat="true" visible="false">
+			<description>Recordings sorted by recording date</description>
+			<view-source name="phoenix.view.primary.recordedtvarchived"/>			
+			<view-source name="phoenix.view.primary.recordedtv"/>
+			<filter by="currentlyrecording" scope="exclude"/>
+			<presentation>
+				<sort by="mediafileid">
+					<option name="sort-order" value="desc"/>
+				</sort>
+			</presentation>
+		</view>	
+
+		<view name="phoenix.view.util.instantstatus.recentrecordings" label="Recent Recordings" flat="true" visible="false">
+			<description>Recordings sorted by recording date</description>
+			<view-source name="phoenix.view.util.recentrecordings"/>			
+		</view>
+
+		<view name="phoenix.view.util.recentmusic" label="Recent Added Music" flat="true" visible="false">
+			<view-source name="phoenix.view.source.music"/>			
+			<presentation>
+				<sort by="mediafileid">
+					<option name="sort-order" value="desc"/>
+				</sort>
+			</presentation>
+		</view>			
+
+		<view name="phoenix.view.util.recentpictures" label="Recently Added Pictures" flat="true" visible="false">
+			<view-source name="phoenix.view.source.pictures"/>			
+			<presentation>
+				<sort by="mediafileid">
+					<option name="sort-order" value="desc"/>
+				</sort>
+			</presentation>
+		</view>			
+		
+		<view name="phoenix.view.util.recentlywatchedtv" label="Recently Watched TV" flat="true" visible="false">
+			<description>Recently watched TV shows sorted by the date they were last watched</description>
+			<view-source name="phoenix.view.primary.recordedtvarchived"/>			
+			<view-source name="phoenix.view.primary.recordedtv"/>
+			<view-source name="phoenix.view.primary.importedtv"/>
+			<presentation>
+				<sort by="recentlywatched">
+					<option name="sort-order" value="desc"/>
+				</sort>
+			</presentation>
+		</view>	
+		
+		<view name="phoenix.view.util.instantstatus.recentlywatchedtv" label="Recently Watched TV" flat="true" visible="false">
+			<description>Recently watched TV shows sorted by the date they were last watched</description>
+			<view-source name="phoenix.view.util.recentlywatchedtv"/>			
+		</view>	
+		
+		<view name="phoenix.view.util.recentlywatchedmovies" label="Recently Watched Movies" flat="true" visible="false">
+			<description>Recently watched Movies sorted by the date they were last watched</description>
+			<view-source name="phoenix.view.primary.importedmovies"/>	
+			<view-source name="phoenix.view.primary.recordedmovies"/>	
+			<presentation>
+				<sort by="recentlywatched">
+					<option name="sort-order" value="desc"/>
+				</sort>
+			</presentation>
+		</view>	
+		
+		<view name="phoenix.view.util.instantstatus.recentlywatchedmovies" label="Recently Watched Movies" flat="true" visible="false">
+			<description>Recently watched Movies sorted by the date they were last watched</description>
+			<view-source name="phoenix.view.util.recentlywatchedmovies"/>
+		</view>
+			
+		<view name="phoenix.view.util.currentlyrecording" label="Current Recordings" flat="true" visible="false">
+			<description>Recordings sorted by recording date</description>
+			<view-source name="phoenix.view.primary.recordedtv"/>
+			<view-source name="phoenix.view.primary.recordedmovies"/>
+			<filter by="currentlyrecording" scope="include"/>
+			<presentation>
+				<sort by="mediafileid">
+					<option name="sort-order" value="desc"/>
+				</sort>
+			</presentation>
+		</view>		
+
+		<view name="phoenix.view.util.instantstatus.currentlyrecording" label="Current Recordings" flat="true" visible="false">
+			<description>Recordings sorted by recording date</description>
+			<view-source name="phoenix.view.util.currentlyrecording"/>
+		</view>
+		
+		<view name="phoenix.view.util.featuredfavorite" label="Featured Favorite" flat="true" visible="false">
+			<view-source name="phoenix.view.primary.recordedtvarchived"/>			
+			<view-source name="phoenix.view.primary.recordedtv"/>
+			<view-source name="phoenix.view.primary.importedtv"/>
+			
+			<filter by="unwatchedfavorites"/>
+
+			<presentation>
+				<sort by="favoritepriority">
+					<option name="sort-order" value="desc"/>
+				</sort>
+			</presentation>		
+		</view>		
+
+		<view name="phoenix.view.util.recentimports" label="Recently Added" flat="true" visible="false">
+			<view-source name="phoenix.view.primary.importedmovies"/>
+			<view-source name="phoenix.view.primary.recordedmovies"/>
+
+			<presentation>
+				<sort by="starttime">
+					<option name="sort-order" value="desc"/>
+				</sort>
+			</presentation>
+		</view>				
+
+		<view name="phoenix.view.util.instantstatus.recentimports" label="Recently Added" flat="true" visible="false">
+			<view-source name="phoenix.view.util.recentimports"/>
+		</view>
+
+		<view name="phoenix.view.util.conflicts" label="Conflicts" flat="true" visible="false">
+			<tag value="epg" />
+			<source name="expression">
+				<option name="expression">
+					GetAiringsThatWontBeRecorded(true)
+				</option>
+			</source>
+		</view>		
+
+		<view name="phoenix.view.util.allsagefanart" label="fanart candidates" visible="false" flat="true">
+			<tag value="video" />
+			<view-source name="phoenix.view.primary.recordedtvarchived"/>			
+			<view-source name="phoenix.view.primary.recordedtv"/>
+			<view-source name="phoenix.view.primary.importedtv"/>
+			<view-source name="phoenix.view.primary.importedmovies"/>
+			<view-source name="phoenix.view.primary.recordedmovies"/>
+		</view>	
+		
+		<!-- Default views visible (by default) to users -->
+		<!-- ****************************** -->
+		<!-- ****************************** -->
+		<view name="phoenix.view.default.upcomingmovies" label="Upcoming Movies">
+			<description>Upcoming Movies</description>
+			<tag value="epg"/>
+			<tag value="movie"/>
+			<tag value="default"/>
+			<view-source name="phoenix.view.primary.upcomingairings"/>
+
+			<!-- alternate filter method
+			<filter by="genrestartswith" value="Movie"/>
+			-->
+
+			<filter by="genre" value="movie.*|film.*">
+				<option name="use-regex-matching" value="true"/>
+			</filter>
+		</view>
+		
+		<view name="phoenix.view.default.scheduledrecordings" label="Scheduled Recordings">
+			<description>Scheduled Recordings</description>
+			<tag value="epg"/>
+			<tag value="tv"/>
+			<tag value="movie"/>
+			<tag value="default"/>
+			<view-source name="phoenix.view.primary.scheduledrecordings"/>
+
+			<presentation level="1">
+				<group by="date">
+					<option name="prune-single-item-groups" value="false"/>
+					<option name="field" value="DAY"/>
+				</group>
+				<sort by="recentactivity"/>				
+			</presentation> 
+			
+			<presentation level="2">
+				<sort by="starttime"/>				
+			</presentation> 
+		</view>
+
+		
+		<view name="phoenix.view.default.nowshowing" label="Now Showing">
+			<description>Currently Airing TV shows</description>
+			<tag value="epg"/>
+			<tag value="tv"/>
+			<tag value="movie"/>
+			<tag value="default"/>
+			<view-source name="phoenix.view.primary.currentlyairing"/>
+
+			<presentation level="1">
+				<group by="genre">
+					<option name="prune-single-item-groups" value="false"/>
+				</group>
+				<sort by="title"/>				
+			</presentation> 
+			
+			<presentation level="2">
+				<sort by="title"/>				
+			</presentation> 
+		</view>		
+		
+		<view name="phoenix.view.default.videofolders" label="Sage Video Imports by Folder" flat="false">
+			<option name="children-only" value="true"/>
+			<description>View of All Sage Video Sources</description>
+			<tag value="video"/>
+			<tag value="default"/>
+			<source name="sagefilesystem">
+				<option name="content" value="VideosByFolder"/>
+			</source>
+			<presentation>
+				<sort by="title">
+					<option name="folders-first" value="true"/>
+				</sort>
+			</presentation>
+		</view>
+
+		<view name="phoenix.view.default.archivedTV" label="TV Shows (Archived)" flat="true">
+			<tag value="tv" />
+			<tag value="default"/>
+			<view-source name="phoenix.view.primary.recordedtvarchived"/>			
+			<presentation level="1">
+				<group by="show">
+					<option name="prune-single-item-groups" value="true"/>
+				</group>
+    			<sort by="recentactivity">
+					<option name="sort-order" value="desc"/>
+					<option name="folders-first" value="false"/>
+				</sort>
+			</presentation>					
+			<presentation level="2">
+				<sort by="originalairdate" />
+			</presentation>
+		</view>
+
+		<view name="phoenix.view.default.allTV" label="TV Shows (All)" flat="true">
+			<tag value="tv" />
+			<tag value="default"/>
+			<view-source name="phoenix.view.primary.recordedtvarchived"/>			
+			<view-source name="phoenix.view.primary.recordedtv"/>
+			<view-source name="phoenix.view.primary.importedtv"/>
+
+			<presentation level="1">
+				<group by="show">
+					<option name="prune-single-item-groups" value="false"/>
+				</group>
+    			<sort by="recentactivity">
+					<option name="sort-order" value="desc"/>
+					<option name="folders-first" value="false"/>
+				</sort>
+			</presentation>		
+			
+			<presentation level="2">
+				<sort by="originalairdate" />
+			</presentation>
+		</view>
+
+		<view name="phoenix.view.default.allTVseasons" label="TV Shows (Seasons)" flat="true">
+			<description>All TV Shows, Grouped by Show Then Season Then Episode</description>
+			<tag value="tv" />
+			<tag value="default"/>
+			<view-source name="phoenix.view.primary.recordedtvarchived"/>			
+			<view-source name="phoenix.view.primary.recordedtv"/>
+			<view-source name="phoenix.view.primary.importedtv"/>
+
+			<presentation level="1">
+				<group by="show"/>
+    			<sort by="recentactivity">
+					<option name="sort-order" value="desc"/>
+				</sort>
+			</presentation>		
+			
+			<presentation level="2">
+				<group by="season"/>
+				<sort by="title"/>
+			</presentation>
+
+			<presentation level="3">
+				<sort by="seasonepisode"/>
+			</presentation>
+		</view>		
+		
+		<view name="phoenix.view.default.TV" label="TV Shows" flat="true">
+			<tag value="tv" />
+			<tag value="default"/>
+			<view-source name="phoenix.view.primary.recordedtv"/>
+			<view-source name="phoenix.view.primary.importedtv"/>
+
+			<presentation level="1">
+				<group by="show">
+					<option name="prune-single-item-groups" value="false"/>
+				</group>
+				<sort by="recentactivity">
+					<option name="folders-first" value="false"/>
+					<option name="sort-order" value="desc"/>
+				</sort>
+			</presentation>		
+			
+			<presentation level="2">
+				<sort by="originalairdate" />
+			</presentation>
+		</view>
+		
+		<view name="phoenix.view.default.allMovies" label="All Movies" flat="true">
+			<description>Movies from all sources</description>
+			<tag value="video" />
+			<tag value="movie"/>
+			<tag value="movie"/>
+			<tag value="default"/>
+			<view-source name="phoenix.view.primary.recordedmovies"/>
+			<view-source name="phoenix.view.primary.importedmovies"/>
+				
+			<presentation>
+				<sort by="title">
+					<option name="ignore-all" value="true"/>
+				</sort>
+			</presentation>
+		</view>	
+
+		<view name="phoenix.view.default.bluray" label="BluRay Movies" flat="true">
+			<description>Imported BluRay movies</description>
+			<tag value="video" />
+			<tag value="movie"/>
+			<tag value="default"/>
+			<tag value="bluray"/>			
+			<view-source name="phoenix.view.primary.importedmovies"/>
+			<filter by="bluray"/>
+			<presentation>
+				<sort by="title">
+					<option name="ignore-all" value="true"/>
+				</sort>
+			</presentation>
+		</view>	
+		
+		<view name="phoenix.view.default.dvd" label="DVD Movies" flat="true">
+			<description>Imported DVD movies</description>
+			<tag value="video" />
+			<tag value="movie"/>
+			<tag value="default"/>
+			<tag value="dvd"/>			
+			<view-source name="phoenix.view.primary.importedmovies"/>
+			<filter by="dvd"/>
+			<presentation>
+				<sort by="title">
+					<option name="ignore-all" value="true"/>
+				</sort>
+			</presentation>
+		</view>	
+		
+		<view name="phoenix.view.default.recentlywatched" label="Recently Watched" flat="true" visible="false">
+			<description>Recently watched vides files</description>
+			<tag value="default"/>
+			<tag value="tv" />
+			<tag value="video" />
+			<tag value="movie"/>
+			<view-source name="phoenix.view.primary.recordedmovies"/>
+			<view-source name="phoenix.view.primary.importedmovies"/>
+			<view-source name="phoenix.view.primary.recordedtvarchived"/>			
+			<view-source name="phoenix.view.primary.recordedtv"/>
+			<view-source name="phoenix.view.primary.importedtv"/>
+			<filter by="filepath" value=".*">
+				<option name="scope" value="include"/>
+				<option name="use-regex-matching" value="true"/>
+			</filter>
+			<presentation>
+				<sort by="recentlywatched">
+					<option name="sort-order" value="desc"/>
+				</sort>
+			</presentation>
+		</view>	
+		
+		<view name="phoenix.view.default.homevideos" label="Home Videos" flat="true">
+			<description>Home Videos</description>
+			<tag value="homevideos"/>			
+			<tag value="default"/>
+			<view-source name="phoenix.view.primary.homevideos"/>
+			
+			<presentation level="1">			
+				<group by="filedate">
+					<option name="field" value="YEAR"/>
+				</group>						
+				<sort by="title"/>				
+			</presentation>
+			<presentation level="2">
+				<group by="filedate">
+					<option name="field" value="MONTH"/>
+				</group>
+    			<sort by="recentactivity"/>
+			</presentation>
+			<!--
+			<presentation level="3">
+				<group by="filedate">
+					<option name="field" value="DAY"/>
+				</group>
+				<sort by="title"/>				
+			</presentation> 
+			-->
+		</view>
+		
+		<view name="phoenix.view.default.playlists" label="Playlists" flat="false">
+			<tag value="video"/>			
+			<source name="playlists"/>
+			<presentation level="1">			
+				<sort by="title"/>				
+			</presentation>			
+		</view>
+
+		<view name="phoenix.view.default.music.album" label="Music by Album" visible="true">
+			<tag value="music"/>
+			<view-source name="phoenix.view.source.music"/>			
+			<presentation level="1">
+				<group by="album"/>
+				<sort by="title">
+					<option name="ignore-all" value="true"/>
+				</sort>
+			</presentation>
+			<presentation level="2">
+				<sort by="track"/>
+			</presentation>
+		</view>		
+
+		<view name="phoenix.view.default.music.artist" label="Music by Artist" visible="true">
+			<tag value="music"/>
+			<view-source name="phoenix.view.source.music"/>			
+			<presentation level="1">
+				<group by="artist"/>
+				<sort by="title">
+					<option name="ignore-all" value="true"/>
+				</sort>
+			</presentation>
+			<presentation level="2">
+				<group by="album"/>
+				<sort by="title">
+					<option name="ignore-all" value="true"/>
+				</sort>
+			</presentation>
+			<presentation level="3">
+				<sort by="track"/>
+			</presentation>
+		</view>	
+		
+		<view name="phoenix.view.default.music.genre" label="Music by Genre" visible="true">
+			<tag value="music"/>
+			<view-source name="phoenix.view.source.music"/>			
+			<presentation level="1">
+				<group by="genre"/>
+				<sort by="title">
+					<option name="ignore-all" value="true"/>
+				</sort>
+			</presentation>
+			<presentation level="2">
+				<group by="album"/>
+				<sort by="title">
+					<option name="ignore-all" value="true"/>
+				</sort>
+			</presentation>
+			<presentation level="3">
+				<sort by="track"/>
+			</presentation>
+		</view>	
+
+		<!-- Web and Misc views -->
+		<!-- ****************************** -->
+		<!-- ****************************** -->
+		<view name="phoenix.view.online.videos" label="Online Videos" flat="false" visible="prop:server:phoenix/core/enableAdvancedViews">
+			<option name="children-only" value="true"/>
+			
+			<description>SageTV Online Videos</description>
+			<tag value="online"/>
+			<tag value="video"/>
+			<source name="onlinevideos"/>
+		</view>
+
+
+		<view name="playlists_bad_view" label="Invalid PlayList should not load" visible="true">
+			<view-source name="playlists_bad"/>
+		</view>
+
+		<!-- 
+		<view name="phoenix.view.music.util.billboard-top100-offline" label="Billboard Top-100 (Offline)" visible="false">
+			<tag value="music"/>
+			<source name="offline-music-rss">
+				<option name="feedurl" value="http://www.billboard.com/rss/charts/hot-100"/>
+				<option name="title-pattern" value="[0-9]+:\s([^,]+),\s*(.*)"/>
+				<option name="song-group" value="1"/>
+				<option name="artist-group" value="2"/>
+			</source>
+		</view>
+		
+		<view name="phoenix.view.music.util.billboard-top100" label="Billboard Top-100 Music">
+			<description>Shows the Billboard Top 100 Music files that are in your Music Library</description>
+			<tag value="music"/>
+			<source name="music-mapper">
+				<option name="offline-view" value="phoenix.view.music.util.billboard-top100-offline"/>
+				<option name="library-view" value="phoenix.view.source.music"/>
+				<option name="hide-offline" value="true"/>
+				<option name="cache-expiry" value="1440"/>
+			</source>
+		</view>
+		-->
+			  
+		<!-- EXAMPLES -->
+		<!-- ****************************** -->
+		<!-- ****************************** -->
+		
+		<!-- Example of how to group by year
+		<view name="videosgroupedbyyear" label="All Videos (Grouped by Year)">
+			<description>Show Videos grouped by Year/Genre/etc</description>
+			<tag value="video"/>
+			<view-source name="videos"/>
+			<view-source name="dvd"/>
+			<view-source name="bluray"/>
+
+			<presentation>
+				<group by="year">
+					<option name="empty-foldername" value="No Year"/>
+				</group>
+				<sort by="title">
+					<option name="sort-order" value="desc"/>
+				</sort>
+			</presentation>
+			
+			<presentation>
+				<sort by="title">
+					<option name="sort-order" value="asc"/>
+				</sort>
+			</presentation>
+		</view>
+		-->
+		<!--  This view is very inefficient - but replicates the
+              functionality in the Sage Folder View when NOT combined
+              This basically gives you a folder with each import source -->
+	</views>
+</vfs>
