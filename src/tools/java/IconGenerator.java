@@ -2,9 +2,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -20,7 +17,7 @@ public class IconGenerator {
         file.append("import java.util.ArrayList;\n");
         file.append("import java.util.Collections;\n");
         file.append("public class MaterialIcons {\n");
-        file.append("   public static final Map<String,String> ICONS = new HashMap<>();\n");
+        file.append("   public static final Map<String,String> ICONS = new HashMap<String,String>();\n");
         file.append("   public static final String ICON_NAMES[];\n");
         file.append("   static {\n");
         Scanner scanner = new Scanner(IconGenerator.class.getClassLoader().getResourceAsStream("codepoints"));
@@ -37,7 +34,7 @@ public class IconGenerator {
             }
         }
 
-        file.append("      List<String> names = new ArrayList<>(ICONS.keySet());\n");
+        file.append("      List<String> names = new ArrayList<String>(ICONS.keySet());\n");
         file.append("      Collections.sort(names);\n");
         file.append("      ICON_NAMES = names.toArray(new String[]{});\n");
 

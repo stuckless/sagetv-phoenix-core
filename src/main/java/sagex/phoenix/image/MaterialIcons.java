@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 public class MaterialIcons {
-   public static final Map<String,String> ICONS = new HashMap<>();
+   public static final Map<String,String> ICONS = new HashMap<String,String>();
    public static final String ICON_NAMES[];
    static {
        ICONS.put("3d_rotation","\uE84D");
@@ -940,7 +940,7 @@ public class MaterialIcons {
        ICONS.put("zoom_in","\uE8FF");
        ICONS.put("zoom_out","\uE900");
        ICONS.put("zoom_out_map","\uE56B");
-      List<String> names = new ArrayList<>(ICONS.keySet());
+      List<String> names = new ArrayList<String>(ICONS.keySet());
       Collections.sort(names);
       ICON_NAMES = names.toArray(new String[]{});
    }
