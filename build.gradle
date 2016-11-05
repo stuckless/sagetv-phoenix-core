@@ -29,6 +29,17 @@ configurations {
     sagesubmit
 }
 
+sourceSets {
+    main {
+        java.srcDirs = ['src/main/java','src/generated/java','src/tools/java']
+        resources.srcDirs = ['src/main/resources','src/generated/resources','src/tools/resources']
+    }
+    test {
+        java.srcDirs = ['src/test/java']
+        resources.srcDirs = ['src/test/resources']
+    }
+}
+
 repositories {
 	mavenLocal()
 	mavenCentral()

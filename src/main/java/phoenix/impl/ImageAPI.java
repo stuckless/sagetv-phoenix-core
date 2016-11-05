@@ -3,6 +3,8 @@ package phoenix.impl;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,6 +14,7 @@ import org.apache.log4j.Logger;
 
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.image.ImageUtil;
+import sagex.phoenix.image.MaterialIcons;
 import sagex.phoenix.tools.annotation.API;
 import sagex.phoenix.util.ElapsedTimer;
 
@@ -577,5 +580,19 @@ public class ImageAPI {
         if (in == null)
             return "{name: 'dummy'}";
         return in;
+    }
+
+    // -- Icon APIs
+
+    public String GetFontIcon(String name) {
+        String icon = MaterialIcons.ICONS.get(name);
+        if (icon==null) {
+            log.error("Invalid ICON Name: ["+name+"]");
+        }
+        return icon;
+    }
+
+    public String[] GetFontIconNames() {
+        return MaterialIcons.ICON_NAMES;
     }
 }

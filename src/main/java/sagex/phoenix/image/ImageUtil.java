@@ -29,11 +29,13 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
+import sagex.SageAPI;
 import sagex.api.Utility;
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.metadata.MetadataConfiguration;
 import sagex.phoenix.util.FileUtils;
+import sagex.remote.RemoteObjectRef;
 import sagex.util.WaitFor;
 
 public class ImageUtil {
@@ -107,7 +109,11 @@ public class ImageUtil {
         BufferedImage img = null;
         Object metaimg = null;
         if ("file".equals(in.getProtocol())) {
-            metaimg = Utility.LoadImageFile(new File(in.getFile()));
+            if (SageAPI.isRemote()) {
+                return ImageIO.read(in);
+            } else {
+                metaimg = Utility.LoadImageFile(new File(in.getFile()));
+            }
         } else {
             metaimg = Utility.LoadImage(in);
         }
@@ -292,9 +298,23 @@ public class ImageUtil {
         log.debug(String.format("Scaling Image from: %sx%s to %sx%s", imageSrc.getWidth(), imageSrc.getHeight(), scaleWidth,
                 scaleHeight));
 
-        return Utility.ScaleBufferedImage(imageSrc, scaleWidth, scaleHeight, false);
+        if (SageAPI.isRemote()) {
+            return internal_scale(imageSrc, scaleWidth, scaleHeight);
+        } else {
+            return Utility.ScaleBufferedImage(imageSrc, scaleWidth, scaleHeight, false);
+        }
     }
 
+    static BufferedImage internal_scale(BufferedImage imageToScale, int dWidth, int dHeight) {
+        BufferedImage scaledImage = null;
+        if (imageToScale != null) {
+            scaledImage = new BufferedImage(dWidth, dHeight, imageToScale.getType());
+            Graphics2D graphics2D = scaledImage.createGraphics();
+            graphics2D.drawImage(imageToScale, 0, 0, dWidth, dHeight, null);
+            graphics2D.dispose();
+        }
+        return scaledImage;
+    }
     // API
     public static BufferedImage createJustReflection(BufferedImage img, float reflectionAlphaStart, float reflectionAlphaEnd) {
         int imgWidth = img.getWidth();
