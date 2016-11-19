@@ -1,9 +1,6 @@
 package sagex.phoenix.event;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.log4j.Logger;
 
@@ -40,6 +37,7 @@ public class SimpleEventBus implements IEventBus {
      */
     @Override
     public void fireEvent(String event, Map eventArgs, boolean wait) {
+        eventArgs = (eventArgs==null? Collections.emptyMap():eventArgs);
         if (wait) {
             List<SageTVEventListener> handlers = types.get(event);
             if (handlers != null) {

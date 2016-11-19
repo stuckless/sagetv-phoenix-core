@@ -1,5 +1,6 @@
 package sagex.phoenix.event;
 
+import java.util.Collections;
 import java.util.Map;
 
 import sage.SageTVEventListener;
@@ -26,7 +27,8 @@ public class SageEventBus implements IEventBus {
 
     @Override
     public void fireEvent(String event, Map eventArgs, boolean wait) {
-        pluginRegistry.postEvent(event, eventArgs, wait);
+        // sagetv has issues if you fire an event with empty map
+        pluginRegistry.postEvent(event, eventArgs==null? Collections.emptyMap() : eventArgs, wait);
     }
 
     @Override
