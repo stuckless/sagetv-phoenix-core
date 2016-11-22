@@ -21,7 +21,7 @@
 <!ELEMENT screen EMPTY >
 <!ATTLIST screen name CDATA #REQUIRED >
 
-<!ELEMENT menu ( description | field | menu | menuItem | view )* >
+<!ELEMENT menu ( description | field | menu | menuItem | view | eval | exec | sageCommand | screen | script )* >
 <!ATTLIST menu background CDATA #IMPLIED >
 <!ATTLIST menu icon CDATA #IMPLIED >
 <!ATTLIST menu label CDATA #REQUIRED >

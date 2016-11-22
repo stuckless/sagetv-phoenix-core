@@ -121,6 +121,9 @@
         <menuItem name="back" label="Back">
             <sageCommand name="Back"/>
         </menuItem>
+
+        <!-- default action on the menu -->
+        <screen name="Browser - Videos"/>
     </menu>
 
     <menu name="HiddenMenu" label="Another Menu" type="Video" visible="false">

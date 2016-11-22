@@ -214,19 +214,31 @@ public class MenuBuilder extends BaseBuilder {
 
         if ("eval".equals(name)) {
             evalAction.action().setValue(getData());
-            item.addAction(evalAction);
+            if (item!=null) {
+                item.addAction(evalAction);
+            } else {
+                menu.addAction(evalAction);
+            }
             evalAction = null;
             return;
         }
 
         if ("screen".equals(name)) {
-            item.addAction(screenAction);
+            if (item!=null) {
+                item.addAction(screenAction);
+            } else {
+                menu.addAction(screenAction);
+            }
             screenAction = null;
             return;
         }
 
         if ("exec".equals(name)) {
-            item.addAction(execAction);
+            if (item!=null) {
+                item.addAction(execAction);
+            } else {
+                menu.addAction(execAction);
+            }
             execAction = null;
             return;
         }
