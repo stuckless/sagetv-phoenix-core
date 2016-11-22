@@ -533,6 +533,16 @@ public class DynamicMenusAPI {
     }
 
     /**
+     * Tests if there are any actions for this menu or menu item.
+     *
+     * @param item
+     * @return
+     */
+    public boolean HasActions(MenuItem item) {
+        return !item.getActions().isEmpty();
+    }
+
+    /**
      * Tests if an action is a SageCommandAction
      *
      * @param a
