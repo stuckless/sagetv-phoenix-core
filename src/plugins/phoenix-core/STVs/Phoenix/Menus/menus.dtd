@@ -39,6 +39,7 @@
 <!ATTLIST menuItem secondaryIcon CDATA #IMPLIED >
 <!ATTLIST menuItem linkedMenu CDATA #IMPLIED >
 <!ATTLIST menuItem visible CDATA #IMPLIED >
+<!ATTLIST menuItem isDefault (true|false) "false" >
 
 <!ELEMENT view ( description | eval | exec | field | sageCommand | screen | script )* >
 <!ATTLIST view background CDATA #IMPLIED >

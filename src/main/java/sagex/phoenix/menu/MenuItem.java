@@ -25,6 +25,11 @@ public class MenuItem implements IMenuItem {
     /**
      * {@value}
      */
+    public static final String FIELD_ISDEFAULT = "isDefault";
+
+    /**
+     * {@value}
+     */
     public static final String FIELD_LABEL = "label";
 
     protected Logger log = Logger.getLogger(this.getClass());
@@ -35,6 +40,7 @@ public class MenuItem implements IMenuItem {
     protected DynamicVariable<String> background = new DynamicVariable<String>(String.class, null);
     protected DynamicVariable<String> label = new DynamicVariable<String>(String.class, null);
     protected DynamicVariable<Boolean> visible = new DynamicVariable<Boolean>(Boolean.class, "true");
+    protected DynamicVariable<Boolean> isDefault = new DynamicVariable<Boolean>(Boolean.class, "false");
     protected DynamicVariable<String> icon = new DynamicVariable<String>(String.class, null);
     protected DynamicVariable<String> secondaryIcon = new DynamicVariable<String>(String.class, null);
     protected DynamicVariable<String> description = new DynamicVariable<String>(String.class, null);
@@ -115,6 +121,10 @@ public class MenuItem implements IMenuItem {
 
     public DynamicVariable<Boolean> visible() {
         return visible;
+    }
+
+    public DynamicVariable<Boolean> isDefault() {
+        return isDefault;
     }
 
     public DynamicVariable<String> icon() {

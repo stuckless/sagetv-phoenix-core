@@ -123,6 +123,54 @@ public class DynamicMenusAPI {
     }
 
     /**
+     * Get the menu item flagged as the default or returns the first item if none flagged.
+     *
+     * @param menu Menu
+     * @return default menu item
+     */
+    public IMenuItem GetDefaultItem(Object menu) {
+        if (menu == null)
+            return null;
+        Menu m = GetMenu(menu);
+        if (m == null)
+            return null;
+
+        List<IMenuItem> items = new ArrayList<IMenuItem>();
+        for (IMenuItem mi : m.getItems()) {
+            if (IsDefault(mi)) {
+                return mi;
+            }
+        }
+
+        //as no default found return the first item in the list
+        return items.get(0);
+    }
+
+    /**
+     * Determine if the menu has a default menu item.
+     *
+     * @param menu Menu
+     * @return
+     */
+    public boolean HasDefaultItem(Object menu) {
+        if (menu == null)
+            return false;
+        Menu m = GetMenu(menu);
+        if (m == null)
+            return false;
+
+        List<IMenuItem> items = new ArrayList<IMenuItem>();
+        for (IMenuItem mi : m.getItems()) {
+            if (IsDefault(mi)) {
+                return true;
+            }
+        }
+
+        //no default found
+        return false;
+    }
+
+    /**
      * Get a Menu by name
      *
      * @param name
@@ -180,6 +228,43 @@ public class DynamicMenusAPI {
      */
     public void ResetVisible(IMenuItem item) {
         UserRecordUtil.clearField(MenuItem.STORE_ID, item.getName(), MenuItem.FIELD_VISIBLE);
+    }
+
+    /**
+     * Returns the isDefault value as a {@link DynamicVariable}
+     *
+     * @param item
+     * @return {@link DynamicVariable}
+     */
+    public boolean IsDefault(IMenuItem item) {
+        try {
+            return UserRecordUtil.getBoolean(MenuItem.STORE_ID, item.getName(), MenuItem.FIELD_ISDEFAULT, item.isDefault().get());
+        } catch (Throwable t) {
+            t.printStackTrace();
+            return true;
+        }
+    }
+
+    /**
+     * This sets/removes a flag to menu's UserRecord, to indicate that
+     * the menu item is the default to get focus.
+     * <p/>
+     * Use this API to set the Default flag for the menu outside the Xml.
+     *
+     * @param item
+     */
+    public void SetDefault(IMenuItem item, boolean vis) {
+        UserRecordUtil.setField(MenuItem.STORE_ID, item.getName(), MenuItem.FIELD_ISDEFAULT, vis);
+        item.isDefault().set(vis);
+    }
+
+    /**
+     * Clears the Default Field
+     *
+     * @param item
+     */
+    public void ResetDefault(IMenuItem item) {
+        UserRecordUtil.clearField(MenuItem.STORE_ID, item.getName(), MenuItem.FIELD_ISDEFAULT);
     }
 
     /**
@@ -587,7 +672,7 @@ public class DynamicMenusAPI {
      * {@link DynamicVariable}
      *
      * @param a
-     * @param value
+     * @return value
      */
     public DynamicVariable<String> Screen(SageScreenAction a) {
         return a.action();
@@ -628,8 +713,8 @@ public class DynamicMenusAPI {
     /**
      * Removes a child menu item
      *
-     * @param item
-     * @param a
+     * @param parent
+     * @param child
      */
     public void RemoveItem(Menu parent, IMenuItem child) {
         parent.removeItem((MenuItem) child);
@@ -668,7 +753,7 @@ public class DynamicMenusAPI {
      * you to execute a sage expression
      *
      * @param item
-     * @param screenName
+     * @param expr
      * @return
      */
     public SageEvalAction AddSageEvalAction(IMenuItem item, String expr) {
