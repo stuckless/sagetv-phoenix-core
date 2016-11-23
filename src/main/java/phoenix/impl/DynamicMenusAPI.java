@@ -518,6 +518,30 @@ public class DynamicMenusAPI {
     }
 
     /**
+     * Creates a NEW menu with a single MenuItem copied from the one passed in
+     * Used as a temp menu for top level menuitems to display on submenus.
+     *
+     * @param parent if this is a submenu, then this should be the parent for the
+     *               menu
+     * @param sourceItem   MenuItem to create the menu from
+     * @return newly created menu
+     */
+    public Menu CreateMenuFromItem(Menu parent, MenuItem sourceItem) {
+        Menu menu = CreateMenu(parent,sourceItem.getName()+".tempMenu",sourceItem.label().toString());
+        MenuItem mi = CreateMenuItem(menu,sourceItem.getName()+".tempItem",menu.label().toString());
+        mi.background().setValue(sourceItem.background().getValue());
+        mi.description().setValue(sourceItem.description().getValue());
+        mi.icon().setValue(sourceItem.icon().getValue());
+        mi.secondaryIcon().setValue(sourceItem.secondaryIcon().getValue());
+        //add all the actions
+        List<Action> actions = GetActions(sourceItem);
+        for (Action a : actions) {
+            mi.addAction(a);
+        }
+        return menu;
+    }
+
+    /**
      * Creates a NEW menu with the given name. The name should be a unique
      * identifier for the menu.
      *
