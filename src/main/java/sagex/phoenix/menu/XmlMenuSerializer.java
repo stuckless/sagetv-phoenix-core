@@ -194,6 +194,9 @@ public class XmlMenuSerializer {
         if (item.visible().getValue() != null) {
             el.addAttribute("visible", item.visible().getValue());
         }
+        if (item.isDefault().getValue() != null) {
+            el.addAttribute("isDefault", item.isDefault().getValue());
+        }
 
         if (item.description().getValue() != null) {
             Element desc = el.addElement("description");
