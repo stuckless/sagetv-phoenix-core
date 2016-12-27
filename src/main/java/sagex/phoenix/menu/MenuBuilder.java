@@ -124,7 +124,7 @@ public class MenuBuilder extends BaseBuilder {
             ViewMenu m = (ViewMenu) item;
             m.setContextVar(XmlUtil.attr(attributes, "contextVar", "VFSMenuMediaFile"));
             m.setPreload(XmlUtil.bool(attributes, "preload", false));
-            m.setLimit(NumberUtils.toInt(XmlUtil.attr(attributes, "limit"), 10));
+            m.setLimit(NumberUtils.toInt(XmlUtil.attr(attributes, "limit"), -1));
 
             item.label().setValue(XmlUtil.attr(attributes, "label"));
             item.setName(XmlUtil.attr(attributes, "name", toId(item.label().get())));

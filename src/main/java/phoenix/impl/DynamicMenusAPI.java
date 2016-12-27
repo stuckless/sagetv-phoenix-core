@@ -518,27 +518,41 @@ public class DynamicMenusAPI {
     }
 
     /**
-     * Creates a NEW menu with a single MenuItem copied from the one passed in
-     * Used as a temp menu for top level menuitems to display on submenus.
+     * Converts a menu item into a Menu with the source MenuItem as the only item
+     * Used as some UIs cannot display a single menuitem at the top level.
+     * The new Menu will have the same parent as the source MenuItem
+     *
+     * @param sourceItem   MenuItem to create the menu from
+     * @return Menu that now contains the source MenuItem
+     */
+    public Menu ConvertMenuItemToMenu(IMenuItem sourceItem) {
+        Menu menu = CreateMenu(sourceItem.getParent(),sourceItem.getName(),sourceItem.label().toString());
+        IMenuItem mi = CopyMenuItem(menu,sourceItem);
+        InsertBefore(sourceItem.getParent(),menu,sourceItem);
+        RemoveItem(sourceItem.getParent(),sourceItem);
+        return menu;
+    }
+
+    /**
+     * Creates a COPY of a MenuItem associated to the parent passed in
      *
      * @param parent if this is a submenu, then this should be the parent for the
      *               menu
      * @param sourceItem   MenuItem to create the menu from
-     * @return newly created menu
+     * @return newly created MenuItem
      */
-    public Menu CreateMenuFromItem(Menu parent, MenuItem sourceItem) {
-        Menu menu = CreateMenu(parent,sourceItem.getName()+".tempMenu",sourceItem.label().toString());
-        MenuItem mi = CreateMenuItem(menu,sourceItem.getName()+".tempItem",menu.label().toString());
+    public IMenuItem CopyMenuItem(Menu parent, IMenuItem sourceItem) {
+        MenuItem mi = CreateMenuItem(parent,sourceItem.getName(),sourceItem.label().toString());
         mi.background().setValue(sourceItem.background().getValue());
         mi.description().setValue(sourceItem.description().getValue());
         mi.icon().setValue(sourceItem.icon().getValue());
         mi.secondaryIcon().setValue(sourceItem.secondaryIcon().getValue());
         //add all the actions
-        List<Action> actions = GetActions(sourceItem);
+        List<Action> actions = GetActions((MenuItem) sourceItem);
         for (Action a : actions) {
             mi.addAction(a);
         }
-        return menu;
+        return mi;
     }
 
     /**
@@ -647,7 +661,7 @@ public class DynamicMenusAPI {
      * @param item
      * @return
      */
-    public boolean HasActions(MenuItem item) {
+    public boolean HasActions(IMenuItem item) {
         return !item.getActions().isEmpty();
     }
 
@@ -950,6 +964,41 @@ public class DynamicMenusAPI {
     public void SortItems(Menu menu) {
         if (menu != null)
             menu.sortItems();
+    }
+
+    /**
+     * Refreshes a specific ViewMenu so the next time it is loaded it will be
+     * loaded from the view
+     *
+     * @param viewMenu
+     */
+    public void RefreshViewMenu(ViewMenu viewMenu) {
+        if (viewMenu != null){
+            viewMenu.Refresh();
+        }
+    }
+
+    /**
+     * Refreshes a specific ViewMenu so the next time it is loaded it will be
+     * loaded from the view
+     *
+     * @param menu
+     */
+    public void RefreshViewMenus(Object menu) {
+        if (menu != null){
+            if (menu instanceof ViewMenu){
+                RefreshViewMenu((ViewMenu) menu);
+                return;
+            }else if (IsMenu(menu)){
+                for (IMenuItem item: GetVisibleItems((Menu) menu)){
+                    if (IsViewMenu(item)){
+                        RefreshViewMenu((ViewMenu) item);
+                    }else if (IsMenu(item)){
+                        RefreshViewMenus(item);
+                    }
+                }
+            }
+        }
     }
 
     /**

@@ -50,7 +50,7 @@
 <!ATTLIST view secondaryIcon CDATA #IMPLIED >
 <!ATTLIST view visible CDATA "true" >
 <!ATTLIST view preload (true|false) "false" >
-<!ATTLIST view limit CDATA "10" >
+<!ATTLIST view limit CDATA #IMPLIED >
 
 <!ELEMENT fragment ( menu | menuItem | view )* >
 <!ATTLIST fragment parentMenu CDATA #REQUIRED >
