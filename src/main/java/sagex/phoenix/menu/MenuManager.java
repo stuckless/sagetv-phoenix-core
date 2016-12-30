@@ -158,12 +158,12 @@ public class MenuManager extends SystemConfigurationFileManager implements Syste
     }
 
     private Pair<String, String> resolveMenu(String reference) {
-        if (reference==null) return new Pair<>();
+        if (reference==null) return new Pair<String,String>();
         String parts[] = reference.split("\\s*::\\s*");
         if (parts.length==1) {
-            return new Pair<>(parts[0].trim(),null);
+            return new Pair<String,String>(parts[0].trim(),null);
         } else {
-            return new Pair<>(parts[0].trim(),parts[1].trim());
+            return new Pair<String,String>(parts[0].trim(),parts[1].trim());
         }
     }
 
