@@ -63,7 +63,14 @@ public class XmlMenuSerializer {
     }
 
     private void serializeMenu(Menu menu, Element parent) {
-        Element el = parent.addElement("menu").addAttribute("name", menu.getName());
+        if (menu instanceof IMenuDelegates) {
+            serializeDelegateMenu((DelegateMenu)menu, parent);
+            return;
+        }
+        Element el = parent.addElement("menu");
+        if (menu.getName()!=null && menu.getReference()==null) {
+            el.addAttribute("name", menu.getName());
+        }
         if (menu.type().getValue() != null) {
             el.addAttribute("type", menu.type().getValue());
         }
@@ -83,6 +90,37 @@ public class XmlMenuSerializer {
         }
     }
 
+    private void serializeDelegateMenu(DelegateMenu item, Element parent) {
+        Element el = parent.addElement("menu");
+        addDelegateInfo(item.getOriginalItem().getReference(), item, el);
+    }
+
+    private void serializeDelegateMenuItem(DelegateMenuItem item, Element parent) {
+        Element el = parent.addElement("menuItem");
+        addDelegateInfo(item.getOriginalItem().getReference(), item, el);
+    }
+
+    private void addDelegateInfo(String ref, IMenuDelegates item, Element el) {
+        if (ref != null) {
+            el.addAttribute("ref", ref);
+        }
+
+        if (hasChanged(item.getOriginalItem().label(), item.getDelegateItem().label())) {
+            el.addAttribute("label", item.getOriginalItem().label().getValue());
+        }
+        if (hasChanged(item.getOriginalItem().visible(), item.getDelegateItem().visible())) {
+            el.addAttribute("visible", item.getOriginalItem().visible().getValue());
+        }
+        if (hasChanged(item.getOriginalItem().isDefault(), item.getDelegateItem().isDefault())) {
+            el.addAttribute("isDefault", item.getOriginalItem().isDefault().getValue());
+        }
+    }
+
+
+    private boolean hasChanged(DynamicVariable label, DynamicVariable label1) {
+        return !String.valueOf(label1.getValue()).equals(String.valueOf(label.getValue()));
+    }
+
     private void serializeViewMenu(ViewMenu menu, Element parent) {
         Element el = parent.addElement("view").addAttribute("name", menu.getName());
         if (menu.type().getValue() != null) {
@@ -90,6 +128,7 @@ public class XmlMenuSerializer {
         }
         el.addAttribute("preload", String.valueOf(menu.isPreloaded()));
         el.addAttribute("contextVar", menu.getContextVar());
+        el.addAttribute("limit", String.valueOf(menu.getLimit()));
         serializeCommon(menu, el);
 
         if (menu.getActions().size() > 0) {
@@ -100,8 +139,12 @@ public class XmlMenuSerializer {
     }
 
     private void serializeMenuItem(IMenuItem mi, Element parent) {
+        if (mi instanceof DelegateMenuItem) {
+            serializeDelegateMenuItem((DelegateMenuItem) mi, parent);
+            return;
+        }
         Element el = parent.addElement("menuItem");
-        if (mi.getName() != null) {
+        if (mi.getName() != null && mi.getReference()==null) {
             el.addAttribute("name", mi.getName());
         }
         serializeCommon(mi, el);
@@ -176,6 +219,9 @@ public class XmlMenuSerializer {
     }
 
     public void serializeCommon(IMenuItem item, Element el) {
+        if (item.getReference() != null) {
+            el.addAttribute("ref", item.getReference());
+        }
         if (item.background().getValue() != null) {
             el.addAttribute("background", item.background().getValue());
         }
@@ -192,10 +238,14 @@ public class XmlMenuSerializer {
             el.addAttribute("secondaryIcon", item.secondaryIcon().getValue());
         }
         if (item.visible().getValue() != null) {
-            el.addAttribute("visible", item.visible().getValue());
+            if (!"true".equalsIgnoreCase(item.visible().getValue())) {
+                el.addAttribute("visible", item.visible().getValue());
+            }
         }
         if (item.isDefault().getValue() != null) {
-            el.addAttribute("isDefault", item.isDefault().getValue());
+            if (!"false".equalsIgnoreCase(item.isDefault().getValue())) {
+                el.addAttribute("isDefault", item.isDefault().getValue());
+            }
         }
 
         if (item.description().getValue() != null) {

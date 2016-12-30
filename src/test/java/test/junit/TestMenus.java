@@ -25,17 +25,7 @@ import sagex.api.Global;
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.configuration.ConfigType;
 import sagex.phoenix.configuration.Field;
-import sagex.phoenix.menu.Action;
-import sagex.phoenix.menu.IMenuItem;
-import sagex.phoenix.menu.Menu;
-import sagex.phoenix.menu.MenuBuilder;
-import sagex.phoenix.menu.MenuItem;
-import sagex.phoenix.menu.SageAddStaticContextAction;
-import sagex.phoenix.menu.SageEvalAction;
-import sagex.phoenix.menu.SageScreenAction;
-import sagex.phoenix.menu.StaticMenuSorter;
-import sagex.phoenix.menu.ViewMenu;
-import sagex.phoenix.menu.XmlMenuSerializer;
+import sagex.phoenix.menu.*;
 import sagex.phoenix.node.INodeVisitor;
 import sagex.phoenix.vfs.VirtualMediaFile;
 import sagex.phoenix.vfs.VirtualMediaFolder;
@@ -73,7 +63,7 @@ public class TestMenus {
 
         List<Menu> menus = MenuBuilder.buildMenus(TestMenusFile, TestMenusDTDDir);
         assertNotNull(menus);
-        assertEquals(3, menus.size());
+        assertEquals(5, menus.size());
 
         Menu m1 = menus.get(0);
         assertEquals("TestMenu", m1.getName());
@@ -157,7 +147,7 @@ public class TestMenus {
 
         List<Menu> menus = MenuBuilder.buildMenus(TestMenusFile, TestMenusDTDDir);
         assertNotNull(menus);
-        assertEquals(3, menus.size());
+        assertEquals(5, menus.size());
 
         Menu m1 = menus.get(0);
         assertEquals("Test Menu", phoenix.menu.GetLabel(m1));
@@ -583,4 +573,41 @@ public class TestMenus {
         assertTrue(sfrag.contains("insertAfter=\"parent.after\""));
         System.out.println(sfrag);
     }
+
+    @Test
+    public void testMenuReferences() throws IOException {
+        SageAPI.setProvider(new StubSageAPI());
+
+        FileUtils.copyFileToDirectory(TestMenusFile, InitPhoenix.ProjectHome("target/testing/STVs/Phoenix/Menus"));
+        Phoenix.getInstance().getMenuManager().loadConfigurations();
+
+        Menu menu = Phoenix.getInstance().getMenuManager().getMenu("test.actions");
+        assertEquals(4, menu.getChildCount());
+        System.out.println("Menu: " + menu);
+
+        IMenuItem item = menu.getItemByName("back");
+        assertNotNull("Failed to find 'back' in list of items", item);
+        assertTrue("'back' should type " + item.getClass().getName(), item instanceof DelegateMenuItem);
+        assertEquals("Back", item.label().get());
+
+        Menu sharedMenu = (Menu) menu.getItemByName("shared.options");
+        assertNotNull("Failed to find reference menu 'shared.options'", sharedMenu);
+        assertTrue("Shared Menu should be a delegate menu but is " + sharedMenu.getClass().getName(), sharedMenu instanceof DelegateMenu);
+    }
+
+    @Test
+    public void testMenuReferencesWithSave() throws IOException {
+        SageAPI.setProvider(new StubSageAPI());
+
+        FileUtils.copyFileToDirectory(TestMenusFile, InitPhoenix.ProjectHome("target/testing/STVs/Phoenix/Menus"));
+        Phoenix.getInstance().getMenuManager().loadConfigurations();
+
+        Menu menu = Phoenix.getInstance().getMenuManager().getMenu("test.actions");
+        assertEquals(4, menu.getChildCount());
+        System.out.println("Menu: " + menu);
+
+        XmlMenuSerializer menuSerializer = new XmlMenuSerializer();
+        menuSerializer.serialize(menu, System.out);
+    }
+
 }

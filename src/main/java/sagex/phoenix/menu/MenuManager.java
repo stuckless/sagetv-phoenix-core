@@ -3,10 +3,7 @@ package sagex.phoenix.menu;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.io.IOCase;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
@@ -18,6 +15,7 @@ import sagex.phoenix.common.SystemConfigurationFileManager;
 import sagex.phoenix.menu.Menu.Insert;
 import sagex.phoenix.node.INodeVisitor;
 import sagex.phoenix.util.FileUtils;
+import sagex.phoenix.util.Pair;
 
 public class MenuManager extends SystemConfigurationFileManager implements SystemConfigurationFileManager.ConfigurationFileVisitor {
     public static final Logger log = Logger.getLogger(MenuManager.class);
@@ -78,11 +76,14 @@ public class MenuManager extends SystemConfigurationFileManager implements Syste
             indexMenu(m);
         }
 
-        log.info("Adjusting menu item visibility based on stored settings");
-        updateMenuDetails(menus);
-
         log.info("Processing Menu Fragments...");
         processFragments(fragments);
+
+        log.info("Processing Menu Fragments...");
+        processReferences();
+
+        log.info("Adjusting menu item visibility based on stored settings");
+        updateMenuDetails(menus);
 
         log.info("Ordering Menu Items...");
         orderMenuItems(menus);
@@ -90,9 +91,87 @@ public class MenuManager extends SystemConfigurationFileManager implements Syste
         log.info("End Loading Menus");
     }
 
+    private void processReferences() {
+        log.info("Process Menu References");
+        final List<Pair<IMenuItem, IMenuItem>> updates = new ArrayList<Pair<IMenuItem, IMenuItem>>();
+        for (Menu m: menus) {
+            m.visit(new INodeVisitor<IMenuItem>() {
+                @Override
+                public void visit(IMenuItem node) {
+                    if (!StringUtils.isEmpty(node.getReference())) {
+                        // we have a menu/menuItem reference
+                        if (node instanceof DelegateMenu || node instanceof DelegateMenuItem) {
+                            // we already processed this... carry on...
+                            return;
+                        }
+
+                        if (node instanceof Menu) {
+                            // we are a delete sub menu item
+                            Pair<String,String> menuRef = resolveMenu(node.getReference());
+                            Menu resolvedMenu = getMenu(menuRef.first());
+                            if (resolvedMenu==null) {
+                                log.error("Failed to find Menu Reference for " + node.getReference() + " in menu " + node);
+                                return;
+                            }
+                            if (menuRef.second()!=null) {
+                                resolvedMenu = (Menu)resolvedMenu.getItemByName(menuRef.second());
+                            }
+                            if (resolvedMenu==null) {
+                                log.error("Failed to find Menu Reference for " + node.getReference() + " in menu " + node);
+                                return;
+                            }
+
+                            DelegateMenu delegateMenu = new DelegateMenu(node.getParent(), (Menu)node, resolvedMenu);
+                            updates.add(new Pair<IMenuItem, IMenuItem>(node, delegateMenu));
+                            //node.getParent().replaceItem(node, delegateMenu);
+                        } else {
+                            Pair<String,String> menuRef = resolveMenu(node.getReference());
+                            Menu resolvedMenu = getMenu(menuRef.first());
+                            if (resolvedMenu==null) {
+                                log.error("Failed to find Menu Reference for " + node.getReference() + " for menu item reference " + node);
+                                return;
+                            }
+                            IMenuItem resolvedItem = resolvedMenu.getItemByName(menuRef.second());
+                            if (resolvedItem==null) {
+                                log.error("Failed to find menu item reference " + menuRef.second() + " in menu " + menuRef.first() + " for menu item reference " + node );
+                                return;
+                            }
+
+                            // delegate menu item
+                            // we are a delete sub menu item
+                            DelegateMenuItem delegateMenuItem = new DelegateMenuItem(node.getParent(), (MenuItem)node, (MenuItem)resolvedItem);
+                            //node.getParent().replaceItem(node, delegateMenuItem);
+                            updates.add(new Pair<IMenuItem, IMenuItem>(node, delegateMenuItem));
+                        }
+                    }
+                }
+            });
+        }
+
+        for (Pair<IMenuItem, IMenuItem> p: updates) {
+            log.debug("Updating Menu: " + p.first().getParent().getName() + "; Setting Menu Reference: " + p.first() + " to item " + p.second());
+            if (!p.first().getParent().replaceItem(p.first(), p.second())) {
+                log.error("Failed to delegate replace " + p.first() + " in parent with " + p.second());
+            }
+        }
+        log.info("End Process Menu References");
+    }
+
+    private Pair<String, String> resolveMenu(String reference) {
+        if (reference==null) return new Pair<>();
+        String parts[] = reference.split("\\s*::\\s*");
+        if (parts.length==1) {
+            return new Pair<>(parts[0].trim(),null);
+        } else {
+            return new Pair<>(parts[0].trim(),parts[1].trim());
+        }
+    }
+
     private void indexMenu(Menu m) {
-        if (!indexed.containsKey(m.getName())) {
-            indexed.put(m.getName(), m);
+        if (!sagex.phoenix.util.StringUtils.isAnyEmpty(m.getName())) {
+            if (!indexed.containsKey(m.getName())) {
+                indexed.put(m.getName(), m);
+            }
         }
 
         for (IMenuItem i : m) {

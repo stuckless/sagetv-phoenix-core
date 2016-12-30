@@ -36,6 +36,7 @@ public class MenuItem implements IMenuItem {
 
     protected Menu parent;
     protected String name;
+    protected String reference;
 
     protected DynamicVariable<String> background = new DynamicVariable<String>(String.class, null);
     protected DynamicVariable<String> label = new DynamicVariable<String>(String.class, null);
@@ -73,7 +74,14 @@ public class MenuItem implements IMenuItem {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName() + " [name=" + name + ", label=" + label + "]";
+        final StringBuilder sb = new StringBuilder(this.getClass().getSimpleName()).append("{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", label=").append(label);
+        if (reference!=null) {
+            sb.append(", reference='").append(reference).append('\'');
+        }
+        sb.append('}');
+        return sb.toString();
     }
 
     public boolean performActions() {
@@ -163,5 +171,18 @@ public class MenuItem implements IMenuItem {
     @Override
     public void visit(INodeVisitor<IMenuItem> visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public String getReference() {
+        return reference;
+    }
+
+    public boolean isReference() {
+        return reference!=null && !reference.isEmpty();
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 }

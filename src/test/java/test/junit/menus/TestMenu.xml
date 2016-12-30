@@ -138,4 +138,35 @@
         </menuItem>
     </menu>
 
+    <!-- Testing Menu Item References -->
+    <menu label="Action Menu" name="common.actions" type="System" visible="false">
+        <description>This is a set of common actions</description>
+        <menuItem name="onlinevideos" label="Online Videos">
+            <screen name="Online Video"/>
+        </menuItem>
+
+        <menuItem name="back" label="Back">
+            <sageCommand name="Back"/>
+        </menuItem>
+
+        <menu name="shared.options" label="Shared Options Menu" type="Video">
+            <menuItem label="Option 1">
+                <screen name="Goto Option 1"/>
+            </menuItem>
+            <menuItem label="Option 2">
+                <screen name="Goto Option 2"/>
+            </menuItem>
+        </menu>
+    </menu>
+
+    <menu label="Using Shared Actions" name="test.actions">
+        <description>We are using shared actions</description>
+        <menuItem name="realitem" label="A Real Item">
+            <screen name="real screen"/>
+        </menuItem>
+        <menuItem ref="common.actions::onlinevideos" label="Override Label for Online Videos"/>
+        <menuItem ref="common.actions::back" isDefault="true"/>
+        <menu ref="common.actions::shared.options"/>
+    </menu>
+
 </menus>

@@ -22,19 +22,22 @@
 <!ATTLIST screen name CDATA #REQUIRED >
 
 <!ELEMENT menu ( description | field | menu | menuItem | view | eval | exec | sageCommand | screen | script )* >
+<!ATTLIST menu ref CDATA #IMPLIED >
 <!ATTLIST menu background CDATA #IMPLIED >
 <!ATTLIST menu icon CDATA #IMPLIED >
-<!ATTLIST menu label CDATA #REQUIRED >
-<!ATTLIST menu name CDATA #REQUIRED >
+<!ATTLIST menu label CDATA #IMPLIED >
+<!ATTLIST menu name CDATA #IMPLIED >
 <!ATTLIST menu secondaryIcon CDATA #IMPLIED >
 <!ATTLIST menu linkedMenu CDATA #IMPLIED >
-<!ATTLIST menu type (Video|TV|Music|Picture|Online|Misc|Options) #IMPLIED >
+<!ATTLIST menu type (Video|TV|Music|Picture|Online|Misc|Options|System|Action) #IMPLIED >
 <!ATTLIST menu visible CDATA #IMPLIED >
+<!ATTLIST menu isDefault (true|false) "false" >
 
 <!ELEMENT menuItem ( description | eval | exec | field | sageCommand | screen | script )* >
+<!ATTLIST menuItem ref CDATA #IMPLIED >
 <!ATTLIST menuItem background CDATA #IMPLIED >
 <!ATTLIST menuItem icon CDATA #IMPLIED >
-<!ATTLIST menuItem label CDATA #REQUIRED >
+<!ATTLIST menuItem label CDATA #IMPLIED >
 <!ATTLIST menuItem name CDATA #IMPLIED >
 <!ATTLIST menuItem secondaryIcon CDATA #IMPLIED >
 <!ATTLIST menuItem linkedMenu CDATA #IMPLIED >

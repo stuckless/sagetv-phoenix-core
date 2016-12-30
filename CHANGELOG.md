@@ -4,6 +4,7 @@
 * On Save, will try to fetch fanart, if fanart is missing
 * Added Config option to rescale source fanart
 * Refactored "timer" code to use common Executors
+* Added support for common menu actions to be shared across menus
 
 
 # 3.0.4

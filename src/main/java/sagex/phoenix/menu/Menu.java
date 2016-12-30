@@ -129,7 +129,7 @@ public class Menu extends MenuItem implements Iterable<IMenuItem>, IMenuItem, IC
     }
 
     public String toString() {
-        return "Menu[name: " + name + ", items: " + items.size() + "]";
+        return "Menu[name: " + name + ", items: " + items + "]";
     }
 
     public IMenuItem getItemByName(String name) {

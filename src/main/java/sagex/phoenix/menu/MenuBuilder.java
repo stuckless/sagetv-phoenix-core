@@ -84,6 +84,7 @@ public class MenuBuilder extends BaseBuilder {
             menu = new Menu(menu);
             menu.type().setValue(XmlUtil.attr(attributes, "type"));
 
+            menu.setReference(XmlUtil.attr(attributes, "ref"));
             menu.label().setValue(XmlUtil.attr(attributes, "label"));
             menu.setName(XmlUtil.attr(attributes, "name", toId(menu.label().get())));
             menu.visible().setValue(XmlUtil.attr(attributes, "visible", "true"));
@@ -108,7 +109,7 @@ public class MenuBuilder extends BaseBuilder {
         } else if ("menuItem".equals(name)) {
             fieldState = FIELD_STATE.MENUITEM;
             item = new MenuItem(menu);
-
+            item.setReference(XmlUtil.attr(attributes, "ref"));
             item.label().setValue(XmlUtil.attr(attributes, "label"));
             item.setName(XmlUtil.attr(attributes, "name", toId(item.label().get())));
             item.visible().setValue(XmlUtil.attr(attributes, "visible", "true"));
