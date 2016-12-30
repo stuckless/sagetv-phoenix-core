@@ -39,6 +39,7 @@
 <!ATTLIST menuItem secondaryIcon CDATA #IMPLIED >
 <!ATTLIST menuItem linkedMenu CDATA #IMPLIED >
 <!ATTLIST menuItem visible CDATA #IMPLIED >
+<!ATTLIST menuItem isDefault (true|false) "false" >
 
 <!ELEMENT view ( description | eval | exec | field | sageCommand | screen | script )* >
 <!ATTLIST view background CDATA #IMPLIED >
@@ -49,7 +50,7 @@
 <!ATTLIST view secondaryIcon CDATA #IMPLIED >
 <!ATTLIST view visible CDATA "true" >
 <!ATTLIST view preload (true|false) "false" >
-<!ATTLIST view limit CDATA "10" >
+<!ATTLIST view limit CDATA #IMPLIED >
 
 <!ELEMENT fragment ( menu | menuItem | view )* >
 <!ATTLIST fragment parentMenu CDATA #REQUIRED >

@@ -146,22 +146,6 @@ public class Menu extends MenuItem implements Iterable<IMenuItem>, IMenuItem, IC
         return type;
     }
 
-    /**
-     * Menus cannot have actions
-     */
-    @Override
-    public List<Action> getActions() {
-        return Collections.EMPTY_LIST;
-    }
-
-    /**
-     * You cannot perfom an action on a menu
-     */
-    @Override
-    public boolean performActions() {
-        return false;
-    }
-
     @Override
     public boolean hasChildren() {
         return getItems().size() > 0;

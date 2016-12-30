@@ -123,6 +123,54 @@ public class DynamicMenusAPI {
     }
 
     /**
+     * Get the menu item flagged as the default or returns the first item if none flagged.
+     *
+     * @param menu Menu
+     * @return default menu item
+     */
+    public IMenuItem GetDefaultItem(Object menu) {
+        if (menu == null)
+            return null;
+        Menu m = GetMenu(menu);
+        if (m == null)
+            return null;
+
+        List<IMenuItem> items = new ArrayList<IMenuItem>();
+        for (IMenuItem mi : m.getItems()) {
+            if (IsDefault(mi)) {
+                return mi;
+            }
+        }
+
+        //as no default found return the first item in the list
+        return items.get(0);
+    }
+
+    /**
+     * Determine if the menu has a default menu item.
+     *
+     * @param menu Menu
+     * @return
+     */
+    public boolean HasDefaultItem(Object menu) {
+        if (menu == null)
+            return false;
+        Menu m = GetMenu(menu);
+        if (m == null)
+            return false;
+
+        List<IMenuItem> items = new ArrayList<IMenuItem>();
+        for (IMenuItem mi : m.getItems()) {
+            if (IsDefault(mi)) {
+                return true;
+            }
+        }
+
+        //no default found
+        return false;
+    }
+
+    /**
      * Get a Menu by name
      *
      * @param name
@@ -180,6 +228,43 @@ public class DynamicMenusAPI {
      */
     public void ResetVisible(IMenuItem item) {
         UserRecordUtil.clearField(MenuItem.STORE_ID, item.getName(), MenuItem.FIELD_VISIBLE);
+    }
+
+    /**
+     * Returns the isDefault value as a {@link DynamicVariable}
+     *
+     * @param item
+     * @return {@link DynamicVariable}
+     */
+    public boolean IsDefault(IMenuItem item) {
+        try {
+            return UserRecordUtil.getBoolean(MenuItem.STORE_ID, item.getName(), MenuItem.FIELD_ISDEFAULT, item.isDefault().get());
+        } catch (Throwable t) {
+            t.printStackTrace();
+            return true;
+        }
+    }
+
+    /**
+     * This sets/removes a flag to menu's UserRecord, to indicate that
+     * the menu item is the default to get focus.
+     * <p/>
+     * Use this API to set the Default flag for the menu outside the Xml.
+     *
+     * @param item
+     */
+    public void SetDefault(IMenuItem item, boolean vis) {
+        UserRecordUtil.setField(MenuItem.STORE_ID, item.getName(), MenuItem.FIELD_ISDEFAULT, vis);
+        item.isDefault().set(vis);
+    }
+
+    /**
+     * Clears the Default Field
+     *
+     * @param item
+     */
+    public void ResetDefault(IMenuItem item) {
+        UserRecordUtil.clearField(MenuItem.STORE_ID, item.getName(), MenuItem.FIELD_ISDEFAULT);
     }
 
     /**
@@ -433,6 +518,44 @@ public class DynamicMenusAPI {
     }
 
     /**
+     * Converts a menu item into a Menu with the source MenuItem as the only item
+     * Used as some UIs cannot display a single menuitem at the top level.
+     * The new Menu will have the same parent as the source MenuItem
+     *
+     * @param sourceItem   MenuItem to create the menu from
+     * @return Menu that now contains the source MenuItem
+     */
+    public Menu ConvertMenuItemToMenu(IMenuItem sourceItem) {
+        Menu menu = CreateMenu(sourceItem.getParent(),sourceItem.getName(),sourceItem.label().toString());
+        IMenuItem mi = CopyMenuItem(menu,sourceItem);
+        InsertBefore(sourceItem.getParent(),menu,sourceItem);
+        RemoveItem(sourceItem.getParent(),sourceItem);
+        return menu;
+    }
+
+    /**
+     * Creates a COPY of a MenuItem associated to the parent passed in
+     *
+     * @param parent if this is a submenu, then this should be the parent for the
+     *               menu
+     * @param sourceItem   MenuItem to create the menu from
+     * @return newly created MenuItem
+     */
+    public IMenuItem CopyMenuItem(Menu parent, IMenuItem sourceItem) {
+        MenuItem mi = CreateMenuItem(parent,sourceItem.getName(),sourceItem.label().toString());
+        mi.background().setValue(sourceItem.background().getValue());
+        mi.description().setValue(sourceItem.description().getValue());
+        mi.icon().setValue(sourceItem.icon().getValue());
+        mi.secondaryIcon().setValue(sourceItem.secondaryIcon().getValue());
+        //add all the actions
+        List<Action> actions = GetActions((MenuItem) sourceItem);
+        for (Action a : actions) {
+            mi.addAction(a);
+        }
+        return mi;
+    }
+
+    /**
      * Creates a NEW menu with the given name. The name should be a unique
      * identifier for the menu.
      *
@@ -533,6 +656,16 @@ public class DynamicMenusAPI {
     }
 
     /**
+     * Tests if there are any actions for this menu or menu item.
+     *
+     * @param item
+     * @return
+     */
+    public boolean HasActions(IMenuItem item) {
+        return !item.getActions().isEmpty();
+    }
+
+    /**
      * Tests if an action is a SageCommandAction
      *
      * @param a
@@ -577,7 +710,7 @@ public class DynamicMenusAPI {
      * {@link DynamicVariable}
      *
      * @param a
-     * @param value
+     * @return value
      */
     public DynamicVariable<String> Screen(SageScreenAction a) {
         return a.action();
@@ -618,8 +751,8 @@ public class DynamicMenusAPI {
     /**
      * Removes a child menu item
      *
-     * @param item
-     * @param a
+     * @param parent
+     * @param child
      */
     public void RemoveItem(Menu parent, IMenuItem child) {
         parent.removeItem((MenuItem) child);
@@ -658,7 +791,7 @@ public class DynamicMenusAPI {
      * you to execute a sage expression
      *
      * @param item
-     * @param screenName
+     * @param expr
      * @return
      */
     public SageEvalAction AddSageEvalAction(IMenuItem item, String expr) {
@@ -831,6 +964,41 @@ public class DynamicMenusAPI {
     public void SortItems(Menu menu) {
         if (menu != null)
             menu.sortItems();
+    }
+
+    /**
+     * Refreshes a specific ViewMenu so the next time it is loaded it will be
+     * loaded from the view
+     *
+     * @param viewMenu
+     */
+    public void RefreshViewMenu(ViewMenu viewMenu) {
+        if (viewMenu != null){
+            viewMenu.Refresh();
+        }
+    }
+
+    /**
+     * Refreshes a specific ViewMenu so the next time it is loaded it will be
+     * loaded from the view
+     *
+     * @param menu
+     */
+    public void RefreshViewMenus(Object menu) {
+        if (menu != null){
+            if (menu instanceof ViewMenu){
+                RefreshViewMenu((ViewMenu) menu);
+                return;
+            }else if (IsMenu(menu)){
+                for (IMenuItem item: GetVisibleItems((Menu) menu)){
+                    if (IsViewMenu(item)){
+                        RefreshViewMenu((ViewMenu) item);
+                    }else if (IsMenu(item)){
+                        RefreshViewMenus(item);
+                    }
+                }
+            }
+        }
     }
 
     /**

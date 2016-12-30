@@ -1,7 +1,9 @@
 package sagex.phoenix.menu;
 
+import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -42,7 +44,7 @@ public class ViewMenu extends Menu implements Iterable<IMenuItem>, IMenuItem {
         this.limit = limit;
     }
 
-    protected int limit = 10;
+    protected int limit = -1;
 
     protected boolean resolved = false;
     protected ViewFolder folder = null;
@@ -73,12 +75,24 @@ public class ViewMenu extends Menu implements Iterable<IMenuItem>, IMenuItem {
 
         for (IMediaResource r : fold) {
             if (r instanceof IMediaFolder) {
-                addItem(new ViewMenu(this, (ViewFolder) r));
+                ViewMenu menu = new ViewMenu(this, (ViewFolder) r);
+                menu.label().set(r.getTitle());
+                menu.setName(DigestUtils.md5Hex(menu.label().get()));
+                menu.setLimit(limit);
+                menu.background().set(phoenix.fanart.GetFanartBackground(r));
+                menu.icon().set(phoenix.fanart.GetFanartPoster(r));
+                menu.setUserData(r);
+                //copy the actions
+                for (Action a : getActions()) {
+                    menu.addAction(a);
+                }
+                addItem(menu);
             } else {
                 MenuItem mi = new MenuItem(this);
                 mi.background().set(phoenix.fanart.GetFanartBackground(r));
                 mi.icon().set(phoenix.fanart.GetFanartPoster(r));
                 mi.label().set(phoenix.media.GetFormattedTitle(r));
+                mi.setName(DigestUtils.md5Hex(mi.label().get()));
                 mi.description().set(((IMediaFile) r).getMetadata().getDescription());
                 mi.setUserData(r);
                 // add our actions to the menu item
@@ -101,7 +115,7 @@ public class ViewMenu extends Menu implements Iterable<IMenuItem>, IMenuItem {
                 addItem(mi);
             }
 
-            if (++i > limit) {
+            if (limit > 0 && ++i > limit) {
                 log.info("Stopped processing view items, since we reached the limit: " + limit);
                 break;
             }
@@ -121,6 +135,15 @@ public class ViewMenu extends Menu implements Iterable<IMenuItem>, IMenuItem {
             }
         }
         return folder;
+    }
+
+    /**
+     * View Menus can be Refreshed so the next call to getITems will load the view again
+     */
+    public void Refresh(){
+        folder=null;
+        resolved=false;
+        items = new LinkedList<IMenuItem>();
     }
 
     public List<IMenuItem> getVisibleItems() {

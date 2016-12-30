@@ -112,6 +112,7 @@ public class MenuBuilder extends BaseBuilder {
             item.label().setValue(XmlUtil.attr(attributes, "label"));
             item.setName(XmlUtil.attr(attributes, "name", toId(item.label().get())));
             item.visible().setValue(XmlUtil.attr(attributes, "visible", "true"));
+            item.isDefault().setValue(XmlUtil.attr(attributes, "isDefault", "false"));
             item.icon().setValue(XmlUtil.attr(attributes, "icon"));
             item.secondaryIcon().setValue(XmlUtil.attr(attributes, "secondaryIcon"));
             item.background().setValue(XmlUtil.attr(attributes, "background"));
@@ -123,11 +124,12 @@ public class MenuBuilder extends BaseBuilder {
             ViewMenu m = (ViewMenu) item;
             m.setContextVar(XmlUtil.attr(attributes, "contextVar", "VFSMenuMediaFile"));
             m.setPreload(XmlUtil.bool(attributes, "preload", false));
-            m.setLimit(NumberUtils.toInt(XmlUtil.attr(attributes, "limit"), 10));
+            m.setLimit(NumberUtils.toInt(XmlUtil.attr(attributes, "limit"), -1));
 
             item.label().setValue(XmlUtil.attr(attributes, "label"));
             item.setName(XmlUtil.attr(attributes, "name", toId(item.label().get())));
             item.visible().setValue(XmlUtil.attr(attributes, "visible", "true"));
+            item.isDefault().setValue(XmlUtil.attr(attributes, "isDefault", "false"));
             item.icon().setValue(XmlUtil.attr(attributes, "icon"));
             item.secondaryIcon().setValue(XmlUtil.attr(attributes, "secondaryIcon"));
             item.background().setValue(XmlUtil.attr(attributes, "background"));

@@ -31,6 +31,8 @@ public interface IMenuItem extends INode<Menu> {
 
     public DynamicVariable<Boolean> visible();
 
+    public DynamicVariable<Boolean> isDefault();
+
     public DynamicVariable<String> field(String fldName);
 
     public DynamicVariable<String> linkedMenuId();
