@@ -1,6 +1,7 @@
 package sagex.phoenix.fanart;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -15,12 +16,8 @@ import sagex.phoenix.Phoenix;
 import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.download.DownloadHandler;
 import sagex.phoenix.download.DownloadItem;
-import sagex.phoenix.metadata.IMediaArt;
-import sagex.phoenix.metadata.IMetadata;
-import sagex.phoenix.metadata.MediaArtifactType;
-import sagex.phoenix.metadata.MediaType;
-import sagex.phoenix.metadata.MetadataConfiguration;
-import sagex.phoenix.metadata.MetadataException;
+import sagex.phoenix.metadata.*;
+import sagex.phoenix.util.FileUtils;
 import sagex.phoenix.util.Hints;
 import sagex.phoenix.util.Loggers;
 import sagex.phoenix.util.StoredStringSet;
@@ -56,6 +53,18 @@ public class FanartStorage implements DownloadHandler {
                 throw new MetadataException(
                         "Central Fanart Folder does not exist, and it cannot be created.  Folder: " + fanartDir, mediaFileParent,
                         md);
+        }
+
+        if ( (md.getFanart()==null||md.getFanart().size()==0) && phoenix.fanart.IsMissingFanart(mediaFileParent) ) {
+            log.info("We appear to be missing any fanart for this item, we will attempt to find locate some");
+            try {
+                IMetadata mdNew = Phoenix.getInstance().getMetadataManager().searchByExisting(mediaFileParent, md);
+                if (mdNew!=null) {
+                    md = mdNew;
+                }
+            } catch (Throwable t) {
+                log.warn("Failed to find 'new' fanart for item");
+            }
         }
 
         for (MediaArtifactType mt : MediaArtifactType.values()) {
@@ -118,6 +127,25 @@ public class FanartStorage implements DownloadHandler {
             max = 99;
         }
         if (artwork != null && artwork.size() > 0) {
+            // eventually i'll add a "REFRESH_FANART" command of some type
+            if (options.getBooleanValue(MetadataHints.REFRESH, false)) {
+                // if we are refreshing, then delete all files in this directory
+                log.info("Refreshing Fanart.  Removing old fanart.");
+                fanartDir.listFiles(new FileFilter() {
+                    @Override
+                    public boolean accept(File file) {
+                        if (file.getName().equalsIgnoreCase("images")) {
+                            FileUtils.deleteIfLastModifiedGreater(file, 5 * 60 * 1000, log);
+                        } else if (file.getName().toLowerCase().endsWith(".jpg")) {
+                            FileUtils.deleteIfLastModifiedGreater(file, 5 * 60 * 1000, log);
+                        } else if (file.getName().toLowerCase().endsWith(".png")) {
+                            FileUtils.deleteIfLastModifiedGreater(file, 5 * 60 * 1000, log);
+                        }
+                        return false;
+                    }
+                });
+            }
+
             max = Math.min(max, artwork.size());
             for (IMediaArt ma : artwork) {
                 downloadFanartArtifact(mt, ma, md, fanartDir, options);
@@ -176,6 +204,9 @@ public class FanartStorage implements DownloadHandler {
             di.setLocalFile(downloadFile);
             di.setHandler(this);
 
+            // add in the media artifact type... which will be used if scaling is required
+            di.setUserObject(mt);
+
             // schedule download
             Phoenix.getInstance().getDownloadManager().download(di);
         }
@@ -210,6 +241,14 @@ public class FanartStorage implements DownloadHandler {
         if (file.length() < (metadataConfig.getDeleteImagesSmallerThan() * 1024)) {
             Loggers.METADATA.warn("FANART-DOWNLOAD-TOO-SMALL: " + item.getRemoteURL() + "; SIZE: " + file.length());
             return;
+        }
+
+        if (metadataConfig.scaleLargeFanart()) {
+            try {
+                FanartUtil.applyScreenScalingOnSourceImage(file, file, metadataConfig.getMaxScreenSize());
+            } catch (Exception e) {
+                Loggers.LOG.warn("Fanart Scaling Failed", e);
+            }
         }
     }
 

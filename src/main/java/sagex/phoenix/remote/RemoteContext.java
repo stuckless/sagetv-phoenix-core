@@ -1,9 +1,9 @@
 package sagex.phoenix.remote;
 
+import sagex.phoenix.Phoenix;
+
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class RemoteContext {
     private static InheritableThreadLocal<RemoteContext> context = new InheritableThreadLocal<RemoteContext>();
@@ -17,7 +17,6 @@ public class RemoteContext {
         return ctx;
     }
 
-    private Timer timer = new Timer();
     private static Map<String, Object> longTermReferences = new HashMap<String, Object>();
 
     private int serializeDepth = 0;
@@ -46,7 +45,7 @@ public class RemoteContext {
     public void addReference(final String key, Object value, long expires) {
         longTermReferences.put(key, value);
         if (expires > 0) {
-            timer.schedule(new TimerTask() {
+            Phoenix.getInstance().getTaskManager().runLater(new Runnable() {
                 @Override
                 public void run() {
                     longTermReferences.remove(key);

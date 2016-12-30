@@ -42,7 +42,7 @@ import sagex.phoenix.skins.SkinManager;
 import sagex.phoenix.stv.OnlineVideoPlaybackManager;
 import sagex.phoenix.util.FileUtils;
 import sagex.phoenix.util.Loggers;
-import sagex.phoenix.util.TaskManager;
+import sagex.phoenix.task.TaskManager;
 import sagex.phoenix.util.url.CachedUrlCleanupTask;
 import sagex.phoenix.vfs.VFSManager;
 import sagex.phoenix.vfs.ov.OnlineVideosUrlResolverManager;
@@ -315,8 +315,8 @@ public class Phoenix {
             }
 
             // add in task monitoring...
-            getTaskManager().scheduleTask(CachedUrlCleanupTask.TaskID, new CachedUrlCleanupTask(),
-                    Calendar.getInstance().getTime(), 24 * 60 * 60 * 1000);
+            getTaskManager().scheduleRepeatingTask(new CachedUrlCleanupTask(),
+                    0, 24 * 60 * 60 * 1000);
             log.info("Core Scheduled Tasks Initialized");
 
             if (!(STANDALONE || TESTING)) {

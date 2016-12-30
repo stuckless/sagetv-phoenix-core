@@ -447,7 +447,13 @@ public class FanartAPI {
      * @return true if it's missing any fanart
      */
     public boolean IsMissingFanart(Object mediaObject) {
-        return !(HasFanartBackground(mediaObject) && HasFanartBanner(mediaObject) && HasFanartPoster(mediaObject));
+        if (phoenix.media.IsType(mediaObject, MediaResourceType.VIDEO.value())) {
+            return !(HasFanartBackground(mediaObject) && HasFanartPoster(mediaObject));
+        } else if (phoenix.media.IsType(mediaObject, MediaResourceType.TV.value())) {
+            return !(HasFanartBackground(mediaObject) && HasFanartBanner(mediaObject) && HasFanartPoster(mediaObject));
+        } else {
+            return false;
+        }
     }
 
     /**

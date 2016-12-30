@@ -20,10 +20,10 @@ import sagex.phoenix.fanart.SimpleMediaFile;
 import sagex.phoenix.metadata.MediaType;
 
 public class PhoenixDiagnostics {
-    public static class Timer {
+    public static class DeltaTime {
         private long start = 0;
 
-        public Timer() {
+        public DeltaTime() {
             this.start = System.currentTimeMillis();
         }
 
@@ -130,7 +130,7 @@ public class PhoenixDiagnostics {
 
     public void printReport(PrintWriter pw, boolean quick) {
         try {
-            Timer time = new Timer();
+            DeltaTime time = new DeltaTime();
             printCommonReport(pw);
 
             h2(pw, "Java Environment Settings");
@@ -312,7 +312,7 @@ public class PhoenixDiagnostics {
         line(pw, "Poster Path", posterPath);
 
         h3(pw, "Fanart Single Files and Times");
-        Timer t = new Timer();
+        DeltaTime t = new DeltaTime();
         t.reset();
         String back = phoenix.api.GetFanartBackground(item);
         long backTime = t.timeDiff();

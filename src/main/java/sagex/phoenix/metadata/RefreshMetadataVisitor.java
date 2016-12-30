@@ -88,12 +88,6 @@ public class RefreshMetadataVisitor extends FileVisitor {
     }
 
     private boolean isEmpty(String... values) {
-        if (values == null)
-            return true;
-        for (String v : values) {
-            if (StringUtils.isEmpty(v))
-                return true;
-        }
-        return false;
+        return sagex.phoenix.util.StringUtils.isAnyEmpty(values);
     }
 }

@@ -43,6 +43,9 @@ public class InitPhoenix {
 
         if (!force && initialized) {
             System.out.println("InitPhoenix: already done.");
+
+            // for testing we are clearing out the phoenix state after each test
+            Phoenix.getInstance().reinit();
             return;
         }
 
@@ -76,6 +79,12 @@ public class InitPhoenix {
         Phoenix.getInstance().reinit();
 
         System.out.println("Phoenix has been initialized.");
+
+        System.out.println("Configure Logging Again...");
+        BasicConfigurator.resetConfiguration();
+        BasicConfigurator.configure();
+        LogManager.getRootLogger().setLevel(Level.DEBUG);
+        Logger.getLogger(InitPhoenix.class).debug("Logging Configured");
         initialized = true;
     }
 

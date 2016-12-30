@@ -7,6 +7,8 @@ import java.io.FileFilter;
  * Simple File ext filter. Only returns true if the file ext matches an ext that
  * this instance requires.
  *
+ * NOTE: All extensions must include dot, eg, .jpg, .png, etc
+ *
  * @author seans
  */
 public class FileExtFileFilter implements FileFilter {

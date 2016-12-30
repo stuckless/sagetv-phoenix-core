@@ -36,10 +36,6 @@
 		<field key="phoenix/mediametadata/tvSeasonRegex" label="TV Season Regexp" defaultValue=".*[\\/].*s([0-9]{1,2})\s*[exd]([[0-9]]{1,2})" editor="regex" visibleOnProperty="phoenix/mediametadata/parseMediaFileForTVSeries">
 			<description>Regex to use when parsing the Season Number from the Display Title</description>
 		</field>
-
-		<field key="phoenix/fanart/rescanFanart" label="Update Metadata and Fanart" defaultValue="" type="button">
-			<description>Update metadata and fanart for items that do not have existing fanart and metadata</description>
-		</field>
 	</group>
 	
 	<group class="sagex.phoenix.weather.WeatherConfiguration"/>

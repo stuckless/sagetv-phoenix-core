@@ -149,4 +149,23 @@ public class StringUtils {
         }
         return c1.compareTo(c2);
     }
+
+    public static boolean isAnyEmpty(String... values) {
+        if (values == null)
+            return true;
+        for (String v : values) {
+            if (org.apache.commons.lang.StringUtils.isEmpty(v))
+                return true;
+        }
+        return false;
+    }
+
+    public static boolean hasAny(String... values) {
+        if (values==null) return false;
+        for (String v : values) {
+            if (!org.apache.commons.lang.StringUtils.isEmpty(v))
+                return true;
+        }
+        return false;
+    }
 }

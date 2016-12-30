@@ -1,20 +1,33 @@
 package sagex.phoenix.fanart;
 
+import java.awt.*;
+import java.awt.geom.Dimension2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 
+import sagex.phoenix.Phoenix;
 import sagex.phoenix.image.ImageUtil;
 import sagex.phoenix.metadata.IMediaArt;
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.metadata.MediaArtifactType;
 import sagex.phoenix.metadata.MediaType;
+import sagex.phoenix.progress.IProgressMonitor;
+import sagex.phoenix.progress.NullProgressMonitor;
+import sagex.phoenix.progress.ProgressTracker;
+import sagex.phoenix.util.DirectoryVisitor;
+import sagex.phoenix.util.FileExtFileFilter;
+import sagex.phoenix.util.ParserUtils;
 
 /**
  * Collection of Useful Functions for dealing with the Central and Local Fanart
@@ -416,4 +429,118 @@ public class FanartUtil {
         return l;
     }
 
+    public static void applyScreenScalingOnSourceImage(File src, File dest, String screenSize) throws Exception {
+        applyScreenScalingOnSourceImage(src.toURL(), dest, screenSize);
+    }
+
+    public static void applyScreenScalingOnSourceImage(URL src, File dest, String screenSize) throws Exception {
+        Dimension dim = parseDimension(screenSize);
+
+        // check if the size is already OK
+        Dimension imgSize = ImageUtil.getImageSize(src);
+        if (imgSize!=null) {
+            if (imgSize.getWidth()<=dim.width && imgSize.getHeight() <=dim.height) {
+                log.debug("scale(): Nothing to do, image is already smaller than screen.");
+                return;
+            }
+        }
+
+        // either we can't find the size, or size is too large
+        BufferedImage img = ImageUtil.readImage(src);
+        if (img.getWidth()<=dim.width && img.getHeight() <=dim.height) {
+            log.debug("scale(): Nothing to do, image is already smaller than screen.");
+            // nothing to do... since we are already smaller than the screen size
+            return;
+        }
+
+        BufferedImage newImg = null;
+        if (img.getWidth()>=img.getHeight()) {
+            // image is wide, so shrink to screen width
+            newImg = ImageUtil.createScaledImage(img, dim.width, -1);
+        } else {
+            // image is higher than width, shrink to screen height
+            newImg = ImageUtil.createScaledImage(img, -1, dim.height);
+        }
+
+        if (newImg==null) {
+            log.debug("scale(): No dest image was created, so nothing to save.");
+            // nothing to do
+            return;
+        }
+
+        if (newImg.getWidth() == img.getWidth()) {
+            log.debug("scale(): New image was same size as dest image");
+            // nothing to do
+            return;
+        }
+
+        log.debug("scale(): Writing Dest Image to " + dest);
+
+        // Write the new image
+        try {
+//            if (dest.toURI().equals(src.toURI())) {
+//                // backup src
+//                String name = dest.getAbsolutePath();
+//                File renTo = new File(name + ".orig");
+//                if (!renTo.exists()) {
+//                    dest.renameTo(renTo);
+//                    dest = new File(name);
+//                }
+//            }
+            ImageUtil.writeImage(newImg, dest);
+        } finally {
+            // if it failed, then clean up the dest, if it was 0 length
+            if (dest.length()==0) {
+                if (!dest.delete()) {
+                    dest.deleteOnExit();
+                }
+            }
+        }
+
+        // give a hint to run gc
+        Runtime.getRuntime().gc();
+    }
+
+
+    public static Dimension parseDimension(String screenSize) {
+        if (screenSize==null) return new Dimension(0,0);
+        String parts[] = screenSize.split("\\s*x\\s*");
+        if (parts.length!=2) parts = screenSize.split("\\s*X\\s*");
+        if (parts.length!=2) throw new RuntimeException("Not a valid dimension in the form '###x###' for " + screenSize);
+        return new Dimension(Integer.parseInt(parts[0]), Integer.parseInt(parts[1]));
+    }
+
+    public static void applyScreenScalingToAllImageFiles(File startDir, final String screenSize, IProgressMonitor monitor) {
+        if (monitor==null) monitor=NullProgressMonitor.INSTANCE;
+        monitor.beginTask("Apply Screen Scaling",-1);
+        final IProgressMonitor finalMonitor = monitor;
+        try {
+            DirectoryVisitor.visitDirectory(startDir, new FileExtFileFilter(".jpg,.png"), new DirectoryVisitor.FileVisitor() {
+                @Override
+                public void visit(File file) {
+                    if (finalMonitor.isCancelled()) return;
+                    finalMonitor.setTaskName("Scaling " + file.getAbsolutePath());
+                    try {
+                        try {
+                            // NOTE: Overwrites files in place
+                            applyScreenScalingOnSourceImage(file, file, screenSize);
+                            if (!file.exists() || file.length()==0) {
+                                throw new Exception("Failed to scale " + file);
+                            }
+                        } catch (Exception e) {
+                            log.debug("Scaling Failed for " + file, e);
+                        }
+                    } finally {
+                        finalMonitor.worked(1);
+                    }
+                }
+            });
+        } catch (IOException e) {
+            log.error("Aborting... Failed to process images for scaling", e);
+            monitor.setCancelled(true);
+            monitor.setTaskName("ERROR: " + e.getMessage());
+        } finally {
+            monitor.done();
+        }
+    }
 }

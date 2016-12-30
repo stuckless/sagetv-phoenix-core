@@ -34,12 +34,9 @@ public class TestDownloadManager implements DownloadHandler {
         if (f1.exists()) f1.delete();
         DownloadItem item = new DownloadItem(new URL("http://www.google.ca/intl/en_ALL/images/logos/images_logo_lg.gif"), f1);
         item.setHandler(this);
-        assertEquals(mgr.getStatus().threads, 0);
-        assertEquals(mgr.getStatus().waiting, 0);
         mgr.download(item);
 
         Thread.currentThread().sleep(2000);
-        assertEquals(mgr.getStatus().threads, 1);
         assertTrue("Did not download", good != null && error == null && start != null);
         assertTrue("Did not download file!", f1.exists() && f1.length() > 0);
 
@@ -55,8 +52,6 @@ public class TestDownloadManager implements DownloadHandler {
         // assertEquals(mgr.getStatus().threads,2);
         assertTrue("downloaded", good == null && error != null && start != null);
         assertTrue("downloaded file!", !f2.exists());
-        assertEquals(config.getMaxDownloadThreads(), mgr.getStatus().threads);
-        assertEquals(0, mgr.getStatus().waiting);
 
         System.out.println("Done");
     }

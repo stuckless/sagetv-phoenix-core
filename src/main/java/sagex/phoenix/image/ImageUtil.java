@@ -1,34 +1,27 @@
 package sagex.phoenix.image;
 
-import java.awt.AlphaComposite;
-import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.imageio.IIOImage;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
+import javax.imageio.*;
 import javax.imageio.stream.FileCacheImageOutputStream;
 import javax.imageio.stream.FileImageOutputStream;
+import javax.imageio.stream.ImageInputStream;
 
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOExceptionWithCause;
 import org.apache.log4j.Logger;
 
+import sage.ImageUtils;
 import sagex.SageAPI;
 import sagex.api.Utility;
 import sagex.phoenix.Phoenix;
@@ -106,42 +99,17 @@ public class ImageUtil {
         if (in == null)
             return null;
 
-        BufferedImage img = null;
-        Object metaimg = null;
-        if ("file".equals(in.getProtocol())) {
-            if (SageAPI.isRemote()) {
-                return ImageIO.read(in);
-            } else {
-                metaimg = Utility.LoadImageFile(new File(in.getFile()));
+        try {
+            BufferedImage img = ImageUtils.fullyLoadImage(in);
+            // sometimes sagetv can't load it, or it returns it's NullImage instance
+            if (img == null || img == ImageUtils.getNullImage()) {
+                throw new RuntimeException("Failed to load Image: " + in);
             }
-        } else {
-            metaimg = Utility.LoadImage(in);
+            return img;
+        } catch (Throwable t) {
+            log.warn("Failed to load image using sage apis using ImageIO for " + in);
+            return ImageIO.read(in);
         }
-
-        final Object meta = metaimg;
-        if (!Utility.IsImageLoaded(meta)) {
-            log.info("Sage image not loaded...waiting 2 seconds for " + in);
-            WaitFor wf = new WaitFor() {
-                @Override
-                public boolean isDoneWaiting() {
-                    return Utility.IsImageLoaded(meta);
-                }
-            };
-            wf.waitFor(2000, 100);
-
-        }
-
-        if (Utility.IsImageLoaded(meta)) {
-            img = Utility.GetImageAsBufferedImage(meta);
-        }
-
-        // hack check in case sagetv didn't load the image
-        if (img == null || img.getWidth() == 16) {
-            log.warn("Failed to load sage image using sage apis using ImageIO for " + in);
-            img = ImageIO.read(in);
-        }
-
-        return img;
     }
 
     public static BufferedImage readImage(URL in) throws IOException {
@@ -150,6 +118,9 @@ public class ImageUtil {
 
     public static void writeImageWithCompression(BufferedImage img, File file) throws IOException {
         String ext = FilenameUtils.getExtension(file.getName());
+
+        img = fixImage(img, ext);
+
         Iterator<ImageWriter> i = ImageIO.getImageWritersBySuffix(ext);
         boolean imageWritten = false;
         for (; i.hasNext(); ) {
@@ -224,6 +195,27 @@ public class ImageUtil {
     }
 
     /**
+     * Fixes image type based on the file extension.  If you write argb images as jpg, things
+     * get messed up.
+     * @param img
+     * @param ext
+     * @return
+     */
+    static BufferedImage fixImage(BufferedImage img, String ext) {
+        if ("jpg".equalsIgnoreCase(ext)) {
+            // log.info("Adjusting JPG image during Java Colorspace Issue for file " + file);
+            // set rgb color for image, because of issues in java jpeg colorspaces
+            int w = img.getWidth();
+            int h = img.getHeight();
+            BufferedImage newImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+            int[] rgb = img.getRGB(0, 0, w, h, null, 0, w);
+            newImage.setRGB(0, 0, w, h, rgb, 0, w);
+            img = newImage;
+        }
+        return img;
+    }
+
+    /**
      * Writes the image to an output stream
      *
      * @param img
@@ -231,6 +223,8 @@ public class ImageUtil {
      * @param os
      */
     public static void writeImageWithCompression(BufferedImage img, String ext, OutputStream os) {
+        img = fixImage(img, ext);
+
         try {
             Iterator<ImageWriter> i = ImageIO.getImageWritersBySuffix(ext);
             ImageWriter jpegWriter = i.next();
@@ -299,19 +293,32 @@ public class ImageUtil {
                 scaleHeight));
 
         if (SageAPI.isRemote()) {
+            log.debug("Sage is Remote using internal scaling");
             return internal_scale(imageSrc, scaleWidth, scaleHeight);
         } else {
-            return Utility.ScaleBufferedImage(imageSrc, scaleWidth, scaleHeight, false);
+            if (imageSrc.getType() == BufferedImage.TYPE_INT_RGB) {
+                return ImageUtils.createBestOpaqueScaledImage(imageSrc, scaleWidth, scaleHeight);
+            } else {
+                return ImageUtils.createBestScaledImage(imageSrc, scaleWidth, scaleHeight);
+            }
         }
     }
 
     static BufferedImage internal_scale(BufferedImage imageToScale, int dWidth, int dHeight) {
         BufferedImage scaledImage = null;
         if (imageToScale != null) {
-            scaledImage = new BufferedImage(dWidth, dHeight, imageToScale.getType());
-            Graphics2D graphics2D = scaledImage.createGraphics();
-            graphics2D.drawImage(imageToScale, 0, 0, dWidth, dHeight, null);
-            graphics2D.dispose();
+
+            scaledImage = new java.awt.image.BufferedImage(dWidth,
+                    dHeight, imageToScale.getType());
+            java.awt.Graphics2D g2 = scaledImage.createGraphics();
+            g2.setRenderingHint(java.awt.RenderingHints.KEY_INTERPOLATION,
+                    java.awt.RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+            g2.setRenderingHint(java.awt.RenderingHints.KEY_ALPHA_INTERPOLATION,
+                    java.awt.RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);
+            g2.setComposite(java.awt.AlphaComposite.Src);
+            g2.drawImage(imageToScale, 0, 0, dWidth, dHeight, null);
+
+            g2.dispose();
         }
         return scaledImage;
     }
@@ -513,5 +520,60 @@ public class ImageUtil {
 
     public static long getCacheSize() {
         return org.apache.commons.io.FileUtils.sizeOfDirectory(getImageCacheDir());
+    }
+
+
+    /**
+     * Returns the ImageSize for the given File Image without loading the ENTIRE image
+     *
+     * @param image
+     * @return
+     */
+    public static Dimension getImageSize(URL image) {
+        try (InputStream is = image.openStream()){
+            return getImageSize(is);
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+
+    /**
+     * Returns the ImageSize for the given File Image without loading the ENTIRE image
+     *
+     * @param image
+     * @return
+     */
+    public static Dimension getImageSize(File image) {
+        try (InputStream is = new FileInputStream(image)){
+            return getImageSize(is);
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+
+    /**
+     * Gets the Image Size without having to load the entire image
+     * @param image
+     * @return
+     */
+    public static Dimension getImageSize(InputStream image) {
+        try(ImageInputStream in = ImageIO.createImageInputStream(image)){
+            final Iterator<ImageReader> readers = ImageIO.getImageReaders(in);
+            if (readers.hasNext()) {
+                ImageReader reader = readers.next();
+                try {
+                    reader.setInput(in);
+                    return new Dimension(reader.getWidth(0), reader.getHeight(0));
+                } finally {
+                    reader.dispose();
+                }
+            }
+            return null;
+        } catch (Throwable t) {
+            t.printStackTrace();
+            return null;
+        }
     }
 }

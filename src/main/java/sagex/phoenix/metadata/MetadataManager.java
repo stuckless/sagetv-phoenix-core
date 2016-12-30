@@ -31,6 +31,7 @@ import sagex.phoenix.fanart.FanartUtil;
 import sagex.phoenix.fanart.LocalFanartStorage;
 import sagex.phoenix.metadata.factory.MetadataProviderBuilder;
 import sagex.phoenix.metadata.persistence.Sage7Persistence;
+import sagex.phoenix.metadata.provider.tmdb.TMDBMetadataProvider;
 import sagex.phoenix.metadata.search.HasFindByIMDBID;
 import sagex.phoenix.metadata.search.MediaSearchResult;
 import sagex.phoenix.metadata.search.MetadataSearchUtil;
@@ -233,6 +234,53 @@ public class MetadataManager extends SystemConfigurationFileManager implements
      */
     public List<IMetadataSearchResult> search(SearchQuery query) throws MetadataException {
         return search(getProviderForQuery(query), query);
+    }
+
+    /**
+     * Given the existing MediaFile and optional metadata, find the metadata/fanart for this item.
+     * This is useful to "refresh" the metadata for an item.
+     *
+     * @param file
+     * @param md
+     * @return
+     * @throws MetadataException
+     */
+    public IMetadata searchByExisting(IMediaFile file, IMetadata md) throws MetadataException {
+        md = (md==null?file.getMetadata():md);
+        SearchQuery q = new SearchQuery(getDefaultMetadataOptions());
+        q.set(Field.PROVIDER, md.getMediaProviderID());
+        q.set(Field.ID, md.getMediaProviderDataID());
+        q.set(Field.IMDBID, md.getIMDBID());
+        if (file.isType(MediaResourceType.TV.value())) {
+            if (md.getEpisodeNumber() > 0) {
+                q.set(Field.EPISODE, String.valueOf(md.getEpisodeNumber()));
+                q.set(Field.SEASON, String.valueOf(md.getSeasonNumber()));
+            }
+        }
+
+        if (sagex.phoenix.util.StringUtils.isAnyEmpty(q.get(Field.PROVIDER))) {
+            log.info("Unable to find metadata for item by id.  Missing provider for " + file);
+            throw new MetadataException("Can't find by ID, since provider is missing.", file, md);
+        }
+
+        // if IMDB is set as the provider, then remap to TMDB
+        if ("imdb".equalsIgnoreCase(q.getProvider())) {
+            q.setProvider("tmdb");
+            q.setIMDBID(q.getId());
+            q.setId(null);
+        }
+
+        if (!sagex.phoenix.util.StringUtils.hasAny(q.get(Field.ID), q.getIMDBId())) {
+            log.info("Unable to find metadata for item by id.  Missing id or imdbid for " + file);
+            throw new MetadataException("Can't find by ID, since id or imdbid is missing.", file, md);
+        }
+
+        List<IMetadataSearchResult> results = search(q);
+        if (results==null || results.size()!=1) {
+            throw new MetadataException("Search by ID failed", file, md);
+        }
+
+        return getMetdata(results.get(0));
     }
 
     /**
@@ -497,7 +545,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
      * @param id      metadata provider ids
      * @param file    {@link IMediaFile} instance
      * @param query   {@link SearchQuery} query instance to use for searching
-     * @param options {@link IMetadataOptions} any persistence options
+     * @param options {@link Hints} any persistence options
      */
     public void automaticUpdate(String id, IMediaFile file, SearchQuery query, Hints options) throws MetadataException {
 

@@ -175,6 +175,11 @@
          <tag value="tv"/>
       </item>
 
+      <item name="missingfanart" label="Missing Fanart" class="sagex.phoenix.vfs.filters.MissingFanartFilter">
+         <tag value="video"/>
+         <tag value="tv"/>
+      </item>
+
       <item name="recentlywatched" label="Recently Watched" class="sagex.phoenix.vfs.filters.RecentlyWatchedFilter">
          <option name="value"/>
          <option name="duration"/>
@@ -1241,7 +1246,7 @@
       </view>
 
       <view name="phoenix.view.default.missingmetadata" label="Missing Metadata">
-         <description>Shows videos that are missing Metadata and/or Fanart information</description>
+         <description>Shows videos that are missing Metadata</description>
          <tag value="metadata"/>
          <tag value="web"/>
          <view-source name="phoenix.view.default.allvideos"/>
@@ -1251,7 +1256,18 @@
          </presentation>
       </view>
 
-      <view name="phoenix.view.default.videosbyparentalrating" label="Videos (Parental Ratings)">
+       <view name="phoenix.view.default.missingfanart" label="Missing Fanart">
+           <description>Shows videos that are missing Fanart information</description>
+           <tag value="metadata"/>
+           <tag value="web"/>
+           <view-source name="phoenix.view.default.allvideos"/>
+           <filter by="missingfanart"/>
+           <presentation>
+               <sort by="title"/>
+           </presentation>
+       </view>
+
+       <view name="phoenix.view.default.videosbyparentalrating" label="Videos (Parental Ratings)">
          <description>View videos by Parental Ratings</description>
          <tag value="video"/>
          <tag value="tv"/>

@@ -98,15 +98,38 @@ public class Utils {
         return buffer;
     }
 
+    /**
+     * Creates image relative to the "junit" test dir area
+     * @param file
+     * @param width
+     * @param height
+     * @return
+     */
     public static File createImageFile(String file, int width, int height) {
-        File f = makeFile(file);
-        BufferedImage buffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        return createImageFile(makeFile(file), width, height);
+    }
+
+    /**
+     * Creates image in the destination file.  Will create the dest dir if it doesn't exist. Will
+     * delete dest file, if it exists.
+     * @param file
+     * @param width
+     * @param height
+     * @return
+     */
+    public static File createImageFile(File file, int width, int height) {
+        if (file.exists()) file.delete();
+        if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
+        int type = BufferedImage.TYPE_INT_ARGB;
+        if (file.getName().toLowerCase().endsWith(".jpg")) type=BufferedImage.TYPE_INT_RGB;
+        BufferedImage buffer = new BufferedImage(width, height, type);
         try {
-            ImageUtil.writeImage(buffer, f);
+            ImageUtil.writeImage(buffer, file);
         } catch (Exception e) {
             e.printStackTrace();
             fail("Could not create image: " + file);
         }
-        return f;
+        return file;
     }
+
 }

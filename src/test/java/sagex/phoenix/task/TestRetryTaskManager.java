@@ -1,4 +1,4 @@
-package test.junit;
+package sagex.phoenix.task;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import sagex.phoenix.Phoenix;
 import sagex.phoenix.task.ITaskOperation;
 import sagex.phoenix.task.ITaskProgressHandler;
 import sagex.phoenix.task.RetryTaskManager;
@@ -64,11 +65,11 @@ public class TestRetryTaskManager {
             }
         };
 
-        RetryTaskManager rtt = new RetryTaskManager(3, 2, 200);
+        RetryTaskManager rtt = new RetryTaskManager(3, 200, Phoenix.getInstance().getTaskManager());
         TaskHandler th = new TaskHandler();
         TaskItem ti = new TaskItem();
         ti.setHandler(th);
-        rtt.performTask(ti, op1);
+        rtt.submitTask(ti, op1);
         Thread.currentThread().sleep(1000);
         assertTrue(th.started);
         assertTrue(th.error);
@@ -76,9 +77,6 @@ public class TestRetryTaskManager {
         assertEquals(counts.counts, 3);
         assertEquals(counts.failed, 3);
         assertEquals(TaskItem.State.ERROR, ti.getState());
-        assertEquals(2, rtt.getStatus().threads); // 2 threads should have been
-        // started
-        assertEquals(0, rtt.getStatus().queueLength);
     }
 
     @Test
@@ -101,11 +99,11 @@ public class TestRetryTaskManager {
             }
         };
 
-        RetryTaskManager rtt = new RetryTaskManager(3, 2, 200);
+        RetryTaskManager rtt = new RetryTaskManager(3, 200, Phoenix.getInstance().getTaskManager());
         TaskHandler th = new TaskHandler();
         TaskItem ti = new TaskItem();
         ti.setHandler(th);
-        rtt.performTask(ti, op1);
+        rtt.submitTask(ti, op1);
         Thread.currentThread().sleep(1000);
         assertTrue(th.started);
         assertFalse(th.error);
@@ -113,8 +111,6 @@ public class TestRetryTaskManager {
         assertEquals(counts.counts, 1);
         assertEquals(counts.failed, 0);
         assertEquals(TaskItem.State.COMPLETE, ti.getState());
-        assertEquals(1, rtt.getStatus().threads);
-        assertEquals(0, rtt.getStatus().queueLength);
     }
 
     @Test
@@ -132,21 +128,17 @@ public class TestRetryTaskManager {
             }
         };
 
-        RetryTaskManager rtt = new RetryTaskManager(3, 2, 200);
+        RetryTaskManager rtt = new RetryTaskManager(3, 200, Phoenix.getInstance().getTaskManager());
         TaskHandler th = new TaskHandler();
         TaskItem ti1 = new TaskItem();
         TaskItem ti2 = new TaskItem();
         TaskItem ti3 = new TaskItem();
-        rtt.performTask(ti1, op1);
-        rtt.performTask(ti1, op1);
-        rtt.performTask(ti1, op1);
+        rtt.submitTask(ti1, op1);
+        rtt.submitTask(ti1, op1);
+        rtt.submitTask(ti1, op1);
         Thread.sleep(400);
-        assertEquals(2, rtt.getStatus().threads);
-        assertEquals(3, rtt.getStatus().queueLength); // 3 because they are all
         // failing
         Thread.sleep(10000);
-        assertEquals(2, rtt.getStatus().threads);
-        assertEquals(0, rtt.getStatus().queueLength); // 0 because they are all
         // failed, and we are
         // done
     }

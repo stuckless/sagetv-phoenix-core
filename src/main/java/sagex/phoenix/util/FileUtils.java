@@ -3,6 +3,7 @@ package sagex.phoenix.util;
 import java.io.File;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.net.SyslogAppender;
 
 /**
  * Common file operations, in addition to the Commons FileUtils
@@ -58,5 +59,25 @@ public class FileUtils {
         if (filename == null)
             return null;
         return filename.replaceAll("[^\\p{L}A-Za-z0-9\\.\\[\\]\\(\\)-_~+&]+\\ ", "");
+    }
+
+    /**
+     * Remove a file if it hasn't been last modified in delta ms.  ie, will delete files that
+     * haven't been updated updated in delta ms.  Will optionally log if log is not null.
+     * @param file
+     * @param delta
+     * @param log
+     * @return
+     */
+    public static boolean deleteIfLastModifiedGreater(File file, int delta, Logger log) {
+        if (file==null||!file.exists()) return false;
+        if (Math.abs(System.currentTimeMillis()-file.lastModified()) > delta) {
+            boolean del = file.delete();
+            if (del && log!=null) {
+                log.debug("DELETED: " + file + "; Last Modified old than " + delta + "ms");
+            }
+            return del;
+        }
+        return false;
     }
 }

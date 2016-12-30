@@ -1,20 +1,7 @@
 package sagex.phoenix.plugin;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-
 import sage.SageTVEventListener;
 import sage.SageTVPluginRegistry;
 import sagex.api.Configuration;
@@ -31,15 +18,9 @@ import sagex.phoenix.event.SageEventBus;
 import sagex.phoenix.event.SageSystemMessageListener;
 import sagex.phoenix.event.SystemMessageID;
 import sagex.phoenix.fanart.FanartUtil;
-import sagex.phoenix.metadata.IMetadata;
-import sagex.phoenix.metadata.ISageCustomMetadataRW;
-import sagex.phoenix.metadata.MetadataConfiguration;
-import sagex.phoenix.metadata.MetadataException;
-import sagex.phoenix.metadata.MetadataHints;
-import sagex.phoenix.metadata.MetadataUtil;
+import sagex.phoenix.metadata.*;
 import sagex.phoenix.task.ITaskOperation;
 import sagex.phoenix.task.ITaskProgressHandler;
-import sagex.phoenix.task.RetryTaskManager;
 import sagex.phoenix.task.TaskItem;
 import sagex.phoenix.util.Hints;
 import sagex.phoenix.util.LogUtil;
@@ -52,11 +33,11 @@ import sagex.phoenix.vfs.filters.HomeVideosConfiguration;
 import sagex.phoenix.vfs.filters.HomeVideosFilter;
 import sagex.phoenix.vfs.sage.SageMediaFile;
 import sagex.phoenix.vfs.util.PathUtils;
-import sagex.plugin.AbstractPlugin;
-import sagex.plugin.ButtonClickHandler;
-import sagex.plugin.PluginProperty;
-import sagex.plugin.SageEvent;
-import sagex.plugin.SageEvents;
+import sagex.plugin.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Sage7 Plugin for Phoenix
@@ -65,9 +46,9 @@ import sagex.plugin.SageEvents;
  */
 public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITaskProgressHandler {
 	private MetadataConfiguration config = null;
-	private RetryTaskManager retryTaskManager = null;
 	private HomeVideosFilter homeVideoFilter = new HomeVideosFilter();
 	private HomeVideosConfiguration homeVideoCfg = null;
+	private static PluginPropertyProgressMonitor monitor = null;
 
 	public PhoenixPlugin(SageTVPluginRegistry registry) {
 		super(registry);
@@ -214,12 +195,13 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 			}
 		} catch (Exception me) {
 			if (canRetry(me)) {
-				log.info("Automatic Metadata Failed. Will try to requeued for later for " + file);
+				log.info("Automatic Metadata Failed. Will try to re-queued for later for " + file);
 				TaskItem ti = new TaskItem();
 				ti.getUserData().put("file", file);
 				ti.getUserData().put("recording", recording);
+				ti.setOperation(this);
 				ti.setHandler(this);
-				retryTaskManager.performTask(ti, this);
+				Phoenix.getInstance().getTaskManager().submitTaskWithRetry(ti);
 			} else {
 				reportFailure(file, me);
 			}
@@ -319,8 +301,6 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 				Group el = (Group) Phoenix.getInstance().getConfigurationMetadataManager().findElement("phoenix");
 				PluginConfigurationHelper.addConfiguration(this, el);
 				config = GroupProxy.get(MetadataConfiguration.class);
-				retryTaskManager = new RetryTaskManager(config.getAutomaticRetryCount(), config.getAutomaticRetryThreadCount(),
-						config.getAutomaticRetryDelay());
 				homeVideoCfg = GroupProxy.get(HomeVideosConfiguration.class);
 
 				// register ourself to listen configuration button events
@@ -474,7 +454,7 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 	public void performAction(TaskItem item) throws Throwable {
 		IMediaFile file = (IMediaFile) item.getUserData().get("file");
 		boolean recording = (Boolean) item.getUserData().get("recording");
-		log.info("Retrying Scan for " + file);
+		log.info("Retrying Metadata Scan for " + file);
 
 		Hints options = Phoenix.getInstance().getMetadataManager().getDefaultMetadataOptions();
 		options.setBooleanHint(MetadataHints.KNOWN_RECORDING, recording);
@@ -491,15 +471,26 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 		return false;
 	}
 
-	public RetryTaskManager getRetryTaskManager() {
-		return retryTaskManager;
+	@ButtonClickHandler("phoenix/fanart/rescaleFanart")
+	public void rescaleFanart() {
+		final PluginProperty prop = getPluginPropertyForSetting("phoenix/fanart/rescaleFanart");
+		if (monitor!=null && !(monitor.isCancelled() || monitor.isDone())) {
+			log.info("Cancelling Rescale fanart");
+			monitor.setTaskName("Cancelling...");
+			monitor.setCancelled(true);
+			return;
+		}
+
+		monitor = new PluginPropertyProgressMonitor(prop);
+
+		Phoenix.getInstance().getTaskManager().submit(new Runnable() {
+			@Override
+			public void run() {
+				log.info("Rescaling Fanart started...");
+				FanartUtil.applyScreenScalingToAllImageFiles(new File(config.getFanartCentralFolder()), config.getMaxScreenSize(), monitor);
+				log.info("Rescaling Fanart complete...");
+			}
+		});
 	}
 
-	@ButtonClickHandler("phoenix/fanart/rescanFanart")
-	public void rescanCollection() {
-		log.info("Rescanning Missing Metadata items to update fanart and metadata");
-		PluginProperty prop = getPluginPropertyForSetting("phoenix/fanart/rescanFanart");
-		prop.setLabel("Scanning Fanart....");
-		prop.setHelp("A scan is in progress... updateing progress...");
-	}
 }

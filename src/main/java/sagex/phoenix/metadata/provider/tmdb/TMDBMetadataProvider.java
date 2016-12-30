@@ -385,6 +385,10 @@ public class TMDBMetadataProvider extends MetadataProvider implements HasFindByI
             return MetadataSearchUtil.searchById(this, query, query.get(SearchQuery.Field.ID));
         }
 
+        if (!StringUtils.isEmpty(query.getIMDBId())) {
+            return MetadataSearchUtil.createSearchResult(query, getMetadataForIMDBId(query.getIMDBId()));
+        }
+
         // check if we are searching for movies
         if (query.getMediaType() != MediaType.MOVIE) {
             throw new MetadataException("Unsupported Search Type: " + query.getMediaType(), query);

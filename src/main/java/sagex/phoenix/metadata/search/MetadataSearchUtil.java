@@ -10,10 +10,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 
 import sagex.phoenix.configuration.proxy.GroupProxy;
-import sagex.phoenix.metadata.IMetadata;
-import sagex.phoenix.metadata.IMetadataProvider;
-import sagex.phoenix.metadata.IMetadataSearchResult;
-import sagex.phoenix.metadata.MetadataConfiguration;
+import sagex.phoenix.metadata.*;
 import sagex.phoenix.metadata.search.SearchQuery.Field;
 import sagex.phoenix.util.DateUtils;
 import sagex.phoenix.util.Similarity;
@@ -51,7 +48,7 @@ public class MetadataSearchUtil {
      * if the id is not a valid id, then only a 1 element array will be
      * returned.
      *
-     * @param idsagex .phoenix.util.
+     * @param id
      * @return
      */
     public static String[] getMetadataIdParts(String id) {
@@ -179,6 +176,21 @@ public class MetadataSearchUtil {
                 sr.getExtra().put(f.name(), s);
             }
         }
+    }
+
+    public static List<IMetadataSearchResult> createSearchResult(SearchQuery query, IMetadata result) {
+        MediaSearchResult res = new MediaSearchResult(MediaType.toMediaType(result.getMediaType()), result.getMediaProviderID(), result.getMediaProviderDataID(), result.getMediaTitle(),
+                result.getYear(), 1.0f);
+        res.setProviderId(query.get(Field.PROVIDER));
+        res.setId(query.get(Field.ID));
+        res.setMetadata(result);
+        res.setMediaType(MediaType.toMediaType(result.getMediaType()));
+        res.setScore(1.0f);
+        res.setTitle(result.getMediaTitle());
+        res.setYear(result.getYear());
+        res.setIMDBId(result.getIMDBID());
+        res.setUrl(result.getMediaProviderDataID());
+        return Arrays.asList(new IMetadataSearchResult[]{res});
     }
 
     public static List<IMetadataSearchResult> searchById(IMetadataProvider prov, SearchQuery query, String id) {

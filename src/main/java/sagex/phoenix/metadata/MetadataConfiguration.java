@@ -98,14 +98,40 @@ public class MetadataConfiguration extends GroupProxy {
     private FieldProxy<String> stackingModelRegex = new FieldProxy<String>("[ _\\\\.-]+(cd|dvd|part|disc)[ _\\\\.-]*([0-9a-d]+)");
 
     @AField(label = "Image Compression", description = "Image compression to use (between 0 and 1.0) where 0 max max compression and 1.0 is no compression.", scope = ConfigScope.SERVER)
-    private FieldProxy<Float> imageCompression = new FieldProxy<Float>(0.82f);
+    private FieldProxy<Float> imageCompression = new FieldProxy<Float>(1.00f);
 
     @AField(label = "Fetch Quotes and Trivia", description = "If true, then Quotes and Trivia will fetched from metadata providers that support it.", scope = ConfigScope.SERVER, fullKey = "metadata/get_imdb_trivia")
     private FieldProxy<Boolean> fetchQuotesAndTrivia = new FieldProxy<Boolean>(true);
 
+
+    @AField(label = "Scale Large Fanart", description = "If enabled, then large fanart will be scaled down to conserve memory in SageTV Server and MiniClients", scope = ConfigScope.SERVER)
+    private FieldProxy<Boolean> scaleLargeFanart = new FieldProxy<Boolean>(true);
+
+    @AField(label = "Max Screen Size", description = "Sets the size of the largest screen, in WidthxHeight (ie, 1920x1080).  This is used for scaling Fanart.", scope = ConfigScope.SERVER)
+    private FieldProxy<String> maxScreenSize = new FieldProxy<String>("1920x1080");
+
+    @AField(label = "Rescale Fanart", description = "Scales source fanart based on Max Screen Size", scope = ConfigScope.SERVER, type = ConfigType.BUTTON, fullKey = "phoenix/fanart/rescaleFanart")
+    private FieldProxy<String> rescaleFanart = new FieldProxy<String>("RESCALE");
+
     public MetadataConfiguration() {
         super();
         init();
+    }
+
+    public String getMaxScreenSize() {
+        return maxScreenSize.get();
+    }
+
+    public void setMaxScreenSize(String v) {
+        this.maxScreenSize.set(v);
+    }
+
+    public boolean scaleLargeFanart() {
+        return scaleLargeFanart.get();
+    }
+
+    public void setScaleLargeFanart(boolean b) {
+        this.scaleLargeFanart.set(b);
     }
 
     public String getWordsToClean() {
@@ -331,5 +357,9 @@ public class MetadataConfiguration extends GroupProxy {
 
     public boolean getFillInMissingRecordingMetadata() {
         return fillInMissingRecordingMetadata.get();
+    }
+
+    public FieldProxy<String> getRescaleFanartAction() {
+        return rescaleFanart;
     }
 }

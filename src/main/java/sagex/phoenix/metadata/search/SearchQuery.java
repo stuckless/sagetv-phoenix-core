@@ -14,7 +14,7 @@ public class SearchQuery implements Serializable, HasHints {
 
     public enum Field {
         QUERY, RAW_TITLE, CLEAN_TITLE, SEASON, EPISODE, DISC, EPISODE_TITLE, EPISODE_DATE,
-        YEAR, FILE, URL, PROVIDER, ID, ARTIST, ALBUM, AIRING_ID, EPISODE_RANGE_END
+        YEAR, FILE, URL, PROVIDER, ID, ARTIST, ALBUM, AIRING_ID, EPISODE_RANGE_END, IMDBID
     }
 
     private Map<Field, String> fields = new HashMap<Field, String>();
@@ -65,11 +65,11 @@ public class SearchQuery implements Serializable, HasHints {
         set(Field.ARTIST, val);
     }
 
-    public String getProviderId() {
+    public String getId() {
         return fields.get(Field.ID);
     }
 
-    public void setProviderId(String val) {
+    public void setId(String val) {
         set(Field.ID, val);
     }
 
@@ -168,6 +168,14 @@ public class SearchQuery implements Serializable, HasHints {
 
     public void setQuery(String val) {
         set(Field.QUERY, val);
+    }
+
+    public String getIMDBId() {
+        return fields.get(Field.IMDBID);
+    }
+
+    public void setIMDBID(String id) {
+        fields.put(Field.IMDBID, id);
     }
 
     public Hints getHints() {
