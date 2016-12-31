@@ -58,7 +58,7 @@ dependencies {
 	configure 'dom4j:dom4j:1.6.1'
 
 	// used by the generate api target
-	genapi 'phoenix:phoenix-api-generator:2.0'
+	genapi 'phoenix:phoenix-api-generator:2.1'
 
     // used by sluggers sagetv notify plugin
     sagesubmit 'slugger:slugger-dev-tools:0.0.1'
