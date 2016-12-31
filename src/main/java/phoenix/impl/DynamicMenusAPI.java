@@ -269,6 +269,17 @@ public class DynamicMenusAPI {
     }
 
     /**
+     * Invokes the Menu Action for the given Menu Item with the given contextObject
+     *
+     * @param item Menu Item
+     * @param contextObject context object on which to invoke the menu actions
+     * @return true if the Menu Action was invoked without errors
+     */
+    public boolean InvokeAction(MenuItem item, Object contextObject) {
+        return item.performActions(contextObject);
+    }
+
+    /**
      * Gets the Label for the given menu item
      *
      * @param item Menu Item
