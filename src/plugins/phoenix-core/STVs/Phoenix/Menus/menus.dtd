@@ -21,8 +21,14 @@
 <!ELEMENT screen EMPTY >
 <!ATTLIST screen name CDATA #REQUIRED >
 
+<!ELEMENT option EMPTY >
+<!ATTLIST option name CDATA #REQUIRED >
+<!ATTLIST option value CDATA #REQUIRED >
+
+
 <!ELEMENT menu ( description | field | menu | menuItem | view | eval | exec | sageCommand | screen | script )* >
 <!ATTLIST menu ref CDATA #IMPLIED >
+<!ATTLIST menu factoryClass CDATA #IMPLIED >
 <!ATTLIST menu background CDATA #IMPLIED >
 <!ATTLIST menu icon CDATA #IMPLIED >
 <!ATTLIST menu label CDATA #IMPLIED >

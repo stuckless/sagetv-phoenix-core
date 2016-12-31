@@ -63,7 +63,7 @@ public class TestMenus {
 
         List<Menu> menus = MenuBuilder.buildMenus(TestMenusFile, TestMenusDTDDir);
         assertNotNull(menus);
-        assertEquals(5, menus.size());
+        assertEquals(6, menus.size());
 
         Menu m1 = menus.get(0);
         assertEquals("TestMenu", m1.getName());
@@ -147,7 +147,7 @@ public class TestMenus {
 
         List<Menu> menus = MenuBuilder.buildMenus(TestMenusFile, TestMenusDTDDir);
         assertNotNull(menus);
-        assertEquals(5, menus.size());
+        assertEquals(6, menus.size());
 
         Menu m1 = menus.get(0);
         assertEquals("Test Menu", phoenix.menu.GetLabel(m1));
@@ -608,6 +608,18 @@ public class TestMenus {
 
         XmlMenuSerializer menuSerializer = new XmlMenuSerializer();
         menuSerializer.serialize(menu, System.out);
+    }
+
+    @Test
+    public void testMenuFactory() throws IOException {
+        SageAPI.setProvider(new StubSageAPI());
+
+        FileUtils.copyFileToDirectory(TestMenusFile, InitPhoenix.ProjectHome("target/testing/STVs/Phoenix/Menus"));
+        Phoenix.getInstance().getMenuManager().loadConfigurations();
+
+        Menu menu = Phoenix.getInstance().getMenuManager().getMenu("test.menu.factory");
+        assertEquals(6, menu.getChildCount());
+        System.out.println("Menu: " + menu);
     }
 
 }

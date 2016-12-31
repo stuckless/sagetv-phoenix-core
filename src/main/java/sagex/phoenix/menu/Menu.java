@@ -5,9 +5,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang.BitField;
 import org.apache.commons.lang.StringUtils;
 
 import sagex.phoenix.db.UserRecordUtil;
+import sagex.phoenix.factory.Factory;
 import sagex.phoenix.node.IContainer;
 import sagex.phoenix.node.INodeVisitor;
 import sagex.phoenix.util.var.DynamicVariable;
@@ -22,13 +24,15 @@ public class Menu extends MenuItem implements Iterable<IMenuItem>, IMenuItem, IC
     protected Script script;
     protected List<IMenuItem> items = new LinkedList<IMenuItem>();
     protected DynamicVariable<String> type = new DynamicVariable<String>(String.class, null);
+    protected DynamicVariable<String> factoryClass = new DynamicVariable<String>(String.class, null);
+    protected MenuFactory factoryImpl = null;
 
     public Menu(Menu parent) {
         super(parent);
     }
 
     public Iterator<IMenuItem> iterator() {
-        return items.iterator();
+        return getItems().iterator();
     }
 
     public Script getScript() {
@@ -40,12 +44,12 @@ public class Menu extends MenuItem implements Iterable<IMenuItem>, IMenuItem, IC
     }
 
     public void addItem(IMenuItem item) {
-        items.add(item);
+        getItems().add(item);
         ((MenuItem) item).setParent(this);
     }
 
     public void addItem(IMenuItem item, int pos) {
-        items.add(pos, item);
+        getItems().add(pos, item);
         ((MenuItem) item).setParent(this);
     }
 
@@ -84,16 +88,16 @@ public class Menu extends MenuItem implements Iterable<IMenuItem>, IMenuItem, IC
     }
 
     public void removeItem(IMenuItem item) {
-        items.remove(item);
+        getItems().remove(item);
         ((MenuItem) item).setParent(null);
     }
 
     public int indexOf(IMenuItem item) {
-        return items.indexOf(item);
+        return getItems().indexOf(item);
     }
 
     public int indexOf(String itemName) {
-        return items.indexOf(getItemByName(itemName));
+        return getItems().indexOf(getItemByName(itemName));
     }
 
     public boolean replaceItem(IMenuItem olditem, IMenuItem newitem) {
@@ -113,13 +117,36 @@ public class Menu extends MenuItem implements Iterable<IMenuItem>, IMenuItem, IC
      * @return
      */
     public List<IMenuItem> getItems() {
+        if (hasFactory()) {
+            if (factoryImpl==null) {
+                buildFactory();
+            }
+            if (factoryImpl!=null) {
+                factoryImpl.resolveMenuItems(this);
+            } else {
+                log.error("Failed to resolve items using factory class " + factoryClass().get());
+            }
+        }
         return items;
+    }
+
+    private void buildFactory() {
+        try {
+            Class<MenuFactory> cl = (Class<MenuFactory>) Class.forName(factoryClass.get());
+            factoryImpl = cl.newInstance();
+        } catch (Throwable t) {
+            log.error("Failed to create Factory Menu Class for " + factoryClass().get());
+        }
+    }
+
+    private boolean hasFactory() {
+        return factoryImpl!=null || factoryClass().get()!=null;
     }
 
     public List<IMenuItem> getVisibleItems() {
         List<IMenuItem> list = new LinkedList<IMenuItem>();
 
-        for (IMenuItem mi : items) {
+        for (IMenuItem mi : getItems()) {
             if (mi.visible().get()) {
                 list.add(mi);
             }
@@ -135,7 +162,7 @@ public class Menu extends MenuItem implements Iterable<IMenuItem>, IMenuItem, IC
     public IMenuItem getItemByName(String name) {
         if (name == null)
             return null;
-        for (IMenuItem mi : items) {
+        for (IMenuItem mi : getItems()) {
             if (name.equals(mi.getName()))
                 return mi;
         }
@@ -144,6 +171,10 @@ public class Menu extends MenuItem implements Iterable<IMenuItem>, IMenuItem, IC
 
     public DynamicVariable<String> type() {
         return type;
+    }
+
+    public DynamicVariable<String> factoryClass() {
+        return factoryClass;
     }
 
     @Override
@@ -183,7 +214,7 @@ public class Menu extends MenuItem implements Iterable<IMenuItem>, IMenuItem, IC
 
     public void visit(INodeVisitor<IMenuItem> visitor) {
         visitor.visit(this);
-        for (IMenuItem mi : items) {
+        for (IMenuItem mi : getItems()) {
             mi.visit(visitor);
         }
     }

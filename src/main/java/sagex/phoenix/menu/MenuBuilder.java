@@ -86,6 +86,7 @@ public class MenuBuilder extends BaseBuilder {
 
             menu.setReference(XmlUtil.attr(attributes, "ref"));
             menu.label().setValue(XmlUtil.attr(attributes, "label"));
+            menu.factoryClass().setValue(XmlUtil.attr(attributes, "factoryClass"));
             menu.setName(XmlUtil.attr(attributes, "name", toId(menu.label().get())));
             menu.visible().setValue(XmlUtil.attr(attributes, "visible", "true"));
             menu.icon().setValue(XmlUtil.attr(attributes, "icon"));

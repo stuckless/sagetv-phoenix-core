@@ -48,6 +48,7 @@ public class MenuItem implements IMenuItem {
     protected DynamicVariable<String> linkedMenuId = new DynamicVariable<String>(String.class, null);
 
     protected Map<String, DynamicVariable<String>> fields = new HashMap<String, DynamicVariable<String>>();
+
     protected List<Action> actions = new LinkedList<Action>();
 
     protected Object userData;
@@ -184,5 +185,19 @@ public class MenuItem implements IMenuItem {
 
     public void setReference(String reference) {
         this.reference = reference;
+    }
+
+    public void updateFrom(IMenuItem item) {
+        this.setName(item.getName());
+        this.label().setValue(item.label().getValue());
+        this.visible().setValue(item.visible().getValue());
+        this.isDefault().setValue(item.isDefault().getValue());
+        this.background().setValue(item.background().getValue());
+        this.description().setValue(item.description().getValue());
+        this.icon().setValue(item.icon().getValue());
+        this.linkedMenuId().setValue(item.linkedMenuId().getValue());
+        this.secondaryIcon().setValue(item.secondaryIcon().getValue());
+        this.fields.putAll(((MenuItem)item).fields);
+        this.actions.addAll(((MenuItem)item).actions);
     }
 }

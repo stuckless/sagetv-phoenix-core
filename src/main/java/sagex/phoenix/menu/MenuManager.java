@@ -107,17 +107,8 @@ public class MenuManager extends SystemConfigurationFileManager implements Syste
 
                         if (node instanceof Menu) {
                             // we are a delete sub menu item
-                            Pair<String,String> menuRef = resolveMenu(node.getReference());
-                            Menu resolvedMenu = getMenu(menuRef.first());
+                            Menu resolvedMenu = (Menu) resolveMenuItem(node.getReference());
                             if (resolvedMenu==null) {
-                                log.error("Failed to find Menu Reference for " + node.getReference() + " in menu " + node);
-                                return;
-                            }
-                            if (menuRef.second()!=null) {
-                                resolvedMenu = (Menu)resolvedMenu.getItemByName(menuRef.second());
-                            }
-                            if (resolvedMenu==null) {
-                                log.error("Failed to find Menu Reference for " + node.getReference() + " in menu " + node);
                                 return;
                             }
 
@@ -125,15 +116,8 @@ public class MenuManager extends SystemConfigurationFileManager implements Syste
                             updates.add(new Pair<IMenuItem, IMenuItem>(node, delegateMenu));
                             //node.getParent().replaceItem(node, delegateMenu);
                         } else {
-                            Pair<String,String> menuRef = resolveMenu(node.getReference());
-                            Menu resolvedMenu = getMenu(menuRef.first());
-                            if (resolvedMenu==null) {
-                                log.error("Failed to find Menu Reference for " + node.getReference() + " for menu item reference " + node);
-                                return;
-                            }
-                            IMenuItem resolvedItem = resolvedMenu.getItemByName(menuRef.second());
+                            IMenuItem resolvedItem = resolveMenuItem(node.getReference());
                             if (resolvedItem==null) {
-                                log.error("Failed to find menu item reference " + menuRef.second() + " in menu " + menuRef.first() + " for menu item reference " + node );
                                 return;
                             }
 
@@ -157,7 +141,7 @@ public class MenuManager extends SystemConfigurationFileManager implements Syste
         log.info("End Process Menu References");
     }
 
-    private Pair<String, String> resolveMenu(String reference) {
+    Pair<String, String> resolveMenu(String reference) {
         if (reference==null) return new Pair<String,String>();
         String parts[] = reference.split("\\s*::\\s*");
         if (parts.length==1) {
@@ -165,6 +149,22 @@ public class MenuManager extends SystemConfigurationFileManager implements Syste
         } else {
             return new Pair<String,String>(parts[0].trim(),parts[1].trim());
         }
+    }
+
+    public IMenuItem resolveMenuItem(String reference) {
+        Pair<String,String> menuRef = resolveMenu(reference);
+        Menu resolvedMenu = getMenu(menuRef.first());
+        if (resolvedMenu==null) {
+            log.error("Failed to find Menu Reference for " + reference);
+            return null;
+        }
+        IMenuItem resolvedItem = resolvedMenu.getItemByName(menuRef.second());
+        if (resolvedItem==null) {
+            log.error("Failed to find menu item reference " + menuRef.second() + " in menu " + menuRef.first());
+            return null;
+        }
+
+        return resolvedItem;
     }
 
     private void indexMenu(Menu m) {

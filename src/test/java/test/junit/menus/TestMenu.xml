@@ -169,4 +169,17 @@
         <menu ref="common.actions::shared.options"/>
     </menu>
 
+    <menu
+            label="Test Menu Factor"
+            name="test.menu.factory"
+            factoryClass="sagex.phoenix.menu.SimpleMenuFactory"
+    >
+        <field name="factoryItemRef">common.action::factoryItem</field>
+        <field name="factoryMenuRef">common.action::factoryMenu</field>
+        <field name="factoryItemVar">gFactoryItem</field>
+        <field name="factoryItemLimit">6</field>
+        <field name="factoryExpiryMS">500</field>
+    </menu>
+
+
 </menus>

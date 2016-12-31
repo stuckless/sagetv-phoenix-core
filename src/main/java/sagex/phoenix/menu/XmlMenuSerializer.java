@@ -76,15 +76,18 @@ public class XmlMenuSerializer {
         }
         serializeCommon(menu, el);
 
-        List<IMenuItem> items = menu.getItems();
-        if (items.size() > 0) {
-            for (IMenuItem mi : items) {
-                if (mi instanceof ViewMenu) {
-                    serializeViewMenu((ViewMenu) mi, el);
-                } else if (mi instanceof Menu) {
-                    serializeMenu((Menu) mi, el);
-                } else {
-                    serializeMenuItem(mi, el);
+        // if the menu has factory items, then don't serialize those
+        if (menu.factoryClass().get()==null) {
+            List<IMenuItem> items = menu.getItems();
+            if (items.size() > 0) {
+                for (IMenuItem mi : items) {
+                    if (mi instanceof ViewMenu) {
+                        serializeViewMenu((ViewMenu) mi, el);
+                    } else if (mi instanceof Menu) {
+                        serializeMenu((Menu) mi, el);
+                    } else {
+                        serializeMenuItem(mi, el);
+                    }
                 }
             }
         }
