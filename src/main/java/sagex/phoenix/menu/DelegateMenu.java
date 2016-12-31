@@ -240,12 +240,16 @@ public class DelegateMenu extends Menu implements IMenuDelegates {
 
     @Override
     public String getReference() {
-        return delegate.getReference();
+        return getOriginalItem().getReference();
+    }
+
+    public void setReference(String ref) {
+        ((MenuItem)getOriginalItem()).setReference(ref);
     }
 
     @Override
     public boolean isReference() {
-        return delegate.isReference();
+        return true;
     }
 
     @Override

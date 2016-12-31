@@ -18,11 +18,28 @@ public interface IMenuItem extends INode<Menu> {
      */
     public String getName();
 
-    // only valid for menu items, if called on a menu, then they will throw an
-    // exception
+    /**
+     * Gets the Actions for the Given Menu/Item.
+     *
+     * @return
+     */
     public List<Action> getActions();
 
+    /**
+     * Performs the MenuItems's Actions
+     * @return
+     */
     public boolean performActions();
+
+    /**
+     * Performs the MenuItems's Actions setting the Action Context (gMenuItemContext) to the given object.
+     * Actions can reference the passed context via the static context variable gMenuItemContext
+     *
+     * @param context
+     * @return
+     */
+    public boolean performActions(Object context);
+
     public void visit(INodeVisitor<IMenuItem> visitor);
 
     /**
@@ -39,9 +56,11 @@ public interface IMenuItem extends INode<Menu> {
      */
     public String getReference();
 
-    // a menu item can hold a static reference to another object
+    /**
+     * Each Menu/Item can hold a piece of user defined data
+     * @param data
+     */
     public void setUserData(Object data);
-
     public Object getUserData();
 
 
@@ -68,6 +87,11 @@ public interface IMenuItem extends INode<Menu> {
      */
     public DynamicVariable<Boolean> isDefault();
 
+    /**
+     * Menu's can define custom properties that can be stored on the menu/item for later retrieval
+     * @param fldName
+     * @return
+     */
     public DynamicVariable<String> field(String fldName);
 
     /**

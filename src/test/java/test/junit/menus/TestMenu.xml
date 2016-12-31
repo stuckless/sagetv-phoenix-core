@@ -181,5 +181,20 @@
         <field name="factoryExpiryMS">500</field>
     </menu>
 
+    <menu label="Video Options Menu" name="more.options.video" type="System">
+        <description>More Options for Videos</description>
+        <field name="gMenuItemContextVar">gVideo</field>
+
+        <menuItem name="DoSomething" label="Do Something With Video">
+            <eval>DoSomeCommand(gVideo)</eval>
+        </menuItem>
+        <menuItem name="CleanFanart" label="Clean Fanart">
+            <eval>CleanFanart(gVideo)</eval>
+        </menuItem>
+        <menuItem name="RefreshFanart" label="Refresh Fanart">
+            <eval>RefreshFanart(gVideo)</eval>
+        </menuItem>
+    </menu>
+
 
 </menus>

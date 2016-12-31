@@ -10,16 +10,7 @@ import org.apache.log4j.Logger;
 
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.db.UserRecordUtil;
-import sagex.phoenix.menu.Action;
-import sagex.phoenix.menu.ExecuteCommandAction;
-import sagex.phoenix.menu.IMenuItem;
-import sagex.phoenix.menu.Menu;
-import sagex.phoenix.menu.MenuItem;
-import sagex.phoenix.menu.SageCommandAction;
-import sagex.phoenix.menu.SageEvalAction;
-import sagex.phoenix.menu.SageScreenAction;
-import sagex.phoenix.menu.ViewMenu;
-import sagex.phoenix.menu.XmlMenuSerializer;
+import sagex.phoenix.menu.*;
 import sagex.phoenix.tools.annotation.API;
 import sagex.phoenix.util.FileUtils;
 import sagex.phoenix.util.var.DynamicVariable;
@@ -462,6 +453,91 @@ public class DynamicMenusAPI {
      */
     public boolean IsMenuItem(Object item) {
         return item instanceof IMenuItem;
+    }
+
+    /**
+     * Returns true if the Menu is a Factory Menu
+     *
+     * @param menu
+     * @return
+     */
+    public boolean IsFactoryMenu(Menu menu) {
+       return menu!=null && menu.factoryClass().get()!=null;
+    }
+
+    /**
+     * Returns the Factory Class for the given Menu
+     *
+     * @param menu
+     * @return
+     */
+    public String GetFactoryClass(Menu menu) {
+        return menu.factoryClass().get();
+    }
+
+    /**
+     * Sets the Factory Class for the Menu
+     * @param menu
+     * @param klass
+     */
+    public void SetFactoryClass(Menu menu, String klass) {
+        menu.factoryClass().set(klass);
+    }
+
+    /**
+     * Returns the Factory Class for the given Menu
+     *
+     * @param menu
+     * @return
+     */
+    public DynamicVariable<String> FactoryClass(Menu menu) {
+        return menu.factoryClass();
+    }
+
+    /**
+     * Returns the Menu/MenuItem reference id for the given item
+     *
+     * @param item
+     * @return
+     */
+    public String GetReference(IMenuItem item) {
+        if (item instanceof IMenuDelegates) {
+            return ((IMenuDelegates) item).getOriginalItem().getReference();
+        }
+        return item.getReference();
+    }
+
+    /**
+     * Returns true if the menu/item is a reference to another menu/item.
+     * @param item
+     * @return
+     */
+    public boolean IsReference(IMenuItem item) {
+        if (item instanceof IMenuDelegates) return true;
+        return item.getReference()!=null;
+    }
+
+    /**
+     * Sets the reference on the item to given reference in the format menu_id::menu_item_id
+     * @param item
+     * @param ref
+     */
+    public void SetReference(IMenuItem item, String ref) {
+        ((MenuItem)item).setReference(ref);
+    }
+
+    /**
+     * Sets the item reference to the given ref.
+     *
+     * @param item
+     * @param ref
+     */
+    public void SetReference(IMenuItem item, IMenuItem ref) {
+        if (IsMenu(ref)) {
+            ((MenuItem)item).setReference(ref.getParent().getName()+"::"+ref.getName());
+        } else {
+            ((MenuItem)item).setReference(ref.getParent().getName()+"::"+ref.getName());
+        }
     }
 
     /**

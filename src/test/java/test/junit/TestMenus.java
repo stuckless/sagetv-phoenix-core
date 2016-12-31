@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -43,7 +45,7 @@ public class TestMenus {
 
     @BeforeClass
     public static void init() throws IOException {
-        InitPhoenix.init(true, true);
+        InitPhoenix.init(true, true, true);
 
         TestMenusFile = InitPhoenix.ProjectHome("src/test/java/test/junit/menus/TestMenu.xml");
         TestMenusDTDDir = InitPhoenix.ProjectHome("src/plugins/phoenix-core/STVs/Phoenix/Menus");
@@ -63,7 +65,7 @@ public class TestMenus {
 
         List<Menu> menus = MenuBuilder.buildMenus(TestMenusFile, TestMenusDTDDir);
         assertNotNull(menus);
-        assertEquals(6, menus.size());
+        assertEquals(7, menus.size());
 
         Menu m1 = menus.get(0);
         assertEquals("TestMenu", m1.getName());
@@ -147,7 +149,7 @@ public class TestMenus {
 
         List<Menu> menus = MenuBuilder.buildMenus(TestMenusFile, TestMenusDTDDir);
         assertNotNull(menus);
-        assertEquals(6, menus.size());
+        assertEquals(7, menus.size());
 
         Menu m1 = menus.get(0);
         assertEquals("Test Menu", phoenix.menu.GetLabel(m1));
@@ -329,6 +331,11 @@ public class TestMenus {
 
     @Test
     public void testVFSViews() throws FileNotFoundException, SAXException, IOException {
+        SimpleStubAPI api = new SimpleStubAPI();
+        api.overrideAPI("GetUIContextNames", null); // consider overriding api;
+        api.overrideAPI("GetUIContextName", null); // consider overriding api;
+        SageAPI.setProvider(api);
+
         VirtualMediaFolder mf = new VirtualMediaFolder("Movies");
         mf.addMediaResource(new VirtualMediaFile("Movie1"));
         mf.addMediaResource(new VirtualMediaFile("Movie2"));
@@ -622,4 +629,25 @@ public class TestMenus {
         System.out.println("Menu: " + menu);
     }
 
+    @Test
+    public void testPerformContextActions() throws IOException {
+        final AtomicBoolean apiCalled = new AtomicBoolean(false);
+        SimpleStubAPI api = new SimpleStubAPI();
+        api.addExpression("DoSomeCommand(gVideo)", new Callable() {
+            @Override
+            public Object call() throws Exception {
+                apiCalled.set(true);
+                return true;
+            }
+        });
+        SageAPI.setProvider(api);
+
+        FileUtils.copyFileToDirectory(TestMenusFile, InitPhoenix.ProjectHome("target/testing/STVs/Phoenix/Menus"));
+        Phoenix.getInstance().getMenuManager().loadConfigurations();
+
+        Menu menu = Phoenix.getInstance().getMenuManager().getMenu("more.options.video");
+        IMenuItem item = menu.getChild(0);
+        item.performActions("Context Object");
+        assertTrue("DoSomeCommand(gVideo) was not called", apiCalled.get());
+    }
 }

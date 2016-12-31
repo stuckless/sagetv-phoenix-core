@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.Callable;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
@@ -82,7 +83,12 @@ public class SimpleStubAPI implements ISageAPIProvider {
             return mediafiles.values().toArray();
         } else if ("EvaluateExpression".equals(name)) {
             if (expressionAPIs.containsKey(args[0])) {
-                return expressionAPIs.get(args[0]);
+                Object val = expressionAPIs.get(args[0]);
+                if (val instanceof Callable) {
+                    return ((Callable)val).call();
+                } else {
+                    return val;
+                }
             } else {
                 System.out.println("api.addExpression(\"" + StringEscapeUtils.escapeJava((String) args[0])
                         + "\", null); // consider adding implementing expression with real return value");
@@ -185,6 +191,10 @@ public class SimpleStubAPI implements ISageAPIProvider {
 
     public void addExpression(String expression, Object result) {
         expressionAPIs.put(expression, result);
+    }
+
+    public void addExpression(String expression, Callable functionToCall) {
+        expressionAPIs.put(expression, functionToCall);
     }
 
     // --- SageTV API Implementations

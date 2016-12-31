@@ -32,6 +32,11 @@ public class MenuItem implements IMenuItem {
      */
     public static final String FIELD_LABEL = "label";
 
+    /**
+     * {@value}
+     */
+    public static final String VAR_CONTEXT = "gMenuItemContextVar";
+
     protected Logger log = Logger.getLogger(this.getClass());
 
     protected Menu parent;
@@ -86,7 +91,29 @@ public class MenuItem implements IMenuItem {
     }
 
     public boolean performActions() {
+        return performActions(null);
+    }
+
+    public boolean performActions(Object context) {
         log.debug("Performing Menu item Actions for MenuItem: " + this);
+
+        if (context!=null) {
+            String ctx = "gMenuItemContext";
+            DynamicVariable<String> ctxVar = field(VAR_CONTEXT);
+            if (ctxVar == null && parent != null) {
+                ctxVar = parent.field(VAR_CONTEXT);
+            }
+            if (ctxVar != null) {
+                ctx = ctxVar.get();
+            }
+
+            // if we have a context name, then set the passed context object for the menu actions
+            if (ctx != null) {
+                SageAddStaticContextAction addCtx = new SageAddStaticContextAction(ctx, context);
+                addCtx.invoke();
+            }
+        }
+
         boolean ok = true;
         for (Action a : actions) {
             if (!a.invoke()) {
@@ -96,6 +123,7 @@ public class MenuItem implements IMenuItem {
         }
         return ok;
     }
+
 
     public void field(String name, String value) {
         fields.put(name, new DynamicVariable<String>(String.class, value));
