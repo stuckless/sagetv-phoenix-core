@@ -35,8 +35,8 @@ public class ChannelNumberSorter implements Comparator<IMediaResource>, Serializ
         }
 
         // If we get here it's likely a folder- Folders don't have channel numbers.  But we'll move them to the top
-        // by returning 1
-        return 1;
+        // by returning -1
+        return -1;
     }
 
     private int majorMinorCompare(final String s1, final String s2) {
@@ -62,12 +62,12 @@ public class ChannelNumberSorter implements Comparator<IMediaResource>, Serializ
 
         if (s1_major == -1) {
             // s2 has something and s1 doesn't - so put it before s1
-            return -1;
+            return 1;
         }
 
         if (s2_major == -1) {
             // s1 has something and s2 doesn't - so put s1 first
-            return 1;
+            return -1;
         }
 
         // we know both are not empty and both have at least the major number at this point
@@ -81,11 +81,11 @@ public class ChannelNumberSorter implements Comparator<IMediaResource>, Serializ
 
                 if (s1_minor == -1) {
                     // s2 has a minor digit - so it goes last
-                    return 1;
+                    return -1;
                 }
                 if (s2_minor == -1) {
                     // only s1 has a minor digit - so s1 goes last
-                    return -1;
+                    return 1;
                 }
 
                 // at this point they both have a minor digit - return the comparison of those
