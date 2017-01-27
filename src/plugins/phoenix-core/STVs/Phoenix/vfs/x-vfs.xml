@@ -346,6 +346,7 @@
          <tag value="tv"/>
          <tag value="music"/>
          <tag value="simple"/>
+         <tag value="epg"/>
       </item>
 
       <item name="title" label="Title" class="sagex.phoenix.vfs.sorters.TitleSorter">
@@ -353,6 +354,7 @@
          <tag value="video"/>
          <tag value="tv"/>
          <tag value="simple"/>
+         <tag value="epg"/>
       </item>
 
       <item name="seasonepisode" label="Season and Episode" class="sagex.phoenix.vfs.sorters.SeasonEpisodeSorter">
@@ -403,6 +405,13 @@
          <option name="folders-first" value="false"/>
          <tag value="tv"/>
          <tag value="simple"/>
+      </item>
+
+      <item name="channelnumber" label="Channel Number" class="sagex.phoenix.vfs.sorters.ChannelNumberSorter">
+         <option name="folders-first" value="false"/>
+         <tag value="tv"/>
+         <tag value="simple"/>
+         <tag value="epg"/>
       </item>
    </sorts>
 
