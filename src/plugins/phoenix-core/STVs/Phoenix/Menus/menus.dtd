@@ -1,69 +1,67 @@
 <!ELEMENT description ( #PCDATA ) >
 
-<!ELEMENT eval ( #PCDATA ) >
+        <!ELEMENT eval ( #PCDATA ) >
 
-<!ELEMENT exec EMPTY >
-<!ATTLIST exec os (Windows|Linux|Mac) #IMPLIED >
-<!ATTLIST exec cmd CDATA #REQUIRED >
-<!ATTLIST exec args CDATA #IMPLIED >
-<!ATTLIST exec workingDir CDATA #IMPLIED >
-<!ATTLIST exec outputVariable CDATA #IMPLIED >
+        <!ELEMENT exec EMPTY >
+        <!ATTLIST exec os (Windows|Linux|Mac) #IMPLIED >
+        <!ATTLIST exec cmd CDATA #REQUIRED >
+        <!ATTLIST exec args CDATA #IMPLIED >
+        <!ATTLIST exec workingDir CDATA #IMPLIED >
+        <!ATTLIST exec outputVariable CDATA #IMPLIED >
 
-<!ELEMENT field ( #PCDATA ) >
-<!ATTLIST field name CDATA #REQUIRED >
+        <!ELEMENT field ( #PCDATA ) >
+        <!ATTLIST field name CDATA #REQUIRED >
 
-<!ELEMENT script ( #PCDATA ) >
-<!ATTLIST script language CDATA #IMPLIED>
+        <!ELEMENT script ( #PCDATA ) >
+        <!ATTLIST script language CDATA #IMPLIED>
 
-<!ELEMENT sageCommand EMPTY >
-<!ATTLIST sageCommand name CDATA #REQUIRED >
+        <!ELEMENT sageCommand EMPTY >
+        <!ATTLIST sageCommand name CDATA #REQUIRED >
 
-<!ELEMENT screen EMPTY >
-<!ATTLIST screen name CDATA #REQUIRED >
+        <!ELEMENT screen EMPTY >
+        <!ATTLIST screen name CDATA #REQUIRED >
 
-<!ELEMENT option EMPTY >
-<!ATTLIST option name CDATA #REQUIRED >
-<!ATTLIST option value CDATA #REQUIRED >
+        <!ELEMENT action ( description | field )* >
+        <!ATTLIST action name CDATA #REQUIRED >
 
+        <!ELEMENT menu ( description | field | menu | menuItem | view | eval | exec | sageCommand | screen | script | action )* >
+        <!ATTLIST menu ref CDATA #IMPLIED >
+        <!ATTLIST menu factoryClass CDATA #IMPLIED >
+        <!ATTLIST menu background CDATA #IMPLIED >
+        <!ATTLIST menu icon CDATA #IMPLIED >
+        <!ATTLIST menu label CDATA #IMPLIED >
+        <!ATTLIST menu name CDATA #IMPLIED >
+        <!ATTLIST menu secondaryIcon CDATA #IMPLIED >
+        <!ATTLIST menu linkedMenu CDATA #IMPLIED >
+        <!ATTLIST menu type (Video|TV|Music|Picture|Online|Misc|Options|System|Action) #IMPLIED >
+        <!ATTLIST menu visible CDATA #IMPLIED >
+        <!ATTLIST menu isDefault (true|false) "false" >
 
-<!ELEMENT menu ( description | field | menu | menuItem | view | eval | exec | sageCommand | screen | script )* >
-<!ATTLIST menu ref CDATA #IMPLIED >
-<!ATTLIST menu factoryClass CDATA #IMPLIED >
-<!ATTLIST menu background CDATA #IMPLIED >
-<!ATTLIST menu icon CDATA #IMPLIED >
-<!ATTLIST menu label CDATA #IMPLIED >
-<!ATTLIST menu name CDATA #IMPLIED >
-<!ATTLIST menu secondaryIcon CDATA #IMPLIED >
-<!ATTLIST menu linkedMenu CDATA #IMPLIED >
-<!ATTLIST menu type (Video|TV|Music|Picture|Online|Misc|Options|System|Action) #IMPLIED >
-<!ATTLIST menu visible CDATA #IMPLIED >
-<!ATTLIST menu isDefault (true|false) "false" >
+        <!ELEMENT menuItem ( description | eval | exec | field | sageCommand | screen | script | action )* >
+        <!ATTLIST menuItem ref CDATA #IMPLIED >
+        <!ATTLIST menuItem background CDATA #IMPLIED >
+        <!ATTLIST menuItem icon CDATA #IMPLIED >
+        <!ATTLIST menuItem label CDATA #IMPLIED >
+        <!ATTLIST menuItem name CDATA #IMPLIED >
+        <!ATTLIST menuItem secondaryIcon CDATA #IMPLIED >
+        <!ATTLIST menuItem linkedMenu CDATA #IMPLIED >
+        <!ATTLIST menuItem visible CDATA #IMPLIED >
+        <!ATTLIST menuItem isDefault (true|false) "false" >
 
-<!ELEMENT menuItem ( description | eval | exec | field | sageCommand | screen | script )* >
-<!ATTLIST menuItem ref CDATA #IMPLIED >
-<!ATTLIST menuItem background CDATA #IMPLIED >
-<!ATTLIST menuItem icon CDATA #IMPLIED >
-<!ATTLIST menuItem label CDATA #IMPLIED >
-<!ATTLIST menuItem name CDATA #IMPLIED >
-<!ATTLIST menuItem secondaryIcon CDATA #IMPLIED >
-<!ATTLIST menuItem linkedMenu CDATA #IMPLIED >
-<!ATTLIST menuItem visible CDATA #IMPLIED >
-<!ATTLIST menuItem isDefault (true|false) "false" >
+        <!ELEMENT view ( description | eval | exec | field | sageCommand | screen | script )* >
+        <!ATTLIST view background CDATA #IMPLIED >
+        <!ATTLIST view icon CDATA #IMPLIED >
+        <!ATTLIST view label CDATA #IMPLIED >
+        <!ATTLIST view name CDATA #REQUIRED >
+        <!ATTLIST view contextVar CDATA "VFSMenuMediaFile" >
+        <!ATTLIST view secondaryIcon CDATA #IMPLIED >
+        <!ATTLIST view visible CDATA "true" >
+        <!ATTLIST view preload (true|false) "false" >
+        <!ATTLIST view limit CDATA #IMPLIED >
 
-<!ELEMENT view ( description | eval | exec | field | sageCommand | screen | script )* >
-<!ATTLIST view background CDATA #IMPLIED >
-<!ATTLIST view icon CDATA #IMPLIED >
-<!ATTLIST view label CDATA #IMPLIED >
-<!ATTLIST view name CDATA #REQUIRED >
-<!ATTLIST view contextVar CDATA "VFSMenuMediaFile" >
-<!ATTLIST view secondaryIcon CDATA #IMPLIED >
-<!ATTLIST view visible CDATA "true" >
-<!ATTLIST view preload (true|false) "false" >
-<!ATTLIST view limit CDATA #IMPLIED >
+        <!ELEMENT fragment ( menu | menuItem | view )* >
+        <!ATTLIST fragment parentMenu CDATA #REQUIRED >
+        <!ATTLIST fragment insertBefore CDATA #IMPLIED >
+        <!ATTLIST fragment insertAfter CDATA #IMPLIED >
 
-<!ELEMENT fragment ( menu | menuItem | view )* >
-<!ATTLIST fragment parentMenu CDATA #REQUIRED >
-<!ATTLIST fragment insertBefore CDATA #IMPLIED >
-<!ATTLIST fragment insertAfter CDATA #IMPLIED >
-
-<!ELEMENT menus ( menu+ | fragment* ) >
+        <!ELEMENT menus ( menu+ | fragment* ) >

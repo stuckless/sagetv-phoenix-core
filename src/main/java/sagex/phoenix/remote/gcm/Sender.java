@@ -51,9 +51,8 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.google.gson.GsonBuilder;
-
 import sagex.phoenix.remote.gcm.Result.Builder;
+import sagex.phoenix.remote.gson.PhoenixGSONBuilder;
 import sagex.remote.json.JSONObject;
 
 /**
@@ -373,7 +372,7 @@ public class Sender {
     }
 
     private String toJSONString(Map<Object, Object> jsonRequest) {
-        return new GsonBuilder().create().toJson(jsonRequest);
+        return PhoenixGSONBuilder.getGsonInstance().toJson(jsonRequest);
     }
 
     private IOException newIoException(String responseBody, Exception e) {

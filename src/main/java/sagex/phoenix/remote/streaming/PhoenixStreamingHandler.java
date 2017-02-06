@@ -20,10 +20,10 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.commons.lang.math.NumberUtils;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import sagex.api.MediaFileAPI;
 import sagex.phoenix.Phoenix;
+import sagex.phoenix.remote.gson.PhoenixGSONBuilder;
 import sagex.remote.SagexServlet.SageHandler;
 import sagex.util.WaitFor;
 
@@ -166,13 +166,11 @@ public class PhoenixStreamingHandler implements SageHandler {
     }
 
     public static Gson createGson(HttpServletRequest req) {
-        GsonBuilder b = new GsonBuilder();
-
+        boolean pretty=false;
         if (req.getParameter("_prettyprint") != null) {
-            b.setPrettyPrinting();
+            pretty=true;
         }
-
-        return b.create();
+        return PhoenixGSONBuilder.getNewInstance(PhoenixGSONBuilder.newOptions().prettyPrint(pretty));
     }
 
     private void help(HttpServletResponse resp) throws IOException {

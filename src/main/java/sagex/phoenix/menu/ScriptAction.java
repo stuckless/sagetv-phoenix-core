@@ -4,9 +4,12 @@ import javax.script.ScriptException;
 
 import sagex.phoenix.util.PhoenixScriptEngine;
 
+import java.beans.Transient;
+
 public class ScriptAction extends Action {
     private Script script = null;
-    private PhoenixScriptEngine engine = null;
+
+    private transient PhoenixScriptEngine engine = null;
 
     public ScriptAction() {
     }

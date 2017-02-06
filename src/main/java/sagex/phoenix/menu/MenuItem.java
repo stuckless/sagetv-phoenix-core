@@ -37,9 +37,11 @@ public class MenuItem implements IMenuItem {
      */
     public static final String VAR_CONTEXT = "gMenuItemContextVar";
 
-    protected Logger log = Logger.getLogger(this.getClass());
+    /* never serialize the log */
+    protected transient Logger log = Logger.getLogger(this.getClass());
 
-    protected Menu parent;
+    /* never serialize the parent */
+    protected transient Menu parent;
     protected String name;
     protected String reference;
 
@@ -56,7 +58,8 @@ public class MenuItem implements IMenuItem {
 
     protected List<Action> actions = new LinkedList<Action>();
 
-    protected Object userData;
+    /* never serialize the userdata */
+    protected transient Object userData;
 
     public MenuItem(Menu parent) {
         this.parent = parent;

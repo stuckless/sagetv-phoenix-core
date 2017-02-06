@@ -25,7 +25,8 @@ public class Menu extends MenuItem implements Iterable<IMenuItem>, IMenuItem, IC
     protected List<IMenuItem> items = new LinkedList<IMenuItem>();
     protected DynamicVariable<String> type = new DynamicVariable<String>(String.class, null);
     protected DynamicVariable<String> factoryClass = new DynamicVariable<String>(String.class, null);
-    protected MenuFactory factoryImpl = null;
+
+    protected transient MenuFactory factoryImpl = null;
 
     public Menu(Menu parent) {
         super(parent);

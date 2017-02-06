@@ -3,6 +3,7 @@ package sagex.phoenix.util.var;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.gson.annotations.SerializedName;
 import sagex.phoenix.util.var.ScopedConfigurationPropertyVariable.Scope;
 
 /**
@@ -14,8 +15,10 @@ import sagex.phoenix.util.var.ScopedConfigurationPropertyVariable.Scope;
  * @author seans
  */
 public class DynamicVariable<T> extends Variable<T> {
+    @SerializedName("expr")
     private String value;
-    private transient Variable<T> currentProperty;
+    @SerializedName("value")
+    private Variable<T> currentProperty;
 
     private transient Pattern propPattern = Pattern.compile("prop:([^:]*):(.*)", Pattern.CASE_INSENSITIVE);
 

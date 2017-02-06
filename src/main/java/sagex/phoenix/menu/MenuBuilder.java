@@ -59,9 +59,10 @@ public class MenuBuilder extends BaseBuilder {
 
     private SageScreenAction screenAction;
     private ExecuteCommandAction execAction;
+    private NamedAction namedAction = null;
 
     private enum FIELD_STATE {
-        MENU, MENUITEM
+        MENU, MENUITEM, ACTION
     }
 
     private FIELD_STATE fieldState = FIELD_STATE.MENU;
@@ -150,6 +151,13 @@ public class MenuBuilder extends BaseBuilder {
             SageCommandAction action = new SageCommandAction();
             action.action().setValue(XmlUtil.attr(attributes, "name"));
             item.addAction(action);
+            return;
+        } else if ("action".equals(name)) {
+            NamedAction action = new NamedAction();
+            action.action().setValue(XmlUtil.attr(attributes, "name"));
+            item.addAction(action);
+            namedAction = action;
+            fieldState = FIELD_STATE.ACTION;
             return;
         } else if ("exec".equals(name)) {
             execAction = new ExecuteCommandAction();
@@ -250,7 +258,7 @@ public class MenuBuilder extends BaseBuilder {
         if ("description".equals(name)) {
             if (fieldState == FIELD_STATE.MENU) {
                 menu.description().setValue(getData());
-            } else {
+            } else if (fieldState==FIELD_STATE.MENUITEM) {
                 item.description().setValue(getData());
             }
         }
@@ -258,8 +266,10 @@ public class MenuBuilder extends BaseBuilder {
         if ("field".equals(name)) {
             if (fieldState == FIELD_STATE.MENU) {
                 menu.field(fieldName, getData());
-            } else {
+            } else if (fieldState == FIELD_STATE.MENUITEM) {
                 item.field(fieldName, getData());
+            } else {
+                namedAction.set(fieldName, getData());
             }
         }
     }

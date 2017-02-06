@@ -12,8 +12,8 @@ public class Variable<T> {
     protected static final Logger log = Logger.getLogger(Variable.class);
 
     protected T value;
-    protected Class<T> type;
-    protected FieldConverter<T> converter;
+    protected transient Class<T> type;
+    protected transient FieldConverter<T> converter;
 
     public Variable(Class<T> type) {
         this(null, type);

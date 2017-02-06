@@ -1,5 +1,18 @@
 package sagex.phoenix.remote;
 
+import com.google.gson.Gson;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
+import sagex.UIContext;
+import sagex.api.Utility;
+import sagex.phoenix.image.ImageUtil;
+import sagex.phoenix.remote.gson.PhoenixGSONBuilder;
+import sagex.phoenix.util.Function;
+import sagex.phoenix.util.Loggers;
+import sagex.util.TypesUtil;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,25 +24,6 @@ import java.io.PrintWriter;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.BooleanUtils;
-import org.apache.commons.lang.StringUtils;
-
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import sagex.UIContext;
-import sagex.api.Utility;
-import sagex.phoenix.factory.BaseConfigurable;
-import sagex.phoenix.image.ImageUtil;
-import sagex.phoenix.util.Function;
-import sagex.phoenix.util.Loggers;
-import sagex.phoenix.vfs.IMediaResource;
-import sagex.util.TypesUtil;
 
 /**
  * Supported conversion functions in args include... uicontext, ref, int,
@@ -117,25 +111,7 @@ public class RemoteAPI {
     }
 
     public static Gson createGson(boolean prettyPrint) {
-        GsonBuilder b = new GsonBuilder().registerTypeHierarchyAdapter(IMediaResource.class, new MediaResourceSerializer())
-                .registerTypeHierarchyAdapter(BaseConfigurable.class, new BaseConfigurableSerializer())
-                .setExclusionStrategies(new ExclusionStrategy() {
-                    @Override
-                    public boolean shouldSkipField(FieldAttributes f) {
-                        return (f.getName().equals("parent") || f.getName().equals("repository") || f.getName().equals("log"));
-                    }
-
-                    @Override
-                    public boolean shouldSkipClass(Class<?> arg0) {
-                        return false;
-                    }
-                });
-
-        if (prettyPrint) {
-            b.setPrettyPrinting();
-        }
-
-        return b.create();
+        return PhoenixGSONBuilder.getNewInstance(PhoenixGSONBuilder.newOptions().prettyPrint(prettyPrint));
     }
 
     private void writeFile(File in, Command cmd) throws IOException {

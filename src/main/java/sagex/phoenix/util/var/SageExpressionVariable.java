@@ -3,6 +3,7 @@ package sagex.phoenix.util.var;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.gson.annotations.SerializedName;
 import org.apache.commons.lang.StringUtils;
 
 import sagex.UIContext;
@@ -11,6 +12,7 @@ import sagex.api.WidgetAPI;
 public class SageExpressionVariable<T> extends Variable<T> {
     private static final Pattern exprPattern = Pattern.compile("\\$\\{([^}]+)}");
 
+    @SerializedName("sageExpr")
     private String expression = null;
     private T defValue;
 

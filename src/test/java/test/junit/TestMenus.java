@@ -39,7 +39,7 @@ import test.InitPhoenix;
 import test.junit.lib.SimpleStubAPI;
 
 public class TestMenus {
-    private static File TestMenusFile;
+    public static File TestMenusFile;
     private static File TestMenusDTDDir;
     private static File TestMenusUserdataDir;
 
@@ -65,7 +65,7 @@ public class TestMenus {
 
         List<Menu> menus = MenuBuilder.buildMenus(TestMenusFile, TestMenusDTDDir);
         assertNotNull(menus);
-        assertEquals(7, menus.size());
+        assertEquals(8, menus.size());
 
         Menu m1 = menus.get(0);
         assertEquals("TestMenu", m1.getName());
@@ -149,7 +149,7 @@ public class TestMenus {
 
         List<Menu> menus = MenuBuilder.buildMenus(TestMenusFile, TestMenusDTDDir);
         assertNotNull(menus);
-        assertEquals(7, menus.size());
+        assertEquals(8, menus.size());
 
         Menu m1 = menus.get(0);
         assertEquals("Test Menu", phoenix.menu.GetLabel(m1));
@@ -649,5 +649,22 @@ public class TestMenus {
         IMenuItem item = menu.getChild(0);
         item.performActions("Context Object");
         assertTrue("DoSomeCommand(gVideo) was not called", apiCalled.get());
+    }
+
+    @Test
+    public void testNamedAction() throws IOException {
+        SageAPI.setProvider(new StubSageAPI());
+
+        FileUtils.copyFileToDirectory(TestMenusFile, InitPhoenix.ProjectHome("target/testing/STVs/Phoenix/Menus"));
+        Phoenix.getInstance().getMenuManager().loadConfigurations();
+
+        Menu menu = Phoenix.getInstance().getMenuManager().getMenu("test.menu.actions");
+        MenuItem mi = (MenuItem) menu.getChild(0);
+        NamedAction na = (NamedAction) mi.getActions().get(0);
+        System.out.println(na);
+        assertNotNull(na);
+        assertEquals(2, na.getFields().size());
+        assertEquals("100", na.get("a"));
+        assertEquals("200", na.get("b"));
     }
 }

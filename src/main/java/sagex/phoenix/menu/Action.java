@@ -9,9 +9,11 @@ import sagex.phoenix.util.var.DynamicVariable;
 public abstract class Action {
     protected static final Logger log = Logger.getLogger(Action.class);
 
+    private String type;
     private DynamicVariable<String> action = new DynamicVariable<String>(String.class, null);
 
     public Action() {
+        this.type=this.getClass().getSimpleName();
     }
 
     public DynamicVariable<String> action() {

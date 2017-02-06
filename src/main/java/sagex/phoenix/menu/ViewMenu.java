@@ -47,7 +47,8 @@ public class ViewMenu extends Menu implements Iterable<IMenuItem>, IMenuItem {
     protected int limit = -1;
 
     protected boolean resolved = false;
-    protected ViewFolder folder = null;
+
+    protected transient ViewFolder folder = null;
 
     public ViewMenu(Menu parent) {
         this(parent, null);

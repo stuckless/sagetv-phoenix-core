@@ -196,5 +196,22 @@
         </menuItem>
     </menu>
 
+    <menu label="Generic Acions" name="test.menu.actions" type="System">
+        <description>Generic Actions</description>
+        <field name="gMenuItemContextVar">gVideo</field>
+
+        <!--<action name="menuLevelAction">-->
+            <!--<field name="a1">m100</field>-->
+            <!--<field name="a2">m200</field>-->
+        <!--</action>-->
+
+        <menuItem name="DoSomething" label="Do Something With Video">
+            <action name="action1">
+                <field name="a">100</field>
+                <field name="b">200</field>
+            </action>
+        </menuItem>
+
+    </menu>
 
 </menus>
