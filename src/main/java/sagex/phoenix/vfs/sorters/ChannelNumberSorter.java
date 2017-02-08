@@ -1,19 +1,29 @@
 package sagex.phoenix.vfs.sorters;
 
 import sagex.api.AiringAPI;
+import sagex.api.ChannelAPI;
+import sagex.api.Database;
+import sagex.api.FavoriteAPI;
 import sagex.phoenix.vfs.IMediaFile;
+import sagex.phoenix.vfs.IMediaFolder;
 import sagex.phoenix.vfs.IMediaResource;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 
 /**
- * Sorts based on the Channel number of the media file in question
+ * Sorts based on channel nummber - anything without a channel number are unsorted at the bottom of
+ * this sort
  *
- * @author bialio
+ * @author bialio 
  */
 public class ChannelNumberSorter implements Comparator<IMediaResource>, Serializable {
     private static final long serialVersionUID = 1L;
+
+    private ArrayList<String> sortedChannels;
+    StartTimeSorter secondarySort = new StartTimeSorter();
 
     public ChannelNumberSorter() {
     }
@@ -24,75 +34,49 @@ public class ChannelNumberSorter implements Comparator<IMediaResource>, Serializ
         if (o2 == null)
             return -1;
 
-        if (o1 instanceof IMediaFile && o2 instanceof IMediaFile) {
-            Object theairing1 = o1.getMediaObject();
-            final String channel1 = AiringAPI.GetAiringChannelNumber(theairing1);
+        int p1 = getChannelIndex(o1);
+        int p2 = getChannelIndex(o2);
 
-            Object theairing2 = o2.getMediaObject();
-            final String channel2 = AiringAPI.GetAiringChannelNumber(theairing2);
-
-            return majorMinorCompare(channel1, channel2);
+        if (p1 == p2) {
+            // they are the same channel, sort by start time
+            // return the opposite of the actual result to get the
+            // list in the right order
+            return (secondarySort.compare(o1, o2)) * -1;
         }
-
-        // If we get here it's likely a folder- Folders don't have channel numbers.  But we'll move them to the top
-        // by returning -1
-        return -1;
+        return p1 - p2;
     }
 
-    private int majorMinorCompare(final String s1, final String s2) {
+    private int getChannelIndex(IMediaResource o) {
 
-        // if anything is empty or null return 0
-        if (s1 == null || s1.isEmpty() || s2 == null || s2.isEmpty()) {
-            return 0;
-        }
-        // split each string into arrays of strings that are just digits
-        String[] s1_nums = s1.split("\\D+");
-        String[] s2_nums = s2.split("\\D+");
+        if (sortedChannels == null) {
+            Object channels[] = (Object[]) Database.Sort(ChannelAPI.GetAllChannels(), false, "ChannelNumber");
+            sortedChannels = new ArrayList<String>();
 
-        final int s1_major = s1_nums.length > 0 ? Integer.parseInt(s1_nums[0]) : -1;
-        final int s1_minor = s1_nums.length > 1 ? Integer.parseInt(s1_nums[1]) : -1;
-
-        final int s2_major = s2_nums.length > 0 ? Integer.parseInt(s2_nums[0]) : -1;
-        final int s2_minor = s2_nums.length > 1 ? Integer.parseInt(s2_nums[1]) : -1;
-
-        if (s1_major == -1 && s2_major == -1) {
-            // both don't have digits - but both have something - so do alphabetic compare
-            return s1.compareToIgnoreCase(s2);
+            for (Object channel : channels){
+                sortedChannels.add(ChannelAPI.GetChannelNumber(channel));
+            }
         }
 
-        if (s1_major == -1) {
-            // s2 has something and s1 doesn't - so put it before s1
-            return 1;
-        }
-
-        if (s2_major == -1) {
-            // s1 has something and s2 doesn't - so put s1 first
+        if (sortedChannels.isEmpty()) {
             return -1;
         }
 
-        // we know both are not empty and both have at least the major number at this point
-        switch (s1_major - s2_major) {
-            case 0 :
-                // these are the same major number - check for trailing digits
-                if (s1_minor == -1 && s2_minor == -1) {
-                    // neither has a minor digit, so they are equal
-                    return 0;
-                }
+        if (o instanceof IMediaFile) {
+            String theChannel = AiringAPI.GetAiringChannelNumber(o.getMediaObject());
 
-                if (s1_minor == -1) {
-                    // s2 has a minor digit - so it goes last
-                    return -1;
-                }
-                if (s2_minor == -1) {
-                    // only s1 has a minor digit - so s1 goes last
-                    return 1;
-                }
-
-                // at this point they both have a minor digit - return the comparison of those
-                return s1_minor - s2_minor;
-
-            default:
-                return s1_major - s2_major;
+            if (theChannel == null || theChannel.isEmpty()) {
+                // no channel number, put it at the bottom
+                return -1;
+            }
+            return sortedChannels.indexOf(theChannel);
         }
+
+        if (o instanceof IMediaFolder) {
+            // Folders don't have channel numbers.  But we'll move them to the top
+            return 1;
+        }
+
+        // If it's not a File or Folder just return a -1
+        return -1;
     }
 }
