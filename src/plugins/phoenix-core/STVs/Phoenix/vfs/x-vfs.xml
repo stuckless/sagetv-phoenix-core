@@ -315,6 +315,7 @@
          <filter by="currentlyrecording" scope="exclude"/>
          <filter by="date" value=""/>
          <tag value="tv"/>
+         <tag value="epg"/>
       </item-group>
 
       <item-group name="moviesonly" label="Movies Only" mode="and">
@@ -689,6 +690,16 @@
          </source>
       </view>
 
+      <view name="phoenix.view.primary.todaysairings" label="Todays Airings" flat="true" visible="${GetProperty(&quot;phoenix/core/enableAdvancedViews&quot;, true)==true}">
+         <description>All airings that start on todays date</description>
+         <tag value="epg" />
+         <tag value="primary"/>
+         <source name="expression">
+            <option name="expression">GetAiringsOnViewableChannelsAtTime(java_lang_System_currentTimeMillis(), java_lang_System_currentTimeMillis() + (24 * 60 * 60 * 1000), true)</option>
+         </source>
+         <filter by="date" value="" />
+      </view>
+
       <view name="phoenix.view.primary.currentlyairing" label="Current Airings" flat="true" visible="${GetProperty(&quot;phoenix/core/enableAdvancedViews&quot;, true)==true}">
          <description>Upcomming Airings</description>
          <tag value="epg"/>
@@ -869,9 +880,28 @@
          <view-source name="phoenix.view.primary.recordedmovies"/>
       </view>
 
+      <!-- ****************************** -->
+      <!-- ****************************** -->
       <!-- Default views visible (by default) to users -->
       <!-- ****************************** -->
       <!-- ****************************** -->
+
+      <view name="phoenix.view.default.todayssports" label="Today's Sports" flat="false">
+         <option name="children-only" value="true" />
+         <description>Sports on later today</description>
+         <tag value="epg" />
+         <view-source name="phoenix.view.primary.todaysairings" />
+         <view-source name="phoenix.view.primary.currentlyairing" />
+
+         <filter by="genre" value="sports.*">
+            <option name="use-regex-matching" value="true" />
+         </filter>
+
+         <presentation level="1">
+            <sort by="starttime" />
+         </presentation>
+      </view>
+
       <view name="phoenix.view.default.upcomingmovies" label="Upcoming Movies">
          <description>Upcoming Movies</description>
          <tag value="epg"/>

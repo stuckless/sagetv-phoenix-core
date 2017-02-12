@@ -22,6 +22,8 @@ public class DateFilter extends Filter {
 
         if (res instanceof IMediaFile) {
             Calendar myCal = Calendar.getInstance();
+            // make sure that myDate is updated whenever this filter is being used
+            onUpdate();
             myCal.setTime(myDate);
 
             Date mediaDate = new Date(((IMediaFile) res).getStartTime());
