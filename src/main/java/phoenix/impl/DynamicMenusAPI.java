@@ -721,11 +721,15 @@ public class DynamicMenusAPI {
         if (out.exists()) {
             log.warn("Overwriting file: " + out);
         }
+        if (out.isDirectory()) {
+            log.warn("Output is a directory, will remove it " + out);
+            out.delete();
+        }
 
         FileOutputStream fos = null;
         try {
             if (!out.getParentFile().exists()) {
-                FileUtils.mkdirsQuietly(out);
+                FileUtils.mkdirsQuietly(out.getParentFile());
             }
             XmlMenuSerializer ser = new XmlMenuSerializer();
             fos = new FileOutputStream(out);
