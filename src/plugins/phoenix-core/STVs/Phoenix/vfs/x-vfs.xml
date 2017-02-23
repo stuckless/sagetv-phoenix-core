@@ -510,6 +510,10 @@
          <tag value="video" />
          <tag value="simple"/>
       </item>
+
+      <item name="channel" label="Channel" class="sagex.phoenix.vfs.groups.ChannelGrouper">
+         <tag value="epg"/>
+      </item>
    </groups>
 
    <views>
@@ -898,7 +902,38 @@
          </filter>
 
          <presentation level="1">
-            <sort by="starttime" />
+            <sort by="starttime" /> 
+         </presentation>
+      </view>
+
+      <!-- -This view is everything airing today (now till midnight) sorted by channel number.  It's used
+      in the todaysguide view, which groups by channel number.  Due to the way groupers and sorters work,
+      this view is needed to get the grouped channel folders sorted by channel number -->
+      <view name="phoenix.view.source.plite.guide" label="Today's Guide" flat="false" visible="false">
+         <option name="children-only" value="true" />
+         <tag value="epg" />
+         <view-source name="phoenix.view.primary.todaysairings" />
+         <view-source name="phoenix.view.primary.currentlyairing" />
+         <presentation level="1">
+            <sort by="channelnumber"/>
+         </presentation>
+      </view>
+
+      <view name="phoenix.view.default.plite.todaysguide" label="Today's Guide" flat="false">
+         <option name="children-only" value="true" />
+         <description>Showing Today</description>
+         <tag value="epg" />
+         <view-source name="phoenix.view.source.plite.guide" />
+
+         <presentation level="1">
+            <group by="channel">
+               <option name="prune-single-item-groups" value="false"/>
+            </group>
+            <hint value="EPGLIST" />
+         </presentation>
+
+         <presentation level="2">
+            <sort by="starttime"/>
          </presentation>
       </view>
 
