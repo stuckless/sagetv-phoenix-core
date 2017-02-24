@@ -30,23 +30,6 @@
     </Package>
     <ImplementationClass>sagex.phoenix.plugin.PhoenixPlugin</ImplementationClass>
     <ReleaseNotes>
-        3.0.3
-        * Added Font Icon mappings
-
-        3.0.2
-        * Xml Validation will not completely fail if there are missing views, filters, sources, etc.  It will continue to load the views and flag the views with errors.
-        * Fixed bug where WeatherAPI was generating with compile errors.
-
-        3.0.1
-        * Fix for unicode filenames
-
-        3.0.0
-        * requires SageTV 9
-        * requires Java 1.7+
-        * removed upnp support
-        * removed nest support
-        * upgraded tvdb api
-        * upgraded tmdb api
-        * rewrote filename scraping
+        https://github.com/stuckless/sagetv-phoenix-core/blob/master/CHANGELOG.md
     </ReleaseNotes>
 </SageTVPlugin>

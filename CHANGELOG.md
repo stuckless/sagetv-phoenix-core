@@ -1,4 +1,7 @@
-# 3.1.0
+# 3.0.7
+* Added Channel Grouper
+
+# 3.0.6
 * Fixed Fanart color issues
 * Fanart Scaled automatically to max screen size on download
 * On Save, will try to fetch fanart, if fanart is missing
