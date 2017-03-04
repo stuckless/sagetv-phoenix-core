@@ -50,7 +50,7 @@ public class SearchQueryFactory {
     public SearchQuery createQueryFromFilename(IMediaFile resource, MediaType searchType, Hints hints) {
         SearchQuery q = createQueryFromFilename(resource, hints);
 
-        if (searchType != null) {
+        if (q != null && searchType != null) {
             q.setMediaType(searchType);
         }
 

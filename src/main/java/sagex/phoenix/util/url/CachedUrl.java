@@ -40,7 +40,7 @@ public class CachedUrl extends Url implements IUrl {
             PropertiesUtils.load(props, propFile);
             File f = getCachedFile();
             if (f.exists() && (isExpired(f) || f.length() == 0)) {
-                log.info("Removing Cached Url File: " + f);
+                log.info("Removing Cached Url File: " + f + "; Expired: " + isExpired(f) + "; length: " + f.length());
                 FileUtils.deleteQuietly(f);
             }
         } else {

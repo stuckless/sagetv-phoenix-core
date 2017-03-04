@@ -52,6 +52,7 @@ public class RegexMovieFilenameScraper extends RegexFilenameScraper {
                     if (log.isDebugEnabled()) {
                         log.debug("No match for '" + name + "' using " + p.toString());
                     }
+
                 }
             } catch (Throwable t) {
                 log.warn("Error", t);

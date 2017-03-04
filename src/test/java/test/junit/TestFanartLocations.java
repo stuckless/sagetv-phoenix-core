@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -33,6 +34,7 @@ import sagex.phoenix.metadata.MediaType;
 import sagex.phoenix.vfs.impl.AlbumInfo;
 import sagex.phoenix.vfs.sage.SageMediaFile;
 import sagex.stub.MediaFileAPIProxy.MediaFile;
+import sagex.stub.StubSageAPI;
 import test.InitPhoenix;
 import test.junit.lib.SimpleStubAPI;
 import test.junit.lib.SimpleStubAPI.Airing;
@@ -41,6 +43,13 @@ public class TestFanartLocations {
     @BeforeClass
     public static void init() throws IOException {
         InitPhoenix.init(true, true, true);
+    }
+
+    @Before
+    public void initBeforeTest() {
+        System.out.println("Initializing STUB API");
+        SimpleStubAPI api = new SimpleStubAPI();
+        SageAPI.setProvider(api);
     }
 
     @Test
@@ -697,6 +706,8 @@ public class TestFanartLocations {
 
     @Test
     public void testFanartPaths() {
+        SageAPI.setProvider(new StubSageAPI());
+
         File fanartDir = makeDir("test/FanartFolder");
         phoenix.fanart.SetFanartCentralFolder(fanartDir.getAbsolutePath());
         String sdir = phoenix.fanart.GetFanartCentralFolder();

@@ -8,7 +8,7 @@ apply plugin: 'idea'
 
 jar.baseName 'phoenix'
 group 'phoenix'
-version '3.0.7'
+version '3.1.0'
 
 archivesBaseName = "phoenix"
 
@@ -221,6 +221,8 @@ task packageArchives(type: Task, dependsOn: packageApi) {
 packageArchives.finalizedBy packageCore
 
 task packagePlugins << {
+    def changelog = file('CHANGELOG.md').text;
+
     // note Copy will always overwrite, so we'll have clean files to manipulate
     copy {
         from 'src/plugins/phoenix-api/plugin-api.xml'
@@ -239,6 +241,7 @@ task packagePlugins << {
         replacefilter(token: "@@version@@", value: version)
         replacefilter(token: "@@jar-checksum@@", value: ant.md5_jar)
         replacefilter(token: "@@system-checksum@@", value: ant.md5_system)
+        replacefilter(token: "@@changelog@@", value: changelog)
     }
 
     ant.replace(file:"build/tmp/plugin-core.xml", summary:"yes") {
@@ -246,6 +249,7 @@ task packagePlugins << {
         replacefilter(token: "@@version@@", value: version)
         replacefilter(token: "@@jar-checksum@@", value: ant.md5_jar)
         replacefilter(token: "@@system-checksum@@", value: ant.md5_system)
+        replacefilter(token: "@@changelog@@", value: changelog)
     }
 
     copy {

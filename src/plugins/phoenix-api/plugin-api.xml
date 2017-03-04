@@ -84,6 +84,6 @@
     </Package>
 
     <ReleaseNotes>
-       https://github.com/stuckless/sagetv-phoenix-core/blob/master/CHANGELOG.md
+@@changelog@@
     </ReleaseNotes>
 </SageTVPlugin>

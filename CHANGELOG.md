@@ -1,3 +1,8 @@
+# 3.1.0
+* Fixed various scraper issues for metadata/fanart (primarily around bluray and dvd)
+* Removed HTBackdrops (api/site no longer available)
+* Fixed failing JUnit tests
+
 # 3.0.7
 * Added Channel Grouper
 

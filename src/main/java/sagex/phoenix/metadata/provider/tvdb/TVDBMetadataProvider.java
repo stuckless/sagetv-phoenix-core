@@ -53,6 +53,7 @@ public class TVDBMetadataProvider extends MetadataProvider implements ITVMetadat
                     return results;
                 }
             } catch (Exception e) {
+                log.warn("Search Failed for " + query, e);
                 return searchUsingModifiedTitle(query);
             }
         }

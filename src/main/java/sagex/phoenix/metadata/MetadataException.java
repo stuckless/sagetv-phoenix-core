@@ -5,6 +5,7 @@ import java.net.SocketTimeoutException;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 
+import org.xml.sax.SAXParseException;
 import sagex.phoenix.metadata.search.SearchQuery;
 import sagex.phoenix.vfs.IMediaFile;
 
@@ -97,7 +98,7 @@ public class MetadataException extends Exception {
         // retry if connection exception or socket exception or
         // if it's a metadata exception, and we can retry
         if (e != null
-                && (e instanceof ConnectException || e instanceof SocketTimeoutException || (e instanceof MetadataException && ((MetadataException) e)
+                && (e instanceof SAXParseException || e instanceof ConnectException || e instanceof SocketTimeoutException || (e instanceof MetadataException && ((MetadataException) e)
                 .canRetry())) || (ExceptionUtils.indexOfType(e, ConnectException.class) != -1)
                 || (ExceptionUtils.indexOfType(e, SocketTimeoutException.class) != -1)) {
             canRetry = true;

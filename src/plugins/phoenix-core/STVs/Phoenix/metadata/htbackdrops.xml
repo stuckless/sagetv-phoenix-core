@@ -1,7 +1,0 @@
-<!DOCTYPE metadata SYSTEM "metadata.dtd">
-<metadata id="htbackdrops">
-	<class>sagex.phoenix.metadata.provider.htb.HTBMetadataProvider</class>
-	<name>htbackdrops.com</name>
-	<description>Provides Music Fanart from htbackdrops.com</description>
-	<mediatype>Music</mediatype>
-</metadata>

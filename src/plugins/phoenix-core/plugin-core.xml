@@ -9,6 +9,7 @@
         * custom views
         * user profiles
         * weather
+        * dynamic configuration
     </Description>
     <Author>stuckless,jusjoken,bialio,meinmaui</Author>
     <CreationDate>2010.06.05</CreationDate>
@@ -30,6 +31,6 @@
     </Package>
     <ImplementationClass>sagex.phoenix.plugin.PhoenixPlugin</ImplementationClass>
     <ReleaseNotes>
-        https://github.com/stuckless/sagetv-phoenix-core/blob/master/CHANGELOG.md
+@@changelog@@
     </ReleaseNotes>
 </SageTVPlugin>

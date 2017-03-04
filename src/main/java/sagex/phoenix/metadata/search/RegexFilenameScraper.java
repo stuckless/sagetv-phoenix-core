@@ -33,7 +33,7 @@ public abstract class RegexFilenameScraper implements IFilenameScraper {
             for (String s: FileUtils.readLines(regexFile)) {
                 if (s.trim().length()==0 || s.trim().charAt(0)=='#') continue;
                 try {
-                    Pattern p = Pattern.compile(s, Pattern.CASE_INSENSITIVE);
+                    Pattern p = Pattern.compile(s.trim(), Pattern.CASE_INSENSITIVE);
                     patterns.add(p);
                 } catch (Throwable t) {
                     log.error("Skipping invalid Regex Pattern: '"+s+"'", t);
@@ -66,7 +66,8 @@ public abstract class RegexFilenameScraper implements IFilenameScraper {
             String newTitle = title.replace('_', ' ');
             // if the string is not _ separated, then let's try replacing dots with spaces
             if (newTitle.equals(title)) {
-                newTitle = title.replace('.', ' ');
+                // newTitle = title.replace('.', ' ');
+                newTitle = SearchUtil.specialHandleDots(title);
             }
             title=newTitle;
         }
@@ -83,16 +84,20 @@ public abstract class RegexFilenameScraper implements IFilenameScraper {
     }
 
     protected String getName(IMediaFile res) {
-        String filenameUri = null;
+        String name = PathUtils.getBasename(res);
 
-        try {
-            filenameUri = URLDecoder.decode(PathUtils.getLocation(res));
-        } catch (Throwable t) {
-            filenameUri = PathUtils.getLocation(res);
+        if (name==null) {
+            String filenameUri = null;
+            log.warn("Media Resource returned NULL name for " + res);
+            try {
+                filenameUri = URLDecoder.decode(PathUtils.getLocation(res));
+            } catch (Throwable t) {
+                filenameUri = PathUtils.getLocation(res);
+            }
+            name = new File(filenameUri).getName();
         }
 
-        String name = new File(filenameUri).getName();
-        if (name.indexOf(' ')==-1 && StringUtils.countMatches(name,'.')>1) {
+        if (name.indexOf(' ')==-1 && StringUtils.countMatches(name,'.')>0) {
             // we have name with no spaces but multiple dots... let's expand it.
             name = SearchUtil.specialHandleDots(name);
         }

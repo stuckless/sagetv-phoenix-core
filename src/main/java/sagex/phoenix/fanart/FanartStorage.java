@@ -128,7 +128,7 @@ public class FanartStorage implements DownloadHandler {
         }
         if (artwork != null && artwork.size() > 0) {
             // eventually i'll add a "REFRESH_FANART" command of some type
-            if (options.getBooleanValue(MetadataHints.REFRESH, false)) {
+            if (options!=null && options.getBooleanValue(MetadataHints.REFRESH, false)) {
                 // if we are refreshing, then delete all files in this directory
                 log.info("Refreshing Fanart.  Removing old fanart.");
                 fanartDir.listFiles(new FileFilter() {

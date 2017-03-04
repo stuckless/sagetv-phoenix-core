@@ -1,11 +1,18 @@
 # Basic "Movie (YEAR)" format
 (?<title>[^\(]+).*\((?<year>[12][0-9]{3})\)
 
-# "Movie Year" format but omit things like 1080p or 1080i
-(?<title>.*)(?<year>[12][0-9]{3})[^pi]
+# year in square brackets (who that does that??)
+(?<title>[^\(]+).*\[(?<year>[12][0-9]{3})\]
 
 # try to find a pattern by omitting certain words...
-(?<title>.*?)(1080p|1080i|HDRip|x264|AAC2|DVDRip|dvdscr|HD-TS|BDRip|Xvid|TC|HD-TC|HC|WEBRIP|WEB-DL|WEBDL|CAMRIP)
+(?<title>.*?)(?<year>[12][0-9]{3})\s*(1080p|1080i|720p|720i|480p|480i|HDRip|x264|AAC2|DVDRip|dvdscr|HD-TS|BDRip|Xvid|TC|HD-TC|HC|WEBRIP|WEB-DL|WEBDL|CAMRIP|cd1|cd2|cd3|cd4)
 
-# default will simple take the filename without the extension
-(?<title>.*)\.[a-z]{2,4}
+# try to find a pattern by omitting certain words...
+(?<title>.*?)(1080p|1080i|720p|720i|480p|480i|HDRip|x264|AAC2|DVDRip|dvdscr|HD-TS|BDRip|Xvid|TC|HD-TC|HC|WEBRIP|WEB-DL|WEBDL|CAMRIP|cd1|cd2|cd3|cd4)
+
+# "Movie Year" format
+(?<title>.*)(?<year>[12][0-9]{3})
+
+
+# default will simple take the filename as is
+(?<title>.+)

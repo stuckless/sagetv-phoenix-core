@@ -123,7 +123,7 @@ public class TestImageAPI {
     @Test
     public void testSamplJSTransform() throws Exception {
         File src = createImageFile("test_javascript.jpg", 200, 800);
-        TransformFactory tf = new TransformFactory(InitPhoenix.ProjectHome("src/main/STVs/Phoenix/ImageTransforms"));
+        TransformFactory tf = new TransformFactory(InitPhoenix.ProjectHome("src/plugins/phoenix-core/STVs/Phoenix/ImageTransforms"));
         IBufferedTransform bt = tf.createTransform("{name: resize, width: 100, height: 500}");
         BufferedImage bi = bt.transform(ImageUtil.readImage(src));
         verifyImageSize(bi, 100, 500);

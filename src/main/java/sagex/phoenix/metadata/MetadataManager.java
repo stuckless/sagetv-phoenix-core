@@ -311,7 +311,6 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 
         log.debug("Can search using " + providers.size() + " providers");
 
-        SocketTimeoutException timeoutException = null;
         List<IMetadataSearchResult> results = new ArrayList<IMetadataSearchResult>();
         for (IMetadataProvider p : providers) {
             try {
@@ -347,21 +346,16 @@ public class MetadataManager extends SystemConfigurationFileManager implements
                     }
                 }
                 log.info("No good matches for " + query.get(Field.QUERY) + " will try other providers if available.");
-            } catch (Exception e) {
-                if (e instanceof SocketTimeoutException) {
-                    timeoutException = (SocketTimeoutException) e;
-                } else {
-                    log.warn("Search Failed for: " + query + " using provider " + p + "; Message: " + e.getMessage(), e);
-                }
+            } catch (MetadataException me) {
+                log.warn("Search Failed for: " + query + " using provider " + p + "; Message: " + me.getMessage(), me);
+                throw me;
+            } catch (Throwable e) {
+                throw new MetadataException("Search Failed Badly for " + query, query, e);
             }
         }
 
         if (results.size() == 0) {
-            if (timeoutException != null) {
-                throw new MetadataException("Search Timed out for " + query, query, timeoutException);
-            } else {
-                throw new MetadataException("Search Failed for " + query, query);
-            }
+            throw new MetadataException("No Results for " + query, query);
         }
 
         return results;

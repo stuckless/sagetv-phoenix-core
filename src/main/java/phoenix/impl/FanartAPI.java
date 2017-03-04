@@ -83,7 +83,7 @@ public class FanartAPI {
     public FanartAPI() {
         try {
             String prop = (String) Configuration.GetProperty("phoenix/mediametadata/fanartSupportClass",
-                    PhoenixFanartSupport.class.getName());
+                    PhoenixFanartSupport2.class.getName());
 
             api = (IFanartSupport2) Class.forName(prop).newInstance();
         } catch (Throwable e) {

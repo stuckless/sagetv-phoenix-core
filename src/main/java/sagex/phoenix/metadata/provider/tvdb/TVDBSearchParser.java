@@ -1,5 +1,6 @@
 package sagex.phoenix.metadata.provider.tvdb;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -15,6 +16,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import sage.IOUtils;
 import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.metadata.IMetadataProvider;
 import sagex.phoenix.metadata.IMetadataSearchResult;
@@ -91,7 +93,22 @@ public class TVDBSearchParser {
             }
             Collections.sort(results, sorter);
         } catch (Exception e) {
-            throw new MetadataException("Failed to get/parse search query " + query, e);
+            // we got a parse exception, let's try to log the response
+            log.debug("Search Failed using URL " + url);
+            try {
+                String contents = org.apache.commons.io.IOUtils.toString(url.getInputStream(null, true));
+                log.debug("Begin DEBUG XML CONTENTS");
+                log.debug(contents);
+                log.debug("End DEBUG XML CONTENTS");
+                if (contents!=null && contents.contains("Too many connections")) {
+                    // TVDB is overloaded...
+                    throw new MetadataException("Too many connections", query, e);
+                }
+            } catch (IOException e1) {
+                log.error("Could not debug read the url " + url, e1);
+            }
+
+            throw new MetadataException("Failed to get/parse search query", query, e);
         }
         return results;
     }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 
 import sagex.phoenix.vfs.IMediaFolder;
@@ -226,9 +227,22 @@ public class FileResourceFactory {
         if (f == null)
             return null;
 
-        // adjust the title for VIDEO_TS folders
-        if ("VIDEO_TS".equalsIgnoreCase(f.getName()) || "BDMV".equalsIgnoreCase(f.getName())) {
-            return returnParentIfNotNull(f).getName();
+        // adjust the title for VIDEO_TS and BDMV folders
+        if (isDVD(f)) {
+            File dvd = resolveDVD(f);
+            if (dvd==null) return f.getName();
+
+            if (dvd.getName().equalsIgnoreCase("VIDEO_TS") && dvd.getParentFile()!=null) {
+                return dvd.getParentFile().getName();
+            }
+            return f.getName();
+        } else if (isBluRay(f)) {
+            File br = resolveBluRay(f);
+            if (br==null) return f.getName();
+            if (br.getName().equalsIgnoreCase("BDMV") && br.getParentFile()!=null) {
+                return br.getParentFile().getName();
+            }
+            return f.getName();
         } else {
             return f.getName();
         }

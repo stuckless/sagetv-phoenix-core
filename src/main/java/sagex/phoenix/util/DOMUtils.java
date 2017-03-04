@@ -1,6 +1,7 @@
 package sagex.phoenix.util;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.zip.GZIPInputStream;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -92,15 +93,20 @@ public class DOMUtils {
             return parser.parse(url.getInputStream(null, true));
         } catch (Exception e) {
             try {
-                // let try a gzip input stream
-                Loggers.LOG.warn("Failed to parse url " + url + " because of " + e.getMessage()
-                        + "; will try to use a gzip decoder on it");
-                return parser.parse(new GZIPInputStream(url.getInputStream(null, true)));
-            } catch (Exception ex) {
-                if (url instanceof CachedUrl) {
-                    CachedUrl.remove((CachedUrl) url);
-                    Loggers.LOG.warn("Failed to parse cached url " + url + ", removing cached file.", ex);
+                // if it's a socket timeout... don't try to re-read...
+                if (! (e instanceof SocketTimeoutException)) {
+                    // let try a gzip input stream
+                    Loggers.LOG.warn("Failed to parse url " + url + " because of " + e.getMessage()
+                            + "; will try to use a gzip decoder on it", e);
+                    return parser.parse(new GZIPInputStream(url.getInputStream(null, true)));
                 }
+            } catch (Exception ex) {
+                Loggers.LOG.warn("GZIP parse also failed", ex);
+            }
+
+            if (url instanceof CachedUrl) {
+                CachedUrl.remove((CachedUrl) url);
+                Loggers.LOG.warn("Failed to parse cached url " + url + ", removing cached file.", e);
             }
 
             throw e;
