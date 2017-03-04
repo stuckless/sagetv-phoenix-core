@@ -1,20 +1,15 @@
 package sagex.phoenix.metadata.provider.tvdb;
 
-import java.text.MessageFormat;
-import java.util.List;
-
+import com.omertron.thetvdbapi.model.Banner;
+import com.omertron.thetvdbapi.model.BannerType;
+import com.omertron.thetvdbapi.model.Banners;
+import com.omertron.thetvdbapi.model.Episode;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
-import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.metadata.CastMember;
 import sagex.phoenix.metadata.ICastMember;
 import sagex.phoenix.metadata.IMetadata;
-import sagex.phoenix.metadata.IMetadataProvider;
 import sagex.phoenix.metadata.IMetadataSearchResult;
 import sagex.phoenix.metadata.ISeriesInfo;
 import sagex.phoenix.metadata.ITVMetadataProvider;
@@ -26,33 +21,20 @@ import sagex.phoenix.metadata.MetadataUtil;
 import sagex.phoenix.metadata.proxy.MetadataProxy;
 import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.metadata.search.SearchQuery;
-import sagex.phoenix.util.DOMUtils;
 import sagex.phoenix.util.DateUtils;
-import sagex.phoenix.util.url.IUrl;
-import sagex.phoenix.util.url.UrlFactory;
+
+import java.util.List;
 
 public class TVDBItemParser {
     private static final Logger log = Logger.getLogger(TVDBItemParser.class);
 
-    public static final String BANNERS_URL = "http://www.thetvdb.com/api/{0}/series/{1}/banners.xml";
-    public static final String SERIES_URL = "http://www.thetvdb.com/api/{0}/series/{1}/{2}.xml";
-    public static final String SEASON_EPISODE_URL = "http://www.thetvdb.com/api/{0}/series/{1}/default/{2}/{3}/{4}.xml";
-
-    // Date format is YYYY-MM-DD
-    public static final String EPISODE_BY_DATE_URL = "http://thetvdb.com/api/GetEpisodeByAirDate.php?apikey={0}&seriesid={1}&airdate={2}";
-    public static final String EPISODE_BY_TITLE = "http://www.thetvdb.com/api/{0}/series/{1}/all/{2}.xml";
-
     private IMetadata md = null;
-    private Document banners = null;
-    private TVDBConfiguration config = null;
-
     private IMetadataSearchResult result = null;
-    private IMetadataProvider provider;
+    private TVDBMetadataProvider provider;
 
-    public TVDBItemParser(IMetadataProvider prov, IMetadataSearchResult result) {
+    public TVDBItemParser(TVDBMetadataProvider prov, IMetadataSearchResult result) {
         this.provider = prov;
         this.result = result;
-        config = GroupProxy.get(TVDBConfiguration.class);
     }
 
     public IMetadata getMetadata() throws MetadataException {
@@ -90,32 +72,8 @@ public class TVDBItemParser {
                 }
 
                 if (md.getEpisodeNumber() == 0 && !StringUtils.isEmpty(title)) {
-                    addSeasonEpisodeInfoByTitle(md, title);
+                    addSeasonEpisodeInfoByTitle(title);
                 }
-
-                // Commented out the Episode and disc # checks since we want to
-                // allow series level fanart
-                // if (md.getEpisodeNumber()==0) {
-                // throw new
-                // Exception("Cannot process TV without a valid season/episod; Result: "
-                // + result);
-                // }
-                //
-                // if (md.getDiscNumber()==0) {
-                // // if it's not disc based, then check that we have a valid
-                // series info
-                // if (StringUtils.isEmpty(md.getEpisodeName()) ||
-                // md.getEpisodeNumber()==0) {
-                // throw new
-                // Exception("Did not find a valid season and episode; Episode: "
-                // + episode + "; Search Date: " + date + "; Search Title: " +
-                // title);
-                // }
-                // } else {
-                // // TODO: gather all the episode titles and add them to the
-                // description
-                // // TODO: set the episode title to be "23 episodes"
-                // }
 
                 // now add in banners, no point in doing it early
                 addBanners(md, season);
@@ -143,51 +101,41 @@ public class TVDBItemParser {
         md.setRunningTime(info.getRuntime());
     }
 
-    private void updateMetadataFromUrl(IMetadata md, String episodeUrl) throws Exception {
-        log.info("TVDB Episode: " + episodeUrl);
-        IUrl url = UrlFactory.newUrl(episodeUrl);
-        Document doc = DOMUtils.parseDocument(url);
-        Element el = DOMUtils.getElementByTagName(doc.getDocumentElement(), "Episode");
-        updateMetadataFromElement(md, el);
-    }
-
-    private void updateMetadataFromElement(IMetadata md, Element el) {
-        md.setSeasonNumber(NumberUtils.toInt(DOMUtils.getElementValue(el, "SeasonNumber")));
-        md.setEpisodeNumber(NumberUtils.toInt(DOMUtils.getElementValue(el, "EpisodeNumber")));
-        md.setEpisodeName(sagex.phoenix.util.StringUtils.unquote(DOMUtils.getElementValue(el, "EpisodeName")));
+    private void updateMetadataFromElement(IMetadata md, Episode el) {
+        md.setSeasonNumber(el.getSeasonNumber());
+        md.setEpisodeNumber(el.getEpisodeNumber());
+        md.setEpisodeName(sagex.phoenix.util.StringUtils.unquote(el.getEpisodeName()));
 
         // actually this is redundant because the tvdb is already YYYY-MM-DD,
         // but this will
         // ensure that we are safe if out internal mask changes
-        md.setOriginalAirDate(DateUtils.parseDate(DOMUtils.getElementValue(el, "FirstAired")));
+        md.setOriginalAirDate(DateUtils.parseDate(el.getFirstAired()));
         // YEAR is not set for TV Metadata, we get that from the Series Info
         // md.setYear(DateUtils.parseYear(DOMUtils.getElementValue(el,
         // "FirstAired")));
-        md.setDescription(DOMUtils.getElementValue(el, "Overview"));
-        md.setUserRating(MetadataSearchUtil.parseUserRating(DOMUtils.getElementValue(el, "Rating")));
-        md.setIMDBID(DOMUtils.getElementValue(el, "IMDB_ID"));
+        md.setDescription(el.getOverview());
+        md.setUserRating(MetadataSearchUtil.parseUserRating(el.getRating()));
+        md.setIMDBID(el.getImdbId());
 
-        String epImage = DOMUtils.getElementValue(el, "filename");
+        String epImage = el.getFilename();
         if (!StringUtils.isEmpty(epImage)) {
             // Added for EvilPenguin
             md.getFanart().add(
-                    new MediaArt(MediaArtifactType.EPISODE, TVDBMetadataProvider.getFanartURL(epImage), md.getSeasonNumber()));
+                    new MediaArt(MediaArtifactType.EPISODE, epImage, md.getSeasonNumber()));
         }
 
-        addCastMember(md, DOMUtils.getElementValue(el, "GuestStars"), "Guest", md.getGuests());
-        addCastMember(md, DOMUtils.getElementValue(el, "Writer"), "Writer", md.getWriters());
-        addCastMember(md, DOMUtils.getElementValue(el, "Director"), "Director", md.getDirectors());
+        addCastMember(el.getGuestStars(), md.getGuests());
+        addCastMember(el.getWriters(), md.getWriters());
+        addCastMember(el.getDirectors(), md.getDirectors());
     }
 
-    private void addCastMember(IMetadata md, String strSplit, String part, List<ICastMember> cast) {
-        if (!StringUtils.isEmpty(strSplit)) {
-            String directorsArr[] = strSplit.split("[,\\|]");
-            for (String d : directorsArr) {
+    private void addCastMember(List<String> in, List<ICastMember> cast) {
+        if (in!=null && in.size()>0) {
+            for (String d : in) {
                 if (!StringUtils.isEmpty(d)) {
                     CastMember cm = new CastMember();
                     cm.setName(d.trim());
                     cast.add(cm);
-                    log.debug("Adding Cast Member: " + cm.getName());
                 }
             }
         }
@@ -198,21 +146,19 @@ public class TVDBItemParser {
             // tvdb requires dashes not dots
             if (date != null)
                 date = date.replace('.', '-');
-            String allurl = MessageFormat.format(EPISODE_BY_DATE_URL, TVDBMetadataProvider.getApiKey(), result.getId(), date);
-            log.info("TVDB date: " + allurl);
 
-            IUrl url = UrlFactory.newUrl(allurl);
-            Document doc = DOMUtils.parseDocument(url);
+            List<Episode> episodes = provider.getTVDBApi().getAllEpisodes(result.getId(), provider.getLanguage());
 
-            NodeList nl = doc.getElementsByTagName("Episode");
-            if (nl.getLength() > 0) {
-                Element el = (Element) nl.item(0);
-                String season = DOMUtils.getElementValue(el, "SeasonNumber");
-                String episode = DOMUtils.getElementValue(el, "EpisodeNumber");
-                // we get the by date xml and then request season/episode
-                // specific one, because the by date xml
-                // is not the same as the by season/episode
-                addSeasonEpisodeInfo(md, season, episode);
+            if (episodes!=null && episodes.size()>0) {
+                for (Episode e : episodes) {
+                    if (date.equals(e.getFirstAired())) {
+                        // we get the by date xml and then request season/episode
+                        // specific one, because the by date xml
+                        // is not the same as the by season/episode
+                        updateMetadataFromElement(md, e);
+                        break;
+                    }
+                }
             }
         } catch (Exception e) {
             log.warn("Failed to get season/episode specific information for " + result.getId() + "; Date: " + date, e);
@@ -220,15 +166,11 @@ public class TVDBItemParser {
 
     }
 
-    private void addSeasonEpisodeInfoByTitle(IMetadata md, String title) {
+    private void addSeasonEpisodeInfoByTitle(String title) {
         try {
-            String allurl = MessageFormat.format(EPISODE_BY_TITLE, TVDBMetadataProvider.getApiKey(), result.getId(),
-                    config.getLanguage());
-            log.info("TVDB Title: " + allurl);
-            IUrl url = UrlFactory.newUrl(allurl);
-            Document doc = DOMUtils.parseDocument(url);
+            log.info("TVDB Title: " + title);
 
-            NodeList nl = doc.getElementsByTagName("Episode");
+            List<Episode> nl = provider.getTVDBApi().getAllEpisodes(result.getId(), provider.getLanguage());
             boolean updated = updateIfScored(nl, title, 1.0f);
             if (!updated) {
                 float matchScore = 0.8f;
@@ -247,12 +189,14 @@ public class TVDBItemParser {
         }
     }
 
-    private boolean updateIfScored(NodeList nl, String title, float scoreToMatch) {
+    private boolean updateIfScored(List<Episode> nl, String title, float scoreToMatch) {
+        if (nl==null) return false;
+
         boolean updated = false;
-        int s = nl.getLength();
+        int s = nl.size();
         for (int i = 0; i < s; i++) {
-            Element el = (Element) nl.item(i);
-            String epTitle = DOMUtils.getElementValue(el, "EpisodeName");
+            Episode el = nl.get(i);
+            String epTitle = el.getEpisodeName();
             float score = MetadataSearchUtil.calculateCompressedScore(title, epTitle);
 
             if (score >= scoreToMatch) {
@@ -271,10 +215,7 @@ public class TVDBItemParser {
 
         if (inSeason > 0 && inEpisode > 0) {
             try {
-                updateMetadataFromUrl(
-                        md,
-                        MessageFormat.format(SEASON_EPISODE_URL, TVDBMetadataProvider.getApiKey(), result.getId(),
-                                String.valueOf(inSeason), String.valueOf(inEpisode), config.getLanguage()));
+                updateMetadataFromElement(md, provider.getTVDBApi().getEpisode(result.getId(), inSeason, inEpisode, provider.getLanguage()));
             } catch (Exception e) {
                 log.warn("Failed to get season/episode specific information for " + result.getId() + "; Season: " + season
                         + "; episode: " + episode, e);
@@ -285,58 +226,48 @@ public class TVDBItemParser {
         }
     }
 
+    private void addBanners(IMetadata md, MediaArtifactType mat, List<Banner> list) {
+        if (list!=null && list.size()>0) {
+            for (Banner b: list) {
+                if (provider.getLanguage().equals(b.getLanguage())) {
+                    MediaArt ma = new MediaArt();
+                    ma.setType(mat);
+                    addFanartUrl(md, ma, b.getUrl());
+                }
+            }
+        }
+    }
+
     private void addBanners(IMetadata md, String season) {
         int inSeason = NumberUtils.toInt(season, -9);
         try {
-            if (banners == null) {
-                String seriesUrl = MessageFormat.format(BANNERS_URL, TVDBMetadataProvider.getApiKey(), result.getId());
-                log.info("Parsing TVDB Banners url: " + seriesUrl);
-                IUrl url = UrlFactory.newUrl(seriesUrl);
-                banners = DOMUtils.parseDocument(url);
-            }
+            Banners banners = provider.getTVDBApi().getBanners(result.getId());
 
-            NodeList nl = banners.getElementsByTagName("Banner");
-            for (int i = 0; i < nl.getLength(); i++) {
-                Element el = (Element) nl.item(i);
+            addBanners(md, MediaArtifactType.POSTER, banners.getPosterList());
+            addBanners(md, MediaArtifactType.BACKGROUND, banners.getFanartList());
+            addBanners(md, MediaArtifactType.BANNER, banners.getSeriesList());
 
-                String lang = DOMUtils.getElementValue(el, "Language");
-                if (StringUtils.isEmpty(lang) || lang.equals("en") || lang.equals(config.getLanguage())) {
-
-                    String type = DOMUtils.getElementValue(el, "BannerType");
-
-                    MediaArt ma = null;
-                    if ("fanart".equals(type)) {
-                        ma = new MediaArt();
-                        ma.setType(MediaArtifactType.BACKGROUND);
-                    } else if ("poster".equals(type)) {
-                        ma = new MediaArt();
-                        ma.setType(MediaArtifactType.POSTER);
-                    } else if ("series".equals(type)) {
-                        ma = new MediaArt();
-                        ma.setType(MediaArtifactType.BANNER);
-                    } else if ("season".equals(type)) {
-                        int seasonNum = DOMUtils.getElementIntValue(el, "Season", -1);
-                        if (seasonNum == inSeason) {
-                            String type2 = DOMUtils.getElementValue(el, "BannerType2");
-                            if ("season".equals(type2)) {
-                                ma = new MediaArt();
-                                ma.setType(MediaArtifactType.POSTER);
-                            } else if ("seasonwide".equals(type2)) {
-                                ma = new MediaArt();
-                                ma.setType(MediaArtifactType.BANNER);
-                            } else {
-                                log.debug("Unhandled Season Banner Type2: " + type2);
-                            }
-                            if (ma != null) {
-                                ma.setSeason(seasonNum);
+            if (inSeason>0) {
+                List<Banner> list = banners.getSeasonList();
+                MediaArtifactType mat = MediaArtifactType.BACKGROUND;
+                if (list != null && list.size() > 0) {
+                    for (Banner b : list) {
+                        if (provider.getLanguage().equals(b.getLanguage())) {
+                            if (inSeason == b.getSeason()) {
+                                MediaArt ma = null;
+                                if (b.getBannerType2() == BannerType.SEASON) {
+                                    ma = new MediaArt();
+                                    ma.setType(MediaArtifactType.POSTER);
+                                } else if (b.getBannerType2() == BannerType.SEASONWIDE) {
+                                    ma = new MediaArt();
+                                    ma.setType(MediaArtifactType.BANNER);
+                                }
+                                if (ma != null) {
+                                    ma.setSeason(inSeason);
+                                    addFanartUrl(md, ma, b.getUrl());
+                                }
                             }
                         }
-                    } else {
-                        log.debug("Unhandled Banner Type: " + type);
-                    }
-
-                    if (ma != null) {
-                        addFanartUrl(md, ma, DOMUtils.getElementValue(el, "BannerPath"));
                     }
                 }
             }
@@ -348,7 +279,7 @@ public class TVDBItemParser {
     private void addFanartUrl(IMetadata md, MediaArt ma, String path) {
         if (StringUtils.isEmpty(path))
             return;
-        ma.setDownloadUrl(TVDBMetadataProvider.getFanartURL(path));
+        ma.setDownloadUrl(path);
         md.getFanart().add(ma);
     }
 }

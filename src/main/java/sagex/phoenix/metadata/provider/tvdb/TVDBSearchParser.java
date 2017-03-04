@@ -1,48 +1,31 @@
 package sagex.phoenix.metadata.provider.tvdb;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
+import com.omertron.thetvdbapi.model.Series;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
-import sage.IOUtils;
-import sagex.phoenix.configuration.proxy.GroupProxy;
-import sagex.phoenix.metadata.IMetadataProvider;
 import sagex.phoenix.metadata.IMetadataSearchResult;
 import sagex.phoenix.metadata.MediaType;
 import sagex.phoenix.metadata.MetadataException;
 import sagex.phoenix.metadata.search.MediaSearchResult;
 import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.metadata.search.SearchQuery;
+import sagex.phoenix.remote.streaming.GenericCommandMediaProcess;
 import sagex.phoenix.util.DateUtils;
 import sagex.phoenix.util.Pair;
 import sagex.phoenix.util.ParserUtils;
-import sagex.phoenix.util.url.IUrl;
-import sagex.phoenix.util.url.UrlFactory;
-import sagex.phoenix.util.url.UrlUtil;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TVDBSearchParser {
     private static final Logger log = Logger.getLogger(TVDBSearchParser.class);
-    private static final String SEARCH_URL = "http://www.thetvdb.com/api/GetSeries.php?seriesname=%s&language=%s";
-    private static final String SEARCH_URL_NO_LANG = "http://www.thetvdb.com/api/GetSeries.php?seriesname=%s";
-    private static final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
     private SearchQuery query = null;
-    private IUrl url;
     private List<IMetadataSearchResult> results = new LinkedList<IMetadataSearchResult>();
     private String searchTitle;
-    private TVDBConfiguration config = null;
+
     private Comparator<IMetadataSearchResult> sorter = new Comparator<IMetadataSearchResult>() {
         public int compare(IMetadataSearchResult o1, IMetadataSearchResult o2) {
             if (o1.getScore() > o2.getScore())
@@ -53,24 +36,13 @@ public class TVDBSearchParser {
         }
     };
 
-    private IMetadataProvider provider;
+    private TVDBMetadataProvider provider;
 
-    public TVDBSearchParser(IMetadataProvider prov, SearchQuery query) {
+    public TVDBSearchParser(TVDBMetadataProvider prov, SearchQuery query) {
         this.provider = prov;
         this.query = query;
-        config = GroupProxy.get(TVDBConfiguration.class);
+
         searchTitle = query.get(SearchQuery.Field.QUERY);
-
-        String surl = null;
-        // bug in tvdb, where passing language=en causes an issue, sometimes
-        if (StringUtils.isEmpty(config.getLanguage()) || "en".equalsIgnoreCase(config.getLanguage())) {
-            surl = String.format(SEARCH_URL_NO_LANG, UrlUtil.encode(searchTitle));
-        } else {
-            surl = String.format(SEARCH_URL, UrlUtil.encode(searchTitle), config.getLanguage().trim());
-        }
-
-        log.info("TVDB Search: " + surl);
-        this.url = UrlFactory.newUrl(surl);
     }
 
     public List<IMetadataSearchResult> getResults() throws MetadataException {
@@ -80,45 +52,35 @@ public class TVDBSearchParser {
 
         // parse
         try {
-            DocumentBuilder parser = factory.newDocumentBuilder();
-            Document doc = parser.parse(url.getInputStream(null, true));
+            List<Series> list = provider.getTVDBApi().searchSeries(searchTitle, provider.getLanguage());
 
-            NodeList nl = doc.getElementsByTagName("Series");
-            int len = nl.getLength();
+            int len = list.size();
             if (len == 0) {
-                log.warn("Could not find any results for: " + url);
+                log.warn("Could not find any results for: " + searchTitle);
             }
+
             for (int i = 0; i < len; i++) {
-                addItem((Element) nl.item(i));
+                addItem(list.get(i));
             }
             Collections.sort(results, sorter);
         } catch (Exception e) {
             // we got a parse exception, let's try to log the response
-            log.debug("Search Failed using URL " + url);
-            try {
-                String contents = org.apache.commons.io.IOUtils.toString(url.getInputStream(null, true));
-                log.debug("Begin DEBUG XML CONTENTS");
-                log.debug(contents);
-                log.debug("End DEBUG XML CONTENTS");
-                if (contents!=null && contents.contains("Too many connections")) {
-                    // TVDB is overloaded...
-                    throw new MetadataException("Too many connections", query, e);
-                }
-            } catch (IOException e1) {
-                log.error("Could not debug read the url " + url, e1);
-            }
+            log.debug("Search Failed using URL " + searchTitle);
 
             throw new MetadataException("Failed to get/parse search query", query, e);
         }
         return results;
     }
 
-    private void addItem(Element item) {
-        String title = getElementValue(item, "SeriesName");
+    private void addItem(Series item) {
+        String title = item.getSeriesName();
+
         if (StringUtils.isEmpty(title)) {
-            log.warn("TVDB Item didn't contain a title: " + item.getTextContent());
+            log.warn("TVDB Item didn't contain a title");
             return;
         }
+
+        log.debug("Series Item" + item);
 
         MediaSearchResult sr = new MediaSearchResult();
         MetadataSearchUtil.copySearchQueryToSearchResult(query, sr);
@@ -127,13 +89,13 @@ public class TVDBSearchParser {
         Pair<String, String> pair = ParserUtils.parseTitleAndDateInBrackets(sagex.phoenix.util.StringUtils.unquote(title));
         sr.setTitle(pair.first());
         sr.setScore(getScore(pair.first()));
-        sr.setYear(DateUtils.parseYear(getElementValue(item, "FirstAired")));
-        sr.setId(getElementValue(item, "seriesid"));
-        sr.setUrl(sr.getId());
-        sr.setIMDBId(getElementValue(item, "imdb"));
+        sr.setYear(DateUtils.parseYear(item.getFirstAired()));
+        sr.setId(sagex.phoenix.util.StringUtils.firstNonEmpty(item.getSeriesId(), item.getId(), item.getImdbId()));
+        sr.setUrl(sagex.phoenix.util.StringUtils.firstNonEmpty(item.getFanart(), item.getPoster(), item.getBanner()));
+        sr.setIMDBId(item.getImdbId());
 
         results.add(sr);
-        log.debug("Added TVDB Title: " + sr.getTitle());
+        log.debug("Added TVDB Title: " + sr.getTitle() + "; ID: " + item.getSeriesId() + "; IMDB: " + item.getImdbId());
     }
 
     private float getScore(String title) {
@@ -146,14 +108,5 @@ public class TVDBSearchParser {
         } catch (Exception e) {
             return 0.0f;
         }
-    }
-
-    public static String getElementValue(Element el, String tag) {
-        NodeList nl = el.getElementsByTagName(tag);
-        if (nl.getLength() > 0) {
-            Node n = nl.item(0);
-            return n.getTextContent().trim();
-        }
-        return null;
     }
 }

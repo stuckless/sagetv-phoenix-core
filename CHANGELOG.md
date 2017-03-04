@@ -1,3 +1,6 @@
+# 3.2.0
+* Rewrote TVDB lookups using TVDB API
+
 # 3.1.0
 * Fixed various scraper issues for metadata/fanart (primarily around bluray and dvd)
 * Removed HTBackdrops (api/site no longer available)

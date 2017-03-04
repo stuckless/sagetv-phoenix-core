@@ -1,10 +1,8 @@
 package sagex.phoenix.metadata.provider.tvdb;
 
-import java.text.MessageFormat;
-import java.util.List;
-
+import com.omertron.thetvdbapi.TheTVDBApi;
 import org.apache.commons.lang.StringUtils;
-
+import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.metadata.IMetadataProviderInfo;
 import sagex.phoenix.metadata.IMetadataSearchResult;
@@ -17,12 +15,34 @@ import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.metadata.search.SearchQuery;
 import sagex.phoenix.metadata.search.SearchQuery.Field;
 
+import java.util.List;
+
 public class TVDBMetadataProvider extends MetadataProvider implements ITVMetadataProvider {
     public static final String ID = "tvdb";
-    public static final String FANART_URL = "http://www.thetvdb.com/banners/{0}";
+
+    TheTVDBApi tvdbApi = null;
+    TVDBConfiguration config = null;
 
     public TVDBMetadataProvider(IMetadataProviderInfo info) {
         super(info);
+        tvdbApi = new TheTVDBApi(getApiKey());
+        config = GroupProxy.get(TVDBConfiguration.class);
+    }
+
+    TheTVDBApi getTVDBApi() {
+        return tvdbApi;
+    }
+
+    TVDBConfiguration getConfiguration() {
+        return config;
+    }
+
+    public String getLanguage() {
+        String lang = config.getLanguage();
+        if (lang==null||lang.isEmpty()) {
+            lang="en";
+        }
+        return lang;
     }
 
     public IMetadata getMetaData(IMetadataSearchResult result) throws MetadataException {
@@ -89,30 +109,16 @@ public class TVDBMetadataProvider extends MetadataProvider implements ITVMetadat
      * themoviedb.api_key=YOUR_KEY
      * </code>
      */
-    public static Object getApiKey() {
+    public static String getApiKey() {
         String key = System.getProperty("thetvdb.api_key");
         if (key == null)
             key = "5645B594A3F32D27";
         return key;
     }
 
-    /**
-     * Returns a complete fanart path for the given path or null if the path is
-     * empty
-     *
-     * @param path
-     * @return
-     */
-    public static String getFanartURL(String path) {
-        if (!StringUtils.isEmpty(path)) {
-            return MessageFormat.format(FANART_URL, path);
-        }
-        return null;
-    }
-
     @Override
     public ISeriesInfo getSeriesInfo(String seriesId) throws MetadataException {
-        TVDBSeriesParser parser = new TVDBSeriesParser(seriesId);
+        TVDBSeriesParser parser = new TVDBSeriesParser(this, seriesId);
         return parser.getSeriesInfo();
     }
 }
