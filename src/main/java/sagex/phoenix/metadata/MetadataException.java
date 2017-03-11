@@ -3,10 +3,12 @@ package sagex.phoenix.metadata;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 
+import com.omertron.thetvdbapi.TvDbException;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 import org.xml.sax.SAXParseException;
 import sagex.phoenix.metadata.search.SearchQuery;
+import sagex.phoenix.util.Loggers;
 import sagex.phoenix.vfs.IMediaFile;
 
 /**
@@ -102,6 +104,18 @@ public class MetadataException extends Exception {
                 .canRetry())) || (ExceptionUtils.indexOfType(e, ConnectException.class) != -1)
                 || (ExceptionUtils.indexOfType(e, SocketTimeoutException.class) != -1)) {
             canRetry = true;
+        }
+        if (!canRetry) {
+            if (e instanceof TvDbException) {
+                TvDbException te = (TvDbException) e;
+                // too many connections
+                if (te.getResponseCode() >= 500) {
+                    canRetry=true;
+                }
+            }
+        }
+        if (canRetry) {
+            Loggers.METADATA.info("Will Retry for Metadata Exception: " + getMessage());
         }
     }
 

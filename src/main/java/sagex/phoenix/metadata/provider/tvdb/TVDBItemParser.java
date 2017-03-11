@@ -1,5 +1,6 @@
 package sagex.phoenix.metadata.provider.tvdb;
 
+import com.omertron.thetvdbapi.TvDbException;
 import com.omertron.thetvdbapi.model.Banner;
 import com.omertron.thetvdbapi.model.BannerType;
 import com.omertron.thetvdbapi.model.Banners;
@@ -141,8 +142,7 @@ public class TVDBItemParser {
         }
     }
 
-    private void addSeasonEpisodeInfoByDate(IMetadata md, String date) {
-        try {
+    private void addSeasonEpisodeInfoByDate(IMetadata md, String date) throws TvDbException {
             // tvdb requires dashes not dots
             if (date != null)
                 date = date.replace('.', '-');
@@ -160,14 +160,9 @@ public class TVDBItemParser {
                     }
                 }
             }
-        } catch (Exception e) {
-            log.warn("Failed to get season/episode specific information for " + result.getId() + "; Date: " + date, e);
-        }
-
     }
 
-    private void addSeasonEpisodeInfoByTitle(String title) {
-        try {
+    private void addSeasonEpisodeInfoByTitle(String title) throws TvDbException {
             log.info("TVDB Title: " + title);
 
             List<Episode> nl = provider.getTVDBApi().getAllEpisodes(result.getId(), provider.getLanguage());
@@ -184,9 +179,6 @@ public class TVDBItemParser {
             if (!updated) {
                 log.info("Unable to match a direct title for: " + title);
             }
-        } catch (Throwable e) {
-            log.warn("Failed to find a match based on title: " + title);
-        }
     }
 
     private boolean updateIfScored(List<Episode> nl, String title, float scoreToMatch) {
@@ -238,9 +230,8 @@ public class TVDBItemParser {
         }
     }
 
-    private void addBanners(IMetadata md, String season) {
+    private void addBanners(IMetadata md, String season) throws TvDbException {
         int inSeason = NumberUtils.toInt(season, -9);
-        try {
             Banners banners = provider.getTVDBApi().getBanners(result.getId());
 
             addBanners(md, MediaArtifactType.POSTER, banners.getPosterList());
@@ -271,9 +262,6 @@ public class TVDBItemParser {
                     }
                 }
             }
-        } catch (Throwable e) {
-            log.warn("Unable to process banners for series: " + result, e);
-        }
     }
 
     private void addFanartUrl(IMetadata md, MediaArt ma, String path) {

@@ -201,6 +201,7 @@ public class PhoenixPlugin extends AbstractPlugin implements ITaskOperation, ITa
 				ti.getUserData().put("recording", recording);
 				ti.setOperation(this);
 				ti.setHandler(this);
+				// waits 5 minutes for a retry
 				Phoenix.getInstance().getTaskManager().submitTaskWithRetry(ti);
 			} else {
 				reportFailure(file, me);

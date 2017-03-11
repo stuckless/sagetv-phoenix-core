@@ -39,6 +39,7 @@ public class TestDateTime {
         validateTime(8, 30, api.AddHours(time, -2));
 
         validateTime(20, 30, api.AddHours(time, 10));
+        // NOTE: don't run this test on Saturday of Time Change :)
         validateTime(10, 30, api.AddHours(time, 24));
         validateTime(10, 30, api.AddHours(time, 48));
     }

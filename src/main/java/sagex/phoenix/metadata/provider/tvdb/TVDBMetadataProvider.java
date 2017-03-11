@@ -68,20 +68,20 @@ public class TVDBMetadataProvider extends MetadataProvider implements ITVMetadat
             try {
                 List<IMetadataSearchResult> results = new TVDBSearchParser(this, query).getResults();
                 if (results.size() == 0) {
-                    return searchUsingModifiedTitle(query);
+                    return searchUsingModifiedTitle(query, new MetadataException("Search Failed for " + query.getRawTitle()));
                 } else {
                     return results;
                 }
             } catch (Exception e) {
                 log.warn("Search Failed for " + query, e);
-                return searchUsingModifiedTitle(query);
+                return searchUsingModifiedTitle(query, new MetadataException("Search Failed for " + query.getRawTitle(), e));
             }
         }
 
         throw new MetadataException("Unsupported Search Type: " + query.getMediaType(), query);
     }
 
-    private List<IMetadataSearchResult> searchUsingModifiedTitle(SearchQuery query) throws MetadataException {
+    private List<IMetadataSearchResult> searchUsingModifiedTitle(SearchQuery query, MetadataException parent) throws MetadataException {
         String title = query.get(Field.QUERY);
         String parts[] = title.split("\\s+");
         if (parts != null && parts.length > 1) {
@@ -99,7 +99,8 @@ public class TVDBMetadataProvider extends MetadataProvider implements ITVMetadat
                 return new TVDBSearchParser(this, query).getResults();
             }
         }
-        return null;
+        // re-throw the parent exception, since nothing changed here
+        throw parent;
     }
 
     /**
