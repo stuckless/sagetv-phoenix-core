@@ -1,3 +1,6 @@
+# 3.2.1
+* Fixes to allow failed TV lookups to retry (most failures are "Too many connections")
+
 # 3.2.0
 * Rewrote TVDB lookups using TVDB API
 
