@@ -205,10 +205,19 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
         return error;
     }
 
+    /**
+     * Returns the Larger of the configured Updated Interval vs the Weather's TTL
+     */
+    private int getTTLInSeconds() {
+        int ttl1=ttl * 60;
+        int ttl2=config.getUpdateInterval();
+        return Math.max(ttl1,ttl2);
+    }
+
     private boolean shouldUpdate() {
         if (lastUpdated == null)
             return true;
-        long later = lastUpdated.getTime() + (ttl * 60 * 1000);
+        long later = lastUpdated.getTime() + (getTTLInSeconds() * 1000);
         if (System.currentTimeMillis() > later)
             return true;
         log.debug("shouldUpdate: Not time to perform an update. Last update at '" + lastUpdated + "'");

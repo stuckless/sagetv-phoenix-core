@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 
 import sage.google.weather.WeatherUnderground;
 import sagex.UIContext;
+import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.weather.CurrentForecast;
 import sagex.phoenix.weather.ForecastPeriod;
 import sagex.phoenix.weather.ICurrentForecast;
@@ -25,6 +26,7 @@ import sagex.phoenix.weather.IForecastPeriod;
 import sagex.phoenix.weather.ILongRangeForecast;
 import sagex.phoenix.weather.IWeatherSupport2;
 import sagex.phoenix.weather.LongRangForecast;
+import sagex.phoenix.weather.WeatherConfiguration;
 
 /**
  * Weather Underground implementation for Phoenix retrieved using the
@@ -40,11 +42,13 @@ public class WundergroundWeatherSupport implements IWeatherSupport2 {
     private List<ILongRangeForecast> forecast;
     private Date lastUpdated = null;
     private Date recordedDate = null;
-    private int ttl = 15; // update every 45 mins
+    private int ttl = 15; // update every 15 mins
     private HashMap<String, String> CodesForDaytime = new HashMap<String, String>();
     private HashMap<String, String> CodesForNighttime = new HashMap<String, String>();
     // use the following to check if a value is NA
     private final String NAText = WeatherUnderground.getNotAvailableText();
+
+    private WeatherConfiguration config = GroupProxy.get(WeatherConfiguration.class);
 
     public WundergroundWeatherSupport() {
         BuildWeatherIconLists();
@@ -328,10 +332,20 @@ public class WundergroundWeatherSupport implements IWeatherSupport2 {
         return IForecastPeriod.sInvalid;
     }
 
+    /**
+     * Returns the Larger of the configured Updated Interval vs the Weather's TTL
+     */
+    private int getTTLInSeconds() {
+        int ttl1=ttl * 60;
+        int ttl2=config.getUpdateInterval();
+        return Math.max(ttl1,ttl2);
+    }
+
     private boolean shouldUpdate() {
         if (lastUpdated == null)
             return true;
-        long later = lastUpdated.getTime() + (ttl * 60 * 1000);
+        if (wWeather.isCurrentlyUpdating()) return false;
+        long later = lastUpdated.getTime() + (getTTLInSeconds() * 1000);
         if (System.currentTimeMillis() > later)
             return true;
         log.debug("shouldUpdate: Not time to perform an update. Last update at '" + lastUpdated + "'");

@@ -3,8 +3,10 @@ package sagex.phoenix.weather;
 import sagex.phoenix.configuration.ConfigScope;
 import sagex.phoenix.configuration.proxy.AField;
 import sagex.phoenix.configuration.proxy.AGroup;
+import sagex.phoenix.configuration.proxy.BooleanConverter;
 import sagex.phoenix.configuration.proxy.FieldProxy;
 import sagex.phoenix.configuration.proxy.GroupProxy;
+import sagex.phoenix.weather.yahoo.YahooWeatherSupport2;
 
 @AGroup(label = "Phoenix Weather Options", path = "phoenix/weather", description = "Phoenix Weather Options")
 public class WeatherConfiguration extends GroupProxy {
@@ -16,6 +18,16 @@ public class WeatherConfiguration extends GroupProxy {
 
     @AField(label = "Yahoo WOEID", description = "Yahoo's WOEID for use with Yahoo Weather Service", scope = ConfigScope.SERVER)
     private FieldProxy<String> yahooWOEID = new FieldProxy<String>("");
+
+    @AField(label = "Weather Check Interval (seconds)", description = "Weather will only update if this many seconds has passed since the last successful update", scope = ConfigScope.SERVER)
+    private FieldProxy<Integer> updateInterval = new FieldProxy<Integer>(30*60); // default 30 minutes
+
+    @AField(label = "Weather Implementation", description = "Weather Implemenation", scope = ConfigScope.SERVER
+            , list = "yahoo:Yahoo! Weather,weatherunderground:Weather Underground", listSeparator = "," )
+    private FieldProxy<String> weatherSupport = new FieldProxy<String>("yahoo");
+
+    @AField(label = "Locked", description = "If locked, then weather cannot changed via APIs", scope = ConfigScope.SERVER )
+    private FieldProxy<Boolean> locked = new FieldProxy<Boolean>(false);
 
     public WeatherConfiguration() {
         super();
@@ -44,5 +56,29 @@ public class WeatherConfiguration extends GroupProxy {
 
     public void setYahooWOEID(String yahooWOEID) {
         this.yahooWOEID.set(yahooWOEID);
+    }
+
+    public int getUpdateInterval() {
+        return updateInterval.get();
+    }
+
+    public void setUpdateInterval(int seconds) {
+        updateInterval.set(seconds);
+    }
+
+    public String getWeatherSupportClass() {
+        return weatherSupport.get();
+    }
+
+    public void setWeatherSupportClass(String klass) {
+        weatherSupport.set(klass);
+    }
+
+    public boolean isLocked() {
+        return locked.get();
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked.set(locked);
     }
 }

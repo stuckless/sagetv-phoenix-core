@@ -10,6 +10,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import sagex.ISageAPIProvider;
 import sagex.SageAPI;
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.util.BaseBuilder;
@@ -26,11 +27,14 @@ public class InitPhoenix {
     }
 
     public static synchronized void init(boolean deleteOld, boolean stubapi, boolean force) throws IOException {
+        init(deleteOld, (stubapi)?new StubSageAPI():null, force);
+    }
+
+    public static synchronized void init(boolean deleteOld, ISageAPIProvider api, boolean force) throws IOException {
         // allow for xml parsing errors
         BaseBuilder.failOnError = true;
 
-        if (stubapi) {
-            StubSageAPI api = new StubSageAPI();
+        if (api!=null) {
             SageAPI.setProvider(api);
         }
 

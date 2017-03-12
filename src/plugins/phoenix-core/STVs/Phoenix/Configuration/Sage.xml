@@ -9,6 +9,11 @@
 			<description>???</description>
 		</field>
 
+		<field key="debug_logging" label="Enable Debug Logging"
+			   defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
 		<field key="debug_capture_progress"
 			label="Debug Capture Progress" defaultValue="false" type="boolean">
 			<description>???</description>
@@ -19,10 +24,112 @@
 			<description>???</description>
 		</field>
 
+		<field key="debug_core_events" label="Debug Core Events"
+			   defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+		<field key="debug_file_format_changes" label="Debug File Format Changes"
+			   defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+		<field key="debug_fps_freq" label="Debug FPS Frequency"
+			   defaultValue="false" type="int">
+			<description>???</description>
+		</field>
+
+		<field key="debug_rem_actions" label="Debug REM Action in STV"
+			   defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
 		<field key="debug_msgs" label="Debug Messages"
 			defaultValue="false" type="boolean">
 			<description>???</description>
 		</field>
+
+		<field key="cc_debug" label="Closed Captioning Debug"
+			   defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+		<field key="debug_cc_sub" label="Closed Captioning / Subtitles Debug"
+			   defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+		<field key="debug_subtitles" label="Subtitles Debug"
+			   defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+		<field key="jcifs_debugging" label="JCIFS Debugging"
+			   defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+		<field key="media_server/transcode_debug" label="Transcode Debug"
+			   defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+		<field key="media_server_debug" label="MediaServer Debug"
+			   defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+		<field key="miniclient/debug_push" label="MiniClient Debug Push"
+			   defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+		<field key="miniplayer/dvd_debug" label="MiniPlayer DVD Debug"
+			   defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+		<field key="thread_debug" label="Thread Debug"
+			   defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+		<field key="ui/lock_debug" label="UI Lock Debug"
+			   defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+		<field key="dump_db_on_startup" label="Dump Database on Startup"
+			   defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+		<field key="ui/dump_font_cache" label="Dump Font Cache"
+			   defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+
+
+		<field key="logging_flush_each_entry" label="Flush log after each entry"
+			   defaultValue="false" type="boolean">
+			<description>???</description>
+		</field>
+
+
+		<field key="logfile_rollover_size" label="Log File Rollover (bytes)"
+			   defaultValue="10000000" type="int">
+			<description>???</description>
+		</field>
+
+		<field key="num_logfiles_to_keep" label="Max Log Files to Keep"
+			   defaultValue="4" type="int">
+			<description>???</description>
+		</field>
+
+
+
+
 	</group>
 
 	<group label="Metadata Settings">
@@ -40,7 +147,22 @@
 			<description>When SetMediaFileMetadata() apis are used, and this is set to true, then SageTV will store the metadata value directly to the .properties file for the media item as well</description>
 		</field>
 	</group>
-	
+
+	<group label="UI">
+		<description>SageTV UI</description>
+		<field key="wizard/revert_stv_on_upgrade" label="Revert STV on Upgrade" type="boolean" defaultValue="true">
+			<description>If true, then SageTV will revert to the Default STV on an upgrade</description>
+		</field>
+	</group>
+
+	<group label="Development">
+		<description>SageTV Development</description>
+		<field key="devmode" label="Development Mode" type="boolean" defaultValue="true">
+			<description>Enable Development features, such as local plugin repositories, etc</description>
+		</field>
+	</group>
+
+
 	<!-- transcoder/dont_add_converted_duplicate_files_to_db -->
 	
 </configuration>

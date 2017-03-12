@@ -7,15 +7,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 
 import sagex.api.Configuration;
+import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.tools.annotation.API;
 import sagex.phoenix.weather.ICurrentForecast;
 import sagex.phoenix.weather.IForecastPeriod;
 import sagex.phoenix.weather.ILongRangeForecast;
 import sagex.phoenix.weather.IWeatherSupport2;
 import sagex.phoenix.weather.IWeatherSupport2.Units;
+import sagex.phoenix.weather.WeatherConfiguration;
 import sagex.phoenix.weather.yahoo.YahooWeatherSupport2;
 
 /**
@@ -27,8 +30,14 @@ import sagex.phoenix.weather.yahoo.YahooWeatherSupport2;
 @API(group = "weather2")
 public class WeatherAPI2 {
     private static final Logger log = Logger.getLogger(WeatherAPI2.class);
+
     private IWeatherSupport2 api = null;
+    private String lastImplName = null;
+    private long lastChecked = 0;
     private List<IForecastPeriod> periods = null;
+
+    private WeatherConfiguration config = GroupProxy.get(WeatherConfiguration.class);
+
     private static HashMap<Integer, Integer> dayCodeMap = new HashMap<Integer, Integer>();
 
     static {
@@ -112,15 +121,21 @@ public class WeatherAPI2 {
         codeMap.put(3200, "Unknown");
     }
 
-    private static HashMap<String, String> API_IMPL = new HashMap<String, String>();
-    private static HashMap<String, String> API_IMPL_NAME = new HashMap<String, String>();
+    static HashMap<String, String> API_IMPL = new HashMap<String, String>();
+    static HashMap<String, String> API_IMPL_NAME = new HashMap<String, String>();
+
+    static final String API_IMPL_PROP = "phoenix/weather/weatherSupport";
+    static final String API_IMPL_CLASS_PROP = "phoenix/weather/weatherSupportClass";
+    static final String API_CHECK_PROP = "phoenix/weather/updateInterval";
+    private static final String API_IMPL_DEFAULT = "yahoo";
+    private static final String API_IMPL_DEFAULT_CLASS = YahooWeatherSupport2.class.getName();
 
     static {
         // maybe need to look at
         // http://openweathermap.org/price
 
-        API_IMPL.put("yahoo", YahooWeatherSupport2.class.getName());
-        API_IMPL_NAME.put("yahoo", "Yahoo! Weather");
+        API_IMPL.put(API_IMPL_DEFAULT, API_IMPL_DEFAULT_CLASS);
+        API_IMPL_NAME.put(API_IMPL_DEFAULT, "Yahoo! Weather");
 
         // wunderground requires 3rd party libs (googleweather.jar) that may not
         // be installed, so
@@ -129,24 +144,29 @@ public class WeatherAPI2 {
         API_IMPL_NAME.put("wunderground", "Weather Underground");
     }
 
-    private static final String API_IMPL_PROP = "phoenix/weather/weatherSupport";
-    private static final String API_IMPL_DEFAULT = "wunderground";
-
     public WeatherAPI2() {
+        String prop = (String) Configuration.GetServerProperty(API_IMPL_PROP, API_IMPL_DEFAULT);
         try {
-            String prop = (String) Configuration.GetProperty(API_IMPL_PROP, API_IMPL_DEFAULT);
             // use the default if the result is google as google is no longer
             // available
-            if (prop.equals("google")) {
-                log.warn("Google weather called but is no longer available - defaulting to: " + YahooWeatherSupport2.class.getName());
-                api = new YahooWeatherSupport2();
+            if (prop.equals("google") || prop.equals("world")) {
+                log.warn("Google/World weather called but is no longer available - defaulting to: " + API_IMPL_DEFAULT_CLASS);
+                SetWeatherImpl(API_IMPL_DEFAULT);
             } else {
-                api = (IWeatherSupport2) Class.forName(API_IMPL.get(prop)).newInstance();
+                SetWeatherImpl(prop);
             }
 
         } catch (Throwable e) {
-            log.warn("Failed to load weather support class; defaulting to: " + YahooWeatherSupport2.class.getName(), e);
-            api = new YahooWeatherSupport2();
+            log.warn("Failed to load weather support class " + prop, e);
+        }
+
+        if (this.api==null) {
+            log.warn("Failed to initialize weather, will try to use default: " + API_IMPL_DEFAULT);
+            SetWeatherImpl(API_IMPL_DEFAULT);
+        }
+
+        if (this.api==null) {
+            log.error("Unable to configure weather for " + prop + "; Weather will not work");
         }
     }
 
@@ -159,20 +179,35 @@ public class WeatherAPI2 {
      * @return null if the api could not be set
      */
     public IWeatherSupport2 SetWeatherImpl(String implName) {
-        // handle good as it is no longer available
-        if (implName.equals("google")) {
-            log.warn("Google weather called but is no longer available - returning null");
-            return null;
-        } else {
-            try {
-                api = (IWeatherSupport2) Class.forName(API_IMPL.get(implName)).newInstance();
-                Configuration.SetProperty(API_IMPL_PROP, implName);
-                return api;
-            } catch (Throwable e) {
-                log.warn("Failed to load weather support: " + implName, e);
-            }
-            return null;
+        if (api!=null && config.isLocked()) return api;
+
+        if (implName==null || implName.equals("google") || implName.equals("world")) {
+            String oldImpl = implName;
+            implName = "yahoo";
+            log.debug("Changed to '"+implName+"' since '" + oldImpl + "' is no longer available");
         }
+
+        if (api!=null && lastImplName!=null && lastImplName.equals(implName)) {
+            // we already have the weather impl... just return it.
+            return api;
+        }
+
+        try {
+            String implClass = API_IMPL.get(implName);
+            if (implClass==null) {
+                log.error("Invalid Weather Implementation ID: " + implName);
+                return null;
+            }
+            api = (IWeatherSupport2) Class.forName(implClass).newInstance();
+            Configuration.SetServerProperty(API_IMPL_PROP, implName);
+            Configuration.SetServerProperty(API_IMPL_CLASS_PROP, implClass);
+            lastImplName = implName;
+            lastChecked = 0; // to allow an update
+            return api;
+        } catch (Throwable e) {
+            log.warn("Failed to load weather support: " + implName, e);
+        }
+        return null;
     }
 
     /**
@@ -200,13 +235,12 @@ public class WeatherAPI2 {
     }
 
     /**
-     * Get the impl name for the current impl key ('yahoo', 'google',
-     * 'wunderground' or 'world')
+     * Get the impl name for the current impl key ('yahoo', 'wunderground')
      *
      * @return name of current impl key
      */
     public String GetWeatherImplName() {
-        String key = (String) Configuration.GetProperty(API_IMPL_PROP, API_IMPL_DEFAULT);
+        String key = (String) Configuration.GetServerProperty(API_IMPL_PROP, API_IMPL_DEFAULT);
         if (API_IMPL_NAME.containsKey(key)) {
             return API_IMPL_NAME.get(key);
         } else {
@@ -221,7 +255,7 @@ public class WeatherAPI2 {
      * @return current impl key
      */
     public String GetWeatherImplKey() {
-        String key = (String) Configuration.GetProperty(API_IMPL_PROP, API_IMPL_DEFAULT);
+        String key = (String) Configuration.GetServerProperty(API_IMPL_PROP, API_IMPL_DEFAULT);
         if (API_IMPL.containsKey(key)) {
             return key;
         } else {
@@ -230,14 +264,16 @@ public class WeatherAPI2 {
     }
 
     /**
-     * Sets the impl key property if valid ('yahoo', 'google', 'wunderground' or
-     * 'world')
+     * Sets the impl property based on key if valid ('yahoo', 'wunderground')
      *
      * @return true if the impl key was valid and set
      */
     public boolean SetWeatherImplKey(String key) {
+        if (config.isLocked()) return false;
+
         if (API_IMPL.containsKey(key)) {
-            Configuration.SetProperty(API_IMPL_PROP, key);
+            Configuration.SetServerProperty(API_IMPL_PROP, key);
+            Configuration.SetServerProperty(API_IMPL_CLASS_PROP, API_IMPL.get(key));
             return true;
         } else {
             return false;
@@ -253,14 +289,28 @@ public class WeatherAPI2 {
      *
      * @return true if the weather was updated
      */
-    public boolean Update() {
-        // clear out the periods
-        if (periods != null) {
-            periods.clear();
-            periods = null;
+    public synchronized boolean Update() {
+        if (api==null) {
+            log.error("No Weather Provider.  Update Ignored.");
+            return false;
         }
 
-        return api.update();
+        if (GetUpdateIntervalSecs()>0 && (System.currentTimeMillis() < (lastChecked +GetUpdateIntervalMS()) )) {
+            // no update
+            log.debug("No Weather Update required, since we are within the " + GetUpdateIntervalSecs() + " seconds window");
+            return false;
+        }
+
+        if (api.update()) {
+            // clear out the periods if we updated
+            if (periods != null) {
+                periods.clear();
+                periods = null;
+            }
+            lastChecked = System.currentTimeMillis();
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -276,7 +326,16 @@ public class WeatherAPI2 {
      * @return true if the implementation accepted the location.
      */
     public boolean SetLocation(String location) {
-        return api.setLocation(location);
+        if (config.isLocked()) return false;
+
+        String oldLoc = location;
+        if (api.setLocation(location)) {
+            if (oldLoc==null || !oldLoc.equals(location)) {
+                lastChecked =0; // allow weather to update
+            }
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -306,6 +365,8 @@ public class WeatherAPI2 {
      * @param units
      */
     public void SetUnits(String units) {
+        if (config.isLocked()) return;
+
         IWeatherSupport2.Units u = null;
         if (units == null)
             u = Units.Metric;
@@ -315,7 +376,11 @@ public class WeatherAPI2 {
             u = Units.Standard;
         }
 
+        String oldUnits = GetUnits();
         api.setUnits(u);
+        if (oldUnits == null || !u.name().equalsIgnoreCase(oldUnits)) {
+            lastChecked = 0; // allow updates
+        }
     }
 
     /**
@@ -928,4 +993,36 @@ public class WeatherAPI2 {
         return false;
     }
 
+    public int GetUpdateIntervalSecs() {
+        int def = 60*30; // 30 minutes
+        return NumberUtils.toInt(Configuration.GetServerProperty(API_CHECK_PROP, String.valueOf(def)),def);
+    }
+
+    public int GetUpdateIntervalMS() {
+        return GetUpdateIntervalSecs()*1000;
+    }
+
+    public boolean IsLocked() {
+        return config.isLocked();
+    }
+
+    public void SetIsLocked(boolean locked) {
+        config.setLocked(locked);
+    }
+
+    public long GetLastChecked() {
+        return lastChecked;
+    }
+
+    public void SetLastChedked(long timeInMs) {
+        lastChecked=timeInMs;
+    }
+
+    public long GetTimeUntilNextCheckAllowed() {
+        return GetUpdateIntervalMS() + lastChecked - System.currentTimeMillis();
+    }
+
+    public IWeatherSupport2 GetWeatherImplInstance() {
+        return api;
+    }
 }

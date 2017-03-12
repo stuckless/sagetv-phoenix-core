@@ -1,3 +1,10 @@
+# 3.2.2
+* Weather Fixes
+* While each provider can have it's own update check interval, the main API will one as well (configurable) and any attempt to Update() the weather during this interval will be ignored.
+* The API will ignore changes that are the same. ie, setting same provider over and over, or setting the same units or locations, etc, will just be ignored, and not passed to the implementation.
+* The weather configuration can be "locked" (in BMT Weather Configuration). ie, if you have weather set to Yahoo with a location and units, you can "lock" it so that any API request to change this this will be ignored. I did this mainly because of a bug in Gemstore where it keeps changing my weather provider and units
+* SageTV Debugging - Exposed SageTV debugging flags to BMT Web UI (configuration)
+ 
 # 3.2.1
 * Fixes to allow failed TV lookups to retry (most failures are "Too many connections")
 
