@@ -106,18 +106,31 @@ public class UrlUtil {
             throws IOException, SocketTimeoutException {
         UrlConfiguration cfg = GroupProxy.get(UrlConfiguration.class);
         URLConnection conn = url.openConnection();
+        
         if (conn instanceof HttpURLConnection) {
+            
             if (userAgent == null) {
                 userAgent = cfg.getHttpUserAgent();
             }
             if (userAgent != null) {
                 conn.setRequestProperty("User-Agent", userAgent);
             }
-
             if (referrer != null) {
                 conn.setRequestProperty("REFERER", referrer);
             }
-            ((HttpURLConnection) conn).setInstanceFollowRedirects(followRedirects);
+            
+            //((HttpURLConnection) conn).setInstanceFollowRedirects(followRedirects);
+            
+            if(((HttpURLConnection)conn).getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP || ((HttpURLConnection)conn).getResponseCode() == HttpURLConnection.HTTP_MOVED_PERM ){
+                URL resourceUrl, base, next;
+                String location;
+                location = conn.getHeaderField("Location");
+                location = URLDecoder.decode(location, "UTF-8");
+                base = new URL(url.toExternalForm());
+                next = new URL(base, location); 
+                
+                return openUrlConnection(next,userAgent, referrer, timeout, followRedirects);
+            }
         }
 
         if (timeout <= 0) {
