@@ -355,6 +355,7 @@ public class WundergroundWeatherSupport implements IWeatherSupport2 {
     @Override
     public boolean setLocation(String location) {
         wWeather.setWeatherLocCode(location);
+        config.setLocation(location);
         lastUpdated = null;
         return true;
     }
@@ -362,12 +363,15 @@ public class WundergroundWeatherSupport implements IWeatherSupport2 {
     @Override
     public String getLocation() {
         Map locMap = wWeather.getWeatherLoc();
-        return wWeather.getLocationCode(locMap);
+        String loc = wWeather.getLocationCode(locMap);
+        if (loc==null||loc.isEmpty()) loc = config.getLocation();
+        return loc;
     }
 
     @Override
     public void removeLocation() {
         wWeather.removeWeatherLoc();
+        config.setLocation(null);
     }
 
     @Override
@@ -379,8 +383,10 @@ public class WundergroundWeatherSupport implements IWeatherSupport2 {
     public void setUnits(Units u) {
         if (u == null || u == Units.Metric) {
             wWeather.setUnits("m");
+            config.setUnits("m");
         } else {
             wWeather.setUnits("s");
+            config.setUnits("s");
         }
         // reset the last updated to force an update on the next update call
         lastUpdated = null;

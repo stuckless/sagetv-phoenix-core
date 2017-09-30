@@ -80,7 +80,7 @@
     <Package>
         <PackageType>JAR</PackageType>
         <Location>http://dl.bintray.com/opensagetv/sagetv-plugins/phoenix/3.2.2/phoenix-api-3.2.2.zip</Location>
-        <MD5>2c6a96722a0439d9e5b72f0afd51beb6</MD5>
+        <MD5>03e74cf5609e847aab09fc8bf4edcf4a</MD5>
     </Package>
 
     <ReleaseNotes>
