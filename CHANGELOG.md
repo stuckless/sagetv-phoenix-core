@@ -1,3 +1,6 @@
+# 3.2.3
+* Fanart Image fix (redirection not handled correctly)
+
 # 3.2.2
 * Weather Fixes
 * While each provider can have it's own update check interval, the main API will one as well (configurable) and any attempt to Update() the weather during this interval will be ignored.

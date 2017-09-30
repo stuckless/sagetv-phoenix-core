@@ -118,28 +118,34 @@ public class UrlUtil {
             if (referrer != null) {
                 conn.setRequestProperty("REFERER", referrer);
             }
-            
-            //((HttpURLConnection) conn).setInstanceFollowRedirects(followRedirects);
-            
-            if(((HttpURLConnection)conn).getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP || ((HttpURLConnection)conn).getResponseCode() == HttpURLConnection.HTTP_MOVED_PERM ){
-                URL resourceUrl, base, next;
-                String location;
-                location = conn.getHeaderField("Location");
-                location = URLDecoder.decode(location, "UTF-8");
-                base = new URL(url.toExternalForm());
-                next = new URL(base, location); 
-                
-                return openUrlConnection(next,userAgent, referrer, timeout, followRedirects);
+
+            if (timeout <= 0) {
+                timeout = cfg.getReadTimeoutMS();
             }
-        }
 
-        if (timeout <= 0) {
-            timeout = cfg.getReadTimeoutMS();
-        }
+            if (timeout > 0) {
+                conn.setReadTimeout(timeout);
+                conn.setConnectTimeout(timeout);
+            }
 
-        if (timeout > 0) {
-            conn.setReadTimeout(timeout);
-            conn.setConnectTimeout(timeout);
+            // disable instance redirects so that we handle it ourself
+            ((HttpURLConnection) conn).setInstanceFollowRedirects(false);
+
+            // Follow redirects.  Fix for failing images
+            if (followRedirects) {
+                int respCode =((HttpURLConnection) conn).getResponseCode();
+                if (    respCode == HttpURLConnection.HTTP_MOVED_TEMP ||
+                        respCode == HttpURLConnection.HTTP_MOVED_PERM) {
+                    URL base, next;
+                    String location;
+                    location = conn.getHeaderField("Location");
+                    location = URLDecoder.decode(location, "UTF-8");
+                    base = new URL(url.toExternalForm());
+                    next = new URL(base, location);
+
+                    return openUrlConnection(next, userAgent, referrer, timeout, followRedirects);
+                }
+            }
         }
 
         return conn;
