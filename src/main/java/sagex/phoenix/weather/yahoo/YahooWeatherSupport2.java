@@ -107,7 +107,6 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
             if (woeid != null) {
                 config.setYahooWOEID(woeid);
                 configured = true;
-                lastUpdated = new Date();
             }
         } catch (Exception e) {
             log.warn("Failed to convert " + postalOrZip + " to woeid", e);

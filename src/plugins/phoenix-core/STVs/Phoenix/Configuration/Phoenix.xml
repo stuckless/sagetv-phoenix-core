@@ -38,6 +38,6 @@
 		</field>
 	</group>
 	
-	<group class="sagex.phoenix.weather.WeatherConfiguration"/>
+	<group class="sagex.phoenix.weather2.WeatherConfiguration"/>
 
 </configuration>

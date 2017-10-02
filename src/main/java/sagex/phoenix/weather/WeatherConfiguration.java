@@ -24,7 +24,7 @@ public class WeatherConfiguration extends GroupProxy {
 
     @AField(label = "Weather Implementation", description = "Weather Implemenation", scope = ConfigScope.SERVER
             , list = "yahoo:Yahoo! Weather,weatherunderground:Weather Underground", listSeparator = "," )
-    private FieldProxy<String> weatherSupport = new FieldProxy<String>("yahoo");
+    private FieldProxy<String> weatherSupport = new FieldProxy<String>("weatherunderground");
 
     @AField(label = "Locked", description = "If locked, then weather cannot changed via APIs", scope = ConfigScope.SERVER )
     private FieldProxy<Boolean> locked = new FieldProxy<Boolean>(false);
