@@ -106,7 +106,7 @@ public class UrlUtil {
             throws IOException, SocketTimeoutException {
         UrlConfiguration cfg = GroupProxy.get(UrlConfiguration.class);
         URLConnection conn = url.openConnection();
-        
+
         if (conn instanceof HttpURLConnection) {
             
             if (userAgent == null) {

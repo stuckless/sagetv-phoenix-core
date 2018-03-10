@@ -127,6 +127,7 @@ public class FanartStorage implements DownloadHandler {
             max = 99;
         }
         if (artwork != null && artwork.size() > 0) {
+            log.debug("Processing " + artwork.size() + " " + mt + " for item");
             // eventually i'll add a "REFRESH_FANART" command of some type
             if (options!=null && options.getBooleanValue(MetadataHints.REFRESH, false)) {
                 // if we are refreshing, then delete all files in this directory
@@ -193,7 +194,7 @@ public class FanartStorage implements DownloadHandler {
                 log.warn("Failed to add item to the image skip file: " + url);
             }
 
-            if (downloadFile.exists()) {
+            if (downloadFile.exists() && downloadFile.length()>0) {
                 log.warn("Will not overwrite file: " + downloadFile
                         + "; Consider removing the file if you want it updated in the future.");
                 return;

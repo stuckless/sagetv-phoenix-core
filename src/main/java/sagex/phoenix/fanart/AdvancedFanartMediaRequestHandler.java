@@ -17,6 +17,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 
+import phoenix.impl.MediaAPI;
+import sagex.api.AiringAPI;
 import sagex.api.MediaFileAPI;
 import sagex.phoenix.Phoenix;
 
@@ -61,18 +63,20 @@ public class AdvancedFanartMediaRequestHandler {
         }
         String path = null;
 
-        int mediaFile;
+        Object mediaFile;
         String mediaTitle;
 
-        mediaFile = NumberUtils.toInt(req.getParameter(PARAM_MEDIAFILE), 0);
+        mediaFile = getMediaFile(req.getParameter(PARAM_MEDIAFILE));
         mediaTitle = req.getParameter(PARAM_TITLE);
 
+        log.warn("MediaFile: " + req.getParameter(PARAM_MEDIAFILE) + "; " + mediaFile);
+
         if ("episode".equalsIgnoreCase(req.getParameter(PARAM_ARTIFACTTYPE))) {
-            if (mediaFile == 0) {
+            if (mediaFile == null) {
                 error(HttpServletResponse.SC_NOT_FOUND, "Episode Fanart must use mediafile parameter", req, resp);
                 return;
             }
-            path = phoenix.fanart.GetEpisode(MediaFileAPI.GetMediaFileForID(mediaFile), true);
+            path = phoenix.fanart.GetEpisode(mediaFile, true);
         } else {
             Map<String, String> metadata = new HashMap<String, String>();
             String season = req.getParameter(PARAM_SEASON);
@@ -142,8 +146,23 @@ public class AdvancedFanartMediaRequestHandler {
         sendFile(imageNew, resp);
     }
 
-    protected String getFanartArtifact(int mediaFile, String mediaType, String mediaTitle, String artifactType,
-                                       String artifactTitle, Map<String, String> metadata) {
+    private Object getMediaFile(String parameter) {
+        if (parameter==null || parameter.trim().length()==0) return null;
+        String parts[] = parameter.split(":");
+        if (parts.length==1) {
+            return phoenix.media.GetSageMediaFile(NumberUtils.toInt(parameter, 0));
+        } else {
+            if ("mediafile".equalsIgnoreCase(parts[0])) {
+                return MediaFileAPI.GetMediaFileForID(NumberUtils.toInt(parts[1], 0));
+            } else if ("airing".equalsIgnoreCase(parts[0])) {
+                return AiringAPI.GetAiringForID(NumberUtils.toInt(parts[1], 0));
+            } else {
+                return null;
+            }
+        }
+    }
+
+    protected String getFanartArtifact(Object mediaFile, String mediaType, String mediaTitle, String artifactType, String artifactTitle, Map<String, String> metadata) {
         return phoenix.fanart.GetFanartArtifact(mediaFile, mediaType, mediaTitle, artifactType, artifactTitle, metadata);
     }
 
