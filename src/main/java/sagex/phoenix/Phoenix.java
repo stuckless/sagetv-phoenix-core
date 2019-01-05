@@ -322,7 +322,7 @@ public class Phoenix {
             if (!(STANDALONE || TESTING)) {
 
                 // initialize weather
-                if (!phoenix.weather.IsConfigured()) {
+                if (!phoenix.weather2.IsConfigured()) {
                     try {
                         try {
                             Object gweather = WidgetAPI.EvaluateExpression("sage_google_weather_GoogleWeather_getInstance()");
@@ -335,19 +335,17 @@ public class Phoenix {
                                     loc = (String) WidgetAPI
                                             .EvaluateExpression("sage_google_weather_GoogleWeather_getGoogleWeatherLoc(PHOENIX_GOOGLE_WEATHER)");
                                 }
-                                phoenix.weather.SetLocation(loc);
+                                phoenix.weather2.SetLocation(loc);
                                 Global.AddGlobalContext("PHOENIX_GOOGLE_WEATHER", null);
                             }
                         } catch (Throwable t) {
-                            log.warn("Nothing to be be too concerned about... Tried to use google weather, at doesn't appear to be there, yet.");
+                            log.warn("Nothing to be be too concerned about... Tried to use google weather, and it doesn't appear to be there, yet.");
                         }
 
-                        if (!phoenix.weather.IsConfigured()) {
-                            log.info("Configuring weather using EPG zip code");
-                            String zip = Configuration.GetServerProperty("epg/zip_code", null);
-                            if (!StringUtils.isEmpty(zip)) {
-                                phoenix.weather.SetLocation(zip);
-                            }
+                        if (!phoenix.weather2.IsConfigured()) {
+                            //changed from using epg/zip_code as that is no longer set in sagetv
+                            log.info("Configuring weather using default 90210 zip code");
+                            phoenix.weather2.SetLocation("90210");
                         }
                     } catch (Throwable e) {
                         log.warn("Failed to auto set the weather location", e);

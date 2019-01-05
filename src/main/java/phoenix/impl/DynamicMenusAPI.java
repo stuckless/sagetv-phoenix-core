@@ -135,15 +135,14 @@ public class DynamicMenusAPI {
         if (m == null)
             return null;
 
-        List<IMenuItem> items = new ArrayList<IMenuItem>();
         for (IMenuItem mi : m.getItems()) {
             if (IsDefault(mi)) {
                 return mi;
             }
         }
 
-        //as no default found return the first item in the list
-        return items.get(0);
+        //as no default found return the first visible item in the list
+        return m.getVisibleItems().get(0);
     }
 
     /**
