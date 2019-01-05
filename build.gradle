@@ -164,7 +164,8 @@ task configureDependencies << {
 	)
 	
 	ant.sagetvdeps(
-		downloadsagejar:"true",
+		downloadSageJar:true,
+            sagejar: "https://dl.bintray.com/opensagetv/sagetv/sagetv/9.1.10.479/SageJar-9.1.10.479.zip",
 		jardir:"lib",
 		pluginname:"phoenix-core",
 		extrajars:"http://download.sage.tv/plugins/Opus4/GoogleWeather/GoogleWeather_2_0_1.zip",
