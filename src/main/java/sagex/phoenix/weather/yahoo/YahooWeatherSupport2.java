@@ -1,31 +1,16 @@
 package sagex.phoenix.weather.yahoo;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.dom4j.Document;
-import org.dom4j.io.SAXReader;
 
 import sagex.phoenix.configuration.proxy.GroupProxy;
-import sagex.phoenix.json.JSON;
-import sagex.phoenix.util.url.UrlFactory;
-import sagex.phoenix.util.url.UrlUtil;
-import sagex.phoenix.weather.ICurrentForecast;
-import sagex.phoenix.weather.ILongRangeForecast;
-import sagex.phoenix.weather.IWeatherSupport2;
-import sagex.phoenix.weather.WeatherConfiguration;
-import sagex.remote.json.JSONException;
-import sagex.remote.json.JSONObject;
+import sagex.phoenix.weather.*;
 
 public class YahooWeatherSupport2 implements IWeatherSupport2 {
     private Logger log = Logger.getLogger(this.getClass());
-
-    private static String yqlWeatherQuery = "select * from weather.forecast where woeid=%s and u='%s'";
 
     private Date lastUpdated = null;
     private Date recordedDate = null;
@@ -36,6 +21,8 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
     private WeatherConfiguration config = GroupProxy.get(WeatherConfiguration.class);
 
     private String locationName;
+    private Double latitude;
+    private Double longitude;
 
     private ICurrentForecast currentForecast;
     private List<ILongRangeForecast> longRangeForecast;
@@ -54,7 +41,7 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
         error = null;
 
         if (!isConfigured()) {
-            error = "Please configure the Yahoo Weather WOEID for your location";
+            error = "Please configure your location";
             return false;
         }
 
@@ -66,27 +53,26 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
              units = "f";
              }
 
-            String woeid = config.getYahooWOEID();
-            String query = String.format(yqlWeatherQuery, woeid, units);
+            String location = config.getLocation();
             try {
-                String rssUrl = "https://query.yahooapis.com/v1/public/yql?format=json&q=" + URLEncoder.encode(query,"UTF-8");
-                log.info("Getting Yahoo Weather for " + rssUrl);
+                log.info("Getting Yahoo Weather for location:" + location + " with units:" + units);
 
                 YahooWeatherJsonHandler handler = new YahooWeatherJsonHandler();
-                handler.parse(rssUrl);
+                handler.parse(location,units);
                 lastUpdated = new Date(System.currentTimeMillis());
-                ttl = handler.getTtl();
 
                 currentForecast = handler.getCurrent();
                 longRangeForecast = handler.getDays();
 
-                locationName = handler.getCity();
+                locationName = handler.getCity() + "," + handler.getRegion();
+                latitude = handler.getLat();
+                longitude = handler.getLong();
                 recordedDate = handler.getRecordedDate();
 
                 return true;
             } catch (Exception e) {
                 error = "Yahoo weather update failed";
-                log.error("Failed to update weather for " + query, e);
+                log.error("Failed to update weather for location:" + location + " with units:" + units, e);
             }
         }
 
@@ -96,33 +82,27 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
     @Override
     public boolean setLocation(String postalOrZip) {
         error = null;
-        boolean configured = false;
         lastUpdated = null;
-        // convert zip to woeid
-        try {
+        boolean hasLocation = false;
+        if (!StringUtils.isEmpty(postalOrZip)){
             config.setLocation(postalOrZip);
-
-            String woeid = convertZipToWoeid(postalOrZip);
-
-            if (woeid != null) {
-                config.setYahooWOEID(woeid);
-                configured = true;
-            }
-        } catch (Exception e) {
-            log.warn("Failed to convert " + postalOrZip + " to woeid", e);
-            error = "Failed to convert the Location into a valid Yahoo WOEID";
-            configured = false;
+            hasLocation = true;
+        }else{
+            error = "Location was not set";
         }
-        return configured;
+        return hasLocation;
     }
 
+    /**
+     *
+     * @param postalOrZip
+     * @return woeid
+     * @throws Exception
+     * @deprecated Yahoo no longer uses the woeid - use Postal/Zip or City,ST instead
+     */
+    @Deprecated
     public String convertZipToWoeid(String postalOrZip) throws Exception {
-        String query = String.format("select woeid from geo.places where text='%s' limit 1", postalOrZip);
-
-        String url = "https://query.yahooapis.com/v1/public/yql?format=json&q="+ URLEncoder.encode(query,"UTF-8");
-        String data = UrlUtil.getContentAsString(UrlFactory.newUrl(url));
-        String woeid = JSON.getString("query.results.place.woeid", new JSONObject(data));
-        return woeid;
+        return postalOrZip;
     }
 
     @Override
@@ -181,7 +161,7 @@ public class YahooWeatherSupport2 implements IWeatherSupport2 {
 
     @Override
     public boolean isConfigured() {
-        return !StringUtils.isEmpty(config.getYahooWOEID());
+        return !StringUtils.isEmpty(config.getLocation());
     }
 
     @Override

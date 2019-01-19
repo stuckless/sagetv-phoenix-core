@@ -19,6 +19,7 @@ import sagex.phoenix.weather.ILongRangeForecast;
 import sagex.phoenix.weather.IWeatherSupport2;
 import sagex.phoenix.weather.IWeatherSupport2.Units;
 import sagex.phoenix.weather.WeatherConfiguration;
+import sagex.phoenix.weather.darksky.DarkSkyWeatherSupport;
 import sagex.phoenix.weather.yahoo.YahooWeatherSupport2;
 
 /**
@@ -137,6 +138,10 @@ public class WeatherAPI2 {
         API_IMPL.put(API_IMPL_DEFAULT, API_IMPL_DEFAULT_CLASS);
         API_IMPL_NAME.put(API_IMPL_DEFAULT, "Yahoo! Weather");
 
+        //Adding Dark Sky 1/18/2019
+        API_IMPL.put("darksky", DarkSkyWeatherSupport.class.getName());
+        API_IMPL_NAME.put("darksky", "Dark Sky Weather");
+
         // wunderground requires 3rd party libs (googleweather.jar) that may not
         // be installed, so
         // we have to specify it's class as a string
@@ -149,8 +154,8 @@ public class WeatherAPI2 {
         try {
             // use the default if the result is google as google is no longer
             // available
-            if (prop.equals("google") || prop.equals("world")) {
-                log.warn("Google/World weather called but is no longer available - defaulting to: " + API_IMPL_DEFAULT_CLASS);
+            if (prop.equals("google") || prop.equals("world") || prop.equals("wunderground")) {
+                log.warn("Google/World/Wunderground weather called but is no longer available - defaulting to: " + API_IMPL_DEFAULT_CLASS);
                 SetWeatherImpl(API_IMPL_DEFAULT);
             } else {
                 SetWeatherImpl(prop);
@@ -171,8 +176,8 @@ public class WeatherAPI2 {
     }
 
     /**
-     * Sets the current weather Implementation by name, 'yahoo', 'google',
-     * 'wunderground' or 'world' This change is persistent, and the
+     * Sets the current weather Implementation by name, 'yahoo', 'darksky',
+     * This change is persistent, and the
      * 'phoenix/weather/weatherSupport' property will be set to the new value
      *
      * @param implName
@@ -181,7 +186,7 @@ public class WeatherAPI2 {
     public IWeatherSupport2 SetWeatherImpl(String implName) {
         if (api!=null && config.isLocked()) return api;
 
-        if (implName==null || implName.equals("google") || implName.equals("world")) {
+        if (implName==null || implName.equals("google") || implName.equals("world") || implName.equals("wunderground")) {
             String oldImpl = implName;
             implName = "yahoo";
             log.debug("Changed to '"+implName+"' since '" + oldImpl + "' is no longer available");
@@ -212,7 +217,7 @@ public class WeatherAPI2 {
 
     /**
      * Get the list of keys used to set an implementation by name, 'yahoo',
-     * 'google', 'wunderground' or 'world'
+     * 'darksky'
      *
      * @return collection of impl keys
      */
@@ -221,8 +226,7 @@ public class WeatherAPI2 {
     }
 
     /**
-     * Get the impl name for a specific impl key ('yahoo', 'google',
-     * 'wunderground' or 'world')
+     * Get the impl name for a specific impl key ('yahoo', 'darksky')
      *
      * @return name of specific impl key
      */
@@ -235,7 +239,7 @@ public class WeatherAPI2 {
     }
 
     /**
-     * Get the impl name for the current impl key ('yahoo', 'wunderground')
+     * Get the impl name for the current impl key ('yahoo', 'darksky')
      *
      * @return name of current impl key
      */
@@ -249,8 +253,7 @@ public class WeatherAPI2 {
     }
 
     /**
-     * Get the impl key for the current impl key ('yahoo', 'google',
-     * 'wunderground' or 'world')
+     * Get the impl key for the current impl key ('yahoo', 'darksky')
      *
      * @return current impl key
      */
@@ -264,7 +267,7 @@ public class WeatherAPI2 {
     }
 
     /**
-     * Sets the impl property based on key if valid ('yahoo', 'wunderground')
+     * Sets the impl property based on key if valid ('yahoo', 'darksky')
      *
      * @return true if the impl key was valid and set
      */

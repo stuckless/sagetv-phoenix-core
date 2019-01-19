@@ -25,8 +25,10 @@ public interface IForecastPeriod {
 
     public static final String sNotSupported = "sNotSupported";
     public static final int iNotSupported = Integer.MAX_VALUE - 1;
+    public static final Double dNotSupported = Double.MAX_VALUE - 1;
     public static final String sInvalid = "sInvalid";
     public static final int iInvalid = Integer.MAX_VALUE;
+    public static final Double dInvalid = Double.MAX_VALUE;
     public static final String WindCalm = "Calm";
 
     /**

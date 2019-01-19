@@ -1,39 +1,38 @@
 package sagex.phoenix.weather.yahoo;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
-import org.xml.sax.Attributes;
-import sage.media.rss.RSSHandler;
 import sagex.phoenix.json.JSON;
-import sagex.phoenix.util.DateUtils;
-import sagex.phoenix.util.XmlUtil;
-import sagex.phoenix.util.url.IUrl;
-import sagex.phoenix.util.url.Url;
-import sagex.phoenix.util.url.UrlFactory;
 import sagex.phoenix.util.url.UrlUtil;
 import sagex.phoenix.weather.*;
 import sagex.phoenix.weather.IForecastPeriod.Type;
-import sagex.remote.json.JSONArray;
 import sagex.remote.json.JSONException;
 import sagex.remote.json.JSONObject;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.net.URI;
+import java.nio.charset.Charset;
+import java.util.*;
 
 /**
  * Parses Weather Json for Yahoo
+ * - updated by jusjoken Jan 13, 2019 as Yahoo moved to OAuth 1.0a protected solution
  */
 public class YahooWeatherJsonHandler {
     private Logger log = Logger.getLogger(this.getClass());
+    private static String appId = "fPhtIv56";
+    private static String consumerKey = "dj0yJmk9U0VZbktDM2F2NEY2JnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWM0";
+    private static String consumerSecret = "2b55b824db4343b0ca184c9576e109178946ec0b";
+    private static String url = "https://weather-ydn-yql.media.yahoo.com/forecastrss";
+
     private static HashMap<String, String> codeMap = new HashMap<String, String>();
 
     static {
@@ -89,19 +88,13 @@ public class YahooWeatherJsonHandler {
         codeMap.put("3200", "not available");
     }
 
-    private String city, region, country;
-    private String unitTemp, unitDist, unitPress, unitSpeed;
+    private String city, region, country, timezone_id;
+    private Double dLat, dLong;
     private String windChill, windSpeed, windDirection;
     private String humidity, visibility, pressure, rising;
     private String sunrise, sunset;
+    private String pubDate;
     private Date recordedDate;
-    private int ttl;
-    private String imageUrl;
-
-    private String text;
-
-    // private List<IWeatherData> days = new ArrayList<IWeatherData>();
-    // private WeatherData current;
 
     private CurrentForecast current;
     private List<ILongRangeForecast> days = new ArrayList<ILongRangeForecast>();
@@ -109,41 +102,69 @@ public class YahooWeatherJsonHandler {
     public YahooWeatherJsonHandler() {
     }
 
-    public void parse(String urlString) throws IOException, JSONException {
-        String data = UrlUtil.getContentAsString(UrlFactory.newUrl(urlString));
-        JSONObject jo = new JSONObject(data);
-        JSONObject channel = JSON.get("query.results.channel", jo);
-        if (channel == null) throw new IOException("JSON Response for Weather did not contain a valid response");
-        ttl = JSON.getInt("ttl", channel);
-        recordedDate = DateUtils.parseDate(JSON.getString("lastBuildDate", channel));
+    public boolean LatLongFromLocation(String CityorPostalCode) {
+        boolean validLatLong = false;
+        dLat = IForecastPeriod.dInvalid;
+        dLong = IForecastPeriod.dInvalid;
+        String data = getYahooOAuthResponse(CityorPostalCode,"f");
+        if (data != null) {
+            JSONObject channel = null;
+            try {
+                channel = new JSONObject(data);
+            } catch (JSONException e) {
+                log.info("JSON Response for LatLongFromLocation did not contain a valid response");
+                e.printStackTrace();
+            }
+            if (channel != null) {
+                JSONObject location = JSON.get("location", channel);
+                city = JSON.get("city", location);
+                region = JSON.get("region", location);
+                country = JSON.get("country", location);
+                dLat = JSON.get("lat", location);
+                dLong = JSON.get("long", location);
+                timezone_id = JSON.get("timezone_id", location);
+                validLatLong = true;
+            }
+
+        }
+        return validLatLong;
+    }
+
+    public void parse(String urlLocation, String urlUnits) throws JSONException {
+        String data = getYahooOAuthResponse(urlLocation,urlUnits);
+        if (data == null) throw new JSONException("YahooOAuthResponse Weather did not contain a valid response");
+        JSONObject channel = new JSONObject(data);
+        if (channel == null) throw new JSONException("JSON Response for Weather did not contain a valid response");
 
         JSONObject location = JSON.get("location", channel);
         city = JSON.get("city", location);
         region = JSON.get("region", location);
         country = JSON.get("country", location);
+        dLat = JSON.get("lat", location);
+        dLong = JSON.get("long", location);
+        timezone_id = JSON.get("timezone_id", location);
 
-        JSONObject units = JSON.get("units", channel);
-        unitTemp = JSON.get("temperature", units);
-        unitDist = JSON.get("distance", units);
-        unitPress = JSON.get("pressure", units);
-        unitSpeed = JSON.get("speed", units);
+        JSONObject current_observation = JSON.get("current_observation", channel);
 
-        JSONObject wind = JSON.get("wind", channel);
+        JSONObject wind = JSON.get("wind", current_observation);
         windChill = JSON.getString("chill", wind);
         windSpeed = JSON.getString("speed", wind);
         windDirection = JSON.getString("direction", wind);
 
-        JSONObject atmosphere = JSON.get("atmosphere", channel);
-        humidity = JSON.get("humidity", atmosphere);
-        visibility = JSON.get("visibility", atmosphere);
-        pressure = JSON.get("pressure", atmosphere);
-        rising = JSON.get("rising", atmosphere);
+        JSONObject atmosphere = JSON.get("atmosphere", current_observation);
+        humidity = JSON.getString("humidity", atmosphere);
+        visibility = JSON.getString("visibility", atmosphere);
+        pressure = JSON.getString("pressure", atmosphere);
+        rising = JSON.getString("rising", atmosphere);
 
-        JSONObject astronomy = JSON.get("astronomy", channel);
+        JSONObject astronomy = JSON.get("astronomy", current_observation);
         sunrise = JSON.get("sunrise", astronomy);
         sunset = JSON.get("sunset", astronomy);
 
-        JSONObject condition = JSON.get("item.condition", channel);
+        pubDate = JSON.getString("pubDate", current_observation);
+        recordedDate = convertYahooDate(pubDate);
+
+        JSONObject condition = JSON.get("condition", current_observation);
         current = new CurrentForecast();
         current.setType(Type.Current);
         current.setCloudCover(IForecastPeriod.sNotSupported);
@@ -154,14 +175,14 @@ public class YahooWeatherJsonHandler {
         current.setUVWarn(IForecastPeriod.sNotSupported);
         current.setCode(JSON.getInt("code", condition, IForecastPeriod.iInvalid));
         current.setCondition(JSON.getString("text", condition));
-        current.setDate(DateUtils.parseDate(JSON.getString("date", condition)));
+        current.setDate(convertYahooDate(pubDate));
         current.setFeelsLike(NumberUtils.toInt(windChill, IForecastPeriod.iInvalid));
         current.setHumid(NumberUtils.toInt(humidity, IForecastPeriod.iInvalid));
         current.setPressure(pressure);
         current.setPressureDir(NumberUtils.toInt(rising, IForecastPeriod.iInvalid));
         current.setSunrise(sunrise);
         current.setSunset(sunset);
-        current.setTemp(JSON.getInt("temp", condition, IForecastPeriod.iInvalid));
+        current.setTemp(JSON.getInt("temperature", condition, IForecastPeriod.iInvalid));
         current.setVisibility(formatVisibility(visibility));
         current.setWindSpeed((int) Math.round(NumberUtils.toDouble(windSpeed, IForecastPeriod.iInvalid)));
 
@@ -173,7 +194,7 @@ public class YahooWeatherJsonHandler {
             current.setWindDirText(formatCompassDirection(current.getWindDir()));
         }
 
-        JSON.each("item.forecast", channel, new JSON.ArrayVisitor() {
+        JSON.each("forecasts", channel, new JSON.ArrayVisitor() {
             public void visitItem(int i, JSONObject item) {
                 LongRangForecast r = new LongRangForecast();
                 ForecastPeriod day = new ForecastPeriod();
@@ -185,7 +206,7 @@ public class YahooWeatherJsonHandler {
 
                 day.setCode(JSON.getInt("code", item, -1));
                 day.setCondition(JSON.getString("text", item));
-                day.setDate(DateUtils.parseDate(JSON.getString("date", item)));
+                day.setDate(convertYahooDate(JSON.getString("date", item)));
                 day.setDescription(IForecastPeriod.sNotSupported);
                 day.setHumid(IForecastPeriod.iNotSupported);
                 day.setPrecip(IForecastPeriod.sNotSupported);
@@ -197,7 +218,7 @@ public class YahooWeatherJsonHandler {
 
                 night.setCode(phoenix.weather2.GetCodeForceNight(JSON.getInt("code", item, -1)));
                 night.setCondition(JSON.getString("text", item));
-                night.setDate(DateUtils.parseDate(JSON.getString("date", item)));
+                night.setDate(convertYahooDate(JSON.getString("date", item)));
                 night.setDescription(IForecastPeriod.sNotSupported);
                 night.setHumid(IForecastPeriod.iNotSupported);
                 night.setPrecip(IForecastPeriod.sNotSupported);
@@ -210,6 +231,7 @@ public class YahooWeatherJsonHandler {
             }
         });
     }
+
 
     public static HashMap<String, String> getCodeMap() {
         return codeMap;
@@ -225,22 +247,6 @@ public class YahooWeatherJsonHandler {
 
     public String getCountry() {
         return country;
-    }
-
-    public String getUnitTemp() {
-        return unitTemp;
-    }
-
-    public String getUnitDist() {
-        return unitDist;
-    }
-
-    public String getUnitPress() {
-        return unitPress;
-    }
-
-    public String getUnitSpeed() {
-        return unitSpeed;
     }
 
     public String getWindChill() {
@@ -283,35 +289,20 @@ public class YahooWeatherJsonHandler {
         return recordedDate;
     }
 
+    public Double getLat() {
+        return dLat;
+    }
+
+    public Double getLong() {
+        return dLong;
+    }
+
     public List<ILongRangeForecast> getDays() {
         return days;
     }
 
-    public int getTtl() {
-        return ttl;
-    }
-
     public CurrentForecast getCurrent() {
         return current;
-    }
-
-    private static Pattern woidPattern = Pattern.compile(".*yahoo.*/[^-]+-([0-9]{1,10})/", Pattern.CASE_INSENSITIVE);
-
-    /**
-     * Parses the yahoo WOID from a Yahoo Weather URL
-     * http://weather.yahoo.com/canada/ontario/london-4063/
-     *
-     * @param url
-     * @return
-     */
-    public static String parseWOID(String url) {
-        if (url == null)
-            return null;
-        Matcher m = woidPattern.matcher(url);
-        if (m.find()) {
-            return m.group(1);
-        }
-        return null;
     }
 
     private int formatVisibility(String Vis) {
@@ -327,4 +318,83 @@ public class YahooWeatherJsonHandler {
         int index = (int) ((degrees / 22.5) + .5);
         return directions[index % 16];
     }
+
+    private Date convertYahooDate(String inDate){
+        return new java.util.Date(Long.parseLong(inDate)*1000);
+    }
+
+    private String getYahooOAuthResponse(String urlLocation, String urlUnits){
+        final Charset UTF8_CHARSET = Charset.forName("UTF-8");
+
+        long timestamp = new Date().getTime() / 1000;
+        byte[] nonce = new byte[32];
+        Random rand = new Random();
+        rand.nextBytes(nonce);
+        String oauthNonce = new String(nonce).replaceAll("\\W", "");
+
+        List<String> parameters = new ArrayList<>();
+        parameters.add("oauth_consumer_key=" + consumerKey);
+        parameters.add("oauth_nonce=" + oauthNonce);
+        parameters.add("oauth_signature_method=HMAC-SHA1");
+        parameters.add("oauth_timestamp=" + timestamp);
+        parameters.add("oauth_version=1.0");
+        // Make sure value is encoded
+        parameters.add("location=" + UrlUtil.encode(urlLocation));
+        parameters.add("format=json");
+        parameters.add("u=" + urlUnits);
+        Collections.sort(parameters);
+
+        StringBuffer parametersList = new StringBuffer();
+        for (int i = 0; i < parameters.size(); i++) {
+            parametersList.append(((i > 0) ? "&" : "") + parameters.get(i));
+        }
+
+        String signatureString = "GET&" +
+                UrlUtil.encode(url) + "&" +
+                UrlUtil.encode(parametersList.toString());
+
+        String signature = null;
+        try {
+            SecretKeySpec signingKey = new SecretKeySpec((consumerSecret + "&").getBytes(), "HmacSHA1");
+            Mac mac = Mac.getInstance("HmacSHA1");
+            mac.init(signingKey);
+            byte[] rawHMAC = mac.doFinal(signatureString.getBytes());
+            Base64.Encoder encoder = Base64.getEncoder();
+            signature = encoder.encodeToString(rawHMAC);
+        } catch (Exception e) {
+            log.error("Unable to append signature");
+            System.exit(0);
+        }
+
+        String authorizationLine = "OAuth " +
+                "oauth_consumer_key=\"" + consumerKey + "\", " +
+                "oauth_nonce=\"" + oauthNonce + "\", " +
+                "oauth_timestamp=\"" + timestamp + "\", " +
+                "oauth_signature_method=\"HMAC-SHA1\", " +
+                "oauth_signature=\"" + signature + "\", " +
+                "oauth_version=\"1.0\"";
+
+        HttpClient client = HttpClientBuilder.create().build();
+        URI uri = URI.create(url + "?location=" + UrlUtil.encode(urlLocation) + "&u=" + urlUnits + "&format=json");
+
+        HttpUriRequest request = new HttpGet(uri);
+        request.addHeader("Authorization", authorizationLine);
+        request.addHeader("Yahoo-App-Id", appId);
+        request.addHeader("Content-Type", "application/json");
+        try {
+            HttpResponse response = client.execute(request);
+            if (response.getStatusLine().getStatusCode()!=200){
+                log.error("getYahooOAuthResponse: invalid response: code '" + response.getStatusLine().getStatusCode() + "' " + response);
+                return null;
+            }
+            String responseJSON = EntityUtils.toString(response.getEntity(), UTF8_CHARSET);
+            log.info("responseJSON:" + responseJSON);
+            return responseJSON;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }
