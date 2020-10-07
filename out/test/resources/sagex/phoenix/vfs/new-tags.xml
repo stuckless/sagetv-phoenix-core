@@ -1,7 +1,0 @@
-<!DOCTYPE vfs SYSTEM "vfs.dtd">
-<vfs>
-	<tags>
-		<tag value="tv" label="TV Tag"/>
-		<tag value="newtag" label="New Tag"/>
-	</tags>
-</vfs>
