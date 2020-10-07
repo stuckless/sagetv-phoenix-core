@@ -89,7 +89,7 @@ public class TMDB3DetailParserTest {
             if (cm.getName().equals("Robert Downey Jr.")) {
                 foundCast = true;
                 assertEquals("Robert Downey Jr.", cm.getName());
-                assertEquals("Tony Stark / Iron Man", cm.getRole());
+                assertEquals("Tony Stark", cm.getRole());
             }
         }
         assertTrue("No cast found", foundCast);
