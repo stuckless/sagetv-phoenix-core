@@ -6,7 +6,6 @@ import sagex.phoenix.configuration.proxy.AGroup;
 import sagex.phoenix.configuration.proxy.BooleanConverter;
 import sagex.phoenix.configuration.proxy.FieldProxy;
 import sagex.phoenix.configuration.proxy.GroupProxy;
-import sagex.phoenix.weather.yahoo.YahooWeatherSupport2;
 
 @AGroup(label = "Phoenix Weather Options", path = "phoenix/weather", description = "Phoenix Weather Options")
 public class WeatherConfiguration extends GroupProxy {
@@ -23,8 +22,8 @@ public class WeatherConfiguration extends GroupProxy {
     private FieldProxy<Integer> updateInterval = new FieldProxy<Integer>(30*60); // default 30 minutes
 
     @AField(label = "Weather Implementation", description = "Weather Implemenation", scope = ConfigScope.SERVER
-            , list = "yahoo:Yahoo! Weather,darksky:Dark Sky Weather", listSeparator = "," )
-    private FieldProxy<String> weatherSupport = new FieldProxy<String>("yahoo");
+            , list = "noweather:No Weather", listSeparator = "," )
+    private FieldProxy<String> weatherSupport = new FieldProxy<String>("noweather");
 
     @AField(label = "Locked", description = "If locked, then weather cannot changed via APIs", scope = ConfigScope.SERVER )
     private FieldProxy<Boolean> locked = new FieldProxy<Boolean>(false);

@@ -79,7 +79,7 @@
 
     <Package>
         <PackageType>JAR</PackageType>
-        <Location>http://dl.bintray.com/opensagetv/sagetv-plugins/phoenix/@@version@@/phoenix-api-@@version@@.zip</Location>
+        <Location>https://github.com/OpenSageTV/sagetv-plugin-repo/releases/download/1/phoenix-api-@@version@@.zip</Location>
         <MD5>@@jar-checksum@@</MD5>
     </Package>
 

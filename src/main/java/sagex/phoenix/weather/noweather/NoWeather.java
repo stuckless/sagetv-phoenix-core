@@ -1,6 +1,5 @@
-package phoenix.impl;
+package sagex.phoenix.weather.noweather;
 
-import sagex.api.Configuration;
 import sagex.phoenix.weather.ICurrentForecast;
 import sagex.phoenix.weather.ILongRangeForecast;
 import sagex.phoenix.weather.IWeatherSupport2;
@@ -9,59 +8,49 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by seans on 11/03/17.
+ * Created by jusjoken on 9/18/2021.
  */
-public class DummyWeather implements IWeatherSupport2 {
-    String location;
-    Units units;
-    Date lastUpdated;
+public class NoWeather implements IWeatherSupport2 {
 
-    public DummyWeather() {
-    }
 
     @Override
     public String getSourceName() {
-        return "dummy";
+        return null;
     }
 
     @Override
     public boolean update() {
-        lastUpdated=new Date(System.currentTimeMillis());
-        return true;
+        return false;
     }
 
     @Override
     public boolean setLocation(String location) {
-        this.location=location;
-        return true;
+        return false;
     }
 
     @Override
     public String getLocation() {
-        if (location==null) {
-            location = Configuration.GetServerProperty("phoenix/weather/location","toledo");
-        }
-        return location;
+        return null;
     }
 
     @Override
     public void removeLocation() {
-        location=null;
+
     }
 
     @Override
     public String getLocationName() {
-        return location;
+        return null;
     }
 
     @Override
     public void setUnits(Units u) {
-        this.units=u;
+
     }
 
     @Override
     public Units getUnits() {
-        return units;
+        return null;
     }
 
     @Override
@@ -81,17 +70,17 @@ public class DummyWeather implements IWeatherSupport2 {
 
     @Override
     public boolean isConfigured() {
-        return true;
+        return false;
     }
 
     @Override
     public Date getLastUpdated() {
-        return lastUpdated;
+        return null;
     }
 
     @Override
     public Date getRecordedDate() {
-        return lastUpdated;
+        return null;
     }
 
     @Override

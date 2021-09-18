@@ -37,7 +37,9 @@
 			<description>Regex to use when parsing the Season Number from the Display Title</description>
 		</field>
 	</group>
-	
+
+	<!-- Removed weather as all providers are no longer available
 	<group class="sagex.phoenix.weather2.WeatherConfiguration"/>
+	 -->
 
 </configuration>

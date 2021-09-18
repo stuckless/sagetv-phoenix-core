@@ -13,14 +13,14 @@ import org.apache.log4j.Logger;
 import sagex.api.Configuration;
 import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.tools.annotation.API;
+
 import sagex.phoenix.weather.ICurrentForecast;
 import sagex.phoenix.weather.IForecastPeriod;
 import sagex.phoenix.weather.ILongRangeForecast;
 import sagex.phoenix.weather.IWeatherSupport2;
 import sagex.phoenix.weather.IWeatherSupport2.Units;
 import sagex.phoenix.weather.WeatherConfiguration;
-import sagex.phoenix.weather.darksky.DarkSkyWeatherSupport;
-import sagex.phoenix.weather.yahoo.YahooWeatherSupport2;
+import sagex.phoenix.weather.noweather.NoWeather;
 
 /**
  * WeatherAPI provides access to weather information, including current forecast
@@ -28,6 +28,7 @@ import sagex.phoenix.weather.yahoo.YahooWeatherSupport2;
  *
  * @author seans
  */
+@SuppressWarnings("JavadocReference")
 @API(group = "weather2")
 public class WeatherAPI2 {
     private static final Logger log = Logger.getLogger(WeatherAPI2.class);
@@ -128,38 +129,23 @@ public class WeatherAPI2 {
     static final String API_IMPL_PROP = "phoenix/weather/weatherSupport";
     static final String API_IMPL_CLASS_PROP = "phoenix/weather/weatherSupportClass";
     static final String API_CHECK_PROP = "phoenix/weather/updateInterval";
-    private static final String API_IMPL_DEFAULT = "yahoo";
-    private static final String API_IMPL_DEFAULT_CLASS = YahooWeatherSupport2.class.getName();
+    //private static final String API_IMPL_DEFAULT = "yahoo";
+    //private static final String API_IMPL_DEFAULT_CLASS = YahooWeatherSupport2.class.getName();
+    private static final String API_IMPL_DEFAULT = "noweather";
+    private static final String API_IMPL_DEFAULT_CLASS = NoWeather.class.getName();
 
     static {
-        // maybe need to look at
-        // http://openweathermap.org/price
 
         API_IMPL.put(API_IMPL_DEFAULT, API_IMPL_DEFAULT_CLASS);
-        API_IMPL_NAME.put(API_IMPL_DEFAULT, "Yahoo! Weather");
+        API_IMPL_NAME.put(API_IMPL_DEFAULT, "No Weather");
 
-        //Adding Dark Sky 1/18/2019
-        API_IMPL.put("darksky", DarkSkyWeatherSupport.class.getName());
-        API_IMPL_NAME.put("darksky", "Dark Sky Weather");
-
-        // wunderground requires 3rd party libs (googleweather.jar) that may not
-        // be installed, so
-        // we have to specify it's class as a string
-        API_IMPL.put("wunderground", "sagex.phoenix.weather.wunderground.WundergroundWeatherSupport");
-        API_IMPL_NAME.put("wunderground", "Weather Underground");
     }
 
     public WeatherAPI2() {
         String prop = (String) Configuration.GetServerProperty(API_IMPL_PROP, API_IMPL_DEFAULT);
         try {
-            // use the default if the result is google as google is no longer
-            // available
-            if (prop.equals("google") || prop.equals("world") || prop.equals("wunderground")) {
-                log.warn("Google/World/Wunderground weather called but is no longer available - defaulting to: " + API_IMPL_DEFAULT_CLASS);
-                SetWeatherImpl(API_IMPL_DEFAULT);
-            } else {
-                SetWeatherImpl(prop);
-            }
+            // all weather providers have been removed - use stub class NoWeather
+            SetWeatherImpl(API_IMPL_DEFAULT);
 
         } catch (Throwable e) {
             log.warn("Failed to load weather support class " + prop, e);
@@ -186,9 +172,9 @@ public class WeatherAPI2 {
     public IWeatherSupport2 SetWeatherImpl(String implName) {
         if (api!=null && config.isLocked()) return api;
 
-        if (implName==null || implName.equals("google") || implName.equals("world") || implName.equals("wunderground")) {
+        if (implName==null || !implName.equals("noweather")) {
             String oldImpl = implName;
-            implName = "yahoo";
+            implName = "noweather";
             log.debug("Changed to '"+implName+"' since '" + oldImpl + "' is no longer available");
         }
 

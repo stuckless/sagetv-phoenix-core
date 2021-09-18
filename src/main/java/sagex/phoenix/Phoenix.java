@@ -321,7 +321,8 @@ public class Phoenix {
 
             if (!(STANDALONE || TESTING)) {
 
-                // initialize weather
+                // no longer initialize weather
+                /*
                 if (!phoenix.weather2.IsConfigured()) {
                     try {
                         try {
@@ -351,6 +352,7 @@ public class Phoenix {
                         log.warn("Failed to auto set the weather location", e);
                     }
                 }
+                */
             }
         } catch (Throwable t) {
             log.error("Phoenix Failed to initialize Phoenix Services, some things may not work.", t);

@@ -1,3 +1,7 @@
+# 3.3.1
+* Removed weather functionality as all included providers are no longer available
+* Weather for Gemstone and SageTV is now handled by the GWeather plugin
+
 # 3.2.3
 * Fanart Image fix (redirection not handled correctly)
 

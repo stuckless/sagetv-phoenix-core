@@ -10,6 +10,9 @@ import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.weather.*;
 
 public class YahooWeatherSupport2 implements IWeatherSupport2 {
+    //2021-09-18 - jusjoken
+    //deprecated - weather is no longer available from within phoenix - now using GWeather jar externally
+    //this class is only left in place as an example if added back in the future - but this is no longer called
     private Logger log = Logger.getLogger(this.getClass());
 
     private Date lastUpdated = null;
