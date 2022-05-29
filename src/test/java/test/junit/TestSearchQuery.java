@@ -35,18 +35,22 @@ public class TestSearchQuery {
 
     @Test
     public void testSearchQuery() {
-        IMediaFile mf = (IMediaFile) FileResourceFactory.createResource(new File("/tmp/tv/House S02E03.avi"));
+
+        IMediaFile mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome(
+                "target/junit/testing/House S02E03.avi"));
         SearchQuery q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         System.out.println("Query: " + q);
         verify(q, MediaType.TV, "House", "02", "03", null, null);
 
         FileMatcher fm = new FileMatcher();
-        fm.setFileRegex("[\\/]SATC");
+        fm.setFileRegex(Pattern.compile("[\\\\/]SATC"));
         fm.setMediaType(MediaType.TV);
         fm.setMetadata(new ID("tvdb", "88231"));
         fm.setTitle("Sex and the City");
         Phoenix.getInstance().getMediaTitlesManager().addMatcher(fm);
-        mf = (IMediaFile) FileResourceFactory.createResource(new File("/tmp/tv/SATC S02E03.avi"));
+
+        mf = (IMediaFile) FileResourceFactory.createResource(InitPhoenix.ProjectHome(
+                "target/junit/testing/SATC S02E03.avi"));
         q = Phoenix.getInstance().getSearchQueryFactory().createQueryFromFilename(mf, new Hints());
         System.out.println("Query: " + q);
         verify(q, MediaType.TV, "Sex and the City", "02", "03", "tvdb", "88231");

@@ -13,7 +13,7 @@
     </Description>
     <Author>stuckless,jusjoken,bialio,meinmaui</Author>
     <CreationDate>2010.06.05</CreationDate>
-    <ModificationDate>2021.09.18</ModificationDate>
+    <ModificationDate>2021.09.24</ModificationDate>
     <ResourcePath>phoenix-core</ResourcePath>
     <Version>3.3.1</Version>
 
@@ -27,7 +27,7 @@
     <Package>
         <PackageType>System</PackageType>
         <Location>https://github.com/OpenSageTV/sagetv-plugin-repo/releases/download/1/phoenix-core-3.3.1.zip</Location>
-        <MD5>bf7393dbdf47a77d0f054268815fffba</MD5>
+        <MD5>d614083e99968586a5dac03c4a92e8d5</MD5>
     </Package>
     <ImplementationClass>sagex.phoenix.plugin.PhoenixPlugin</ImplementationClass>
     <ReleaseNotes>

@@ -1,15 +1,21 @@
-package sagex.phoenix.metadata.provider.tvdb;
+package sagex.phoenix.metadata.provider.tmdb;
 
+import com.omertron.themoviedbapi.enumeration.SearchType;
+import com.omertron.themoviedbapi.model.tv.TVBasic;
+import com.omertron.themoviedbapi.model.tv.TVInfo;
+import com.omertron.themoviedbapi.results.ResultList;
 import com.omertron.thetvdbapi.model.Series;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import sagex.phoenix.metadata.IMetadataSearchResult;
 import sagex.phoenix.metadata.MediaType;
 import sagex.phoenix.metadata.MetadataException;
+import sagex.phoenix.metadata.provider.tvdb.TVDBMetadataProvider;
+import sagex.phoenix.metadata.provider.tvdb.TVDBSearchParser;
 import sagex.phoenix.metadata.search.MediaSearchResult;
 import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.metadata.search.SearchQuery;
-import sagex.phoenix.remote.streaming.GenericCommandMediaProcess;
 import sagex.phoenix.util.DateUtils;
 import sagex.phoenix.util.Pair;
 import sagex.phoenix.util.ParserUtils;
@@ -19,8 +25,11 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TVDBSearchParser {
-    private static final Logger log = Logger.getLogger(TVDBSearchParser.class);
+/**
+ * Created by jusjoken on 9/19/2021.
+ */
+public class TMDBTVSearchParser {
+    private static final Logger log = Logger.getLogger(TMDBTVSearchParser.class);
 
     private SearchQuery query = null;
     private List<IMetadataSearchResult> results = new LinkedList<IMetadataSearchResult>();
@@ -36,9 +45,9 @@ public class TVDBSearchParser {
         }
     };
 
-    private TVDBMetadataProvider provider;
+    private TMDBTVMetadataProvider provider;
 
-    public TVDBSearchParser(TVDBMetadataProvider prov, SearchQuery query) {
+    public TMDBTVSearchParser(TMDBTVMetadataProvider prov, SearchQuery query) {
         this.provider = prov;
         this.query = query;
 
@@ -46,22 +55,24 @@ public class TVDBSearchParser {
     }
 
     public List<IMetadataSearchResult> getResults() throws MetadataException {
+
         // already parsed
         if (results.size() > 0)
             return results;
 
         // parse
         try {
-            List<Series> list = provider.getTVDBApi().searchSeries(searchTitle, provider.getLanguage());
+            ResultList<TVInfo> list = provider.getTVApi().searchTVFull(searchTitle,0, provider.getLanguage(), NumberUtils.toInt(query.get(SearchQuery.Field.YEAR)), SearchType.PHRASE);
 
-            int len = list.size();
+            int len = list.getTotalResults();
             if (len == 0) {
                 log.warn("Could not find any results for: " + searchTitle);
             }
 
-            for (int i = 0; i < len; i++) {
-                addItem(list.get(i));
+            for (TVInfo tv:list.getResults()) {
+                addItem(tv);
             }
+
             Collections.sort(results, sorter);
         } catch (Exception e) {
             // we got a parse exception, let's try to log the response
@@ -72,15 +83,15 @@ public class TVDBSearchParser {
         return results;
     }
 
-    private void addItem(Series item) {
-        String title = item.getSeriesName();
+    private void addItem(TVInfo item) {
+        String title = item.getName();
 
         if (StringUtils.isEmpty(title)) {
-            log.warn("TVDB Item didn't contain a title");
+            log.warn("TMDB Item didn't contain a title");
             return;
         }
 
-        log.debug("Series Item: " + item);
+        log.debug("Series Item" + item);
 
         MediaSearchResult sr = new MediaSearchResult();
         MetadataSearchUtil.copySearchQueryToSearchResult(query, sr);
@@ -89,13 +100,14 @@ public class TVDBSearchParser {
         Pair<String, String> pair = ParserUtils.parseTitleAndDateInBrackets(sagex.phoenix.util.StringUtils.unquote(title));
         sr.setTitle(pair.first());
         sr.setScore(getScore(pair.first()));
-        sr.setYear(DateUtils.parseYear(item.getFirstAired()));
-        sr.setId(sagex.phoenix.util.StringUtils.firstNonEmpty(item.getSeriesId(), item.getId(), item.getImdbId()));
-        sr.setUrl(sagex.phoenix.util.StringUtils.firstNonEmpty(item.getFanart(), item.getPoster(), item.getBanner()));
-        sr.setIMDBId(item.getImdbId());
+        sr.setYear(DateUtils.parseYear(item.getFirstAirDate()));
+        sr.setId(String.valueOf(item.getId()));
+        //below items are only in the TVInfo and we only have a TVBasic for now...add later in the process
+        //sr.setUrl(sagex.phoenix.util.StringUtils.firstNonEmpty(item.getFanart(), item.getPoster(), item.getBanner()));
+        sr.setIMDBId(item.getExternalIDs().getImdbId());
 
         results.add(sr);
-        log.debug("Added TVDB Title: " + sr.getTitle() + "; ID: " + item.getSeriesId() + "; IMDB: " + item.getImdbId() + "; getFanart: " + item.getFanart() + "; getPoster: " + item.getPoster() + "; getBanner: " + item.getBanner());
+        log.debug("Added TMDB Title: " + sr.getTitle() + "; ID: " + item.getId());
     }
 
     private float getScore(String title) {
@@ -109,4 +121,5 @@ public class TVDBSearchParser {
             return 0.0f;
         }
     }
+
 }

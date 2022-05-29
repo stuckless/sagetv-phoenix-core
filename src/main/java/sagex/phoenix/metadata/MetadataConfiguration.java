@@ -16,11 +16,11 @@ public class MetadataConfiguration extends GroupProxy {
     private FieldProxy<String> wordsToClean = new FieldProxy<String>(
             "1080p,720p,480p,1080i,720i,480i,dvd,dvdrip,cam,ts,tc,scr,screener,dvdscr,xvid,divx,avi,vrs,repack,mallat,proper,dmt,dmd,stv,HDTV,x264");
 
-    @AField(label = "TV Metadata Provider(s)", description = "Default provider(s) to use for TV", listSeparator = ",", list = "tvdb:TVDb", scope = ConfigScope.SERVER)
-    private FieldProxy<String> tvProviders = new FieldProxy<String>("tvdb");
+    @AField(label = "TV Metadata Provider(s)", description = "Default provider(s) to use for TV", listSeparator = ",", list = "tmdb:The MovieDB,tvdb:TVDb", scope = ConfigScope.SERVER)
+    private FieldProxy<String> tvProviders = new FieldProxy<String>("tvdb,tmdb");
 
     @AField(label = "Movie Metadata Provider(s)", description = "Default provider(s) to use for Movies", listSeparator = ",", list = "tmdb:The MovieDB", scope = ConfigScope.SERVER)
-    private FieldProxy<String> movieProviders = new FieldProxy<String>("tmdb,imdb");
+    private FieldProxy<String> movieProviders = new FieldProxy<String>("tmdb");
 
     @AField(label = "Music Metadata Provider(s)", description = "Default provider(s) to use for Music", listSeparator = ",", visible = "false", scope = ConfigScope.SERVER)
     private FieldProxy<String> musicProviders = new FieldProxy<String>("");

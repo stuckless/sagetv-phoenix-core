@@ -88,6 +88,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
         List<IMetadataProvider> prov = new ArrayList<IMetadataProvider>();
 
         if (type == MediaType.TV) {
+            prov.add(metadataProviders.get("tmdb"));
             prov.add(metadataProviders.get("tvdb"));
         } else if (type == MediaType.MOVIE) {
             prov.add(metadataProviders.get("tmdb"));
@@ -390,7 +391,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
 
         IMetadata md = prov.getMetaData(result);
 
-        // have the metadata, now see if we need to get fanart
+        // have the metadata, now see if we need to get fanart - only used if the fanart provider is OTHER THAN the metadata provider
         if (config.isFanartEnabled()) {
             String fid = prov.getInfo().getFanartProviderId();
             if (!StringUtils.isEmpty(fid) && !fid.equals(prov.getInfo().getId())) {

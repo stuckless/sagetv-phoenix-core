@@ -18,6 +18,7 @@ public class SageSeriesInfo implements ISeriesInfo {
     public static final String CUSTOM_ContentRating = "ContentRating";
     public static final String CUSTOM_Runtime = "Runtime";
     public static final String CUSTOM_Zap2It = "Zap2ItID";
+    public static final String CUSTOM_IMDB = "IMDBID";
 
     private Object seriesInfo = null;
     private List<String> genres = null;
@@ -194,5 +195,15 @@ public class SageSeriesInfo implements ISeriesInfo {
     @Override
     public void setZap2ItID(String id) {
         SeriesInfoAPI.SetSeriesInfoProperty(seriesInfo, CUSTOM_Zap2It, id);
+    }
+
+    @Override
+    public String getIMDBID() {
+        return SeriesInfoAPI.GetSeriesInfoProperty(seriesInfo, CUSTOM_IMDB);
+    }
+
+    @Override
+    public void setIMDBID(String id) {
+        SeriesInfoAPI.SetSeriesInfoProperty(seriesInfo, CUSTOM_IMDB, id);
     }
 }

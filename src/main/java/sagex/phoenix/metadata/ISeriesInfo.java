@@ -109,4 +109,10 @@ public interface ISeriesInfo {
 
     @SageProperty(value = "Zap2ItID")
     public void setZap2ItID(String id);
+
+    @SageProperty(value = "IMDBID")
+    public String getIMDBID();
+
+    @SageProperty(value = "IMDBID")
+    public void setIMDBID(String id);
 }

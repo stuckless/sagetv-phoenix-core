@@ -66,7 +66,8 @@ public class TestFanartDownloading {
         md.setMediaTitle("Leathal Weapon");
         md.getFanart().add(new MediaArt(MediaArtifactType.POSTER, "http://thetvdb.com/banners/posters/311790-2.jpg"));
 
-        File fanarDir = new File("/home/seans/git/sagetv-phoenix-core/target/junit/Fanart/TV/Leathal Weapon/Posters");
+        File fanarDir = InitPhoenix.ProjectHome("target/junit/Fanart/TV/Leathal Weapon/Posters");
+        //File fanarDir = new File("/home/seans/git/sagetv-phoenix-core/target/junit/Fanart/TV/Leathal Weapon/Posters");
         fanarDir.listFiles(new FileFilter() {
             @Override
             public boolean accept(File pathname) {

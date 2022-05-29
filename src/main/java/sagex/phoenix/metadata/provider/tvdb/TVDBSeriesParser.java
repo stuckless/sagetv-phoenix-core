@@ -56,6 +56,7 @@ public class TVDBSeriesParser {
             // sinfo.setHistory();
             //sinfo.setImage(TVDBMetadataProvider.getFanartURL(getValue(series, "banner")));
             sinfo.setImage(series.getBanner());
+            log.info("***** TVDB Series: getBanner '" + series.getBanner() + "'");
             sinfo.setNetwork(series.getNetwork());
             sinfo.setTitle(series.getSeriesName());
             sinfo.setZap2ItID(series.getZap2ItId());

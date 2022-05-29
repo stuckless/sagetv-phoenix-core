@@ -100,6 +100,7 @@ public class TVDBItemParser {
         md.setMediaTitle(info.getTitle());
 
         md.setRunningTime(info.getRuntime());
+
     }
 
     private void updateMetadataFromElement(IMetadata md, Episode el) {
@@ -225,6 +226,9 @@ public class TVDBItemParser {
                     MediaArt ma = new MediaArt();
                     ma.setType(mat);
                     addFanartUrl(md, ma, b.getUrl());
+                    if(mat.equals(MediaArtifactType.BANNER)){
+                        log.info("***** addBanners: processing BANNERS: MediaArt = '" + ma + "' url = '" + b.getUrl() + "'");
+                    }
                 }
             }
         }
@@ -233,6 +237,7 @@ public class TVDBItemParser {
     private void addBanners(IMetadata md, String season) throws TvDbException {
         int inSeason = NumberUtils.toInt(season, -9);
             Banners banners = provider.getTVDBApi().getBanners(result.getId());
+            log.info("***** addBanners: banners = '" + banners + "'");
 
             addBanners(md, MediaArtifactType.POSTER, banners.getPosterList());
             addBanners(md, MediaArtifactType.BACKGROUND, banners.getFanartList());
@@ -252,6 +257,7 @@ public class TVDBItemParser {
                                 } else if (b.getBannerType2() == BannerType.SEASONWIDE) {
                                     ma = new MediaArt();
                                     ma.setType(MediaArtifactType.BANNER);
+                                    log.info("***** addBanners: season banners MediaArt = '" + ma + "'");
                                 }
                                 if (ma != null) {
                                     ma.setSeason(inSeason);
@@ -265,6 +271,9 @@ public class TVDBItemParser {
     }
 
     private void addFanartUrl(IMetadata md, MediaArt ma, String path) {
+        log.info("addFanartUrl: md '" + md + "'" );
+        log.info("addFanartUrl: ma '" + ma + "'" );
+        log.info("addFanartUrl: path '" + path + "'" );
         if (StringUtils.isEmpty(path))
             return;
         ma.setDownloadUrl(path);

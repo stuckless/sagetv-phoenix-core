@@ -7,7 +7,7 @@
     </Description>
     <Author>stuckless,jusjoken,bialio,meinmaui</Author>
     <CreationDate>2008.10.05</CreationDate>
-    <ModificationDate>2021.09.18</ModificationDate>
+    <ModificationDate>2021.09.24</ModificationDate>
     <Version>3.3.1</Version>
     <ResourcePath>phoenix-api</ResourcePath>
     <Webpage><![CDATA[https://github.com/stuckless/sagetv-phoenix-core]]></Webpage>
@@ -80,7 +80,7 @@
     <Package>
         <PackageType>JAR</PackageType>
         <Location>https://github.com/OpenSageTV/sagetv-plugin-repo/releases/download/1/phoenix-api-3.3.1.zip</Location>
-        <MD5>051f38f8848b6d46923846189a0a05fd</MD5>
+        <MD5>d26805a1fddc1ef7f481eac245fc9c02</MD5>
     </Package>
 
     <ReleaseNotes>

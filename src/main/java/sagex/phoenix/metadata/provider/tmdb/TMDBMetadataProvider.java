@@ -9,6 +9,8 @@ import java.util.List;
 
 import com.omertron.themoviedbapi.model.collection.Collection;
 import com.omertron.themoviedbapi.model.collection.CollectionInfo;
+import com.omertron.themoviedbapi.model.tv.TVBasic;
+import com.omertron.themoviedbapi.model.tv.TVInfo;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
@@ -54,11 +56,13 @@ import sagex.phoenix.util.DateUtils;
  * - KEB - modified 11/30/2015 to use TMDB v4.1
  */
 public class TMDBMetadataProvider extends MetadataProvider implements HasFindByIMDBID {
+    public static final String ID = "tmdb";
     private Logger log = Logger.getLogger(this.getClass());
 
     private TheMovieDbApi tmdb = null;
     private TMDBConfiguration config = null;
     private MetadataConfiguration mdConfig = null;
+    private TMDBTVMetadataProvider tmdbtv = null;
 
     private static class ScoredTitle {
         String title;
@@ -78,8 +82,14 @@ public class TMDBMetadataProvider extends MetadataProvider implements HasFindByI
             log.error("Failed to create The Movie DB v4 Provider", t);
             throw new RuntimeException(t);
         }
+        tmdbtv = new TMDBTVMetadataProvider(info);
+
         config = GroupProxy.get(TMDBConfiguration.class);
         mdConfig = GroupProxy.get(MetadataConfiguration.class);
+    }
+
+    public TMDBTVMetadataProvider getTmdbtv(){
+        return tmdbtv;
     }
 
     public IMetadata getMetaData(IMetadataSearchResult result) throws MetadataException {
@@ -89,19 +99,25 @@ public class TMDBMetadataProvider extends MetadataProvider implements HasFindByI
         String id = result.getId();
         int tid = NumberUtils.toInt(id);
         if (tid == 0) {
-            throw new MetadataException("TheMovieDB: Failed to find movie info for " + id);
+            throw new MetadataException("TheMovieDB: Failed to find info for " + id);
         }
 
         try {
             log.info("******** tid = '" + tid + "'");
-            log.info("******** MovieInfo '" + tmdb.getMovieInfo(tid, config.getLanguage()));
-            return createMetadata(tmdb.getMovieInfo(tid, config.getLanguage()));
+            if(result.getMediaType().equals(MediaType.TV)){
+                log.info("******** TVInfo '" + tmdb.getTVInfo(tid, config.getLanguage()));
+                return tmdbtv.getMetaData(result);
+                //return createMetadataTV(tmdb.getTVInfo(tid, config.getLanguage()));
+            }else{
+                log.info("******** MovieInfo '" + tmdb.getMovieInfo(tid, config.getLanguage()));
+                return createMetadataMovie(tmdb.getMovieInfo(tid, config.getLanguage()));
+            }
         } catch (Throwable e) {
-            throw new MetadataException("TheMovieDB: Failed to find movie for result", result, e);
+            throw new MetadataException("TheMovieDB: Failed to find movie or tv for result", result, e);
         }
     }
 
-    protected IMetadata createMetadata(MovieInfo movie) throws MetadataException, MovieDbException {
+    protected IMetadata createMetadataMovie(MovieInfo movie) throws MetadataException, MovieDbException {
         IMetadata md = MetadataProxy.newInstance();
 
         int tid = movie.getId();
@@ -137,9 +153,9 @@ public class TMDBMetadataProvider extends MetadataProvider implements HasFindByI
             md.setCollectionOverview(cInfo.getOverview());
         }
 
-        ResultList<Video> results = getMovieTrailers(tmdb, tid, config.getLanguage());
+        ResultList<Video> results = getTrailers(tmdb, MediaType.MOVIE, tid, config.getLanguage());
         if (results == null || results.getTotalResults() == 0) {
-            results = getMovieTrailers(tmdb, tid, null);
+            results = getTrailers(tmdb,MediaType.MOVIE, tid, null);
         }
 
         List<Video> trailers = null;
@@ -175,9 +191,9 @@ public class TMDBMetadataProvider extends MetadataProvider implements HasFindByI
 
         List<MediaCreditCast> cast = null;
         List<MediaCreditCrew> crew = null;
-        MediaCreditList castResults = getMovieCasts(tmdb, tid, config.getLanguage());
+        MediaCreditList castResults = getCasts(tmdb,MediaType.MOVIE, tid, config.getLanguage());
         if (castResults == null || castResults.getCast().size() == 0) {
-            castResults = getMovieCasts(tmdb, tid, null);
+            castResults = getCasts(tmdb,MediaType.MOVIE, tid, null);
         }
 
         if (castResults != null) {
@@ -191,7 +207,7 @@ public class TMDBMetadataProvider extends MetadataProvider implements HasFindByI
             }
         }
         //add all the other jobs of the crew
-        if (cast != null) {
+        if (crew != null) {
             for (MediaCreditCrew p : crew) {
                 String job = p.getJob();
                 if (job == null)
@@ -200,6 +216,8 @@ public class TMDBMetadataProvider extends MetadataProvider implements HasFindByI
                     md.getDirectors().add(new CastMember(p.getName(), null));
                 } else if ("producer".equalsIgnoreCase(job)) {
                     md.getProducers().add(new CastMember(p.getName(), null));
+                } else if ("executive producer".equalsIgnoreCase(job)) {
+                    md.getExecutiveProducers().add(new CastMember(p.getName(), null));
                 } else if ("writer".equalsIgnoreCase(job)) {
                     md.getWriters().add(new CastMember(p.getName(), null));
                 } else if ("screenplay".equalsIgnoreCase(job)) {
@@ -210,7 +228,7 @@ public class TMDBMetadataProvider extends MetadataProvider implements HasFindByI
 
         // we will get ALL the artwork, and sort on language, to prefer art with
         // a language
-        processArt(md, getMovieImages(tmdb, tid, null));
+        processArt(md, getImages(tmdb, MediaType.MOVIE, tid, null));
 
         //now process the collection artwork if needed
         if (md.getCollectionID()>0){
@@ -226,9 +244,13 @@ public class TMDBMetadataProvider extends MetadataProvider implements HasFindByI
         return md;
     }
 
-    private ResultList<Artwork> getMovieImages(TheMovieDbApi tmdb2, int tid, Object object) {
+    private ResultList<Artwork> getImages(TheMovieDbApi tmdb2, MediaType type, int tid, Object object) {
         try {
-            return tmdb2.getMovieImages(tid, null);
+            if(type.equals(MediaType.TV)){
+                return tmdb2.getTVImages(tid, null);
+            }else{
+                return tmdb2.getMovieImages(tid, null);
+            }
         } catch (Throwable t) {
             return null;
         }
@@ -242,17 +264,25 @@ public class TMDBMetadataProvider extends MetadataProvider implements HasFindByI
         }
     }
 
-    private MediaCreditList getMovieCasts(TheMovieDbApi tmdb2, int tid, String language) {
+    private MediaCreditList getCasts(TheMovieDbApi tmdb2, MediaType type, int tid, String language) {
         try {
-            return tmdb2.getMovieCredits(tid);
+            if(type.equals(MediaType.TV)){
+                return tmdb2.getTVCredits(tid,language);
+            }else{
+                return tmdb2.getMovieCredits(tid);
+            }
         } catch (Throwable t) {
         }
         return null;
     }
 
-    private ResultList<Video> getMovieTrailers(TheMovieDbApi tmdb2, int tid, String language) {
+    private ResultList<Video> getTrailers(TheMovieDbApi tmdb2, MediaType type, int tid, String language) {
         try {
-            return tmdb2.getMovieVideos(tid, language);
+            if(type.equals(MediaType.TV)){
+                return tmdb2.getTVVideos(tid, language);
+            }else{
+                return tmdb2.getMovieVideos(tid, language);
+            }
         } catch (Throwable t) {
             return null;
         }
@@ -389,20 +419,29 @@ public class TMDBMetadataProvider extends MetadataProvider implements HasFindByI
             return MetadataSearchUtil.createSearchResult(query, getMetadataForIMDBId(query.getIMDBId()));
         }
 
-        // check if we are searching for movies
-        if (query.getMediaType() != MediaType.MOVIE) {
+        // check what we are searching for
+        if (query.getMediaType() == MediaType.MOVIE) {
+            // carry on Movie search
+            try {
+                return getResultsMovie(query);
+            } catch (Throwable e) {
+                throw new MetadataException(e);
+            }
+        }else if (query.getMediaType() == MediaType.TV) {
+            // carry on TV search
+            try {
+                return tmdbtv.search(query);
+                //return getResultsTV(query);
+            } catch (Throwable e) {
+                throw new MetadataException(e);
+            }
+        }else{
             throw new MetadataException("Unsupported Search Type: " + query.getMediaType(), query);
         }
 
-        // carry on normal search
-        try {
-            return getResults(query);
-        } catch (Throwable e) {
-            throw new MetadataException(e);
-        }
     }
 
-    protected List<IMetadataSearchResult> getResults(SearchQuery q) throws MovieDbException {
+    protected List<IMetadataSearchResult> getResultsMovie(SearchQuery q) throws MovieDbException {
         // parse
         List<IMetadataSearchResult> results = new ArrayList<IMetadataSearchResult>();
 
@@ -522,7 +561,7 @@ public class TMDBMetadataProvider extends MetadataProvider implements HasFindByI
     @Override
     public IMetadata getMetadataForIMDBId(String imdbid) {
         try {
-            return createMetadata(tmdb.getMovieInfoImdb(imdbid, config.getLanguage()));
+            return createMetadataMovie(tmdb.getMovieInfoImdb(imdbid, config.getLanguage()));
         } catch (Throwable e) {
             log.warn("TheMovieDB: Failed to find movie for imdb id: " + imdbid, e);
         }

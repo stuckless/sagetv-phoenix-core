@@ -95,7 +95,7 @@ public class InitPhoenix {
     private static File getProjectRoot(File dir) {
         File d = new File(dir, "src");
         if (d.exists() && d.isDirectory()) return dir;
-        return getProjectRoot(dir.getParentFile());
+        return getProjectRoot(dir.getAbsoluteFile().getParentFile());
     }
 
     public static File ProjectHome(String path) {
