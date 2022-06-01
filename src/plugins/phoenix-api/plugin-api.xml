@@ -14,17 +14,17 @@
 
     <Dependency>
         <Core/>
-        <MinVersion>9.0.0</MinVersion>
+        <MinVersion>9.2.0</MinVersion>
     </Dependency>
 
     <Dependency>
         <JVM/>
-        <MinVersion>1.7</MinVersion>
+        <MinVersion>1.8</MinVersion>
     </Dependency>
 
     <Dependency>
         <Plugin>sagex-api</Plugin>
-        <MinVersion>9.0.0.7</MinVersion>
+        <MinVersion>9.2.8.1</MinVersion>
     </Dependency>
     <Dependency>
         <Plugin>commons-codec</Plugin>
@@ -60,7 +60,7 @@
     </Dependency>
     <Dependency>
         <Plugin>themoviedb</Plugin>
-        <MinVersion>4.1.0</MinVersion>
+        <MinVersion>4.4.0</MinVersion>
     </Dependency>
     <Dependency>
         <Plugin>thetvdbapi</Plugin>

@@ -28,7 +28,7 @@ import sagex.phoenix.Phoenix;
 import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.metadata.MetadataConfiguration;
 import sagex.phoenix.util.FileUtils;
-import sagex.remote.RemoteObjectRef;
+//import sagex.remote.RemoteObjectRef;
 import sagex.util.WaitFor;
 
 public class ImageUtil {

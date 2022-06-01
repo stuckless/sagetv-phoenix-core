@@ -8,12 +8,12 @@ apply plugin: 'idea'
 
 jar.baseName 'phoenix'
 group 'phoenix'
-version '3.3.1'
+version '3.4.1'
 
 archivesBaseName = "phoenix"
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 ext {
     plugin_name = "phoenix"
@@ -44,21 +44,43 @@ repositories {
 	mavenLocal()
 	mavenCentral()
 	jcenter()
-	maven {
-		url  "http://dl.bintray.com/opensagetv/maven"
-	}
-	maven {
-		url  "http://dl.bintray.com/stuckless/sagetvphoenix"
-	}
+    maven {
+        //Github does not support public maven packages so to retrieve you will need
+        // a Personal Access Token to get the package
+        // Create the 2 environment variables below with the user and token
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/jusjoken/sagetv-dependencies-task")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_USER")
+            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
+    maven {
+        //Github does not support public maven packages so to retrieve you will need
+        // a Personal Access Token to get the package
+        // Create the 2 environment variables below with the user and token
+        name = "GitHubPackages2"
+        url = uri("https://maven.pkg.github.com/jusjoken/phoenix-api-builder")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_USER")
+            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
+	//maven {
+	//	url  "http://dl.bintray.com/opensagetv/maven"
+	//}
+	//maven {
+	//	url  "http://dl.bintray.com/stuckless/sagetvphoenix"
+	//}
 }
 
 dependencies {
 	// used by the configure target
-	configure 'sagex:sagex.plugin.resolver:1.5'
+	configure 'sagex:sagex.plugin.resolver:1.7'
 	configure 'dom4j:dom4j:1.6.1'
 
 	// used by the generate api target
-	genapi 'phoenix:phoenix-api-generator:2.1'
+	genapi 'phoenix:phoenix-api-builder:2.2.1'
 
     // used by sluggers sagetv notify plugin
     sagesubmit 'slugger:slugger-dev-tools:0.0.1'
@@ -165,11 +187,9 @@ task configureDependencies << {
 	
 	ant.sagetvdeps(
 		downloadSageJar:true,
-            sagejar: "https://dl.bintray.com/opensagetv/sagetv/sagetv/9.1.10.479/SageJar-9.1.10.479.zip",
 		jardir:"lib",
 		pluginname:"phoenix-core",
-		extrajars:"http://download.sage.tv/plugins/Opus4/GoogleWeather/GoogleWeather_2_0_1.zip",
-	    devpluginsxml:"SageTVPluginsDev_phoenix.xml, src/plugins/phoenix-api/plugin-api.xml, src/plugins/phoenix-core/plugin-core.xml"
+        devpluginsxml:"SageTVPluginsDev_phoenix.xml, src/plugins/phoenix-api/plugin-api.xml, src/plugins/phoenix-core/plugin-core.xml"
 	)
 	
 	// delete the phoenix jar if it's downloaded as a dependency

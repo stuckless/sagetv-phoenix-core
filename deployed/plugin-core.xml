@@ -13,21 +13,21 @@
     </Description>
     <Author>stuckless,jusjoken,bialio,meinmaui</Author>
     <CreationDate>2010.06.05</CreationDate>
-    <ModificationDate>2021.09.24</ModificationDate>
+    <ModificationDate>2022.06.01</ModificationDate>
     <ResourcePath>phoenix-core</ResourcePath>
-    <Version>3.3.1</Version>
+    <Version>3.4.1</Version>
 
     <Webpage><![CDATA[https://github.com/stuckless/sagetv-phoenix-core]]></Webpage>
 
     <Dependency>
         <Plugin>phoenix-api</Plugin>
-        <MinVersion>3.3.1</MinVersion>
+        <MinVersion>3.4.1</MinVersion>
     </Dependency>
     <PluginType>Standard</PluginType>
     <Package>
         <PackageType>System</PackageType>
-        <Location>https://github.com/OpenSageTV/sagetv-plugin-repo/releases/download/1/phoenix-core-3.3.1.zip</Location>
-        <MD5>d614083e99968586a5dac03c4a92e8d5</MD5>
+        <Location>https://github.com/OpenSageTV/sagetv-plugin-repo/releases/download/1/phoenix-core-3.4.1.zip</Location>
+        <MD5>0ead8caf836009982c389f4c58956214</MD5>
     </Package>
     <ImplementationClass>sagex.phoenix.plugin.PhoenixPlugin</ImplementationClass>
     <ReleaseNotes>
