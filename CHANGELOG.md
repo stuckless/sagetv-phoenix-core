@@ -1,3 +1,9 @@
+# 3.4.3
+* Added TMDB as a free TV provider
+* Added TVDB V4 as a TV provider - needs a PIN with a subscription to TVDB
+* Fix: Old TVDB provider should now work on Java 11
+* Fix: if Fanart is disabled (local and central), metadata will still be retrieved unless Automatic  Fanart/Metadata is disabled
+
 # 3.3.1
 * Removed weather functionality as all included providers are no longer available
 * Weather for Gemstone and SageTV is now handled by the GWeather plugin

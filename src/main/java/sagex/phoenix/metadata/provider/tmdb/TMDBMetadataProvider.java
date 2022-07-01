@@ -57,6 +57,9 @@ import sagex.phoenix.util.DateUtils;
  */
 public class TMDBMetadataProvider extends MetadataProvider implements HasFindByIMDBID {
     public static final String ID = "tmdb";
+    // priority ratings
+    public static final String PREFER_HIRES = "1";
+    public static final String PREFER_USER_RATING = "2";
     private Logger log = Logger.getLogger(this.getClass());
 
     private TheMovieDbApi tmdb = null;
@@ -304,12 +307,12 @@ public class TMDBMetadataProvider extends MetadataProvider implements HasFindByI
                 int c = sagex.phoenix.util.StringUtils.compare(o1.getLanguage(), o2.getLanguage(), false);
                 if (c == 0) {
                     // if both the same, then prefer size or rating
-                    if (TMDBConfiguration.PREFER_HIRES.equals(config.getFanartPriorityOrdering())) {
+                    if (PREFER_HIRES.equals(config.getFanartPriorityOrdering())) {
                         c = NumberUtils.compare(o1.getWidth(), o2.getWidth());
                         if (c == 0) {
                             c = NumberUtils.compare(o1.getVoteAverage(), o2.getVoteAverage());
                         }
-                    } else if (TMDBConfiguration.PREFER_USER_RATING.equals(config.getFanartPriorityOrdering())) {
+                    } else if (PREFER_USER_RATING.equals(config.getFanartPriorityOrdering())) {
                         c = NumberUtils.compare(o1.getVoteAverage(), o2.getVoteAverage());
                         if (c == 0) {
                             c = NumberUtils.compare(o1.getWidth(), o2.getWidth());

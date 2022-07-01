@@ -90,6 +90,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
         if (type == MediaType.TV) {
             prov.add(metadataProviders.get("tmdb"));
             prov.add(metadataProviders.get("tvdb"));
+            prov.add(metadataProviders.get("tvdb4"));
         } else if (type == MediaType.MOVIE) {
             prov.add(metadataProviders.get("tmdb"));
         }
@@ -494,7 +495,7 @@ public class MetadataManager extends SystemConfigurationFileManager implements
                     }
                     FanartStorage fanart = new FanartStorage();
                     fanart.saveFanart(file, data.getMediaTitle(), data, options, config.getFanartCentralFolder());
-                } else {
+                } else if(config.getLocalFanartEnabled()) { //Changed KEB 06/2022 to NOT save if localFanart is NOT enabled
                     if (file.exists()) {
                         log.info("Saving Local Fanart for " + file);
                         LocalFanartStorage local = new LocalFanartStorage();

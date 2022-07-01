@@ -64,7 +64,7 @@
     </Dependency>
     <Dependency>
         <Plugin>thetvdbapi</Plugin>
-        <MinVersion>1.8.0</MinVersion>
+        <MinVersion>1.10.0</MinVersion>
     </Dependency>
     <Dependency>
         <Plugin>commons-net</Plugin>

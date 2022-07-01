@@ -5,12 +5,16 @@ import org.junit.Test;
 import sagex.phoenix.Phoenix;
 import sagex.phoenix.metadata.*;
 import sagex.phoenix.metadata.provider.tmdb.TMDBMetadataProvider;
+import sagex.phoenix.metadata.provider.tmdb.TMDBTVItemParser;
+import sagex.phoenix.metadata.provider.tmdb.TMDBTVMetadataProvider;
 import sagex.phoenix.metadata.search.MetadataSearchUtil;
 import sagex.phoenix.metadata.search.SearchQuery;
 import sagex.phoenix.util.DateUtils;
+import sagex.remote.json.JSONException;
 import test.InitPhoenix;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -316,4 +320,27 @@ public class TMDBTVTest {
         provs = Phoenix.getInstance().getMetadataManager().getProviders(MediaType.MOVIE);
         assertEquals("tmdb", provs.get(0).getInfo().getId());
     }
+
+    @Test
+    public void testEpisodes() {
+
+        IMetadataProvider prov;
+        prov = mgr.getProvider("tmdb");
+        if(prov==null){
+            System.out.println("testEpisodes: failed: prov is null");
+            return;
+        }
+        TMDBTVMetadataProvider tmdbtv = new TMDBTVMetadataProvider(prov.getInfo());
+        TMDBTVItemParser tmdbtvItemParser = new TMDBTVItemParser(tmdbtv,null);
+        List<IMetadata> seriesEpisodes = new ArrayList<>();
+
+        try {
+            seriesEpisodes = tmdbtvItemParser.getAllEpisodes(2051,"en");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }
