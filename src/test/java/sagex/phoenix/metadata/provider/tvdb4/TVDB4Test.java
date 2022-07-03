@@ -32,7 +32,7 @@ public class TVDB4Test {
         handler = new TVDB4JsonHandler();
 
         //To run tests on TVDB4 which is a PAID api, you must enter a valid PIN below
-        handler.setPin("OFFKZPFQ");
+        handler.setPin("");
 
     }
 
