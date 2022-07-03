@@ -1,21 +1,28 @@
 package sagex.phoenix.vfs.sources;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import com.omertron.themoviedbapi.MovieDbException;
+import com.omertron.themoviedbapi.enumeration.ExternalSource;
+import com.omertron.themoviedbapi.model.FindResults;
 import com.omertron.thetvdbapi.TheTVDBApi;
 import com.omertron.thetvdbapi.TvDbException;
 import com.omertron.thetvdbapi.model.Episode;
 
+import com.omertron.thetvdbapi.model.Series;
+import sagex.phoenix.Phoenix;
+import sagex.phoenix.configuration.proxy.GroupProxy;
 import sagex.phoenix.factory.ConfigurableOption;
 import sagex.phoenix.factory.Factory;
 import sagex.phoenix.factory.ConfigurableOption.DataType;
-import sagex.phoenix.vfs.DecoratedMediaFile;
-import sagex.phoenix.vfs.IMediaFolder;
-import sagex.phoenix.vfs.IMediaResource;
-import sagex.phoenix.vfs.TVVirtualMediaFile;
-import sagex.phoenix.vfs.VirtualMediaFolder;
+import sagex.phoenix.metadata.*;
+import sagex.phoenix.metadata.provider.tmdb.TMDBTVItemParser;
+import sagex.phoenix.metadata.provider.tmdb.TMDBTVMetadataProvider;
+import sagex.phoenix.metadata.provider.tvdb4.TVDB4JsonHandler;
+import sagex.phoenix.metadata.proxy.MetadataProxy;
+import sagex.phoenix.util.DateUtils;
+import sagex.phoenix.vfs.*;
+import sagex.remote.json.JSONException;
 
 /**
  * Factory to create a source using sage TV media and allowing filling episode gaps
@@ -25,22 +32,70 @@ import sagex.phoenix.vfs.VirtualMediaFolder;
  */
 public class TVMediaFilesSourceFactory extends Factory<IMediaFolder> {
 	private String BaseView = "phoenix.view.default.allTVseasons"; 
-	private TheTVDBApi tvDB = null;
 	private TVSeries seriesInfo = null;
+	private String defaultTVProvider = "";
+	private TheTVDBApi tvDB = null;
+	private TMDBTVMetadataProvider tmdbtv = null;
+	MetadataConfiguration config = null;
+
 	public TVMediaFilesSourceFactory() {
 		addOption(new ConfigurableOption("seriesID", "Series ID", null, DataType.string));
 		addOption(new ConfigurableOption("seasonNum", "Season Number", null, DataType.string));
-		try {
-			tvDB = new TheTVDBApi("5645B594A3F32D27");
-			
-		} catch (Throwable t) {
-			log.error("Failed to create The TVDB v1.8 API", t);
-			throw new RuntimeException(t);
+		config = GroupProxy.get(MetadataConfiguration.class);
+		setDefaultTVProvider();
+	}
+
+	private void setDefaultTVProvider(){
+		List<IMetadataProvider> provs = Phoenix.getInstance().getMetadataManager().getProviders(MediaType.TV);
+		log.debug("setDefaultTVProvider: available providers:" + provs);
+		if(provs.size() > 0 && provs.get(0)!=null){
+			defaultTVProvider = provs.get(0).getInfo().getId();
+			log.debug("Setting defaultProvider to first TV provider:" + defaultTVProvider);
+			//check if user provided a default provider to use and make sure it's valid
+			String[] tvProviders = config.getTVProviders().split(",");
+			log.debug("TVProviders:" + tvProviders);
+			String firstUserTVProvider = "";
+			if(tvProviders.length>0){
+				firstUserTVProvider = tvProviders[0];
+				log.debug("Found users first TV provider:" + firstUserTVProvider);
+			}
+			if(!firstUserTVProvider.isEmpty()){
+				for(IMetadataProvider provider: provs){
+					if(provider.getInfo().getId().equals(firstUserTVProvider)){
+						defaultTVProvider = firstUserTVProvider;
+						log.debug("Setting defaultProvider to users first TV provider:" + defaultTVProvider);
+						break;
+					}
+				}
+			}
 		}
-		log.info("tvDB v1.8 API instance created");
+		log.info("setDefaultTVProvider: setting provider to use:" + defaultTVProvider);
+
+		//load tvdb older api if that is the one selected
+		if(defaultTVProvider.equals("tvdb")){
+			try {
+				tvDB = new TheTVDBApi("5645B594A3F32D27");
+			} catch (Throwable t) {
+				log.error("Failed to create The TVDB v1.10 API", t);
+				throw new RuntimeException(t);
+			}
+			log.debug("tvDB v1.10 API instance created");
+		}else if(defaultTVProvider.equals("tmdb")){
+			MetadataManager mgr;
+			mgr = Phoenix.getInstance().getMetadataManager();
+			IMetadataProvider prov;
+			prov = mgr.getProvider("tmdb");
+			if(prov==null){
+				log.warn("loadSeriesInfoTMDB: failed to load TMDBTV provider");
+				return;
+			}
+			tmdbtv = new TMDBTVMetadataProvider(prov.getInfo());
+		}
+
 	}
 
 	public IMediaFolder create(Set<ConfigurableOption> opts) {
+		setDefaultTVProvider();
 		String optSeriesID = getOption("seriesID", opts).getString(null);
 		String optSeasonNum = null;
 		if (optSeriesID!=null){
@@ -58,8 +113,30 @@ public class TVMediaFilesSourceFactory extends Factory<IMediaFolder> {
 			//first level is the shows (series)
 			for (IMediaResource show : folder.getChildren()) {
 				//second level is the seasons for the show
-				//get a SeriesID and then retrieve the TVDB info for the series
-				String SeriesID= phoenix.metadata.GetMediaProviderDataID(phoenix.media.GetAllChildren((IMediaFolder) show,1).get(0));
+				//get a SeriesID and then retrieve the TV info for the series
+				Object firstShow = phoenix.media.GetAllChildren((IMediaFolder) show,1).get(0);
+				String ProviderID= phoenix.metadata.GetMediaProviderID(firstShow);
+				String SeriesID= phoenix.metadata.GetMediaProviderDataID(firstShow);
+				String IMDBID= phoenix.metadata.GetIMDBID(firstShow);
+				if(!ProviderID.equals(defaultTVProvider)){
+					log.info("GAP REVIEW: Search ProviderID:" + defaultTVProvider + " not the same as Source ProviderID:" + ProviderID + " IMDB:" + IMDBID + " for show:" + show.getTitle());
+					if(IMDBID==null){
+						log.warn("GAP REVIEW: Cannot search for a series ID as IMDB ID is not available for:" + show.getTitle() + " SKIPPING.");
+						continue;
+					}
+					String newSeriesID = getSeriesID(IMDBID,show.getTitle());
+					if(newSeriesID!=null){
+						SeriesID = newSeriesID;
+						log.info("GAP REVIEW: Found new seriesID for the current provider:" + defaultTVProvider + " SeriesID:" + SeriesID);
+					}else{
+						log.warn("GAP REVIEW: No new seriesID found for the current provider:" + defaultTVProvider + " Skipping:" + show.getTitle());
+						continue;
+					}
+				}
+				if(SeriesID==null || SeriesID.isEmpty()){
+					log.warn("GAP REVIEW: Skipping as No SERIESID for show " + show.getTitle());
+					continue;
+				}
 				//see if we are optionally handling a specific seriesID or any seriesID
 				if (optSeriesID==null || optSeriesID.equals(SeriesID) ){
 					log.debug("GAP REVIEW Getting episode info for SERIESID = " + SeriesID + " for show " + show.getTitle());
@@ -132,6 +209,7 @@ public class TVMediaFilesSourceFactory extends Factory<IMediaFolder> {
 							}
 							if(optSeasonNum==null){
 								//check if we missed any entire Seasons
+								log.debug("GAP REVIEW for: " + show.getTitle() + " Check for Entire Seasons Missing sCount:" + sCount + " SeasonNum:" + SeasonNum);
 								if (SeasonNum > sCount){
 									log.debug("GAP REVIEW for: " + show.getTitle() + " Entire Seasons Missing " + sCount + " to " + (SeasonNum-1));
 									for (int sGap = sCount; sGap < SeasonNum; sGap++){
@@ -151,7 +229,18 @@ public class TVMediaFilesSourceFactory extends Factory<IMediaFolder> {
 							
 						}
 					}
-					
+					//check if we are missing full seasons AFTER the last season we have
+					for (Integer seasonNum: seriesInfo.seasonList.keySet()) {
+						log.debug("GAP REVIEW EXTRA SEASONS: checking season:" + seasonNum);
+						if(seasonNum > sCount){
+							if (seriesInfo.seasonList.containsKey(seasonNum)){
+								log.debug("GAP REVIEW EXTRA SEASONS: found season to add:" + seasonNum);
+								FillEpisodeGap(destFolder, (IMediaResource) firstShow, show.getTitle(), seasonNum, 1, seriesInfo.GetMaxEpisode(seasonNum));
+								totalGaps = totalGaps + seriesInfo.GetMaxEpisode(seasonNum);
+							}
+						}
+					}
+
 				}
 				
 			}
@@ -163,11 +252,92 @@ public class TVMediaFilesSourceFactory extends Factory<IMediaFolder> {
 	private void FillEpisodeGap(VirtualMediaFolder destFolder, IMediaResource episode, String showTitle, int SeasonNum, int startEpisode, int endEpisode){
 		for (int eGap = startEpisode; eGap <= endEpisode; eGap++){
 			//add the missing episode
-			TVVirtualMediaFile gapItem = new TVVirtualMediaFile(destFolder, episode, showTitle, SeasonNum, eGap, seriesInfo.GetEpisode(SeasonNum, eGap));
-			destFolder.addMediaResource(gapItem);
-			log.debug("GAP REVIEW Found: " + gapItem.getTitle() + " : " + gapItem.getId());
+			if(seriesInfo.GetEpisode(SeasonNum,eGap)!=null){
+				TVVirtualMediaFile gapItem = new TVVirtualMediaFile(destFolder, episode, showTitle, SeasonNum, eGap, seriesInfo.GetEpisode(SeasonNum, eGap));
+				destFolder.addMediaResource(gapItem);
+				log.debug("GAP REVIEW Found: " + gapItem.getTitle() + " : " + gapItem.getId());
+			}else{
+				log.debug("GAP REVIEW Skipping Null Episode Found for Season: " + SeasonNum + " Episode: " + eGap);
+			}
 		}
 	}
+
+	private String getSeriesID(String IMDBID, String title){
+		if(IMDBID==null || IMDBID.isEmpty()){
+			log.debug("getSeriesID: called with empty or null IMDBID");
+			return null;
+		}
+		String seriesID = null;
+		if(defaultTVProvider.isEmpty()){
+			log.debug("getSeriesID: called with empty TV provider");
+		}else if(defaultTVProvider.equals("tvdb")){
+			try {
+				log.debug("getSeriesID: getting seriesID for provider:" + defaultTVProvider + " title:" + title);
+				List<Series> seriesResult = tvDB.searchSeries(title, "en");
+				if(seriesResult!=null){
+					Integer checkMax = 3;
+					Integer checkCount = 0;
+					String firstSeriesID = null;
+					log.debug("getSeriesID: checking for:" + IMDBID + " seriesResult:" + seriesResult);
+					for (Series series: seriesResult) {
+						checkCount++;
+						if(checkCount==1){
+							firstSeriesID = series.getId();
+						}
+						log.debug("getSeriesID: checking for:" + IMDBID + " series imdb:" + series.getImdbId() + " series title:" + series.getSeriesName() + " Id:" + series.getId() + " seriesID:" + series.getSeriesId());
+						//if no series found use the first result and check more info
+						Series checkSeries = tvDB.getSeries(series.getId(),"en");
+						log.debug("getSeriesID: checkSeries for:" + IMDBID + " series imdb:" + checkSeries.getImdbId() + " series title:" + checkSeries.getSeriesName() + " Id:" + checkSeries.getId() + " seriesID:" + checkSeries.getSeriesId());
+						if(checkSeries.getImdbId().equals(IMDBID)){
+							log.debug("getSeriesID: found seriesID getId:" + checkSeries.getId());
+							seriesID = checkSeries.getId();
+							return seriesID;
+						}
+						if(checkCount>=checkMax){
+							log.debug("getSeriesID: Max IMDB check of " + checkMax + " so returning first seriesID getId:" + firstSeriesID);
+							return firstSeriesID;
+						}
+					}
+				}
+			} catch (TvDbException e) {
+				e.printStackTrace();
+			}
+		}else if(defaultTVProvider.equals("tmdb")){
+			log.debug("getSeriesID: called with TV provider:" + defaultTVProvider);
+			FindResults findResults = null;
+			try {
+				findResults = tmdbtv.getTVApi().find(IMDBID, ExternalSource.IMDB_ID, "en");
+				log.debug("getSeriesID: findResults:" + findResults);
+			} catch (MovieDbException e) {
+				e.printStackTrace();
+			}
+			if(findResults!=null){
+				log.debug("getSeriesID: findResults.getTvResults:" + findResults.getTvEpisodeResults());
+				if(findResults.getTvEpisodeResults().size()>0){
+					log.debug("getSeriesID: findResults.getTvResults first item:" + findResults.getTvEpisodeResults().get(0));
+					seriesID = String.valueOf(findResults.getTvEpisodeResults().get(0).getShowId());
+				}
+			}
+		}else if(defaultTVProvider.equals("tvdb4")){
+			log.debug("getSeriesID: called with TV provider:" + defaultTVProvider);
+			//TODO: need TVDB4 method to get a new series ID from IMDBID
+			TVDB4JsonHandler handler = new TVDB4JsonHandler();
+			try {
+				if(handler.validConfig()){
+					seriesID = handler.GetSeriesIDFromIMDBID(IMDBID);
+				}else{
+					log.warn("loadSeriesInfoTVDB4: TVDB4 configuration is not valid.  Check PIN.");
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}else{
+			log.warn("getSeriesID: called with invalid TV provider:" + defaultTVProvider);
+		}
+		log.debug("getSeriesID: returning seriesID:" + seriesID);
+		return seriesID;
+	}
+
 
 	//take a seriesID and lookup specific Season and Episode info
 	private class TVSeries{
@@ -179,15 +349,11 @@ public class TVMediaFilesSourceFactory extends Factory<IMediaFolder> {
 			seasonList = new HashMap<Integer, TVSeason>();
 			//this.seriesEpisodes = seriesEpisodes;
 			if (this.seriesID != null){
-				try {
-					loadSeriesInfo();
-				} catch (TvDbException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				//get series info based on the default TV Provider in use
+				loadSeriesInfo();
 			}
 		}
-		private Episode GetEpisode(int seasonNum, int episodeNum){
+		private IMetadata GetEpisode(int seasonNum, int episodeNum){
 			if (this.seasonList.containsKey(seasonNum)){
 				if (this.seasonList.get(seasonNum).episodeList.containsKey(episodeNum)){
 					return this.seasonList.get(seasonNum).episodeList.get(episodeNum);
@@ -202,38 +368,128 @@ public class TVMediaFilesSourceFactory extends Factory<IMediaFolder> {
 				return 0;
 			}
 		}
+
+		private void loadSeriesInfo(){
+			if(defaultTVProvider.isEmpty()){
+				log.debug("loadSeriesInfo: called with empty TV provider");
+			}else if(defaultTVProvider.equals("tvdb")){
+				try {
+					loadSeriesInfoTVDB();
+				} catch (TvDbException e) {
+					e.printStackTrace();
+				}
+			}else if(defaultTVProvider.equals("tmdb")){
+				log.debug("loadSeriesInfo: called with TV provider:" + defaultTVProvider);
+				loadSeriesInfoTMDB();
+			}else if(defaultTVProvider.equals("tvdb4")){
+				log.debug("loadSeriesInfo: called with TV provider:" + defaultTVProvider);
+				loadSeriesInfoTVDB4();
+			}else{
+				log.warn("loadSeriesInfo: called with invalid TV provider:" + defaultTVProvider);
+			}
+		}
 		
-		private void loadSeriesInfo() throws TvDbException{
+		private void loadSeriesInfoTVDB() throws TvDbException{
+			log.debug("loadSeriesInfoTVDB: provider specific code STARTS here");
 			List<Episode> seriesEpisodes = null;
 			seriesEpisodes = tvDB.getAllEpisodes(this.seriesID, "en");
 			if (seriesEpisodes != null){
 				for(Episode e: seriesEpisodes ){
-					log.debug("loading Episode '" + e + "'");
+					log.debug("loadSeriesInfoTVDB: loading Episode '" + e + "'");
 					if (!this.seasonList.containsKey(e.getSeasonNumber())){
 						this.seasonList.put(e.getSeasonNumber(), new TVSeason(e.getEpisodeNumber(), e));
-						log.debug("Created a new TVSeason record for Season '" + e.getSeasonNumber() + "'");
+						log.debug("loadSeriesInfoTVDB: Created a new TVSeason record for Season '" + e.getSeasonNumber() + "'");
+					}else{
+						//add the episode into the episodeList based on it's episode number
+						this.seasonList.get(e.getSeasonNumber()).episodeList.put(e.getEpisodeNumber(), getIMetadataFromEpisode(e));
+						//check and set the maxEpisode for the season
+						if (e.getEpisodeNumber() > this.seasonList.get(e.getSeasonNumber()).MaxEpisode){
+							this.seasonList.get(e.getSeasonNumber()).MaxEpisode = e.getEpisodeNumber();
+							log.debug("loadSeriesInfoTVDB: Updating the Max Episode number to '" + e.getEpisodeNumber() + "'");
+						}
+					}
+				}
+				
+			}
+			log.debug("loadSeriesInfoTVDB: provider specific code ENDS here");
+		}
+
+		private void loadSeriesInfoTMDB(){
+			TMDBTVItemParser tmdbtvItemParser = new TMDBTVItemParser(tmdbtv,null);
+			List<IMetadata> seriesEpisodes = new ArrayList<>();
+
+			try {
+				seriesEpisodes = tmdbtvItemParser.getAllEpisodes(Integer.parseInt(this.seriesID),"en");
+				log.debug("loadSeriesInfoTMDB: retrieved:" + seriesEpisodes.size() + " episodes");
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			loadSeriesInfoShared(seriesEpisodes);
+		}
+
+		private void loadSeriesInfoTVDB4(){
+			TVDB4JsonHandler handler = new TVDB4JsonHandler();
+			List<IMetadata> seriesEpisodes = null;
+			try {
+				if(handler.validConfig()){
+					seriesEpisodes = handler.GetEpisodes(this.seriesID);
+				}else{
+					log.warn("loadSeriesInfoTVDB4: TVDB4 configuration is not valid.  Check PIN.");
+					return;
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			loadSeriesInfoShared(seriesEpisodes);
+		}
+
+		private void loadSeriesInfoShared(List<IMetadata> seriesEpisodes){
+			if (seriesEpisodes != null){
+				for(IMetadata e: seriesEpisodes ){
+					log.debug("loadSeriesInfoShared: loading Episode '" + e + "'");
+					if (!this.seasonList.containsKey(e.getSeasonNumber())){
+						this.seasonList.put(e.getSeasonNumber(), new TVSeason(e.getEpisodeNumber(), e));
+						log.debug("loadSeriesInfoShared: Created a new TVSeason record for Season '" + e.getSeasonNumber() + "'");
 					}else{
 						//add the episode into the episodeList based on it's episode number
 						this.seasonList.get(e.getSeasonNumber()).episodeList.put(e.getEpisodeNumber(), e);
 						//check and set the maxEpisode for the season
 						if (e.getEpisodeNumber() > this.seasonList.get(e.getSeasonNumber()).MaxEpisode){
 							this.seasonList.get(e.getSeasonNumber()).MaxEpisode = e.getEpisodeNumber();
-							log.debug("Updating the Max Episode number to '" + e.getEpisodeNumber() + "'");
+							log.debug("loadSeriesInfoShared: Updating the Max Episode number to '" + e.getEpisodeNumber() + "'");
 						}
 					}
 				}
-				
 			}
 		}
-		
+
 		private class TVSeason{
 			private int MaxEpisode = 0;
-			private HashMap <Integer, Episode> episodeList = null;
-			private TVSeason(Integer episodeNum, Episode e){
-				episodeList = new HashMap<Integer, Episode>();
+			private HashMap <Integer, IMetadata> episodeList = null;
+			private TVSeason(Integer episodeNum, IMetadata e){
+				episodeList = new HashMap<Integer, IMetadata>();
 				this.episodeList.put(episodeNum, e);
 				this.MaxEpisode = episodeNum;
 			}
+			private TVSeason(Integer episodeNum, Episode e){
+				episodeList = new HashMap<Integer, IMetadata>();
+				this.episodeList.put(episodeNum, getIMetadataFromEpisode(e));
+				this.MaxEpisode = episodeNum;
+			}
 		}
+
+		private IMetadata getIMetadataFromEpisode(Episode e){
+			IMetadata thisEpisode = MetadataProxy.newInstance();
+			thisEpisode.setEpisodeNumber(e.getEpisodeNumber());
+			thisEpisode.setSeasonNumber(e.getSeasonNumber());
+			thisEpisode.setEpisodeName(e.getEpisodeName());
+			thisEpisode.setDescription(e.getOverview());
+			thisEpisode.setOriginalAirDate(DateUtils.parseDate(e.getFirstAired()));
+			thisEpisode.setMediaProviderID("tvdb");
+			thisEpisode.setMediaProviderDataID(e.getId());
+
+			return thisEpisode;
+		}
+
 	}
 }

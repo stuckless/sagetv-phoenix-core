@@ -217,7 +217,7 @@ public class MetadataSearchUtil {
             }
             res.setIMDBId(md.getIMDBID());
             res.setUrl(query.get(Field.ID));
-            log.info("searchById() was sucessful for: " + id);
+            log.info("searchById() was completed for: " + id);
         } catch (Exception e) {
             log.warn("searchById() failed for: " + query, e);
             return null;

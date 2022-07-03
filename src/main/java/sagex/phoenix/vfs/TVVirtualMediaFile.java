@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.omertron.thetvdbapi.model.Episode;
 
+import sagex.phoenix.metadata.IMetadata;
 import sagex.phoenix.util.DateUtils;
 
 /**
@@ -19,17 +20,18 @@ public class TVVirtualMediaFile extends VirtualMediaFile {
     private String episodeName;
     private String description;
     private IMediaResource refIMR;
-    private Episode episodeInfo;
+    private IMetadata episodeInfo;
     private Date episodeOAD;
 
-    public TVVirtualMediaFile(IMediaFolder parent, IMediaResource refIMR, String series, int season, int episode, Episode episodeInfo) {
-        super(parent, series + "S" + season + "E" + episode, series, series);
+    public TVVirtualMediaFile(IMediaFolder parent, IMediaResource refIMR, String series, int season, int episode, IMetadata episodeInfo) {
+        super(parent, series + "S" + season + "E" + episode, refIMR, series);
         this.refIMR = refIMR;
         this.series = series;
         this.season = season;
         this.episode = episode;
         this.episodeInfo = episodeInfo;
-        createEpisodeDetails();
+        log.debug("**** Creating folder from: series:" + series + " season:" + season + " episode:" + episode + " episodeInfo:" + episodeInfo);
+        createEpisodeDetailsFromSource(episodeInfo);
         //set the metadata for the tv virtual media file
         createMediaFile();
     }
@@ -48,20 +50,15 @@ public class TVVirtualMediaFile extends VirtualMediaFile {
         return super.isType(type);
     }
 
-    protected void createEpisodeDetails() {
-        if (this.episodeInfo == null) {
-            //use default info
-            this.episodeName = "Missing Episode: " + episode;
-            this.description = "This is a virtual episode record as the episode has been identified as missing.";
-            this.episodeOAD = phoenix.metadata.GetOriginalAirDate(this.refIMR);
-        } else {
-            //use the info from the passed in TVDB record
-            this.episodeName = "Missing: " + this.episodeInfo.getEpisodeName();
-            this.description = "Missing Episode: " + this.episodeInfo.getOverview();
-            //convert the OAD string
-            this.episodeOAD = DateUtils.parseDate(this.episodeInfo.getFirstAired());
-        }
-        return;
+    private void createEpisodeDetailsFromSource(String epName, String epDescritopn, Date epOAD){
+        this.episodeName = "Missing: " + epName;
+        this.description = "Missing Episode: " + epDescritopn;
+        this.episodeOAD = epOAD;
+    }
+    private void createEpisodeDetailsFromSource(IMetadata episode){
+        this.episodeName = "Missing: " + episode.getEpisodeName();
+        this.description = "Missing Episode: " + episode.getDescription();
+        this.episodeOAD = episode.getOriginalAirDate();
     }
 
     protected void createMediaFile() {
@@ -72,6 +69,8 @@ public class TVVirtualMediaFile extends VirtualMediaFile {
         this.getMetadata().setMediaType("TV");
         this.getMetadata().setDescription(this.description);
         this.getMetadata().setOriginalAirDate(this.episodeOAD);
+        this.getMetadata().setMediaProviderID(this.episodeInfo.getMediaProviderID());
+        this.getMetadata().setMediaProviderDataID(this.episodeInfo.getMediaProviderDataID());
         return;
     }
 

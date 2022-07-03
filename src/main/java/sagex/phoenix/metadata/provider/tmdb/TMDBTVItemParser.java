@@ -104,7 +104,7 @@ public class TMDBTVItemParser {
                     addSeasonEpisodeInfoByTitle(title);
                 }
 
-                // now add in banners, no point in doing it early
+                // now add in Artwork, no point in doing it early
                 addArtwork(md, season, episode);
             } catch (MetadataException me) {
                 throw me;
@@ -260,7 +260,7 @@ public class TMDBTVItemParser {
     }
 
     private void addSeasonEpisodeInfoByTitle(String title) throws TvDbException {
-        log.info("TMDB Title: " + title);
+        log.debug("TMDB Title: " + title);
 
         List<IMetadata> nl = null;
         try {
@@ -279,7 +279,7 @@ public class TMDBTVItemParser {
         }
 
         if (!updated) {
-            log.info("Unable to match a direct title for: " + title);
+            log.debug("Unable to match a direct title for: " + title);
         }
     }
 
@@ -313,7 +313,7 @@ public class TMDBTVItemParser {
     * TMDB does not offer a solution to get all episodes so this approach is to get max 20 seasons at a time
     * and grab the episode info all using a direct call as TheTmdb API does not have this feature
      */
-    private List<IMetadata> getAllEpisodes(int id, String lang) throws JSONException{
+    public List<IMetadata> getAllEpisodes(int id, String lang) throws JSONException{
 
         final List<IMetadata> epList = new ArrayList<>();
 
@@ -324,6 +324,7 @@ public class TMDBTVItemParser {
         do {
             hasMoreSeasons = false;
             String episodeResult = getSeasonInfo(id,lang,seasonGroup);
+            log.debug("getAllEpisodes: episodeResults:" + episodeResult);
 
             //process the JSON and collect all episodes into the IMetadata list
 
@@ -339,6 +340,7 @@ public class TMDBTVItemParser {
                     }
                 });
                 seasonCount = seasonNums.size();
+                log.debug("getAllEpisodes first loop: seasonCount:" + seasonCount);
             }
 
             //first 0-19 unless less than 19
@@ -353,24 +355,34 @@ public class TMDBTVItemParser {
             }
 
             //process each season in the JSON season/0 ...
+            log.debug("getAllEpisodes: start processing from startSeason:" + startSeason + " to " + endSeason);
             for (int i = startSeason; i < endSeason  ; i++) {
                 final int sNum = seasonNums.get(i);
                 JSONObject Season = JSON.get("season/" + sNum, epJSON);
+                log.debug("getAllEpisodes: Season JSON:" + Season);
                 JSON.each("episodes", Season, new JSON.ArrayVisitor() {
                     public void visitItem(int i, JSONObject item) {
                         final IMetadata tEpisode = MetadataProxy.newInstance();
-                        try {
-                            MetadataUtil.copyMetadata(md,tEpisode);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        //if a md (IMetadata source exists then copy the data from it for the new episode record
+                        if(md!=null){
+                            try {
+                                log.debug("getAllEpisodes: copying source to new IMetadata: src" + md);
+                                MetadataUtil.copyMetadata(md,tEpisode);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                         tEpisode.setEpisodeName(JSON.getString("name", item));
                         tEpisode.setEpisodeNumber(JSON.getInt("episode_number", item));
+                        log.debug("getAllEpisodes: processing episode: S" + sNum + "E" + tEpisode.getEpisodeNumber());
 
                         tEpisode.setSeasonNumber(sNum);
                         tEpisode.setOriginalAirDate(DateUtils.parseDate(JSON.getString("air_date", item)));
                         tEpisode.setDescription(JSON.getString("overview", item));
                         tEpisode.setUserRating(MetadataSearchUtil.parseUserRating(JSON.getString("vote_average", item)));
+
+                        tEpisode.setMediaProviderID(provider.getInfo().getId());
+                        tEpisode.setMediaProviderDataID(String.valueOf(id));
 
                         //add Crew
                         JSON.each("crew", item, new JSON.ArrayVisitor() {
@@ -473,12 +485,12 @@ public class TMDBTVItemParser {
                 int c = sagex.phoenix.util.StringUtils.compare(o1.getLanguage(), o2.getLanguage(), false);
                 if (c == 0) {
                     // if both the same, then prefer size or rating
-                    if (TMDBConfiguration.PREFER_HIRES.equals(config.getFanartPriorityOrdering())) {
+                    if (TMDBMetadataProvider.PREFER_HIRES.equals(config.getFanartPriorityOrdering())) {
                         c = NumberUtils.compare(o1.getWidth(), o2.getWidth());
                         if (c == 0) {
                             c = NumberUtils.compare(o1.getVoteAverage(), o2.getVoteAverage());
                         }
-                    } else if (TMDBConfiguration.PREFER_USER_RATING.equals(config.getFanartPriorityOrdering())) {
+                    } else if (TMDBMetadataProvider.PREFER_USER_RATING.equals(config.getFanartPriorityOrdering())) {
                         c = NumberUtils.compare(o1.getVoteAverage(), o2.getVoteAverage());
                         if (c == 0) {
                             c = NumberUtils.compare(o1.getWidth(), o2.getWidth());

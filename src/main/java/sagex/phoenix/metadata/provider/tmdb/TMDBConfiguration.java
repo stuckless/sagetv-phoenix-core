@@ -21,11 +21,7 @@ public class TMDBConfiguration extends GroupProxy {
     @AField(label = "Max Backgrounds", description = "Maximum number of backgrounds to fetch", scope = ConfigScope.SERVER)
     private FieldProxy<Integer> maxBackgrounds = new FieldProxy<Integer>(5);
 
-    // priority ratings
-    public static final String PREFER_HIRES = "1";
-    public static final String PREFER_USER_RATING = "2";
-
-    @AField(label = "Fanart Ordering", description = "How fanart should be prioritized when selecting", scope = ConfigScope.SERVER, type = ConfigType.CHOICE, list = "1:Prefer Larger Size,2:Prefer Better User Rating")
+    @AField(label = "Fanart Ordering", description = "How fanart should be prioritized when selecting", listSeparator = ",", list = "1:Prefer Larger Size,2:Prefer Better User Rating", scope = ConfigScope.SERVER)
     private FieldProxy<String> fanartPriorityOrdering = new FieldProxy<String>("1");
 
     @AField(label = "Include Adult Content", description = "If true, adult content will searched as well", scope = ConfigScope.SERVER)
@@ -75,6 +71,7 @@ public class TMDBConfiguration extends GroupProxy {
     public void setFanartPriorityOrdering(String fanartPriorityOrdering) {
         this.fanartPriorityOrdering.set(fanartPriorityOrdering);
     }
+
 
     public boolean getIncludeAdult() {
         return includeAdult.get();

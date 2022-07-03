@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.math.NumberUtils;
 
+import sagex.api.PersonAPI;
 import sagex.api.SeriesInfoAPI;
 
 /**
@@ -53,7 +54,8 @@ public class SageSeriesInfo implements ISeriesInfo {
             if (chars > 0) {
                 for (int i = 0; i < chars; i++) {
                     CastMember cm = new CastMember();
-                    cm.setName(SeriesInfoAPI.GetSeriesActor(seriesInfo, i));
+                    //TODO: test if the change below is working as it now returns a person object rather than a string
+                    cm.setName(String.valueOf(SeriesInfoAPI.GetSeriesActor(seriesInfo, i)));
                     cm.setRole(SeriesInfoAPI.GetSeriesCharacter(seriesInfo, i));
                     cast.add(cm);
                 }

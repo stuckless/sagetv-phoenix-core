@@ -31,7 +31,7 @@ public class TMDBTVMetadataProvider extends MetadataProvider implements ITVMetad
         config = GroupProxy.get(TMDBConfiguration.class);
     }
 
-    TheMovieDbApi getTVApi() {
+    public TheMovieDbApi getTVApi() {
         return tmdb;
     }
 

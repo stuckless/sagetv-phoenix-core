@@ -64,6 +64,7 @@ public class TMDBTVSearchParser {
         try {
             ResultList<TVInfo> list = provider.getTVApi().searchTVFull(searchTitle,0, provider.getLanguage(), NumberUtils.toInt(query.get(SearchQuery.Field.YEAR)), SearchType.PHRASE);
 
+            //provider.getTVApi().find()
             int len = list.getTotalResults();
             if (len == 0) {
                 log.warn("Could not find any results for: " + searchTitle);

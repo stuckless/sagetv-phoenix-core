@@ -158,13 +158,17 @@ public class MediaAPI {
 
             if (mt == MediaType.TV) {
                 if (mf.getMetadata().getSeasonNumber() <= 0) {
-                    log.warn("Invalid Season for TV, so ignoring Title Mask for " + mediaFile);
+                    if (mf.isType(MediaResourceType.RECORDING.value()) || mf.isType(MediaResourceType.EPG_AIRING.value())) {
+                        log.debug("Already a RECORDING so no change to the Title Mask for " + mediaFile);
+                    }else{
+                        log.warn("Invalid Season for TV, so ignoring Title Mask for " + mediaFile);
 
-                    // use the recording mask, because the recording mask uses
-                    // title
-                    // and episode name
-                    mask = cfg.getRecordingTitleMask();
-                    // return mf.getTitle();
+                        // use the recording mask, because the recording mask uses
+                        // title
+                        // and episode name
+                        mask = cfg.getRecordingTitleMask();
+                        // return mf.getTitle();
+                    }
                 }
             }
 
