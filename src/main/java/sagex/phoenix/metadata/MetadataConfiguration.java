@@ -17,7 +17,7 @@ public class MetadataConfiguration extends GroupProxy {
             "1080p,720p,480p,1080i,720i,480i,dvd,dvdrip,cam,ts,tc,scr,screener,dvdscr,xvid,divx,avi,vrs,repack,mallat,proper,dmt,dmd,stv,HDTV,x264");
 
     @AField(label = "TV Metadata Provider(s)", description = "Default provider(s) to use for TV", listSeparator = ",", list = "tmdb:The MovieDB,tvdb:TVDb,tvdb4:TVDb4", scope = ConfigScope.SERVER)
-    private FieldProxy<String> tvProviders = new FieldProxy<String>("tvdb,tmdb,tvdb4");
+    private FieldProxy<String> tvProviders = new FieldProxy<String>("tvdb,tmdb");
 
     @AField(label = "Movie Metadata Provider(s)", description = "Default provider(s) to use for Movies", listSeparator = ",", list = "tmdb:The MovieDB", scope = ConfigScope.SERVER)
     private FieldProxy<String> movieProviders = new FieldProxy<String>("tmdb");

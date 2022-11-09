@@ -8,7 +8,7 @@ apply plugin: 'idea'
 
 jar.baseName 'phoenix'
 group 'phoenix'
-version '3.4.3'
+version '3.5.0'
 
 archivesBaseName = "phoenix"
 

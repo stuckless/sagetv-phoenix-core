@@ -83,7 +83,7 @@ public class TVDB4ItemParser {
             if(jsonHandler.validConfig()){
                 jsonHandler.GetFanart(result.getId(), md, season);
             }else{
-                log.warn("addFanart: TVDB4 configuration is not valid.  Check PIN.");
+                log.warn("addFanart: TVDB4 configuration is not valid.");
                 return false;
             }
         } catch (Exception e) {
@@ -123,7 +123,7 @@ public class TVDB4ItemParser {
                 if(jsonHandler.validConfig()){
                     jsonHandler.GetEpisode(result.getId(), md, inSeason,inEpisode,null, null);
                 }else{
-                    log.warn("addSeasonEpisodeInfo: TVDB4 configuration is not valid.  Check PIN.");
+                    log.warn("addSeasonEpisodeInfo: TVDB4 configuration is not valid.");
                     return false;
                 }
             } catch (Exception e) {
@@ -150,7 +150,7 @@ public class TVDB4ItemParser {
                 if(jsonHandler.validConfig()){
                     jsonHandler.GetEpisode(result.getId(), md, null, null,searchDate, null);
                 }else{
-                    log.warn("addSeasonEpisodeInfoByDate: TVDB4 configuration is not valid.  Check PIN.");
+                    log.warn("addSeasonEpisodeInfoByDate: TVDB4 configuration is not valid.");
                     return false;
                 }
             } catch (Exception e) {
@@ -171,7 +171,7 @@ public class TVDB4ItemParser {
                 if(jsonHandler.validConfig()){
                     jsonHandler.GetEpisode(result.getId(), md, null, null, null, title);
                 }else{
-                    log.warn("addSeasonEpisodeInfoByTitle: TVDB4 configuration is not valid.  Check PIN.");
+                    log.warn("addSeasonEpisodeInfoByTitle: TVDB4 configuration is not valid.");
                     return false;
                 }
             } catch (Exception e) {

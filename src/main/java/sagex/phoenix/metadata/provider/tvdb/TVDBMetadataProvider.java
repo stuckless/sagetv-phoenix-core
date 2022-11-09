@@ -18,7 +18,7 @@ import sagex.phoenix.metadata.search.SearchQuery.Field;
 import java.util.List;
 
 public class TVDBMetadataProvider extends MetadataProvider implements ITVMetadataProvider {
-    public static final String ID = "tvdb";
+    public static final String ID = "tvdbold";
 
     TheTVDBApi tvdbApi = null;
     TVDBConfiguration config = null;

@@ -88,9 +88,10 @@ public class MetadataManager extends SystemConfigurationFileManager implements
         List<IMetadataProvider> prov = new ArrayList<IMetadataProvider>();
 
         if (type == MediaType.TV) {
-            prov.add(metadataProviders.get("tmdb"));
             prov.add(metadataProviders.get("tvdb"));
-            prov.add(metadataProviders.get("tvdb4"));
+            prov.add(metadataProviders.get("tmdb"));
+            //prov.add(metadataProviders.get("tvdb4")); //removed as tvdb now uses tvdb4
+            prov.add(metadataProviders.get("tvdbold")); //this is the old version of tvdb - remove later
         } else if (type == MediaType.MOVIE) {
             prov.add(metadataProviders.get("tmdb"));
         }

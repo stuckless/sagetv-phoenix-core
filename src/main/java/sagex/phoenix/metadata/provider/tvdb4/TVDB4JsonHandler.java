@@ -45,14 +45,16 @@ public class TVDB4JsonHandler {
     private static final Integer SeasonBackground = 8;
     private String token = null;
     private String baseUrl = "https://api4.thetvdb.com/v4";
-    private String apiKey = "a91c908d-d76d-4412-8713-837d0b28ad52"; //official sagetv/phoenix apiKey
-    private String pin = "";
+    //private String apiKey = "a91c908d-d76d-4412-8713-837d0b28ad52"; //official sagetv/phoenix apiKey
+    private String apiKey = "f5744a13-9203-4d02-b951-fbd7352c1657"; //new negotiated official sagetv/phoenix apiKey
+    //private String pin = "";
     TVDB4Configuration config = null;
 
     public TVDB4JsonHandler() {
         config = GroupProxy.get(TVDB4Configuration.class);
     }
 
+/*
     public String getPin() {
         pin = config.getPIN();
         return pin;
@@ -68,10 +70,23 @@ public class TVDB4JsonHandler {
         return true;
     }
 
+ */
+
     /*
-     * Check to ensure a PIN is available in the configuration and if so, use it to get a token
+     * No longer checking PIN as not needed for this new API Key
      */
     public Boolean validConfig(){
+        token = GetToken();
+        if(token==null || token.isEmpty()){
+            log.warn("TVDBv4 login FAILED.  Unable to retrieve a Token");
+            return false;
+        }else {
+            return true;
+        }
+    }
+
+    /*
+        public Boolean validConfig(){
         pin = config.getPIN();
         if(pin.isEmpty()){
             log.warn("No TVDBv4 PIN found in configuration.  PIN is required to access TVDBv4 API. Go to TheTVDB.com to signup for this subscription service and then enter your PIN in the TVDB4 Configuration in BMT or in the sage.properties file under 'phoenix/metadata/tvdb4/pin'.");
@@ -87,6 +102,8 @@ public class TVDB4JsonHandler {
         }
     }
 
+     */
+
     public String GetToken(){
         token = config.getToken();
         if(token==null || token.isEmpty()){
@@ -97,7 +114,9 @@ public class TVDB4JsonHandler {
             CloseableHttpClient client = HttpClients.createDefault();
             HttpPost httpPost = new HttpPost(uri);
 
-            String json = "{\"apikey\": \"" + apiKey + "\",\"pin\": \"" + pin + "\"}";
+            //removed sending pin as it is no longer required for this api key
+            //String json = "{\"apikey\": \"" + apiKey + "\",\"pin\": \"" + pin + "\"}";
+            String json = "{\"apikey\": \"" + apiKey + "\"}";
             StringEntity entity = null;
             try {
                 entity = new StringEntity(json);
@@ -225,7 +244,8 @@ public class TVDB4JsonHandler {
             response = client.execute(request);
             if (response.getStatusLine().getStatusCode()!=200){
                 if (response.getStatusLine().getStatusCode()==401){
-                    //not authorized - get new token and try again
+                    //not authorized - clear old stored token, get new token and try again
+                    config.setToken("");
                     if(GetToken()==null){
                         //no token retrieved so exit
                         log.debug("GetDataFromTVDB4: RESULT after getting NEW token: failed");
@@ -316,7 +336,7 @@ public class TVDB4JsonHandler {
                 MetadataSearchUtil.copySearchQueryToSearchResult(query, sr);
                 sr.setMediaType(MediaType.TV);
                 //sr.setProviderId(provider.getInfo().getId());
-                sr.setProviderId("tvdb4");
+                sr.setProviderId("tvdb");
                 //Pair<String, String> pair = ParserUtils.parseTitleAndDateInBrackets(sagex.phoenix.util.StringUtils.unquote(JSON.getString("name", item)));
                 //sr.setTitle(pair.first());
                 if(item.has("name")){
@@ -421,7 +441,7 @@ public class TVDB4JsonHandler {
                     thisEpisode.setOriginalAirDate(itemOAD);
                     thisEpisode.setDescription(itemDesc);
 
-                    thisEpisode.setMediaProviderID("tvdb4");
+                    thisEpisode.setMediaProviderID("tvdb");
                     thisEpisode.setMediaProviderDataID(id);
 
                     episodeList.add(thisEpisode);
