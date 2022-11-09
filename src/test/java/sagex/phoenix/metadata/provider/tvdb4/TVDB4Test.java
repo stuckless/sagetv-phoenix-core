@@ -31,9 +31,6 @@ public class TVDB4Test {
         mgr = Phoenix.getInstance().getMetadataManager();
         handler = new TVDB4JsonHandler();
 
-        //To run tests on TVDB4 which is a PAID api, you must enter a valid PIN below
-        handler.setPin("");
-
     }
 
     @Test
@@ -44,7 +41,7 @@ public class TVDB4Test {
 
         IMetadataProvider prov;
 
-        prov = mgr.getProvider("tvdb4");
+        prov = mgr.getProvider("tvdb");
         assertNotNull("Failed to load tvdb4 provider!", prov);
         assertNotNull(prov.getInfo().getName());
         assertNotNull(prov.getInfo().getDescription());
@@ -60,13 +57,13 @@ public class TVDB4Test {
     public void testTVDBApostrope() throws Exception {
         if(validConfig()){
             SearchQuery query = new SearchQuery(MediaType.TV, "South Park", null);
-            query.set(SearchQuery.Field.PROVIDER, "tvdb4");
+            query.set(SearchQuery.Field.PROVIDER, "tvdb");
             //query.set(Field.ID, "75897");
             query.set(SearchQuery.Field.QUERY, "South Park");
             query.set(SearchQuery.Field.SEASON, "19");
             query.set(SearchQuery.Field.EPISODE, "4");
 
-            List<IMetadataSearchResult> results = mgr.search("tvdb4", query);
+            List<IMetadataSearchResult> results = mgr.search("tvdb", query);
             for (IMetadataSearchResult r : results) {
                 System.out.println("Result: " + r);
             }
@@ -92,6 +89,9 @@ public class TVDB4Test {
     }
 
     private Boolean validConfig(){
+        //PIN no longer required so always return true
+        return true;
+        /*
         if(handler.hasPin()){
             System.out.println("TVDB4 tests can continue as TVDB4 PIN is available.");
             return true;
@@ -99,6 +99,8 @@ public class TVDB4Test {
             System.out.println("TVDB4 tests require a PIN to be set in the BeforeClass init. Skipping this test.");
             return false;
         }
+
+         */
     }
 
     @Test
@@ -106,13 +108,20 @@ public class TVDB4Test {
         if(validConfig()){
             SearchQuery query = new SearchQuery(MediaType.TV, "GGGGG", "2004");
             //SearchQuery query = new SearchQuery(MediaType.TV, "House", "2004");
-            query.set(SearchQuery.Field.PROVIDER, "tvdb4");
+            query.set(SearchQuery.Field.PROVIDER, "tvdb");
             query.set(SearchQuery.Field.ID, "73255");
 
             query.set(SearchQuery.Field.SEASON, "2");
             query.set(SearchQuery.Field.EPISODE, "7");
 
             testTVDBMetadata(query);
+        }
+    }
+
+    @Test
+    public void testTVDBProblemMatchers2() {
+        if(validConfig()){
+            testTVDBTitle("America's Test Kitchen From Cook's Illustrated", "80297", "America's Test Kitchen From Cook's Illustrated");
         }
     }
 
@@ -142,12 +151,12 @@ public class TVDB4Test {
             SearchQuery query = new SearchQuery(MediaType.TV, "House", "2004");
             query.set(SearchQuery.Field.EPISODE_TITLE, "123ASDASD999DSSDSD");
 
-            List<IMetadataSearchResult> results = mgr.search("tvdb4", query);
+            List<IMetadataSearchResult> results = mgr.search("tvdb", query);
             assertTrue("Search for returned nothing!", results.size() > 0);
             IMetadataSearchResult result = MetadataSearchUtil.getBestResultForQuery(results, query);
             assertEquals(2004, result.getYear());
             assertEquals("73255", result.getId());
-            assertEquals("tvdb4", result.getProviderId());
+            assertEquals("tvdb", result.getProviderId());
             assertEquals(MediaType.TV, result.getMediaType());
             assertEquals("House", result.getTitle());
             // tvdb just passes the id as url, it's never used, so it's just for
@@ -175,7 +184,7 @@ public class TVDB4Test {
     }
 
     private void testTVDBMetadata(SearchQuery query) throws Exception {
-        List<IMetadataSearchResult> results = mgr.search("tvdb4", query);
+        List<IMetadataSearchResult> results = mgr.search("tvdb", query);
         assertTrue("Search for returned nothing!", results.size() > 0);
 
         log.info("testTVDBMetadata: results:" + results);
@@ -183,7 +192,7 @@ public class TVDB4Test {
         IMetadataSearchResult result = MetadataSearchUtil.getBestResultForQuery(results, query);
         assertEquals(2004, result.getYear());
         assertEquals("73255", result.getId());
-        assertEquals("tvdb4", result.getProviderId());
+        assertEquals("tvdb", result.getProviderId());
         assertEquals(MediaType.TV, result.getMediaType());
         assertEquals("House", result.getTitle());
         // tvdb just passes the id as url, it's never used, so it's just for
@@ -221,7 +230,7 @@ public class TVDB4Test {
 
         assertEquals("tt0606027", md.getIMDBID());
         assertEquals("73255", md.getMediaProviderDataID());
-        assertEquals("tvdb4", md.getMediaProviderID());
+        assertEquals("tvdb", md.getMediaProviderID());
         assertEquals("House", md.getMediaTitle());
         assertEquals(MediaType.TV.sageValue(), md.getMediaType());
         assertEquals(DateUtils.parseDate("2005-11-22").getTime(), md.getOriginalAirDate().getTime());
@@ -239,10 +248,10 @@ public class TVDB4Test {
     @Test
     public void testTvSeriesInfo() throws MetadataException {
         if(validConfig()){
-            IMetadataProvider prov = mgr.getProvider("tvdb4");
+            IMetadataProvider prov = mgr.getProvider("tvdb");
             assertTrue(prov instanceof ITVMetadataProvider);
             ITVMetadataProvider tv = (ITVMetadataProvider) prov;
-            IMetadataSearchResult res = mgr.createResultForId("tvdb4", "73255");
+            IMetadataSearchResult res = mgr.createResultForId("tvdb", "73255");
             ISeriesInfo info = tv.getSeriesInfo(res.getId());
 
             assertNull("Series ID Must never have a value, unless it is a sagetv series info id", info.getSeriesInfoID());
@@ -289,13 +298,13 @@ public class TVDB4Test {
                 query.set(SearchQuery.Field.SEASON, "1");
                 query.set(SearchQuery.Field.EPISODE, "1");
 
-                List<IMetadataSearchResult> results = mgr.search("tvdb4", query);
+                List<IMetadataSearchResult> results = mgr.search("tvdb", query);
                 assertTrue("Search for returned nothing!", results.size() > 0);
 
                 // ensure we get twilight zone from 1985
                 IMetadataSearchResult result = MetadataSearchUtil.getBestResultForQuery(results, query);
                 assertEquals(resultId, result.getId());
-                assertEquals("tvdb4", result.getProviderId());
+                assertEquals("tvdb", result.getProviderId());
                 assertEquals(MediaType.TV, result.getMediaType());
                 assertEquals(resultTitle, result.getTitle());
             } catch (Exception e) {
@@ -307,9 +316,9 @@ public class TVDB4Test {
 
     @Test
     public void testDefaults() {
-        //default provider for TV is now tmdb as the only FREE TV provider
+        //default provider for TV is now back to tvdb as it is now free
         List<IMetadataProvider> provs = Phoenix.getInstance().getMetadataManager().getProviders(MediaType.TV);
-        assertEquals("tmdb", provs.get(0).getInfo().getId());
+        assertEquals("tvdb", provs.get(0).getInfo().getId());
         for(IMetadataProvider provider: provs){
             System.out.println("Available TV provider:" + provider.getInfo());
         }

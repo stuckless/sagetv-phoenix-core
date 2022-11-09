@@ -9,7 +9,7 @@ import sagex.phoenix.metadata.search.SearchQuery;
 import java.util.List;
 
 public class TVDB4MetadataProvider  extends MetadataProvider implements ITVMetadataProvider {
-    public static final String ID = "tvdb4";
+    public static final String ID = "tvdb";
     TVDB4Configuration config = null;
 
     public TVDB4MetadataProvider(IMetadataProviderInfo info) {

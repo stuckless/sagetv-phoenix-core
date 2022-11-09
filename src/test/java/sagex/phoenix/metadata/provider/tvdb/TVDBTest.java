@@ -59,8 +59,8 @@ public class TVDBTest {
 
         IMetadataProvider prov;
 
-        prov = mgr.getProvider("tvdb");
-        assertNotNull("Failed to load tvdb provider!", prov);
+        prov = mgr.getProvider("tvdbold");
+        assertNotNull("Failed to load tvdbold provider!", prov);
         assertNotNull(prov.getInfo().getName());
         assertNotNull(prov.getInfo().getDescription());
         assertEquals(MediaType.TV, prov.getInfo().getSupportedSearchTypes().get(0));
@@ -74,13 +74,13 @@ public class TVDBTest {
     @Test
     public void testTVDBApostrope() throws Exception {
         SearchQuery query = new SearchQuery(MediaType.TV, "South Park", null);
-        query.set(Field.PROVIDER, "tvdb");
+        query.set(Field.PROVIDER, "tvdbold");
         //query.set(Field.ID, "75897");
         query.set(Field.QUERY, "South Park");
         query.set(Field.SEASON, "19");
         query.set(Field.EPISODE, "4");
 
-        List<IMetadataSearchResult> results = mgr.search("tvdb", query);
+        List<IMetadataSearchResult> results = mgr.search("tvdbold", query);
         for (IMetadataSearchResult r : results) {
             System.out.println("Result: " + r);
         }
@@ -113,7 +113,7 @@ public class TVDBTest {
     @Test
     public void testTVDBByID() throws Exception {
         SearchQuery query = new SearchQuery(MediaType.TV, "GGGGG", "2004");
-        query.set(Field.PROVIDER, "tvdb");
+        query.set(Field.PROVIDER, "tvdbold");
         query.set(Field.ID, "73255");
 
         query.set(Field.SEASON, "2");
@@ -135,12 +135,12 @@ public class TVDBTest {
         SearchQuery query = new SearchQuery(MediaType.TV, "House", "2004");
         query.set(Field.EPISODE_TITLE, "123ASDASD999DSSDSD");
 
-        List<IMetadataSearchResult> results = mgr.search("tvdb", query);
+        List<IMetadataSearchResult> results = mgr.search("tvdbold", query);
         assertTrue("Search for returned nothing!", results.size() > 0);
         IMetadataSearchResult result = MetadataSearchUtil.getBestResultForQuery(results, query);
         assertEquals(2004, result.getYear());
         assertEquals("73255", result.getId());
-        assertEquals("tvdb", result.getProviderId());
+        assertEquals("tvdbold", result.getProviderId());
         assertEquals(MediaType.TV, result.getMediaType());
         assertEquals("House", result.getTitle());
         // tvdb just passes the id as url, it's never used, so it's just for
@@ -165,14 +165,14 @@ public class TVDBTest {
     }
 
     private void testTVDBMetadata(SearchQuery query) throws Exception {
-        List<IMetadataSearchResult> results = mgr.search("tvdb", query);
+        List<IMetadataSearchResult> results = mgr.search("tvdbold", query);
         assertTrue("Search for returned nothing!", results.size() > 0);
 
         // ensure we get twilight zone from 1985
         IMetadataSearchResult result = MetadataSearchUtil.getBestResultForQuery(results, query);
         assertEquals(2004, result.getYear());
         assertEquals("73255", result.getId());
-        assertEquals("tvdb", result.getProviderId());
+        assertEquals("tvdbold", result.getProviderId());
         assertEquals(MediaType.TV, result.getMediaType());
         assertEquals("House", result.getTitle());
         // tvdb just passes the id as url, it's never used, so it's just for
@@ -210,7 +210,7 @@ public class TVDBTest {
 
         assertEquals("tt0606027", md.getIMDBID());
         assertEquals("73255", md.getMediaProviderDataID());
-        assertEquals("tvdb", md.getMediaProviderID());
+        assertEquals("tvdbold", md.getMediaProviderID());
         assertEquals("House", md.getMediaTitle());
         assertEquals(MediaType.TV.sageValue(), md.getMediaType());
         assertEquals(DateUtils.parseDate("2005-11-22").getTime(), md.getOriginalAirDate().getTime());
@@ -227,10 +227,10 @@ public class TVDBTest {
 
     @Test
     public void testTvSeriesInfo() throws MetadataException {
-        IMetadataProvider prov = mgr.getProvider("tvdb");
+        IMetadataProvider prov = mgr.getProvider("tvdbold");
         assertTrue(prov instanceof ITVMetadataProvider);
         ITVMetadataProvider tv = (ITVMetadataProvider) prov;
-        IMetadataSearchResult res = mgr.createResultForId("tvdb", "73255");
+        IMetadataSearchResult res = mgr.createResultForId("tvdbold", "73255");
         ISeriesInfo info = tv.getSeriesInfo(res.getId());
 
         assertNull("Series ID Must never have a value, unless it is a sagetv series info id", info.getSeriesInfoID());
@@ -272,13 +272,13 @@ public class TVDBTest {
             query.set(Field.SEASON, "1");
             query.set(Field.EPISODE, "1");
 
-            List<IMetadataSearchResult> results = mgr.search("tvdb", query);
+            List<IMetadataSearchResult> results = mgr.search("tvdbold", query);
             assertTrue("Search for returned nothing!", results.size() > 0);
 
             // ensure we get twilight zone from 1985
             IMetadataSearchResult result = MetadataSearchUtil.getBestResultForQuery(results, query);
             assertEquals(resultId, result.getId());
-            assertEquals("tvdb", result.getProviderId());
+            assertEquals("tvdbold", result.getProviderId());
             assertEquals(MediaType.TV, result.getMediaType());
             assertEquals(resultTitle, result.getTitle());
         } catch (Exception e) {
@@ -290,7 +290,7 @@ public class TVDBTest {
     @Test
     public void testDefaults() {
         List<IMetadataProvider> provs = Phoenix.getInstance().getMetadataManager().getProviders(MediaType.TV);
-        assertEquals("tmdb", provs.get(0).getInfo().getId());
+        assertEquals("tvdb", provs.get(0).getInfo().getId());
         provs = Phoenix.getInstance().getMetadataManager().getProviders(MediaType.MOVIE);
         assertEquals("tmdb", provs.get(0).getInfo().getId());
     }

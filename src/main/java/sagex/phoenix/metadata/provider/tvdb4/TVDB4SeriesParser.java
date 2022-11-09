@@ -27,7 +27,7 @@ public class TVDB4SeriesParser {
             if(jsonHandler.validConfig()){
                 jsonHandler.GetSeries(seriesId, sinfo);
             }else{
-                log.warn("getSeriesInfo: TVDB4 configuration is not valid.  Check PIN.");
+                log.warn("getSeriesInfo: TVDB4 configuration is not valid.");
                 return null;
             }
             return sinfo;

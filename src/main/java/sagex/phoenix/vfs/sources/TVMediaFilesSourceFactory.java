@@ -326,7 +326,7 @@ public class TVMediaFilesSourceFactory extends Factory<IMediaFolder> {
 				if(handler.validConfig()){
 					seriesID = handler.GetSeriesIDFromIMDBID(IMDBID);
 				}else{
-					log.warn("loadSeriesInfoTVDB4: TVDB4 configuration is not valid.  Check PIN.");
+					log.warn("loadSeriesInfoTVDB4: TVDB4 configuration is not valid.");
 				}
 			} catch (JSONException e) {
 				e.printStackTrace();
@@ -372,7 +372,7 @@ public class TVMediaFilesSourceFactory extends Factory<IMediaFolder> {
 		private void loadSeriesInfo(){
 			if(defaultTVProvider.isEmpty()){
 				log.debug("loadSeriesInfo: called with empty TV provider");
-			}else if(defaultTVProvider.equals("tvdb")){
+			}else if(defaultTVProvider.equals("tvdbold")){
 				try {
 					loadSeriesInfoTVDB();
 				} catch (TvDbException e) {
@@ -381,6 +381,9 @@ public class TVMediaFilesSourceFactory extends Factory<IMediaFolder> {
 			}else if(defaultTVProvider.equals("tmdb")){
 				log.debug("loadSeriesInfo: called with TV provider:" + defaultTVProvider);
 				loadSeriesInfoTMDB();
+			}else if(defaultTVProvider.equals("tvdb")){
+				log.debug("loadSeriesInfo: called with TV provider:" + defaultTVProvider);
+				loadSeriesInfoTVDB4();
 			}else if(defaultTVProvider.equals("tvdb4")){
 				log.debug("loadSeriesInfo: called with TV provider:" + defaultTVProvider);
 				loadSeriesInfoTVDB4();
@@ -434,7 +437,7 @@ public class TVMediaFilesSourceFactory extends Factory<IMediaFolder> {
 				if(handler.validConfig()){
 					seriesEpisodes = handler.GetEpisodes(this.seriesID);
 				}else{
-					log.warn("loadSeriesInfoTVDB4: TVDB4 configuration is not valid.  Check PIN.");
+					log.warn("loadSeriesInfoTVDB4: TVDB4 configuration is not valid.");
 					return;
 				}
 			} catch (JSONException e) {

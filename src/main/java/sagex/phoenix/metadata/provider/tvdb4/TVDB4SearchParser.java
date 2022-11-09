@@ -47,7 +47,7 @@ public class TVDB4SearchParser {
             if(jsonHandler.validConfig()){
                 results = jsonHandler.search(searchTitle, query, provider.getLanguage());
             }else{
-                log.warn("getResults: TVDB4 configuration is not valid.  Check PIN.");
+                log.warn("getResults: TVDB4 configuration is not valid.");
                 return null;
             }
 

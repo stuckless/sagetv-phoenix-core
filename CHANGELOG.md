@@ -1,3 +1,5 @@
+# 3.5.0
+* Updated to use the new TVDB V4 provider free of charge thanks to a negotiated license with TheTVDB
 # 3.4.3
 * Added TMDB as a free TV provider
 * Added TVDB V4 as a TV provider - needs a PIN with a subscription to TVDB
